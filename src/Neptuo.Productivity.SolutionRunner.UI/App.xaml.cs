@@ -155,6 +155,9 @@ namespace Neptuo.Productivity.SolutionRunner
         {
             configurationWindow.Closed -= OnConfigurationWindowClosed;
             configurationWindow = null;
+
+            if (!runHotKey.IsSet && mainWindow == null)
+                Shutdown();
         }
 
         public void OpenMain()
