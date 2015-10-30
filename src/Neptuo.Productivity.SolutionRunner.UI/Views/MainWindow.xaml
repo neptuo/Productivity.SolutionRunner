@@ -1,0 +1,144 @@
+﻿<Window x:Class="Neptuo.Productivity.SolutionRunner.Views.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" 
+        xmlns:dd="clr-namespace:Neptuo.Productivity.SolutionRunner.UI.DesignData" d:DataContext="{x:Static dd:ViewModelLocator.MainViewModel}"
+        xmlns:converters="clr-namespace:Neptuo.Productivity.SolutionRunner.Views.Converters"
+        Title="Solution runner..." Width="525" SizeToContent="Height" 
+        ResizeMode="CanMinimize" WindowStyle="None" WindowStartupLocation="CenterScreen" ShowInTaskbar="False" Background="{StaticResource BackgroundBrush}"
+        PreviewMouseDown="OnPreviewMouseDown" PreviewKeyDown="OnPreviewKeyDown">
+    <Window.Resources>
+        <converters:BoolConverter x:Key="TrueToCollapsedConverter" TrueValue="Collapsed" FalseValue="Visible" />
+        <converters:BoolConverter x:Key="TrueToVisibleConverter" TrueValue="Visible" FalseValue="Collapsed" />
+
+        <BitmapImage x:Key="CloseImage" UriSource="Icons/Close.png" />
+        <BitmapImage x:Key="SettingsImage" UriSource="Icons/Settings.png" />
+        <BitmapImage x:Key="HelpImage" UriSource="Icons/Help.png" />
+        <BitmapImage x:Key="UnPinImage" UriSource="Icons/Pinned.png" />
+        <BitmapImage x:Key="PinImage" UriSource="Icons/UnPinned.png" />
+
+        <Style x:Key="MainGridStyle" TargetType="Grid">
+            <Setter Property="Margin" Value="10" />
+        </Style>
+        <Style x:Key="PlainButtonStyle" TargetType="Button">
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <ContentPresenter />
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="ShellButtonStyle" TargetType="Button" BasedOn="{StaticResource PlainButtonStyle}">
+            <Setter Property="Margin" Value="0,0,0,10" />
+        </Style>
+        
+        <Style TargetType="ListView">
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="Background" Value="Transparent" />
+        </Style>
+        <Style x:Key="ListViewItemStyle" TargetType="ListViewItem">
+            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ListViewItem">
+                        <Border x:Name="Border" Padding="0,8" SnapsToDevicePixels="true" Background="{TemplateBinding Background}">
+                            <ContentPresenter VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+
+            <Style.Triggers>
+                <Trigger Property="IsSelected" Value="True">
+                    <Setter Property="Background" Value="{StaticResource ActiveBrush}" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        <Style x:Key="ApplicationListViewItemStyle" TargetType="ListViewItem" BasedOn="{StaticResource ListViewItemStyle}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ListViewItem">
+                        <Border x:Name="Border" Padding="4" SnapsToDevicePixels="true" BorderThickness="0,0,0,2" BorderBrush="{TemplateBinding Background}">
+                            <ContentPresenter VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        
+    </Window.Resources>
+    <Border BorderBrush="{StaticResource ActiveBrush}" BorderThickness="1">
+        <Grid Style="{StaticResource MainGridStyle}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <Grid Margin="0,0,0,10" Grid.Row="0">
+                <ListView x:Name="lvwApplications" ItemsSource="{Binding Applications}" ItemContainerStyle="{StaticResource ApplicationListViewItemStyle}">
+                    <ListView.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" />
+                        </ItemsPanelTemplate>
+                    </ListView.ItemsPanel>
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <Grid Width="100" Height="60">
+                                <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+                                    <DockPanel>
+                                        <TextBlock Text="{Binding Name}" DockPanel.Dock="Bottom" />
+                                        <Image Source="{Binding Icon}" Width="32" />
+                                    </DockPanel>
+                                </Grid>
+                            </Grid>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+
+                <!--<StackPanel HorizontalAlignment="Left">
+                    <Button x:Name="btnHelp" ToolTip="Help (F1)" Style="{StaticResource ShellButtonStyle}">
+                        <Image Source="{StaticResource HelpImage}" Width="16" />
+                    </Button>
+                </StackPanel>-->
+                <StackPanel HorizontalAlignment="Right">
+                    <Button x:Name="btnConfiguration" Click="btnConfiguration_Click" ToolTip="Application configuration" Style="{StaticResource ShellButtonStyle}">
+                        <Image Source="{StaticResource SettingsImage}" Width="16" />
+                    </Button>
+                </StackPanel>
+            </Grid>
+        
+            <Border Grid.Row="1">
+                <TextBox x:Name="tbxSearch" Text="{Binding SearchPattern, UpdateSourceTrigger=PropertyChanged}" />
+            </Border>
+
+            <ListView x:Name="lvwFiles" ItemsSource="{Binding Files}" ItemContainerStyle="{StaticResource ListViewItemStyle}" Grid.Row="3">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <DockPanel Width="476">
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" DockPanel.Dock="Right">
+                                <Button Command="{Binding PinCommand}" Visibility="{Binding IsPinned, Converter={StaticResource TrueToVisibleConverter}}" Style="{StaticResource PlainButtonStyle}">
+                                    <Image Source="{StaticResource PinImage}" Width="16" />
+                                </Button>
+                                <Button Command="{Binding UnPinCommand}" Visibility="{Binding IsPinned, Converter={StaticResource TrueToCollapsedConverter}}" Style="{StaticResource PlainButtonStyle}">
+                                    <Image Source="{StaticResource UnPinImage}" Width="16" />
+                                </Button>
+                            </StackPanel>
+                            
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                <TextBlock Text="{Binding Name}" />
+                                <TextBlock Text=" " />
+                                <TextBlock Text="{Binding Path}" Style="{StaticResource GrayStyle}" />
+                            </StackPanel>
+                        </DockPanel>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </Grid>
+    </Border>
+</Window>

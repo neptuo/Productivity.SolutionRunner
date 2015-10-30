@@ -1,0 +1,22 @@
+﻿<Application x:Class="Neptuo.Productivity.SolutionRunner.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" DispatcherUnhandledException="OnDispatcherUnhandledException" ShutdownMode="OnExplicitShutdown">
+    <Application.Resources>
+
+        <SolidColorBrush x:Key="BackgroundBrush">#1E1E1E</SolidColorBrush>
+        <SolidColorBrush x:Key="TextBoxBackgroundBrush">#3F3F46</SolidColorBrush>
+        <SolidColorBrush x:Key="ActiveBrush">#3683D3</SolidColorBrush>
+
+        <Style TargetType="TextBox">
+            <Setter Property="FontSize" Value="20" />
+            <Setter Property="Background" Value="{StaticResource TextBoxBackgroundBrush}" />
+            <Setter Property="BorderThickness" Value="0,0,0,1" />
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="Margin" Value="0,10" />
+        </Style>
+        <Style x:Key="GrayStyle" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="#777" />
+        </Style>
+
+    </Application.Resources>
+</Application>

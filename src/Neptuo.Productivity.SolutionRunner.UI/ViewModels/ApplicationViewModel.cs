@@ -1,0 +1,27 @@
+﻿using Neptuo.Observables;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Media;
+
+namespace Neptuo.Productivity.SolutionRunner.ViewModels
+{
+    public class ApplicationViewModel : ObservableObject
+    {
+        public string Name { get; private set; }
+        public string Path { get; private set; }
+        public ImageSource Icon { get; private set; }
+
+        public ApplicationViewModel(string name, string path, ImageSource icon)
+        {
+            Ensure.NotNullOrEmpty(name, "name");
+            Ensure.NotNull(path, "path");
+            Ensure.NotNull(icon, "icon");
+            Name = name;
+            Path = path;
+            Icon = icon;
+        }
+    }
+}

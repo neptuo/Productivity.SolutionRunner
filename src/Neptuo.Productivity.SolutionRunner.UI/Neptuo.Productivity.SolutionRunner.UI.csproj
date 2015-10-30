@@ -1,0 +1,197 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{F1CE4B36-FA69-473F-A5BB-A44478DC07E2}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Neptuo.Productivity.SolutionRunner</RootNamespace>
+    <AssemblyName>SolutionRunner.UI</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Neptuo, Version=5.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Neptuo.5.0.0\lib\net45\Neptuo.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Neptuo.FileSystems, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Neptuo.FileSystems.1.0.1\lib\net45\Neptuo.FileSystems.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Neptuo.FileSystems.Local, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Neptuo.FileSystems.Local.1.0.1\lib\net45\Neptuo.FileSystems.Local.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Neptuo.Models.Features, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Neptuo.Models.Features.1.0.0\lib\net45\Neptuo.Models.Features.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Neptuo.Observables, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Neptuo.Observables.1.0.0\lib\net45\Neptuo.Observables.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Neptuo.Windows.HotKeys, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Neptuo.Windows.HotKeys.1.0.0\lib\net45\Neptuo.Windows.HotKeys.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Neptuo.Windows.Threading, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Neptuo.Windows.Threading.1.0.1\lib\net45\Neptuo.Windows.Threading.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+    <Compile Include="Properties\VersionInfo.cs" />
+    <Compile Include="Services\Converters\KeyViewModelToStringConverter.cs" />
+    <Compile Include="Services\Converters\StringToKeyViewModelConverter.cs" />
+    <Compile Include="Services\INavigatorState.cs" />
+    <Compile Include="Services\IRunHotKeyService.cs" />
+    <Compile Include="Services\DefaultRunHotKeyService.cs" />
+    <Compile Include="Services\Searching\DelayedFileSearchService.cs" />
+    <Compile Include="Services\Searching\DirectFileSearchService.cs" />
+    <Compile Include="Services\IApplicationCollection.cs" />
+    <Compile Include="Services\IFileCollection.cs" />
+    <Compile Include="Services\Searching\FileSystemWatcherSearchService.cs" />
+    <Compile Include="Services\Searching\IFileSearchService.cs" />
+    <Compile Include="Services\INavigator.cs" />
+    <Compile Include="Services\IPinStateService.cs" />
+    <Compile Include="Services\Searching\LocalFileSearchService.cs" />
+    <Compile Include="Services\Searching\PinnedForEmptyPatternFileSearchService.cs" />
+    <Compile Include="Services\VsVersionLoader.cs" />
+    <Compile Include="ViewModels\Commands\CommandBase.cs" />
+    <Compile Include="ViewModels\Commands\PinCommand.cs" />
+    <Compile Include="ViewModels\Commands\SaveConfigurationCommand.cs" />
+    <Compile Include="ViewModels\Commands\UnPinCommand.cs" />
+    <Compile Include="ViewModels\ConfigurationViewModel.cs" />
+    <Compile Include="ViewModels\EventManager.cs" />
+    <Compile Include="ViewModels\Commands\Factories\SaveConfigurationCommandFactory.cs" />
+    <Compile Include="ViewModels\FileViewModel.cs" />
+    <Compile Include="ViewModels\KeyViewModel.cs" />
+    <Compile Include="Views\ConfigurationWindow.xaml.cs">
+      <DependentUpon>ConfigurationWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Controls\HotKeyTextBox.cs" />
+    <Compile Include="Views\Converters\BoolConverter.cs" />
+    <Compile Include="Views\DesignData\ViewModelLocator.cs" />
+    <Compile Include="ViewModels\ApplicationViewModel.cs" />
+    <Compile Include="ViewModels\MainViewModel.cs" />
+    <Page Include="Views\ConfigurationWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\MainWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Views\Controls\WindowDrag.cs" />
+    <Compile Include="Views\MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <AppDesigner Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Views\Icons\Pinned.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Views\Icons\UnPinned.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Views\Icons\Close.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Views\Icons\Settings.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Views\Icons\Help.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
