@@ -45,7 +45,18 @@ namespace Neptuo.Productivity.SolutionRunner
             runHotKey = new DefaultRunHotKeyService(this, this);
             KeyViewModel runKey;
             if (Converts.Try(Settings.Default.RunKey, out runKey) && runKey != null)
-                runHotKey.Bind(runKey.Key, runKey.Modifier);
+            {
+                try
+                {
+                    runHotKey.Bind(runKey.Key, runKey.Modifier);
+                }
+                catch (Win32Exception ex)
+                {
+                    runHotKey.UnBind();
+                    Settings.Default.RunKey = null;
+                    Settings.Default.Save();
+                }
+            }
 
             // Open window.
             if (String.IsNullOrEmpty(Settings.Default.SourceDirectoryPath))
@@ -53,6 +64,8 @@ namespace Neptuo.Productivity.SolutionRunner
             else
                 OpenMain();
         }
+
+        #region Handling exceptions
 
         private void OnDispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
         {
@@ -70,6 +83,8 @@ namespace Neptuo.Productivity.SolutionRunner
 
             e.Handled = true;
         }
+
+        #endregion
 
         protected override void OnExit(ExitEventArgs e)
         {
