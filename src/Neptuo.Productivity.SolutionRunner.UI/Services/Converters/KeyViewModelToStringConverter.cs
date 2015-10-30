@@ -34,7 +34,7 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Converters
             if (sourceValue.Modifier.HasFlag(ModifierKeys.Shift))
                 append("Shift");
 
-            if (Keyboard.IsKeyDown(Key.LWin) || Keyboard.IsKeyDown(Key.RWin))
+            if (sourceValue.Modifier.HasFlag(ModifierKeys.Windows))
                 append("Windows");
 
             if (sourceValue.Modifier.HasFlag(ModifierKeys.Alt))

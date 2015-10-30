@@ -57,7 +57,12 @@ namespace Neptuo.Productivity.SolutionRunner
         private void OnDispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
         {
             StringBuilder message = new StringBuilder();
-            message.AppendLine(e.Exception.ToString().Substring(0, 800));
+
+            string exceptionMessage = e.Exception.ToString();
+            if (exceptionMessage.Length > 800)
+                exceptionMessage = exceptionMessage.Substring(0, 800);
+
+            message.AppendLine(exceptionMessage);
 
             MessageBoxResult result = MessageBox.Show(message.ToString(), "Do you want to kill the aplication?", MessageBoxButton.YesNo);
             if (result == MessageBoxResult.Yes)

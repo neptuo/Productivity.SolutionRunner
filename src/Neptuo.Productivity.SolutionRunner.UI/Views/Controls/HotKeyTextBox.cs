@@ -68,6 +68,7 @@ namespace Neptuo.Productivity.SolutionRunner.Views.Controls
         {
             TextBox textBox = (TextBox)sender;
             Key key = e.Key;
+            ModifierKeys modifier = e.KeyboardDevice.Modifiers;
 
             if (key == Key.Back || key == Key.Delete)
             {
@@ -85,8 +86,11 @@ namespace Neptuo.Productivity.SolutionRunner.Views.Controls
                 key = e.SystemKey;
             }
 
-            if (BindKeyValue(textBox, key, e.KeyboardDevice.Modifiers))
-                SetKey(textBox, new KeyViewModel(key, e.KeyboardDevice.Modifiers));
+            if (Keyboard.IsKeyDown(Key.LWin) || Keyboard.IsKeyDown(Key.RWin))
+                modifier |= ModifierKeys.Windows;
+
+            if (BindKeyValue(textBox, key, modifier))
+                SetKey(textBox, new KeyViewModel(key, modifier));
             else
                 SetKey(textBox, null);
 
