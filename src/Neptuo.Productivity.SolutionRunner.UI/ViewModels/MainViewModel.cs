@@ -6,6 +6,7 @@ using Neptuo.Observables;
 using Neptuo.Observables.Collections;
 using Neptuo.Productivity.SolutionRunner.Services;
 using Neptuo.Productivity.SolutionRunner.Services.Searching;
+using Neptuo.Productivity.SolutionRunner.Services.UserConfigurations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,8 +19,9 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels
     public class MainViewModel : ObservableObject, IApplicationCollection, IFileCollection, IDisposable
     {
         private readonly IFileSearchService fileSearch;
+        private readonly FileSearchModeGetter fileSearchModeGetter;
 
-        public MainViewModel(IFileSearchService fileSearch)
+        public MainViewModel(IFileSearchService fileSearch, FileSearchModeGetter fileSearchModeGetter)
         {
             Ensure.NotNull(fileSearch, "fileSearch");
             this.fileSearch = fileSearch;
@@ -40,7 +42,7 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels
                 {
                     searchPattern = value;
                     RaisePropertyChanged();
-                    fileSearch.SearchAsync(searchPattern, this);
+                    fileSearch.SearchAsync(searchPattern, FileSearchMode.Contains, this);
                 }
             }
         }

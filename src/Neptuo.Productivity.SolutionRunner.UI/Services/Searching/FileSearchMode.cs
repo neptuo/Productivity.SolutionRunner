@@ -6,8 +6,10 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Productivity.SolutionRunner.Services.Searching
 {
-    public interface IFileSearchService
+    public enum FileSearchMode
     {
-        Task SearchAsync(string searchPattern, FileSearchMode mode, IFileCollection files);
+        StartsWith,
+
+        Contains
     }
 }

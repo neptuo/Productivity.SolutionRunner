@@ -47,7 +47,7 @@ namespace Neptuo.Productivity.SolutionRunner.UI.DesignData
 
         private class FileSearchService : IFileSearchService
         {
-            public Task SearchAsync(string searchPattern, IFileCollection files)
+            public Task SearchAsync(string searchPattern, FileSearchMode mode, IFileCollection files)
             {
                 files.Add("Neptuo", @"C:\Development\Framework\Neptuo.sln", true);
                 files.Add("Neptuo.Templates", @"C:\Development\Templates\Neptuo.Templates.sln", false);
