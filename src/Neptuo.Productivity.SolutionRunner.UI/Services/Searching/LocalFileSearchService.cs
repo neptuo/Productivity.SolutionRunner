@@ -22,7 +22,7 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Searching
             this.pinStateService = pinStateService;
         }
 
-        public Task SearchAsync(string searchPattern, FileSearchMode mode, IFileCollection files)
+        public Task SearchAsync(string searchPattern, FileSearchMode mode, int count, IFileCollection files)
         {
             IEnumerable<IFile> matchedFiles = filePathSearch.FindFiles(TextSearch.CreateContained(searchPattern), TextSearch.CreateMatched("sln"));
             files.Clear();
@@ -31,7 +31,7 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Searching
                     .Select(f => new FileViewModel(f.Name, f.WithAbsolutePath().AbsolutePath, pinStateService.IsPinned(f.WithAbsolutePath().AbsolutePath)))
                     .OrderBy(vm => !vm.IsPinned)
                     .ThenBy(vm => vm.Name)
-                    .Take(20);
+                    .Take(count);
 
             foreach (FileViewModel viewModel in viewModels)
                 files.Add(viewModel.Name, viewModel.Path, viewModel.IsPinned);

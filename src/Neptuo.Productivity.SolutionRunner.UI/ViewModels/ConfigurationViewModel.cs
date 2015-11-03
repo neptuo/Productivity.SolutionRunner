@@ -71,6 +71,21 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels
             }
         }
 
+        private int fileSearchCount;
+        public int FileSearchCount
+        {
+            get { return fileSearchCount; }
+            set
+            {
+                if (fileSearchCount != value)
+                {
+                    fileSearchCount = value;
+                    RaisePropertyChanged();
+                    saveCommand.RaiseCanExecuteChanged();
+                }
+            }
+        }
+
         public string Version { get; private set; }
 
         private SaveConfigurationCommand saveCommand;

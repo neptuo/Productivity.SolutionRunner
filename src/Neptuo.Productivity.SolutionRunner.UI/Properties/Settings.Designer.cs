@@ -82,5 +82,17 @@ namespace Neptuo.Productivity.SolutionRunner.Properties {
                 this["FileSearchMode"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("10")]
+        public int FileSearchCount {
+            get {
+                return ((int)(this["FileSearchCount"]));
+            }
+            set {
+                this["FileSearchCount"] = value;
+            }
+        }
     }
 }

@@ -25,7 +25,7 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels.Commands
 
         protected override bool CanExecute()
         {
-            return !String.IsNullOrEmpty(viewModel.SourceDirectoryPath) && Directory.Exists(viewModel.SourceDirectoryPath);
+            return !String.IsNullOrEmpty(viewModel.SourceDirectoryPath) && Directory.Exists(viewModel.SourceDirectoryPath) && viewModel.FileSearchCount > 0;
         }
 
         protected override void Execute()
@@ -33,6 +33,7 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels.Commands
             Settings.Default.SourceDirectoryPath = viewModel.SourceDirectoryPath;
             Settings.Default.PreferedApplicationPath = viewModel.PreferedApplicationPath;
             Settings.Default.FileSearchMode = Converts.To<FileSearchMode, string>(viewModel.FileSearchMode);
+            Settings.Default.FileSearchCount = viewModel.FileSearchCount;
 
             string runKeyValue;
             if (Converts.Try(viewModel.RunKey, out runKeyValue))

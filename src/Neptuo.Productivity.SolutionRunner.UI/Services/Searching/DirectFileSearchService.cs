@@ -21,7 +21,7 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Searching
             this.pinStateService = pinStateService;
         }
 
-        public Task SearchAsync(string searchPattern, FileSearchMode mode, IFileCollection files)
+        public Task SearchAsync(string searchPattern, FileSearchMode mode, int count, IFileCollection files)
         {
             files.Clear();
 
@@ -41,7 +41,7 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Searching
                 .EnumerateFiles(directoryPath, searchPattern, SearchOption.AllDirectories)
                 .OrderBy(f => !pinStateService.IsPinned(f))
                 .ThenBy(f => Path.GetFileNameWithoutExtension(f))
-                .Take(20);
+                .Take(count);
                 //.EnumerateFiles(directoryPath, "*.sln", SearchOption.AllDirectories)
 
             foreach (string filePath in filePaths)
