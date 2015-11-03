@@ -9,7 +9,7 @@ using System.Windows.Input;
 
 namespace Neptuo.Productivity.SolutionRunner.Services.Converters
 {
-    public class StringToKeyViewModelConverter : ConverterBase<string, KeyViewModel>
+    public class StringToKeyViewModelConverter : DefaultConverter<string, KeyViewModel>
     {
         public override bool TryConvert(string sourceValue, out KeyViewModel targetValue)
         {

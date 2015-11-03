@@ -70,5 +70,17 @@ namespace Neptuo.Productivity.SolutionRunner.Properties {
                 this["RunKey"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string FileSearchMode {
+            get {
+                return ((string)(this["FileSearchMode"]));
+            }
+            set {
+                this["FileSearchMode"] = value;
+            }
+        }
     }
 }

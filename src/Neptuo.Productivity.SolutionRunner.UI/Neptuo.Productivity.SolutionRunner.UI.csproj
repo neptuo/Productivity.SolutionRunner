@@ -71,8 +71,8 @@
     <SignManifests>false</SignManifests>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Neptuo, Version=5.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Neptuo.5.0.0\lib\net45\Neptuo.dll</HintPath>
+    <Reference Include="Neptuo, Version=5.0.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Neptuo.5.0.1\lib\net45\Neptuo.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Neptuo.FileSystems, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL">
@@ -153,6 +153,7 @@
     </Compile>
     <Compile Include="Views\Controls\HotKeyTextBox.cs" />
     <Compile Include="Views\Converters\BoolConverter.cs" />
+    <Compile Include="Views\DataSources\FileSearchModes.cs" />
     <Compile Include="Views\DesignData\ViewModelLocator.cs" />
     <Compile Include="ViewModels\ApplicationViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />

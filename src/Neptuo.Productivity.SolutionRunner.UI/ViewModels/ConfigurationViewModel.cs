@@ -1,5 +1,6 @@
 ﻿using Neptuo.Activators;
 using Neptuo.Observables;
+using Neptuo.Productivity.SolutionRunner.Services.Searching;
 using Neptuo.Productivity.SolutionRunner.ViewModels.Commands;
 using System;
 using System.Collections.Generic;
@@ -51,6 +52,20 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels
                 if (runKey != value)
                 {
                     runKey = value;
+                    RaisePropertyChanged();
+                }
+            }
+        }
+
+        private FileSearchMode fileSearchMode;
+        public FileSearchMode FileSearchMode
+        {
+            get { return fileSearchMode; }
+            set
+            {
+                if (fileSearchMode != value)
+                {
+                    fileSearchMode = value;
                     RaisePropertyChanged();
                 }
             }
