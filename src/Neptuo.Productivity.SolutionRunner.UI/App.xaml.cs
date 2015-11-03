@@ -93,6 +93,11 @@ namespace Neptuo.Productivity.SolutionRunner
             return FileSearchMode.StartsWith;
         }
 
+        private static int GetUserFileSearchCount()
+        {
+            return Settings.Default.FileSearchCount;
+        }
+
         #region Handling exceptions
 
         private void OnDispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
