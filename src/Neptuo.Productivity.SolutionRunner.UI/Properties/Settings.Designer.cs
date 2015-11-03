@@ -94,5 +94,29 @@ namespace Neptuo.Productivity.SolutionRunner.Properties {
                 this["FileSearchCount"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public string FileSearchPattern {
+            get {
+                return ((string)(this["FileSearchPattern"]));
+            }
+            set {
+                this["FileSearchPattern"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool IsFileSearchPatternSaved {
+            get {
+                return ((bool)(this["IsFileSearchPatternSaved"]));
+            }
+            set {
+                this["IsFileSearchPatternSaved"] = value;
+            }
+        }
     }
 }

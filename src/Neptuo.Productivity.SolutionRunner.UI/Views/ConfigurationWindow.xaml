@@ -74,8 +74,11 @@
                     <Label Content="Search count:" Target="{Binding ElementName=tbxFileSearchCount}" />
                     <TextBox x:Name="tbxFileSearchCount" Text="{Binding FileSearchCount}" Margin="0" />
                 </StackPanel>
-                
-                
+                <StackPanel Style="{StaticResource EditorPanelStyle}">
+                    <CheckBox Content="Save last searched phrase" IsChecked="{Binding IsFileSearchPatternSaved}" />
+                </StackPanel>
+
+
                 <StackPanel Style="{StaticResource EditorPanelStyle}">
                     <Label Content="Keyboard shortcuts" />
                     <Grid>

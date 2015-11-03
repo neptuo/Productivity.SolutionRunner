@@ -202,6 +202,7 @@ namespace Neptuo.Productivity.SolutionRunner
                 viewModel.PreferedApplicationPath = Settings.Default.PreferedApplicationPath;
                 viewModel.FileSearchMode = GetUserFileSearchMode();
                 viewModel.FileSearchCount = GetUserFileSearchCount();
+                viewModel.IsFileSearchPatternSaved = Settings.Default.IsFileSearchPatternSaved;
                 viewModel.RunKey = runHotKey.FindKeyViewModel();
                 configurationWindow = new ConfigurationWindow(viewModel, this, String.IsNullOrEmpty(Settings.Default.SourceDirectoryPath));
                 configurationWindow.Closed += OnConfigurationWindowClosed;
@@ -268,6 +269,11 @@ namespace Neptuo.Productivity.SolutionRunner
                 }
             }
 
+            if (Settings.Default.IsFileSearchPatternSaved)
+                mainWindow.ViewModel.SearchPattern = Settings.Default.FileSearchPattern;
+            else if (!String.IsNullOrEmpty(mainWindow.ViewModel.SearchPattern))
+                mainWindow.ViewModel.SearchPattern = String.Empty;
+
             if (!startup.IsStartup || !startup.IsHidden)
             {
                 mainWindow.Show();
@@ -277,6 +283,12 @@ namespace Neptuo.Productivity.SolutionRunner
 
         private void OnMainWindowClosing(object sender, CancelEventArgs e)
         {
+            if (Settings.Default.IsFileSearchPatternSaved)
+            {
+                Settings.Default.FileSearchPattern = mainWindow.ViewModel.SearchPattern;
+                Settings.Default.Save();
+            }
+
             if (runHotKey.IsSet)
             {
                 mainWindow.Hide();

@@ -86,6 +86,20 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels
             }
         }
 
+        private bool isFileSearchPatternSaved;
+        public bool IsFileSearchPatternSaved
+        {
+            get { return isFileSearchPatternSaved; }
+            set
+            {
+                if (isFileSearchPatternSaved != value)
+                {
+                    isFileSearchPatternSaved = value;
+                    RaisePropertyChanged();
+                }
+            }
+        }
+
         public string Version { get; private set; }
 
         private SaveConfigurationCommand saveCommand;
