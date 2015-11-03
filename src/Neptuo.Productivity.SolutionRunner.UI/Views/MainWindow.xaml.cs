@@ -2,6 +2,7 @@
 using Neptuo.Productivity.SolutionRunner.Services;
 using Neptuo.Productivity.SolutionRunner.ViewModels;
 using Neptuo.Productivity.SolutionRunner.Views.Controls;
+using Neptuo.Windows.Threading;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
@@ -9,6 +10,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -92,13 +94,26 @@ namespace Neptuo.Productivity.SolutionRunner.Views
         private void OnFilesViewCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             if (e.Action == NotifyCollectionChangedAction.Add)
-                lvwFiles.SelectedIndex = 0;
+            {
+                Task.Factory.StartNew(() =>
+                {
+                    Thread.Sleep(10);
+                    DispatcherHelper.Run(Dispatcher, () => lvwFiles.SelectedIndex = 0);
+                });
+            }
         }
 
         private void OnApplicationsViewCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             if (e.Action == NotifyCollectionChangedAction.Add)
-                lvwApplications.SelectedIndex = 0;
+            {
+
+                Task.Factory.StartNew(() =>
+                {
+                    Thread.Sleep(10);
+                    DispatcherHelper.Run(Dispatcher, () => lvwApplications.SelectedIndex = 0);
+                });
+            }
         }
 
         protected override void OnActivated(EventArgs e)
