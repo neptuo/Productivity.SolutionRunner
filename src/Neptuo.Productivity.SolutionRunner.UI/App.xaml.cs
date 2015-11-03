@@ -5,6 +5,7 @@ using Neptuo.Productivity.SolutionRunner.Properties;
 using Neptuo.Productivity.SolutionRunner.Services;
 using Neptuo.Productivity.SolutionRunner.Services.Converters;
 using Neptuo.Productivity.SolutionRunner.Services.Searching;
+using Neptuo.Productivity.SolutionRunner.Services.StartupFlags;
 using Neptuo.Productivity.SolutionRunner.ViewModels;
 using Neptuo.Productivity.SolutionRunner.ViewModels.Commands.Factories;
 using Neptuo.Productivity.SolutionRunner.Views;
@@ -30,16 +31,27 @@ namespace Neptuo.Productivity.SolutionRunner
     /// </summary>
     public partial class App : Application, INavigator, INavigatorState, IPinStateService
     {
+        private StartupModel startup;
         private DefaultRunHotKeyService runHotKey;
+
+        private void PrepareStartup(StartupEventArgs e)
+        {
+            StartupModelProvider provider = new StartupModelProvider();
+            startup = provider.Get(e.Args);
+            startup.IsStartup = true;
+        }
 
         protected override void OnStartup(StartupEventArgs e)
         {
+            PrepareStartup(e);
             base.OnStartup(e);
+
             Converts.Repository
                 .AddEnumSearchHandler(false)
                 .AddToStringSearchHandler()
                 .Add<string, KeyViewModel>(new StringToKeyViewModelConverter())
                 .Add<KeyViewModel, string>(new KeyViewModelToStringConverter());
+
 
             EventManager.FilePinned += OnFilePinned;
 
@@ -60,11 +72,16 @@ namespace Neptuo.Productivity.SolutionRunner
                 }
             }
 
+            if(!runHotKey.IsSet)
+                startup.IsHidden = false;
+
             // Open window.
             if (String.IsNullOrEmpty(Settings.Default.SourceDirectoryPath))
                 OpenConfiguration();
             else
                 OpenMain();
+
+            startup.IsStartup = false;
         }
 
         private static FileSearchMode GetUserFileSearchMode()
@@ -174,6 +191,7 @@ namespace Neptuo.Productivity.SolutionRunner
                 ConfigurationViewModel viewModel = new ConfigurationViewModel(new SaveConfigurationCommandFactory(runHotKey));
                 viewModel.SourceDirectoryPath = Settings.Default.SourceDirectoryPath;
                 viewModel.PreferedApplicationPath = Settings.Default.PreferedApplicationPath;
+                viewModel.FileSearchMode = GetUserFileSearchMode();
                 viewModel.RunKey = runHotKey.FindKeyViewModel();
                 configurationWindow = new ConfigurationWindow(viewModel, this, String.IsNullOrEmpty(Settings.Default.SourceDirectoryPath));
                 configurationWindow.Closed += OnConfigurationWindowClosed;
@@ -238,8 +256,12 @@ namespace Neptuo.Productivity.SolutionRunner
                     }
                 }
             }
-            mainWindow.Show();
-            mainWindow.Activate();
+
+            if (!startup.IsStartup || !startup.IsHidden)
+            {
+                mainWindow.Show();
+                mainWindow.Activate();
+            }
         }
 
         private void OnMainWindowClosing(object sender, CancelEventArgs e)
