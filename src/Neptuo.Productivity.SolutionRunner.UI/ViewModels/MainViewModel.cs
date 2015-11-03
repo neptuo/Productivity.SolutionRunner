@@ -24,7 +24,9 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels
         public MainViewModel(IFileSearchService fileSearch, FileSearchModeGetter fileSearchModeGetter)
         {
             Ensure.NotNull(fileSearch, "fileSearch");
+            Ensure.NotNull(fileSearchModeGetter, "fileSearchModeGetter");
             this.fileSearch = fileSearch;
+            this.fileSearchModeGetter = fileSearchModeGetter;
 
             applications = new ObservableCollection<ApplicationViewModel>();
             files = new ObservableCollection<FileViewModel>();
@@ -42,7 +44,7 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels
                 {
                     searchPattern = value;
                     RaisePropertyChanged();
-                    fileSearch.SearchAsync(searchPattern, FileSearchMode.Contains, this);
+                    fileSearch.SearchAsync(searchPattern, fileSearchModeGetter(), this);
                 }
             }
         }
