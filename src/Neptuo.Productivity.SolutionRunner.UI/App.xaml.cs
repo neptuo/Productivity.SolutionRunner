@@ -64,7 +64,7 @@ namespace Neptuo.Productivity.SolutionRunner
                 {
                     runHotKey.Bind(runKey.Key, runKey.Modifier);
                 }
-                catch (Win32Exception ex)
+                catch (Win32Exception)
                 {
                     runHotKey.UnBind();
                     Settings.Default.RunKey = null;
@@ -95,7 +95,11 @@ namespace Neptuo.Productivity.SolutionRunner
 
         private static int GetUserFileSearchCount()
         {
-            return Settings.Default.FileSearchCount;
+            int value = Settings.Default.FileSearchCount;
+            if (value == 0)
+                value = 10;
+
+            return value;
         }
 
         #region Handling exceptions
@@ -197,6 +201,7 @@ namespace Neptuo.Productivity.SolutionRunner
                 viewModel.SourceDirectoryPath = Settings.Default.SourceDirectoryPath;
                 viewModel.PreferedApplicationPath = Settings.Default.PreferedApplicationPath;
                 viewModel.FileSearchMode = GetUserFileSearchMode();
+                viewModel.FileSearchCount = GetUserFileSearchCount();
                 viewModel.RunKey = runHotKey.FindKeyViewModel();
                 configurationWindow = new ConfigurationWindow(viewModel, this, String.IsNullOrEmpty(Settings.Default.SourceDirectoryPath));
                 configurationWindow.Closed += OnConfigurationWindowClosed;
@@ -234,7 +239,8 @@ namespace Neptuo.Productivity.SolutionRunner
                             this
                         )
                     ),
-                    GetUserFileSearchMode
+                    GetUserFileSearchMode,
+                    GetUserFileSearchCount
                 );
 
                 VsVersionLoader loader = new VsVersionLoader();

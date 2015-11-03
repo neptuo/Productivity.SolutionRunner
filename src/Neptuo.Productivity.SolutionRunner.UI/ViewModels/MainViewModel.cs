@@ -20,13 +20,16 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels
     {
         private readonly IFileSearchService fileSearch;
         private readonly FileSearchModeGetter fileSearchModeGetter;
+        private readonly FileSearchCountGetter fileSearchCountGetter;
 
-        public MainViewModel(IFileSearchService fileSearch, FileSearchModeGetter fileSearchModeGetter)
+        public MainViewModel(IFileSearchService fileSearch, FileSearchModeGetter fileSearchModeGetter, FileSearchCountGetter fileSearchCountGetter)
         {
             Ensure.NotNull(fileSearch, "fileSearch");
             Ensure.NotNull(fileSearchModeGetter, "fileSearchModeGetter");
+            Ensure.NotNull(fileSearchCountGetter, "fileSearchCountGetter");
             this.fileSearch = fileSearch;
             this.fileSearchModeGetter = fileSearchModeGetter;
+            this.fileSearchCountGetter = fileSearchCountGetter;
 
             applications = new ObservableCollection<ApplicationViewModel>();
             files = new ObservableCollection<FileViewModel>();
@@ -44,7 +47,7 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels
                 {
                     searchPattern = value;
                     RaisePropertyChanged();
-                    fileSearch.SearchAsync(searchPattern, fileSearchModeGetter(), this);
+                    fileSearch.SearchAsync(searchPattern, fileSearchModeGetter(), fileSearchCountGetter(), this);
                 }
             }
         }

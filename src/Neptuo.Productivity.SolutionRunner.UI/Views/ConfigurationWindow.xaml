@@ -67,10 +67,12 @@
                     </TextBlock>
                 </StackPanel>
                 <StackPanel Style="{StaticResource EditorPanelStyle}">
-                    <Grid>
-                        <Label Content="File search mode:" Target="{Binding ElementName=cbxFileSearchMode}" />
-                    </Grid>
+                    <Label Content="Search mode:" Target="{Binding ElementName=cbxFileSearchMode}" />
                     <ComboBox x:Name="cbxFileSearchMode" ItemsSource="{ds:FileSearchModes}" SelectedItem="{Binding FileSearchMode}" />
+                </StackPanel>
+                <StackPanel Style="{StaticResource EditorPanelStyle}">
+                    <Label Content="Search count:" Target="{Binding ElementName=tbxFileSearchCount}" />
+                    <TextBox x:Name="tbxFileSearchCount" Text="{Binding FileSearchCount}" Margin="0" />
                 </StackPanel>
                 
                 
