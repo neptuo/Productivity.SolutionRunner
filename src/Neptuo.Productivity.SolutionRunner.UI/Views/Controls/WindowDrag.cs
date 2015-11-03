@@ -11,7 +11,7 @@ namespace Neptuo.Productivity.SolutionRunner.Views.Controls
 {
     public static class WindowDrag
     {
-        private readonly static Type[] activeControlTypes = new Type[] { typeof(ListViewItem), typeof(Button), typeof(TextBox) };
+        private readonly static Type[] activeControlTypes = new Type[] { typeof(ListViewItem), typeof(Button), typeof(TextBox), typeof(ComboBox), typeof(ComboBoxItem) };
 
         public static bool TryMove(MouseButtonEventArgs e)
         {

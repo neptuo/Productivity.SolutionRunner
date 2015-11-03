@@ -62,7 +62,7 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Searching
                 model.Path = e.FullPath;
         }
 
-        public Task SearchAsync(string searchPattern, IFileCollection files)
+        public Task SearchAsync(string searchPattern, FileSearchMode mode, IFileCollection files)
         {
             files.Clear();
 
@@ -71,7 +71,20 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Searching
 
             searchPattern = searchPattern.ToLowerInvariant();
 
-            foreach (FileModel model in storage.Where(f => f.Name.ToLowerInvariant().StartsWith(searchPattern)))
+            Func<string, bool> filter = null;
+            switch (mode)
+            {
+                case FileSearchMode.StartsWith:
+                    filter = f => f.StartsWith(searchPattern);
+                    break;
+                case FileSearchMode.Contains:
+                    filter = f => f.Contains(searchPattern);
+                    break;
+                default:
+                    throw Ensure.Exception.NotSupportedSearchMode(mode);
+            }
+
+            foreach (FileModel model in storage.Where(f => filter(f.Name.ToLowerInvariant())))
                 files.Add(model.Name, model.Path, pinStateService.IsPinned(model.Path));
 
             return Task.FromResult(true);

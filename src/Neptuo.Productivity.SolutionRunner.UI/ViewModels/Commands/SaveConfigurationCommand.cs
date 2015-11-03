@@ -1,5 +1,6 @@
 ﻿using Neptuo.Productivity.SolutionRunner.Properties;
 using Neptuo.Productivity.SolutionRunner.Services;
+using Neptuo.Productivity.SolutionRunner.Services.Searching;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -31,6 +32,7 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels.Commands
         {
             Settings.Default.SourceDirectoryPath = viewModel.SourceDirectoryPath;
             Settings.Default.PreferedApplicationPath = viewModel.PreferedApplicationPath;
+            Settings.Default.FileSearchMode = Converts.To<FileSearchMode, string>(viewModel.FileSearchMode);
 
             string runKeyValue;
             if (Converts.Try(viewModel.RunKey, out runKeyValue))

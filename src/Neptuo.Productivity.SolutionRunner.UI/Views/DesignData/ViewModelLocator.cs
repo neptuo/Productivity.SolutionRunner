@@ -32,7 +32,7 @@ namespace Neptuo.Productivity.SolutionRunner.UI.DesignData
             {
                 if (mainViewModel == null)
                 {
-                    mainViewModel = new MainViewModel(new FileSearchService());
+                    mainViewModel = new MainViewModel(new FileSearchService(), () => FileSearchMode.StartsWith);
                     mainViewModel.SearchPattern = "Magic.sln";
                     mainViewModel
                         .Add("Visual Studio 2015", "devenv.exe", new BitmapImage())
@@ -47,7 +47,7 @@ namespace Neptuo.Productivity.SolutionRunner.UI.DesignData
 
         private class FileSearchService : IFileSearchService
         {
-            public Task SearchAsync(string searchPattern, IFileCollection files)
+            public Task SearchAsync(string searchPattern, FileSearchMode mode, IFileCollection files)
             {
                 files.Add("Neptuo", @"C:\Development\Framework\Neptuo.sln", true);
                 files.Add("Neptuo.Templates", @"C:\Development\Templates\Neptuo.Templates.sln", false);
@@ -77,6 +77,7 @@ namespace Neptuo.Productivity.SolutionRunner.UI.DesignData
                     configurationViewModel = new ConfigurationViewModel(new SaveConfigurationCommandFactory());
                     configurationViewModel.SourceDirectoryPath = @"D:\Development";
                     configurationViewModel.PreferedApplicationPath = @"C:\Program Files (x86)\Microsoft Visual Studio 12.0\Common7\IDE\devenv.exe";
+                    configurationViewModel.FileSearchMode = FileSearchMode.Contains;
                     configurationViewModel.RunKey = new KeyViewModel(Key.V, ModifierKeys.Control);
                 }
 

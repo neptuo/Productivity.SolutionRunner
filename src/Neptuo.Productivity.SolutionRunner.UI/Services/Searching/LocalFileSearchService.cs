@@ -22,7 +22,7 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Searching
             this.pinStateService = pinStateService;
         }
 
-        public Task SearchAsync(string searchPattern, IFileCollection files)
+        public Task SearchAsync(string searchPattern, FileSearchMode mode, IFileCollection files)
         {
             IEnumerable<IFile> matchedFiles = filePathSearch.FindFiles(TextSearch.CreateContained(searchPattern), TextSearch.CreateMatched("sln"));
             files.Clear();

@@ -21,12 +21,24 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Searching
             this.pinStateService = pinStateService;
         }
 
-        public Task SearchAsync(string searchPattern, IFileCollection files)
+        public Task SearchAsync(string searchPattern, FileSearchMode mode, IFileCollection files)
         {
             files.Clear();
 
+            switch (mode)
+            {
+                case FileSearchMode.StartsWith:
+                    searchPattern = String.Format("{0}*.sln", searchPattern);
+                    break;
+                case FileSearchMode.Contains:
+                    searchPattern = String.Format("*{0}*.sln", searchPattern);
+                    break;
+                default:
+                    throw Ensure.Exception.NotSupportedSearchMode(mode);
+            }
+
             IEnumerable<string> filePaths = Directory
-                .EnumerateFiles(directoryPath, String.Format("{0}*.sln", searchPattern), SearchOption.AllDirectories)
+                .EnumerateFiles(directoryPath, searchPattern, SearchOption.AllDirectories)
                 .OrderBy(f => !pinStateService.IsPinned(f))
                 .ThenBy(f => Path.GetFileNameWithoutExtension(f))
                 .Take(20);

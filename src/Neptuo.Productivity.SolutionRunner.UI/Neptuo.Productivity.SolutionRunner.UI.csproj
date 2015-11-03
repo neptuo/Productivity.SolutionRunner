@@ -71,8 +71,8 @@
     <SignManifests>false</SignManifests>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Neptuo, Version=5.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Neptuo.5.0.0\lib\net45\Neptuo.dll</HintPath>
+    <Reference Include="Neptuo, Version=5.0.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Neptuo.5.0.1\lib\net45\Neptuo.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Neptuo.FileSystems, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL">
@@ -129,12 +129,15 @@
     <Compile Include="Services\Searching\DirectFileSearchService.cs" />
     <Compile Include="Services\IApplicationCollection.cs" />
     <Compile Include="Services\IFileCollection.cs" />
+    <Compile Include="Services\Searching\FileSearchMode.cs" />
     <Compile Include="Services\Searching\FileSystemWatcherSearchService.cs" />
     <Compile Include="Services\Searching\IFileSearchService.cs" />
     <Compile Include="Services\INavigator.cs" />
     <Compile Include="Services\IPinStateService.cs" />
     <Compile Include="Services\Searching\LocalFileSearchService.cs" />
     <Compile Include="Services\Searching\PinnedForEmptyPatternFileSearchService.cs" />
+    <Compile Include="Services\Searching\_EnsureExceptionExtensions.cs" />
+    <Compile Include="Services\UserConfigurations\FileSearchModeGetter.cs" />
     <Compile Include="Services\VsVersionLoader.cs" />
     <Compile Include="ViewModels\Commands\CommandBase.cs" />
     <Compile Include="ViewModels\Commands\PinCommand.cs" />
@@ -150,6 +153,7 @@
     </Compile>
     <Compile Include="Views\Controls\HotKeyTextBox.cs" />
     <Compile Include="Views\Converters\BoolConverter.cs" />
+    <Compile Include="Views\DataSources\FileSearchModes.cs" />
     <Compile Include="Views\DesignData\ViewModelLocator.cs" />
     <Compile Include="ViewModels\ApplicationViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />

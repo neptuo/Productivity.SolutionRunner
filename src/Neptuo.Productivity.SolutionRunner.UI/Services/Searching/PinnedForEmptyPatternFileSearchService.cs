@@ -20,7 +20,7 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Searching
             this.pinStateService = pinStateService;
         }
 
-        public Task SearchAsync(string searchPattern, IFileCollection files)
+        public Task SearchAsync(string searchPattern, FileSearchMode mode, IFileCollection files)
         {
             if (String.IsNullOrEmpty(searchPattern))
             {
@@ -31,7 +31,7 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Searching
                 return Task.FromResult(true);
             }
 
-            return innerService.SearchAsync(searchPattern, files);
+            return innerService.SearchAsync(searchPattern, mode, files);
         }
 
         protected override void DisposeManagedResources()

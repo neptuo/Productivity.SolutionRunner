@@ -36,6 +36,8 @@ namespace Neptuo.Productivity.SolutionRunner
         {
             base.OnStartup(e);
             Converts.Repository
+                .AddEnumSearchHandler(false)
+                .AddToStringSearchHandler()
                 .Add<string, KeyViewModel>(new StringToKeyViewModelConverter())
                 .Add<KeyViewModel, string>(new KeyViewModelToStringConverter());
 
@@ -63,6 +65,15 @@ namespace Neptuo.Productivity.SolutionRunner
                 OpenConfiguration();
             else
                 OpenMain();
+        }
+
+        private static FileSearchMode GetUserFileSearchMode()
+        {
+            FileSearchMode result;
+            if (Converts.Try<string, FileSearchMode>(Settings.Default.FileSearchMode, out result))
+                return result;
+
+            return FileSearchMode.StartsWith;
         }
 
         #region Handling exceptions
@@ -199,7 +210,8 @@ namespace Neptuo.Productivity.SolutionRunner
                             new FileSystemWatcherSearchService(directoryPath, this),
                             this
                         )
-                    )
+                    ),
+                    GetUserFileSearchMode
                 );
 
                 VsVersionLoader loader = new VsVersionLoader();
