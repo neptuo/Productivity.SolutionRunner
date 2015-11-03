@@ -47,6 +47,8 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels
                 {
                     searchPattern = value;
                     RaisePropertyChanged();
+                    
+                    files.Clear();
                     fileSearch.SearchAsync(searchPattern, fileSearchModeGetter(), fileSearchCountGetter(), this);
                 }
             }

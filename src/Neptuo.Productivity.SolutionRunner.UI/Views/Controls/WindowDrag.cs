@@ -5,13 +5,23 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 
 namespace Neptuo.Productivity.SolutionRunner.Views.Controls
 {
     public static class WindowDrag
     {
-        private readonly static Type[] activeControlTypes = new Type[] { typeof(ListViewItem), typeof(Button), typeof(TextBox), typeof(ComboBox), typeof(ComboBoxItem) };
+        private readonly static Type[] activeControlTypes = new Type[] 
+        { 
+            typeof(ListViewItem), 
+            typeof(Button), 
+            typeof(ToggleButton), 
+            typeof(TextBox), 
+            typeof(ComboBox), 
+            typeof(CheckBox), 
+            typeof(ComboBoxItem) 
+        };
 
         public static bool TryMove(MouseButtonEventArgs e)
         {

@@ -31,6 +31,9 @@
             <Setter Property="Margin" Value="10,0,0,0" />
             <Setter Property="Padding" Value="6,4" />
         </Style>
+        <Style TargetType="ComboBox">
+            <Setter Property="Background" Value="{StaticResource TextBoxBackgroundBrush}" />
+        </Style>
     </Window.Resources>
     <Border BorderBrush="{StaticResource ActiveBrush}" BorderThickness="1" Padding="0,10">
         <DockPanel Style="{StaticResource RootPanelStyle}">
@@ -56,6 +59,28 @@
                     <TextBox x:Name="tbxPreferedApplication" Text="{Binding PreferedApplicationPath, UpdateSourceTrigger=PropertyChanged}" Margin="0" />
                 </StackPanel>
                 <StackPanel Style="{StaticResource EditorPanelStyle}">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel Style="{StaticResource EditorPanelStyle}" Margin="0,0,10,0">
+                        <Label Content="Search mode:" Target="{Binding ElementName=cbxFileSearchMode}" />
+                        <ComboBox x:Name="cbxFileSearchMode" ItemsSource="{ds:FileSearchModes}" SelectedItem="{Binding FileSearchMode}" />
+                    </StackPanel>
+                    <StackPanel Style="{StaticResource EditorPanelStyle}" Margin="0,0,10,0" Grid.Column="1">
+                        <Label Content="Search count:" Target="{Binding ElementName=tbxFileSearchCount}" />
+                        <TextBox x:Name="tbxFileSearchCount" Text="{Binding FileSearchCount}" Margin="0" />
+                    </StackPanel>
+                    <StackPanel Style="{StaticResource EditorPanelStyle}" Grid.Column="2">
+                        <Label Content="Others:" />
+                        <CheckBox Content="Save last searched phrase" IsChecked="{Binding IsFileSearchPatternSaved}" />
+                    </StackPanel>
+                </Grid>
+                </StackPanel>
+                <StackPanel Style="{StaticResource EditorPanelStyle}">
                     <Grid>
                         <Label Content="Global hotkey:" Target="{Binding ElementName=tbxRunHotKey}" />
                         <TextBlock Text="Ctrl + Windows + V or the another of your preference" HorizontalAlignment="Right"/>
@@ -66,18 +91,6 @@
                         Otherwise the application is hidden and triggered to the front pressing the hot key.
                     </TextBlock>
                 </StackPanel>
-                <StackPanel Style="{StaticResource EditorPanelStyle}">
-                    <Label Content="Search mode:" Target="{Binding ElementName=cbxFileSearchMode}" />
-                    <ComboBox x:Name="cbxFileSearchMode" ItemsSource="{ds:FileSearchModes}" SelectedItem="{Binding FileSearchMode}" />
-                </StackPanel>
-                <StackPanel Style="{StaticResource EditorPanelStyle}">
-                    <Label Content="Search count:" Target="{Binding ElementName=tbxFileSearchCount}" />
-                    <TextBox x:Name="tbxFileSearchCount" Text="{Binding FileSearchCount}" Margin="0" />
-                </StackPanel>
-                <StackPanel Style="{StaticResource EditorPanelStyle}">
-                    <CheckBox Content="Save last searched phrase" IsChecked="{Binding IsFileSearchPatternSaved}" />
-                </StackPanel>
-
 
                 <StackPanel Style="{StaticResource EditorPanelStyle}">
                     <Label Content="Keyboard shortcuts" />

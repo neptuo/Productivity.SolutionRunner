@@ -79,6 +79,7 @@ namespace Neptuo.Productivity.SolutionRunner.UI.DesignData
                     configurationViewModel.PreferedApplicationPath = @"C:\Program Files (x86)\Microsoft Visual Studio 12.0\Common7\IDE\devenv.exe";
                     configurationViewModel.FileSearchMode = FileSearchMode.Contains;
                     configurationViewModel.FileSearchCount = 10;
+                    configurationViewModel.IsFileSearchPatternSaved = true;
                     configurationViewModel.RunKey = new KeyViewModel(Key.V, ModifierKeys.Control);
                 }
 
