@@ -71,20 +71,21 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Searching
 
             searchPattern = searchPattern.ToLowerInvariant();
 
-            Func<string, bool> filter = null;
+            Func<FileModel, bool> filter = null;
             switch (mode)
             {
                 case FileSearchMode.StartsWith:
-                    filter = f => f.StartsWith(searchPattern);
+                    filter = f => f.IsNameStartedWith(searchPattern);
                     break;
                 case FileSearchMode.Contains:
-                    filter = f => f.Contains(searchPattern);
+                    string[] parts = searchPattern.Split(' ');
+                    filter = f => f.IsPathSearchMatched(parts);
                     break;
                 default:
                     throw Ensure.Exception.NotSupportedSearchMode(mode);
             }
 
-            foreach (FileModel model in storage.Where(f => filter(f.Name.ToLowerInvariant())).Take(count))
+            foreach (FileModel model in storage.Where(f => filter(f)).Take(count))
                 files.Add(model.Name, model.Path, pinStateService.IsPinned(model.Path));
 
             return Task.FromResult(true);
@@ -115,6 +116,26 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Searching
             public FileModel(string path)
             {
                 Path = path;
+            }
+
+            public bool IsNameStartedWith(string searchPattern)
+            {
+                return Name.ToLowerInvariant().StartsWith(searchPattern);
+            }
+
+            public bool IsPathSearchMatched(string[] searchPattern)
+            {
+                string pathMatch = Path.ToLowerInvariant();
+                for (int i = 0; i < searchPattern.Length; i++)
+                {
+                    int currentIndex = pathMatch.IndexOf(searchPattern[i]);
+                    if (currentIndex == -1)
+                        return false;
+
+                    pathMatch = pathMatch.Substring(currentIndex + searchPattern[i].Length);
+                }
+
+                return true;
             }
 
             public override int GetHashCode()
