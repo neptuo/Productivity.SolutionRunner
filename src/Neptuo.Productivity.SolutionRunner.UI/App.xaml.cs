@@ -230,7 +230,6 @@ namespace Neptuo.Productivity.SolutionRunner
                 string directoryPath = Settings.Default.SourceDirectoryPath;
 
                 mainWindow = new MainWindow(this);
-                mainWindow.Deactivated += OnMainWindowDeactivated;
                 mainWindow.Closing += OnMainWindowClosing;
                 mainWindow.Closed += OnMainWindowClosed;
 
@@ -278,6 +277,8 @@ namespace Neptuo.Productivity.SolutionRunner
             else if (!String.IsNullOrEmpty(mainWindow.ViewModel.SearchPattern))
                 mainWindow.ViewModel.SearchPattern = String.Empty;
 
+            mainWindow.Deactivated += OnMainWindowDeactivated;
+
             if (!startup.IsStartup || !startup.IsHidden)
             {
                 mainWindow.Show();
@@ -287,7 +288,7 @@ namespace Neptuo.Productivity.SolutionRunner
 
         private void OnMainWindowDeactivated(object sender, EventArgs e)
         {
-            if (Settings.Default.IsDismissedWhenLostFocus && mainWindow != null && !isMainClosing)
+            if (Settings.Default.IsDismissedWhenLostFocus && mainWindow != null)
             {
                 DispatcherHelper.Run(Dispatcher, () =>
                 {
@@ -295,16 +296,10 @@ namespace Neptuo.Productivity.SolutionRunner
                         mainWindow.Close();
                 }, 500);
             }
-
-            isMainClosing = false;
         }
-
-        private bool isMainClosing = false;
 
         private void OnMainWindowClosing(object sender, CancelEventArgs e)
         {
-            isMainClosing = true;
-
             if (Settings.Default.IsFileSearchPatternSaved)
             {
                 Settings.Default.FileSearchPattern = mainWindow.ViewModel.SearchPattern;
@@ -316,11 +311,12 @@ namespace Neptuo.Productivity.SolutionRunner
                 mainWindow.Hide();
                 e.Cancel = true;
             }
+
+            mainWindow.Deactivated -= OnMainWindowDeactivated;
         }
 
         private void OnMainWindowClosed(object sender, EventArgs e)
         {
-            mainWindow.Deactivated -= OnMainWindowDeactivated;
             mainWindow.Closed -= OnMainWindowClosed;
             mainWindow.Closing -= OnMainWindowClosed;
             mainWindow = null;
