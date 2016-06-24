@@ -100,7 +100,7 @@
                     </Grid>
                     <Grid>
                         <TextBlock Text="Switch file" />
-                        <TextBlock Text="Arrow down, arrow up" HorizontalAlignment="Right" />
+                        <TextBlock Text="Arrow down, arrow up, Home, End" HorizontalAlignment="Right" />
                     </Grid>
                     <Grid>
                         <TextBlock Text="Pin/unpin file" />
