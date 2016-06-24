@@ -85,6 +85,14 @@ namespace Neptuo.Productivity.SolutionRunner
             startup.IsStartup = false;
         }
 
+        public void Activate()
+        {
+            if (mainWindow != null)
+                mainWindow.Activate();
+            else if (configurationWindow != null)
+                configurationWindow.Activate();
+        }
+
         private static FileSearchMode GetUserFileSearchMode()
         {
             FileSearchMode result;

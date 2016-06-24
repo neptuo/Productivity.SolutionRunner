@@ -77,7 +77,11 @@
   <PropertyGroup>
     <ApplicationManifest>Properties\app.manifest</ApplicationManifest>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>Neptuo.Productivity.SolutionRunner.AppEntryPoint</StartupObject>
+  </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="Neptuo, Version=5.2.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Neptuo.5.2.0\lib\net45\Neptuo.dll</HintPath>
       <Private>True</Private>
@@ -126,6 +130,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="AppEntryPoint.cs" />
+    <Compile Include="AppEntryPointManager.cs" />
     <Compile Include="Properties\VersionInfo.cs" />
     <Compile Include="Services\Converters\KeyViewModelToStringConverter.cs" />
     <Compile Include="Services\Converters\StringToKeyViewModelConverter.cs" />
