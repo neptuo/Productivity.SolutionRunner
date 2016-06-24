@@ -146,6 +146,16 @@ namespace Neptuo.Productivity.SolutionRunner.Views
                     lvwFiles.SelectedIndex = newIndex;
                     e.Handled = true;
                 }
+                else if(e.Key == Key.Home)
+                {
+                    lvwFiles.SelectedIndex = 0;
+                    e.Handled = true;
+                }
+                else if(e.Key == Key.End)
+                {
+                    lvwFiles.SelectedIndex = lvwFiles.Items.Count - 1;
+                    e.Handled = true;
+                }
                 else if (e.Key == Key.S && Keyboard.IsKeyDown(Key.LeftCtrl))
                 {
                     FileViewModel file = lvwFiles.SelectedItem as FileViewModel;
