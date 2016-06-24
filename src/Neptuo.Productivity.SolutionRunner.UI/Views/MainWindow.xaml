@@ -133,7 +133,7 @@
                             <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                                 <TextBlock Text="{Binding Name}" />
                                 <TextBlock Text=" " />
-                                <TextBlock Text="{Binding Path}" Style="{StaticResource GrayStyle}" />
+                                <TextBlock Text="{Binding Path}" Opacity=".5" />
                             </StackPanel>
                         </DockPanel>
                     </DataTemplate>
