@@ -59,26 +59,44 @@
                     <TextBox x:Name="tbxPreferedApplication" Text="{Binding PreferedApplicationPath, UpdateSourceTrigger=PropertyChanged}" Margin="0" />
                 </StackPanel>
                 <StackPanel Style="{StaticResource EditorPanelStyle}">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition />
-                        <ColumnDefinition />
-                        <ColumnDefinition />
-                    </Grid.ColumnDefinitions>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="120" />
+                            <ColumnDefinition Width="90" />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
 
-                    <StackPanel Style="{StaticResource EditorPanelStyle}" Margin="0,0,10,0">
-                        <Label Content="Search mode:" Target="{Binding ElementName=cbxFileSearchMode}" />
-                        <ComboBox x:Name="cbxFileSearchMode" ItemsSource="{ds:FileSearchModes}" SelectedItem="{Binding FileSearchMode}" />
-                    </StackPanel>
-                    <StackPanel Style="{StaticResource EditorPanelStyle}" Margin="0,0,10,0" Grid.Column="1">
-                        <Label Content="Search count:" Target="{Binding ElementName=tbxFileSearchCount}" />
-                        <TextBox x:Name="tbxFileSearchCount" Text="{Binding FileSearchCount}" Margin="0" />
-                    </StackPanel>
-                    <StackPanel Style="{StaticResource EditorPanelStyle}" Grid.Column="2">
-                        <Label Content="Others:" />
-                        <CheckBox Content="Save last searched phrase" IsChecked="{Binding IsFileSearchPatternSaved}" />
-                    </StackPanel>
-                </Grid>
+                        <StackPanel Style="{StaticResource EditorPanelStyle}" Margin="0,0,10,0">
+                            <Label Content="Search mode:" Target="{Binding ElementName=cbxFileSearchMode}" />
+                            <ListBox ItemsSource="{ds:FileSearchModes}" SelectedItem="{Binding FileSearchMode}" SelectionMode="Single" Background="Transparent" BorderThickness="0">
+                                <ListBox.ItemContainerStyle>
+                                    <Style TargetType="{x:Type ListBoxItem}" >
+                                        <Setter Property="Margin" Value="2" />
+                                        <Setter Property="Template">
+                                            <Setter.Value>
+                                                <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                                                    <Border Name="theBorder" Background="Transparent">
+                                                        <RadioButton Focusable="False" IsHitTestVisible="False" IsChecked="{TemplateBinding IsSelected}" Padding="2,-2,0,0">
+                                                            <TextBlock Text="{Binding}" Foreground="White" />
+                                                        </RadioButton>
+                                                    </Border>
+                                                </ControlTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Style>
+                                </ListBox.ItemContainerStyle>
+                            </ListBox>
+                        </StackPanel>
+                        <StackPanel Style="{StaticResource EditorPanelStyle}" Margin="0,0,10,0" Grid.Column="1">
+                            <Label Content="Search count:" Target="{Binding ElementName=tbxFileSearchCount}" />
+                            <TextBox x:Name="tbxFileSearchCount" Text="{Binding FileSearchCount}" Margin="0" />
+                        </StackPanel>
+                        <StackPanel Style="{StaticResource EditorPanelStyle}" Grid.Column="2">
+                            <Label Content="Others:" />
+                            <CheckBox Content="Save last searched phrase" IsChecked="{Binding IsFileSearchPatternSaved}" />
+                            <CheckBox Content="Save last used application as prefered" IsChecked="{Binding IsLastUsedApplicationSavedAsPrefered}" />
+                        </StackPanel>
+                    </Grid>
                 </StackPanel>
                 <StackPanel Style="{StaticResource EditorPanelStyle}">
                     <Grid>

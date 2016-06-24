@@ -1,4 +1,5 @@
 ﻿using Neptuo.Linq.Expressions;
+using Neptuo.Productivity.SolutionRunner.Properties;
 using Neptuo.Productivity.SolutionRunner.Services;
 using Neptuo.Productivity.SolutionRunner.ViewModels;
 using Neptuo.Productivity.SolutionRunner.Views.Controls;
@@ -61,6 +62,15 @@ namespace Neptuo.Productivity.SolutionRunner.Views
         {
             if (application != null)
             {
+                if (Settings.Default.IsLastUsedApplicationSavedAsPrefered)
+                {
+                    if (application.Path != Settings.Default.PreferedApplicationPath)
+                    {
+                        Settings.Default.PreferedApplicationPath = application.Path;
+                        Settings.Default.Save();
+                    }
+                }
+
                 if (file == null)
                     Process.Start(application.Path);
                 else

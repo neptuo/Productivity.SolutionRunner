@@ -203,6 +203,7 @@ namespace Neptuo.Productivity.SolutionRunner
                 viewModel.FileSearchMode = GetUserFileSearchMode();
                 viewModel.FileSearchCount = GetUserFileSearchCount();
                 viewModel.IsFileSearchPatternSaved = Settings.Default.IsFileSearchPatternSaved;
+                viewModel.IsLastUsedApplicationSavedAsPrefered = Settings.Default.IsLastUsedApplicationSavedAsPrefered;
                 viewModel.RunKey = runHotKey.FindKeyViewModel();
                 configurationWindow = new ConfigurationWindow(viewModel, this, String.IsNullOrEmpty(Settings.Default.SourceDirectoryPath));
                 configurationWindow.Closed += OnConfigurationWindowClosed;

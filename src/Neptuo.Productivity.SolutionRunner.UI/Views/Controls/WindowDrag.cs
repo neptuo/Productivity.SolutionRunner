@@ -7,6 +7,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
+using System.Windows.Media;
 
 namespace Neptuo.Productivity.SolutionRunner.Views.Controls
 {
@@ -14,6 +15,7 @@ namespace Neptuo.Productivity.SolutionRunner.Views.Controls
     {
         private readonly static Type[] activeControlTypes = new Type[] 
         { 
+            typeof(ListBoxItem), 
             typeof(ListViewItem), 
             typeof(Button), 
             typeof(ToggleButton), 
@@ -35,6 +37,9 @@ namespace Neptuo.Productivity.SolutionRunner.Views.Controls
                         parent = element.TemplatedParent as FrameworkElement;
 
                     if (parent == null)
+                        parent = VisualTreeHelper.GetParent(element) as FrameworkElement;
+
+                    if(parent == null)
                         break;
 
                     Type parentType = parent.GetType();

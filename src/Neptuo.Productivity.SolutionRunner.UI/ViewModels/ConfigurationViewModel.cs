@@ -100,6 +100,20 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels
             }
         }
 
+        private bool isLastUsedApplicationSavedAsPrefered;
+        public bool IsLastUsedApplicationSavedAsPrefered
+        {
+            get { return isLastUsedApplicationSavedAsPrefered; }
+            set
+            {
+                if (isLastUsedApplicationSavedAsPrefered != value)
+                {
+                    isLastUsedApplicationSavedAsPrefered = value;
+                    RaisePropertyChanged();
+                }
+            }
+        }
+
         public string Version { get; private set; }
 
         private SaveConfigurationCommand saveCommand;

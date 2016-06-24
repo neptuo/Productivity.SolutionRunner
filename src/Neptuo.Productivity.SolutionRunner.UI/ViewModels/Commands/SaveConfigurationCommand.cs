@@ -35,6 +35,7 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels.Commands
             Settings.Default.FileSearchMode = Converts.To<FileSearchMode, string>(viewModel.FileSearchMode);
             Settings.Default.FileSearchCount = viewModel.FileSearchCount;
             Settings.Default.IsFileSearchPatternSaved = viewModel.IsFileSearchPatternSaved;
+            Settings.Default.IsLastUsedApplicationSavedAsPrefered = viewModel.IsLastUsedApplicationSavedAsPrefered;
 
             string runKeyValue;
             if (Converts.Try(viewModel.RunKey, out runKeyValue))
