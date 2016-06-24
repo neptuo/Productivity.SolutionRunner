@@ -287,7 +287,7 @@ namespace Neptuo.Productivity.SolutionRunner
 
         private void OnMainWindowDeactivated(object sender, EventArgs e)
         {
-            if (Settings.Default.IsDismissedWhenLostFocus && mainWindow != null)
+            if (Settings.Default.IsDismissedWhenLostFocus && mainWindow != null && !isMainClosing)
             {
                 DispatcherHelper.Run(Dispatcher, () =>
                 {
@@ -295,10 +295,16 @@ namespace Neptuo.Productivity.SolutionRunner
                         mainWindow.Close();
                 }, 500);
             }
+
+            isMainClosing = false;
         }
+
+        private bool isMainClosing = false;
 
         private void OnMainWindowClosing(object sender, CancelEventArgs e)
         {
+            isMainClosing = true;
+
             if (Settings.Default.IsFileSearchPatternSaved)
             {
                 Settings.Default.FileSearchPattern = mainWindow.ViewModel.SearchPattern;
