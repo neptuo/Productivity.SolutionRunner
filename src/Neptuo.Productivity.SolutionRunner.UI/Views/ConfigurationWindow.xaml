@@ -100,22 +100,25 @@
                     </Grid>
                     <Grid>
                         <TextBlock Text="Switch file" />
-                        <TextBlock Text="Arrow down, arrow up, Home, End" HorizontalAlignment="Right" />
+                        <TextBlock Text="ArrowDown, ArrowUp, Home, End" HorizontalAlignment="Right" />
                     </Grid>
                     <Grid>
                         <TextBlock Text="Pin/unpin file" />
                         <TextBlock Text="Ctrl+S" HorizontalAlignment="Right" />
                     </Grid>
                     <Grid>
+                        <TextBlock Text="Open empty instance of application" />
+                        <TextBlock Text="DoubleClick on application" HorizontalAlignment="Right" />
+                    </Grid>
+                    <Grid>
                         <TextBlock Text="Open file in application" />
-                        <TextBlock Text="Enter" HorizontalAlignment="Right" />
+                        <TextBlock Text="Enter, DoubleClick on file" HorizontalAlignment="Right" />
                     </Grid>
                     <Grid>
                         <TextBlock Text="Close/hide" />
                         <TextBlock Text="Escape" HorizontalAlignment="Right" />
                     </Grid>
                 </StackPanel>
-
             </StackPanel>
         </DockPanel>
     </Border>

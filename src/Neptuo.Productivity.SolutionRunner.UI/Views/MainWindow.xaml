@@ -34,7 +34,7 @@
         <Style x:Key="ShellButtonStyle" TargetType="Button" BasedOn="{StaticResource PlainButtonStyle}">
             <Setter Property="Margin" Value="0,0,0,10" />
         </Style>
-        
+
         <Style TargetType="ListView">
             <Setter Property="BorderThickness" Value="0" />
             <Setter Property="Background" Value="Transparent" />
@@ -69,7 +69,7 @@
                 </Setter.Value>
             </Setter>
         </Style>
-        
+
     </Window.Resources>
     <Border BorderBrush="{StaticResource ActiveBrush}" BorderThickness="1">
         <Grid Style="{StaticResource MainGridStyle}">
@@ -89,14 +89,16 @@
                     </ListView.ItemsPanel>
                     <ListView.ItemTemplate>
                         <DataTemplate>
-                            <Grid Width="100" Height="60">
-                                <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
-                                    <DockPanel>
-                                        <TextBlock Text="{Binding Name}" DockPanel.Dock="Bottom" />
-                                        <Image Source="{Binding Icon}" Width="32" />
-                                    </DockPanel>
+                            <ContentControl x:Name="cocApplication"  MouseDoubleClick="cocApplication_MouseDoubleClick">
+                                <Grid Width="100" Height="60">
+                                    <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+                                        <DockPanel>
+                                            <TextBlock Text="{Binding Name}" DockPanel.Dock="Bottom" />
+                                            <Image Source="{Binding Icon}" Width="32" />
+                                        </DockPanel>
+                                    </Grid>
                                 </Grid>
-                            </Grid>
+                            </ContentControl>
                         </DataTemplate>
                     </ListView.ItemTemplate>
                 </ListView>
@@ -112,7 +114,7 @@
                     </Button>
                 </StackPanel>
             </Grid>
-        
+
             <Border Grid.Row="1">
                 <TextBox x:Name="tbxSearch" Text="{Binding SearchPattern, UpdateSourceTrigger=PropertyChanged}" />
             </Border>
@@ -120,22 +122,24 @@
             <ListView x:Name="lvwFiles" ItemsSource="{Binding Files}" ItemContainerStyle="{StaticResource ListViewItemStyle}" Grid.Row="3">
                 <ListView.ItemTemplate>
                     <DataTemplate>
-                        <DockPanel Width="476">
-                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" DockPanel.Dock="Right">
-                                <Button Command="{Binding PinCommand}" Visibility="{Binding IsPinned, Converter={StaticResource TrueToVisibleConverter}}" Style="{StaticResource PlainButtonStyle}">
-                                    <Image Source="{StaticResource PinImage}" Width="16" />
-                                </Button>
-                                <Button Command="{Binding UnPinCommand}" Visibility="{Binding IsPinned, Converter={StaticResource TrueToCollapsedConverter}}" Style="{StaticResource PlainButtonStyle}">
-                                    <Image Source="{StaticResource UnPinImage}" Width="16" />
-                                </Button>
-                            </StackPanel>
-                            
-                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                                <TextBlock Text="{Binding Name}" />
-                                <TextBlock Text=" " />
-                                <TextBlock Text="{Binding Path}" Opacity=".5" />
-                            </StackPanel>
-                        </DockPanel>
+                        <ContentControl x:Name="cocFile" MouseDoubleClick="cocFile_MouseDoubleClick">
+                            <DockPanel Width="476">
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" DockPanel.Dock="Right">
+                                    <Button Command="{Binding PinCommand}" Visibility="{Binding IsPinned, Converter={StaticResource TrueToVisibleConverter}}" Style="{StaticResource PlainButtonStyle}">
+                                        <Image Source="{StaticResource PinImage}" Width="16" />
+                                    </Button>
+                                    <Button Command="{Binding UnPinCommand}" Visibility="{Binding IsPinned, Converter={StaticResource TrueToCollapsedConverter}}" Style="{StaticResource PlainButtonStyle}">
+                                        <Image Source="{StaticResource UnPinImage}" Width="16" />
+                                    </Button>
+                                </StackPanel>
+
+                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                    <TextBlock Text="{Binding Name}" />
+                                    <TextBlock Text=" " />
+                                    <TextBlock Text="{Binding Path}" Opacity=".5" />
+                                </StackPanel>
+                            </DockPanel>
+                        </ContentControl>
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>

@@ -57,6 +57,19 @@ namespace Neptuo.Productivity.SolutionRunner.Views
             EventManager.FilePinned += OnFilePinned;
         }
 
+        private void RunSolution(ApplicationViewModel application, FileViewModel file)
+        {
+            if (application != null)
+            {
+                if (file == null)
+                    Process.Start(application.Path);
+                else
+                    Process.Start(new ProcessStartInfo(application.Path, file.Path));
+
+                Close();
+            }
+        }
+
         private void OnFilePinned(FileViewModel viewModel)
         {
             if (ViewModel != null)
@@ -107,7 +120,6 @@ namespace Neptuo.Productivity.SolutionRunner.Views
         {
             if (e.Action == NotifyCollectionChangedAction.Add)
             {
-
                 Task.Factory.StartNew(() =>
                 {
                     Thread.Sleep(10);
@@ -146,12 +158,12 @@ namespace Neptuo.Productivity.SolutionRunner.Views
                     lvwFiles.SelectedIndex = newIndex;
                     e.Handled = true;
                 }
-                else if(e.Key == Key.Home)
+                else if (e.Key == Key.Home)
                 {
                     lvwFiles.SelectedIndex = 0;
                     e.Handled = true;
                 }
-                else if(e.Key == Key.End)
+                else if (e.Key == Key.End)
                 {
                     lvwFiles.SelectedIndex = lvwFiles.Items.Count - 1;
                     e.Handled = true;
@@ -173,7 +185,7 @@ namespace Neptuo.Productivity.SolutionRunner.Views
             {
                 if (e.Key == Key.Tab && Keyboard.IsKeyDown(Key.LeftCtrl))
                 {
-                    if(Keyboard.IsKeyDown(Key.LeftShift))
+                    if (Keyboard.IsKeyDown(Key.LeftShift))
                     {
                         int newIndex = lvwApplications.SelectedIndex - 1;
                         if (newIndex < 0)
@@ -194,15 +206,10 @@ namespace Neptuo.Productivity.SolutionRunner.Views
             {
                 // On ENTER, open sln in selected application.
                 ApplicationViewModel application = lvwApplications.SelectedItem as ApplicationViewModel;
-                if (application != null)
-                {
-                    FileViewModel file = lvwFiles.SelectedItem as FileViewModel;
-                    if (file != null)
-                    {
-                        Process.Start(new ProcessStartInfo(application.Path, file.Path));
-                        Close();
-                    }
-                }
+                FileViewModel file = lvwFiles.SelectedItem as FileViewModel;
+
+                if (application != null && file != null)
+                    RunSolution(application, file);
             }
             else if (e.Key == Key.Escape)
             {
@@ -228,8 +235,24 @@ namespace Neptuo.Productivity.SolutionRunner.Views
 
         private void OnPreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
-            if(WindowDrag.TryMove(e))
+            if (WindowDrag.TryMove(e))
                 DragMove();
+        }
+
+        private void cocApplication_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            ApplicationViewModel application = lvwApplications.SelectedItem as ApplicationViewModel;
+            if (application != null)
+                RunSolution(application, null);
+        }
+
+        private void cocFile_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            ApplicationViewModel application = lvwApplications.SelectedItem as ApplicationViewModel;
+            FileViewModel file = lvwFiles.SelectedItem as FileViewModel;
+
+            if (application != null && file != null)
+                RunSolution(application, file);
         }
 
         protected override void OnClosed(EventArgs e)
