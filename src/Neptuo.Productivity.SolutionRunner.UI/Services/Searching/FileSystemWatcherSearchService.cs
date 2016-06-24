@@ -1,4 +1,5 @@
 ﻿using Neptuo.FileSystems;
+using Neptuo.Threading.Tasks;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -12,6 +13,7 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Searching
     {
         private readonly FileSystemWatcher watcher;
         private readonly IPinStateService pinStateService;
+        private readonly PatternMatcherFactory matcherFactory = new PatternMatcherFactory();
 
         private readonly List<FileModel> storage = new List<FileModel>();
 
@@ -66,29 +68,12 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Searching
         {
             files.Clear();
 
-            if (searchPattern == null)
-                searchPattern = String.Empty;
-
-            searchPattern = searchPattern.ToLowerInvariant();
-
-            Func<FileModel, bool> filter = null;
-            switch (mode)
-            {
-                case FileSearchMode.StartsWith:
-                    filter = f => f.IsNameStartedWith(searchPattern);
-                    break;
-                case FileSearchMode.Contains:
-                    string[] parts = searchPattern.Split(' ');
-                    filter = f => f.IsPathSearchMatched(parts);
-                    break;
-                default:
-                    throw Ensure.Exception.NotSupportedSearchMode(mode);
-            }
+            Func<FileModel, bool> filter = matcherFactory.Create(searchPattern, mode);
 
             foreach (FileModel model in storage.Where(f => filter(f)).Take(count))
                 files.Add(model.Name, model.Path, pinStateService.IsPinned(model.Path));
 
-            return Task.FromResult(true);
+            return Async.CompletedTask;
         }
 
         protected override void DisposeManagedResources()
@@ -98,7 +83,7 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Searching
         }
 
 
-        private class FileModel
+        private class FileModel : PatternMatcherFactory.IFileModel
         {
             public string Name { get; private set; }
 
@@ -117,27 +102,7 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Searching
             {
                 Path = path;
             }
-
-            public bool IsNameStartedWith(string searchPattern)
-            {
-                return Name.ToLowerInvariant().StartsWith(searchPattern);
-            }
-
-            public bool IsPathSearchMatched(string[] searchPattern)
-            {
-                string pathMatch = Path.ToLowerInvariant();
-                for (int i = 0; i < searchPattern.Length; i++)
-                {
-                    int currentIndex = pathMatch.IndexOf(searchPattern[i]);
-                    if (currentIndex == -1)
-                        return false;
-
-                    pathMatch = pathMatch.Substring(currentIndex + searchPattern[i].Length);
-                }
-
-                return true;
-            }
-
+            
             public override int GetHashCode()
             {
                 return 23 ^ Name.GetHashCode() ^ Path.GetHashCode();

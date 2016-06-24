@@ -78,8 +78,8 @@
     <ApplicationManifest>Properties\app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Neptuo, Version=5.0.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Neptuo.5.0.1\lib\net45\Neptuo.dll</HintPath>
+    <Reference Include="Neptuo, Version=5.2.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Neptuo.5.2.0\lib\net45\Neptuo.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Neptuo.FileSystems, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL">
@@ -142,6 +142,7 @@
     <Compile Include="Services\INavigator.cs" />
     <Compile Include="Services\IPinStateService.cs" />
     <Compile Include="Services\Searching\LocalFileSearchService.cs" />
+    <Compile Include="Services\Searching\PatternMatcherFactory.cs" />
     <Compile Include="Services\Searching\PinnedForEmptyPatternFileSearchService.cs" />
     <Compile Include="Services\Searching\_EnsureExceptionExtensions.cs" />
     <Compile Include="Services\StartupFlags\StartupModel.cs" />

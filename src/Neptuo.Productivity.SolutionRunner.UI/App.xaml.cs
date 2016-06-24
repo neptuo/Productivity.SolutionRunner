@@ -231,14 +231,14 @@ namespace Neptuo.Productivity.SolutionRunner
                 mainWindow.Closed += OnMainWindowClosed;
 
                 MainViewModel viewModel = new MainViewModel(
-                    new DelayedFileSearchService(
-                        Dispatcher,
-                        new PinnedForEmptyPatternFileSearchService(
+                    new PinnedForEmptyPatternFileSearchService(
+                        new DelayedFileSearchService(
+                            Dispatcher,
                             //new LocalFileSearchService(directoryPath, this)
                             //new DirectFileSearchService(directoryPath, this),
-                            new FileSystemWatcherSearchService(directoryPath, this),
-                            this
-                        )
+                            new FileSystemWatcherSearchService(directoryPath, this)
+                        ),
+                        this
                     ),
                     GetUserFileSearchMode,
                     GetUserFileSearchCount
