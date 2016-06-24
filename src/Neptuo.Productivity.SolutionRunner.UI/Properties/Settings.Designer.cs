@@ -130,5 +130,17 @@ namespace Neptuo.Productivity.SolutionRunner.Properties {
                 this["IsLastUsedApplicationSavedAsPrefered"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool IsDismissedWhenLostFocus {
+            get {
+                return ((bool)(this["IsDismissedWhenLostFocus"]));
+            }
+            set {
+                this["IsDismissedWhenLostFocus"] = value;
+            }
+        }
     }
 }

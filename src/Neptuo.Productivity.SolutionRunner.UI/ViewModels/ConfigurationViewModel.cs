@@ -114,6 +114,20 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels
             }
         }
 
+        private bool isDismissedWhenLostFocus;
+        public bool IsDismissedWhenLostFocus
+        {
+            get { return isDismissedWhenLostFocus; }
+            set
+            {
+                if (isDismissedWhenLostFocus != value)
+                {
+                    isDismissedWhenLostFocus = value;
+                    RaisePropertyChanged();
+                }
+            }
+        }
+
         public string Version { get; private set; }
 
         private SaveConfigurationCommand saveCommand;

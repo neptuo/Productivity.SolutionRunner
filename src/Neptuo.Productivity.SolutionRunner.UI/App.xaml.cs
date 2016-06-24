@@ -10,6 +10,7 @@ using Neptuo.Productivity.SolutionRunner.ViewModels;
 using Neptuo.Productivity.SolutionRunner.ViewModels.Commands.Factories;
 using Neptuo.Productivity.SolutionRunner.Views;
 using Neptuo.Windows.HotKeys;
+using Neptuo.Windows.Threading;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -72,7 +73,7 @@ namespace Neptuo.Productivity.SolutionRunner
                 }
             }
 
-            if(!runHotKey.IsSet)
+            if (!runHotKey.IsSet)
                 startup.IsHidden = false;
 
             // Open window.
@@ -204,6 +205,7 @@ namespace Neptuo.Productivity.SolutionRunner
                 viewModel.FileSearchCount = GetUserFileSearchCount();
                 viewModel.IsFileSearchPatternSaved = Settings.Default.IsFileSearchPatternSaved;
                 viewModel.IsLastUsedApplicationSavedAsPrefered = Settings.Default.IsLastUsedApplicationSavedAsPrefered;
+                viewModel.IsDismissedWhenLostFocus = Settings.Default.IsDismissedWhenLostFocus;
                 viewModel.RunKey = runHotKey.FindKeyViewModel();
                 configurationWindow = new ConfigurationWindow(viewModel, this, String.IsNullOrEmpty(Settings.Default.SourceDirectoryPath));
                 configurationWindow.Closed += OnConfigurationWindowClosed;
@@ -211,7 +213,7 @@ namespace Neptuo.Productivity.SolutionRunner
             configurationWindow.Show();
             configurationWindow.Activate();
         }
-
+        
         private void OnConfigurationWindowClosed(object sender, EventArgs e)
         {
             configurationWindow.Closed -= OnConfigurationWindowClosed;
@@ -228,6 +230,7 @@ namespace Neptuo.Productivity.SolutionRunner
                 string directoryPath = Settings.Default.SourceDirectoryPath;
 
                 mainWindow = new MainWindow(this);
+                mainWindow.Deactivated += OnMainWindowDeactivated;
                 mainWindow.Closing += OnMainWindowClosing;
                 mainWindow.Closed += OnMainWindowClosed;
 
@@ -282,6 +285,18 @@ namespace Neptuo.Productivity.SolutionRunner
             }
         }
 
+        private void OnMainWindowDeactivated(object sender, EventArgs e)
+        {
+            if (Settings.Default.IsDismissedWhenLostFocus && mainWindow != null)
+            {
+                DispatcherHelper.Run(Dispatcher, () =>
+                {
+                    if (Settings.Default.IsDismissedWhenLostFocus && mainWindow != null)
+                        mainWindow.Close();
+                }, 500);
+            }
+        }
+
         private void OnMainWindowClosing(object sender, CancelEventArgs e)
         {
             if (Settings.Default.IsFileSearchPatternSaved)
@@ -299,6 +314,7 @@ namespace Neptuo.Productivity.SolutionRunner
 
         private void OnMainWindowClosed(object sender, EventArgs e)
         {
+            mainWindow.Deactivated -= OnMainWindowDeactivated;
             mainWindow.Closed -= OnMainWindowClosed;
             mainWindow.Closing -= OnMainWindowClosed;
             mainWindow = null;

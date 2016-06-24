@@ -95,6 +95,7 @@
                             <Label Content="Others:" />
                             <CheckBox Content="Save last searched phrase" IsChecked="{Binding IsFileSearchPatternSaved}" />
                             <CheckBox Content="Save last used application as prefered" IsChecked="{Binding IsLastUsedApplicationSavedAsPrefered}" />
+                            <CheckBox Content="Dismiss after loosing focus" IsChecked="{Binding IsDismissedWhenLostFocus}" />
                         </StackPanel>
                     </Grid>
                 </StackPanel>

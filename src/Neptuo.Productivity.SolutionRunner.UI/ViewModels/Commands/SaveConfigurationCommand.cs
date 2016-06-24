@@ -36,6 +36,7 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels.Commands
             Settings.Default.FileSearchCount = viewModel.FileSearchCount;
             Settings.Default.IsFileSearchPatternSaved = viewModel.IsFileSearchPatternSaved;
             Settings.Default.IsLastUsedApplicationSavedAsPrefered = viewModel.IsLastUsedApplicationSavedAsPrefered;
+            Settings.Default.IsDismissedWhenLostFocus = viewModel.IsDismissedWhenLostFocus;
 
             string runKeyValue;
             if (Converts.Try(viewModel.RunKey, out runKeyValue))
