@@ -45,7 +45,7 @@
                     <Button x:Name="btnAbout" Click="btnAbout_Click" Margin="0,0,5,0" Height="15">
                         <Button.Template>
                             <ControlTemplate TargetType="Button">
-                                <TextBlock Text="About" Foreground="#4A9AD4" TextDecorations="Underline" Cursor="Hand" ToolTip="www.neptuo.com/project/desktop/solution-runner" Margin="0" Padding="0" />
+                                <TextBlock Text="About" Foreground="#4A9AD4" TextDecorations="Underline" Cursor="Hand" ToolTip="www.neptuo.com/project/desktop/solutionrunner" Margin="0" Padding="0" />
                             </ControlTemplate>
                         </Button.Template>
                     </Button>

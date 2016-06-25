@@ -94,7 +94,7 @@ namespace Neptuo.Productivity.SolutionRunner.Views
 
         private void btnAbout_Click(object sender, RoutedEventArgs e)
         {
-            Process.Start("http://www.neptuo.com/project/desktop/solution-runner");
+            Process.Start("http://www.neptuo.com/project/desktop/solutionrunner");
         }
     }
 }
