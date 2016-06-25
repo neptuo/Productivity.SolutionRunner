@@ -7,7 +7,7 @@
         xmlns:ui="clr-namespace:Neptuo.Productivity.SolutionRunner.Views.Controls"
         xmlns:ds="clr-namespace:Neptuo.Productivity.SolutionRunner.Views.DataSources"
         xmlns:converters="clr-namespace:Neptuo.Productivity.SolutionRunner.Services.Converters"
-        Title="Solution runner - Configuration" Width="500" SizeToContent="Height" ResizeMode="NoResize" 
+        Title="Solution runner - Configuration" Width="510" SizeToContent="Height" ResizeMode="NoResize" 
         ShowInTaskbar="False" Background="{StaticResource BackgroundBrush}" WindowStartupLocation="CenterScreen"  WindowStyle="None"
         PreviewKeyDown="OnPreviewKeyDown" PreviewMouseDown="OnPreviewMouseDown" Closing="OnClosing">
     <Window.Resources>
@@ -41,7 +41,16 @@
     <Border BorderBrush="{StaticResource ActiveBrush}" BorderThickness="1" Padding="0,10">
         <DockPanel Style="{StaticResource RootPanelStyle}">
             <Grid DockPanel.Dock="Bottom">
-                <TextBlock Text="{Binding Version}" VerticalAlignment="Bottom" />
+                <StackPanel VerticalAlignment="Bottom" Orientation="Horizontal">
+                    <Button x:Name="btnAbout" Click="btnAbout_Click" Margin="0,0,5,0" Height="15">
+                        <Button.Template>
+                            <ControlTemplate TargetType="Button">
+                                <TextBlock Text="About" Foreground="#4A9AD4" TextDecorations="Underline" Cursor="Hand" ToolTip="www.neptuo.com/project/desktop/solution-runner" Margin="0" Padding="0" />
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
+                    <TextBlock Text="{Binding Version}" />
+                </StackPanel>
 
                 <StackPanel HorizontalAlignment="Right" Style="{StaticResource ActionBarStyle}">
                     <Button Content="Apply" Command="{Binding SaveCommand}" IsDefault="True" />
@@ -53,19 +62,22 @@
                 <StackPanel Style="{StaticResource EditorPanelStyle}">
                     <Grid>
                         <Label Content="Root directory:" Target="{Binding ElementName=tbxSourceDirectory}" />
-                        <TextBlock Text="Directory where to search for files" HorizontalAlignment="Right" />
+                        <TextBlock Text="Directory where to search for solution files" HorizontalAlignment="Right" />
                     </Grid>
                     <TextBox x:Name="tbxSourceDirectory" Text="{Binding SourceDirectoryPath, UpdateSourceTrigger=PropertyChanged}" Margin="0" />
                 </StackPanel>
                 <StackPanel Style="{StaticResource EditorPanelStyle}">
-                    <Label Content="Prefered application:" Target="{Binding ElementName=tbxSourceDirectory}" />
+                    <Grid>
+                        <Label Content="Prefered application:" Target="{Binding ElementName=tbxSourceDirectory}" />
+                        <TextBlock Text="Full path to prefered (preselected) application" HorizontalAlignment="Right" />
+                    </Grid>
                     <TextBox x:Name="tbxPreferedApplication" Text="{Binding PreferedApplicationPath, UpdateSourceTrigger=PropertyChanged}" Margin="0" />
                 </StackPanel>
                 <StackPanel Style="{StaticResource EditorPanelStyle}">
                     <Grid>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="120" />
-                            <ColumnDefinition Width="90" />
+                            <ColumnDefinition Width="100" />
+                            <ColumnDefinition Width="130" />
                             <ColumnDefinition />
                         </Grid.ColumnDefinitions>
 
@@ -90,7 +102,7 @@
                                 </ListBox.ItemContainerStyle>
                             </ListBox>
                         </StackPanel>
-                        <StackPanel Style="{StaticResource EditorPanelStyle}" Margin="0,0,10,0" Grid.Column="1">
+                        <StackPanel Style="{StaticResource EditorPanelStyle}" Margin="0,0,50,0" Grid.Column="1">
                             <Label Content="Search count:" Target="{Binding ElementName=tbxFileSearchCount}" />
                             <TextBox x:Name="tbxFileSearchCount" Text="{Binding FileSearchCount}" Margin="0" />
                         </StackPanel>
@@ -111,7 +123,7 @@
                     <TextBox x:Name="tbxRunHotKey" Margin="0" ui:HotKeyTextBox.Key="{Binding RunKey, Mode=TwoWay}" />
                     <TextBlock TextWrapping="Wrap">
                         When the hot key is not set, the application exits when the main window is closed. 
-                        Otherwise the application is hidden and triggered to the front pressing the hot key.
+                        Otherwise the application is hidden and it is triggered to the front by pressing the hot key.
                     </TextBlock>
                 </StackPanel>
 
