@@ -142,5 +142,17 @@ namespace Neptuo.Productivity.SolutionRunner.Properties {
                 this["IsDismissedWhenLostFocus"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool IsHiddentOnStartup {
+            get {
+                return ((bool)(this["IsHiddentOnStartup"]));
+            }
+            set {
+                this["IsHiddentOnStartup"] = value;
+            }
+        }
     }
 }

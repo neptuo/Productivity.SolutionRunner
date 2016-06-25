@@ -40,6 +40,9 @@ namespace Neptuo.Productivity.SolutionRunner
             StartupModelProvider provider = new StartupModelProvider();
             startup = provider.Get(e.Args);
             startup.IsStartup = true;
+
+            if (!startup.IsHidden)
+                startup.IsHidden = Settings.Default.IsHiddentOnStartup;
         }
 
         protected override void OnStartup(StartupEventArgs e)
@@ -214,6 +217,7 @@ namespace Neptuo.Productivity.SolutionRunner
                 viewModel.IsFileSearchPatternSaved = Settings.Default.IsFileSearchPatternSaved;
                 viewModel.IsLastUsedApplicationSavedAsPrefered = Settings.Default.IsLastUsedApplicationSavedAsPrefered;
                 viewModel.IsDismissedWhenLostFocus = Settings.Default.IsDismissedWhenLostFocus;
+                viewModel.IsHiddentOnStartup = Settings.Default.IsHiddentOnStartup;
                 viewModel.RunKey = runHotKey.FindKeyViewModel();
                 configurationWindow = new ConfigurationWindow(viewModel, this, String.IsNullOrEmpty(Settings.Default.SourceDirectoryPath));
                 configurationWindow.Closed += OnConfigurationWindowClosed;

@@ -134,6 +134,7 @@
     <Compile Include="AppEntryPointManager.cs" />
     <Compile Include="Properties\VersionInfo.cs" />
     <Compile Include="Services\Converters\KeyViewModelToStringConverter.cs" />
+    <Compile Include="Services\Converters\NullToBoolConverter.cs" />
     <Compile Include="Services\Converters\StringToKeyViewModelConverter.cs" />
     <Compile Include="Services\INavigatorState.cs" />
     <Compile Include="Services\IRunHotKeyService.cs" />

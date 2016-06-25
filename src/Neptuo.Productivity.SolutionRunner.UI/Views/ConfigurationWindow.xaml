@@ -6,10 +6,13 @@
         xmlns:dd="clr-namespace:Neptuo.Productivity.SolutionRunner.UI.DesignData" d:DataContext="{x:Static dd:ViewModelLocator.ConfigurationViewModel}"
         xmlns:ui="clr-namespace:Neptuo.Productivity.SolutionRunner.Views.Controls"
         xmlns:ds="clr-namespace:Neptuo.Productivity.SolutionRunner.Views.DataSources"
+        xmlns:converters="clr-namespace:Neptuo.Productivity.SolutionRunner.Services.Converters"
         Title="Solution runner - Configuration" Width="500" SizeToContent="Height" ResizeMode="NoResize" 
         ShowInTaskbar="False" Background="{StaticResource BackgroundBrush}" WindowStartupLocation="CenterScreen"  WindowStyle="None"
         PreviewKeyDown="OnPreviewKeyDown" PreviewMouseDown="OnPreviewMouseDown" Closing="OnClosing">
     <Window.Resources>
+        <converters:NullToBoolConverter x:Key="notNullToBool" IsInverted="True" />
+
         <Style x:Key="RootPanelStyle" TargetType="DockPanel">
             <Setter Property="Margin" Value="10" />
         </Style>
@@ -76,7 +79,7 @@
                                             <Setter.Value>
                                                 <ControlTemplate TargetType="{x:Type ListBoxItem}">
                                                     <Border Name="theBorder" Background="Transparent">
-                                                        <RadioButton Focusable="False" IsHitTestVisible="False" IsChecked="{TemplateBinding IsSelected}" Padding="2,-2,0,0">
+                                                        <RadioButton Focusable="False" IsHitTestVisible="False" IsChecked="{TemplateBinding IsSelected}" Padding="2,-1,0,0">
                                                             <TextBlock Text="{Binding}" Foreground="White" />
                                                         </RadioButton>
                                                     </Border>
@@ -96,6 +99,7 @@
                             <CheckBox Content="Save last searched phrase" IsChecked="{Binding IsFileSearchPatternSaved}" />
                             <CheckBox Content="Save last used application as prefered" IsChecked="{Binding IsLastUsedApplicationSavedAsPrefered}" />
                             <CheckBox Content="Dismiss after loosing focus" IsChecked="{Binding IsDismissedWhenLostFocus}" />
+                            <CheckBox Content="Start hidden (only when hotkey is set)" IsChecked="{Binding IsHiddentOnStartup}" IsEnabled="{Binding RunKey, Converter={StaticResource notNullToBool}}" />
                         </StackPanel>
                     </Grid>
                 </StackPanel>

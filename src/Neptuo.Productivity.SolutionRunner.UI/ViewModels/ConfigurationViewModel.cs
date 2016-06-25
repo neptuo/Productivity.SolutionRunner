@@ -128,6 +128,20 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels
             }
         }
 
+        private bool isHiddentOnStartup;
+        public bool IsHiddentOnStartup
+        {
+            get { return isHiddentOnStartup; }
+            set
+            {
+                if(isHiddentOnStartup != value)
+                {
+                    isHiddentOnStartup = value;
+                    RaisePropertyChanged();
+                }
+            }
+        }
+
         public string Version { get; private set; }
 
         private SaveConfigurationCommand saveCommand;
