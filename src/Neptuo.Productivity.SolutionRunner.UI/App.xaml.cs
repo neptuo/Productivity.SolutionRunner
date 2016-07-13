@@ -1,8 +1,14 @@
-﻿using Neptuo.Converters;
+﻿using Neptuo.Activators;
+using Neptuo.Converters;
 using Neptuo.FileSystems;
 using Neptuo.FileSystems.Features.Searching;
+using Neptuo.Formatters;
+using Neptuo.Formatters.Converters;
+using Neptuo.Formatters.Metadata;
+using Neptuo.Observables.Collections;
 using Neptuo.Productivity.SolutionRunner.Properties;
 using Neptuo.Productivity.SolutionRunner.Services;
+using Neptuo.Productivity.SolutionRunner.Services.Applications;
 using Neptuo.Productivity.SolutionRunner.Services.Converters;
 using Neptuo.Productivity.SolutionRunner.Services.Searching;
 using Neptuo.Productivity.SolutionRunner.Services.StartupFlags;
@@ -51,6 +57,9 @@ namespace Neptuo.Productivity.SolutionRunner
             base.OnStartup(e);
 
             Converts.Repository
+                .AddJsonPrimitivesSearchHandler()
+                .AddJsonObjectSearchHandler()
+                .AddJsonEnumSearchHandler()
                 .AddEnumSearchHandler(false)
                 .AddToStringSearchHandler()
                 .Add<string, KeyViewModel>(new StringToKeyViewModelConverter())
@@ -209,7 +218,7 @@ namespace Neptuo.Productivity.SolutionRunner
         {
             if (configurationWindow == null)
             {
-                ConfigurationViewModel viewModel = new ConfigurationViewModel(new SaveConfigurationCommandFactory(runHotKey));
+                ConfigurationViewModel viewModel = new ConfigurationViewModel(new SaveConfigurationCommandFactory(runHotKey), this);
                 viewModel.SourceDirectoryPath = Settings.Default.SourceDirectoryPath;
                 viewModel.PreferedApplicationPath = Settings.Default.PreferedApplicationPath;
                 viewModel.FileSearchMode = GetUserFileSearchMode();
@@ -218,6 +227,7 @@ namespace Neptuo.Productivity.SolutionRunner
                 viewModel.IsLastUsedApplicationSavedAsPrefered = Settings.Default.IsLastUsedApplicationSavedAsPrefered;
                 viewModel.IsDismissedWhenLostFocus = Settings.Default.IsDismissedWhenLostFocus;
                 viewModel.IsHiddentOnStartup = Settings.Default.IsHiddentOnStartup;
+                viewModel.AdditionalApplications = new ObservableCollection<AdditionalApplicationListViewModel>(GetAdditionalApplicationListViewModels());
                 viewModel.RunKey = runHotKey.FindKeyViewModel();
                 configurationWindow = new ConfigurationWindow(viewModel, this, String.IsNullOrEmpty(Settings.Default.SourceDirectoryPath));
                 configurationWindow.Closed += OnConfigurationWindowClosed;
@@ -225,7 +235,22 @@ namespace Neptuo.Productivity.SolutionRunner
             configurationWindow.Show();
             configurationWindow.Activate();
         }
-        
+
+        private IEnumerable<AdditionalApplicationListViewModel> GetAdditionalApplicationListViewModels()
+        {
+            string rawValue = Settings.Default.AdditionalApplications;
+            if (String.IsNullOrEmpty(rawValue))
+                return Enumerable.Empty<AdditionalApplicationListViewModel>();
+
+            CompositeModelFormatter formatter = new CompositeModelFormatter(
+                type => Activator.CreateInstance(type), 
+                Factory.Getter(() => new JsonCompositeStorage())
+            );
+
+            AdditionalApplicationCollection collection = formatter.Deserialize<AdditionalApplicationCollection>(rawValue);
+            return collection.Items.Select(m => new AdditionalApplicationListViewModel(m));
+        }
+
         private void OnConfigurationWindowClosed(object sender, EventArgs e)
         {
             configurationWindow.Closed -= OnConfigurationWindowClosed;
@@ -233,6 +258,29 @@ namespace Neptuo.Productivity.SolutionRunner
 
             if (!runHotKey.IsSet && mainWindow == null)
                 Shutdown();
+        }
+
+        private AdditionalApplicationModel sourceAdditionalApplicationModel;
+        private AdditionalApplicationEditWindow additionalApplicationEditWindow;
+        private Action<AdditionalApplicationModel> onAdditionalApplicationSaved;
+
+        public void OpenAdditionalApplicationEdit(AdditionalApplicationModel model, Action<AdditionalApplicationModel> onSaved)
+        {
+            sourceAdditionalApplicationModel = model;
+            onAdditionalApplicationSaved = onSaved;
+
+            AdditionalApplicationEditViewModel viewModel = new AdditionalApplicationEditViewModel(model, OnAdditionalApplicationSaved);
+            additionalApplicationEditWindow = new AdditionalApplicationEditWindow(viewModel);
+            additionalApplicationEditWindow.Owner = configurationWindow;
+            additionalApplicationEditWindow.ShowDialog();
+        }
+
+        private void OnAdditionalApplicationSaved(AdditionalApplicationModel model)
+        {
+            additionalApplicationEditWindow.Close();
+
+            if (onAdditionalApplicationSaved != null)
+                onAdditionalApplicationSaved(model);
         }
 
         public void OpenMain()
@@ -259,8 +307,11 @@ namespace Neptuo.Productivity.SolutionRunner
                     GetUserFileSearchCount
                 );
 
-                VsVersionLoader loader = new VsVersionLoader();
-                loader.Add(viewModel);
+                VsVersionLoader vsLoader = new VsVersionLoader();
+                vsLoader.Add(viewModel);
+
+                AdditionalApplicationLoader additionalLoader = new AdditionalApplicationLoader();
+                additionalLoader.Add(viewModel);
 
                 IFileCollection files = viewModel;
                 foreach (string filePath in GetPinnedFiles())

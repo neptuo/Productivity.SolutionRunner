@@ -3,7 +3,9 @@ using Neptuo.Converters;
 using Neptuo.FileSystems;
 using Neptuo.FileSystems.Features;
 using Neptuo.FileSystems.Features.Searching;
+using Neptuo.Observables.Collections;
 using Neptuo.Productivity.SolutionRunner.Services;
+using Neptuo.Productivity.SolutionRunner.Services.Applications;
 using Neptuo.Productivity.SolutionRunner.Services.Converters;
 using Neptuo.Productivity.SolutionRunner.Services.Searching;
 using Neptuo.Productivity.SolutionRunner.ViewModels;
@@ -34,11 +36,12 @@ namespace Neptuo.Productivity.SolutionRunner.UI.DesignData
                 {
                     mainViewModel = new MainViewModel(new FileSearchService(), () => FileSearchMode.StartsWith, () => 20);
                     mainViewModel.SearchPattern = "Magic.sln";
-                    mainViewModel
-                        .Add("Visual Studio 2015", "devenv.exe", new BitmapImage())
-                        .Add("Visual Studio 2013", "devenv.exe", new BitmapImage())
-                        .Add("Visual Studio 2012", "devenv.exe", new BitmapImage())
-                        .Add("Visual Studio 2010", "devenv.exe", new BitmapImage());
+
+                    VsVersionLoader loader = new VsVersionLoader();
+                    loader.Add(mainViewModel);
+
+                    mainViewModel.Add("Notepad", @"C:\Windows\notepad.exe", null, IconExtractor.Get(@"C:\Windows\notepad.exe"), false);
+                    mainViewModel.Add("Second notepad", @"C:\Windows\notepad.exe", null, IconExtractor.Get(@"C:\Windows\notepad.exe"), false);
                 }
 
                 return mainViewModel;
@@ -74,12 +77,17 @@ namespace Neptuo.Productivity.SolutionRunner.UI.DesignData
                         .Add<string, KeyViewModel>(new StringToKeyViewModelConverter())
                         .Add<KeyViewModel, string>(new KeyViewModelToStringConverter());
 
-                    configurationViewModel = new ConfigurationViewModel(new SaveConfigurationCommandFactory());
+                    configurationViewModel = new ConfigurationViewModel(new SaveConfigurationCommandFactory(), new Navigator());
                     configurationViewModel.SourceDirectoryPath = @"D:\Development";
                     configurationViewModel.PreferedApplicationPath = @"C:\Program Files (x86)\Microsoft Visual Studio 12.0\Common7\IDE\devenv.exe";
                     configurationViewModel.FileSearchMode = FileSearchMode.Contains;
                     configurationViewModel.FileSearchCount = 10;
                     configurationViewModel.IsFileSearchPatternSaved = true;
+                    configurationViewModel.AdditionalApplications = new ObservableCollection<AdditionalApplicationListViewModel>()
+                    {
+                        new AdditionalApplicationListViewModel(new AdditionalApplicationModel("Notepad", @"C:\Windows\notepad.exe", "")),
+                        new AdditionalApplicationListViewModel(new AdditionalApplicationModel("GitExtensions", @"C:\Program Files (x86)\GitExtensions\GitExtensions.exe", ""))
+                    };
                     configurationViewModel.RunKey = new KeyViewModel(Key.V, ModifierKeys.Control);
                 }
 
@@ -118,6 +126,45 @@ namespace Neptuo.Productivity.SolutionRunner.UI.DesignData
             }
         }
 
+        private class Navigator : INavigator
+        {
+            public void OpenAdditionalApplicationEdit(AdditionalApplicationModel model, Action<AdditionalApplicationModel> onSaved)
+            {
+                throw new NotImplementedException();
+            }
+
+            public void OpenConfiguration()
+            {
+                throw new NotImplementedException();
+            }
+
+            public void OpenMain()
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        #endregion
+
+        #region AdditionalApplicationEdit
+
+        private static AdditionalApplicationEditViewModel additionalApplication;
+
+        public static AdditionalApplicationEditViewModel AdditionalApplication
+        {
+            get
+            {
+                if(additionalApplication == null)
+                {
+                    additionalApplication = new AdditionalApplicationEditViewModel(null, m => { });
+                    additionalApplication.Path = @"C:\Windows\notepad.exe";
+                    additionalApplication.Arguments = "browse {FilePath}";
+                    additionalApplication.Icon = IconExtractor.Get(@"C:\Windows\notepad.exe");
+                }
+
+                return additionalApplication;
+            }
+        }
 
         #endregion
     }

@@ -1,4 +1,5 @@
-﻿using Neptuo.Productivity.SolutionRunner.ViewModels;
+﻿using Neptuo.Productivity.SolutionRunner.Services.Applications;
+using Neptuo.Productivity.SolutionRunner.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,5 +12,6 @@ namespace Neptuo.Productivity.SolutionRunner.Services
     {
         void OpenMain();
         void OpenConfiguration();
+        void OpenAdditionalApplicationEdit(AdditionalApplicationModel model, Action<AdditionalApplicationModel> onSaved);
     }
 }

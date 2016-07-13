@@ -9,6 +9,6 @@ namespace Neptuo.Productivity.SolutionRunner.Services
 {
     public interface IApplicationCollection
     {
-        IApplicationCollection Add(string name, string path, ImageSource icon);
+        IApplicationCollection Add(string name, string path, string arguments, ImageSource icon, bool isMain);
     }
 }

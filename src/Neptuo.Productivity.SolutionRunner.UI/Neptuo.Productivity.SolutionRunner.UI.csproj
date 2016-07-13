@@ -78,9 +78,13 @@
     <ApplicationManifest>Properties\app.manifest</ApplicationManifest>
   </PropertyGroup>
   <PropertyGroup>
-    <StartupObject>Neptuo.Productivity.SolutionRunner.AppEntryPoint</StartupObject>
+    <StartupObject>Neptuo.Productivity.SolutionRunner.App</StartupObject>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="FontAwesome.WPF, Version=4.5.0.37524, Culture=neutral, PublicKeyToken=0758b07a11a4f466, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\FontAwesome.WPF.4.5.0.8\lib\net40\FontAwesome.WPF.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="Neptuo, Version=5.2.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Neptuo.5.2.0\lib\net45\Neptuo.dll</HintPath>
@@ -92,6 +96,22 @@
     </Reference>
     <Reference Include="Neptuo.FileSystems.Local, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Neptuo.FileSystems.Local.1.0.1\lib\net45\Neptuo.FileSystems.Local.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Neptuo.Formatters, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Neptuo.Formatters.2.0.0\lib\net45\Neptuo.Formatters.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Neptuo.Formatters.Composite, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Neptuo.Formatters.Composite.2.0.0\lib\net45\Neptuo.Formatters.Composite.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Neptuo.Formatters.Composite.Json, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Neptuo.Formatters.Composite.Json.2.1.0\lib\net45\Neptuo.Formatters.Composite.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Neptuo.Formatters.Composite.Metadata, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Neptuo.Formatters.Composite.Metadata.1.0.0\lib\net45\Neptuo.Formatters.Composite.Metadata.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Neptuo.Models.Features, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -108,6 +128,10 @@
     </Reference>
     <Reference Include="Neptuo.Windows.Threading, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Neptuo.Windows.Threading.1.0.1\lib\net45\Neptuo.Windows.Threading.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Newtonsoft.Json.8.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -133,6 +157,10 @@
     <Compile Include="AppEntryPoint.cs" />
     <Compile Include="AppEntryPointManager.cs" />
     <Compile Include="Properties\VersionInfo.cs" />
+    <Compile Include="Services\Applications\AdditionalApplicationLoader.cs" />
+    <Compile Include="Services\Applications\AdditionalApplicationCollection.cs" />
+    <Compile Include="Services\Applications\AdditionalApplicationModel.cs" />
+    <Compile Include="Services\Applications\IconExtractor.cs" />
     <Compile Include="Services\Converters\KeyViewModelToStringConverter.cs" />
     <Compile Include="Services\Converters\NullToBoolConverter.cs" />
     <Compile Include="Services\Converters\StringToKeyViewModelConverter.cs" />
@@ -157,9 +185,14 @@
     <Compile Include="Services\StartupFlags\StartupModelProvider.cs" />
     <Compile Include="Services\UserConfigurations\FileSearchCountGetter.cs" />
     <Compile Include="Services\UserConfigurations\FileSearchModeGetter.cs" />
-    <Compile Include="Services\VsVersionLoader.cs" />
+    <Compile Include="Services\Applications\VsVersionLoader.cs" />
+    <Compile Include="ViewModels\AdditionalApplicationEditViewModel.cs" />
+    <Compile Include="ViewModels\AdditionalApplicationListViewModel.cs" />
     <Compile Include="ViewModels\Commands\CommandBase.cs" />
     <Compile Include="ViewModels\Commands\PinCommand.cs" />
+    <Compile Include="ViewModels\Commands\EditAdditionalApplicationCommand.cs" />
+    <Compile Include="ViewModels\Commands\RemoveAdditionalApplicationCommand.cs" />
+    <Compile Include="ViewModels\Commands\SaveApplicationCommand.cs" />
     <Compile Include="ViewModels\Commands\SaveConfigurationCommand.cs" />
     <Compile Include="ViewModels\Commands\UnPinCommand.cs" />
     <Compile Include="ViewModels\ConfigurationViewModel.cs" />
@@ -167,6 +200,9 @@
     <Compile Include="ViewModels\Commands\Factories\SaveConfigurationCommandFactory.cs" />
     <Compile Include="ViewModels\FileViewModel.cs" />
     <Compile Include="ViewModels\KeyViewModel.cs" />
+    <Compile Include="Views\AdditionalApplicationEditWindow.xaml.cs">
+      <DependentUpon>AdditionalApplicationEditWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\ConfigurationWindow.xaml.cs">
       <DependentUpon>ConfigurationWindow.xaml</DependentUpon>
     </Compile>
@@ -176,6 +212,10 @@
     <Compile Include="Views\DesignData\ViewModelLocator.cs" />
     <Compile Include="ViewModels\ApplicationViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
+    <Page Include="Views\AdditionalApplicationEditWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\ConfigurationWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

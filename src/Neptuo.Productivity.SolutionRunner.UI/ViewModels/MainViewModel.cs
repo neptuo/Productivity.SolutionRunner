@@ -82,9 +82,9 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels
             get { return applications; }
         }
 
-        public IApplicationCollection Add(string name, string path, ImageSource icon)
+        public IApplicationCollection Add(string name, string path, string arguments, ImageSource icon, bool isMain)
         {
-            applications.Add(new ApplicationViewModel(name, path, icon));
+            applications.Add(new ApplicationViewModel(name, path, arguments, icon, isMain));
             return this;
         }
 

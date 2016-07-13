@@ -21,5 +21,48 @@
             <Setter Property="Foreground" Value="#777" />
         </Style>
 
+        <Style x:Key="WindowBorderStyle" TargetType="Border">
+            <Setter Property="BorderBrush" Value="{StaticResource ActiveBrush}" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="Margin" Value="0,10" />
+        </Style>
+
+        <!-- EditForm -->
+        <Style x:Key="RootPanelStyle" TargetType="DockPanel">
+            <Setter Property="Margin" Value="10" />
+        </Style>
+        <Style x:Key="EditorPanelStyle" TargetType="StackPanel">
+            <Setter Property="Margin" Value="0,0,0,10" />
+        </Style>
+        <Style TargetType="Label">
+            <Setter Property="Padding" Value="2" />
+            <Setter Property="Foreground" Value="White" />
+        </Style>
+        <Style x:Key="DescriptionStyle" TargetType="TextBlock" BasedOn="{StaticResource GrayStyle}">
+            <Setter Property="Padding" Value="2" />
+        </Style>
+        <Style x:Key="ActionBarStyle" TargetType="StackPanel">
+            <Setter Property="Orientation" Value="Horizontal" />
+            <Setter Property="Margin" Value="0,15,0,0" />
+        </Style>
+        <Style TargetType="Button">
+            <Setter Property="Margin" Value="10,0,0,0" />
+            <Setter Property="Padding" Value="6,4" />
+        </Style>
+        <Style x:Key="PlainButtonStyle" TargetType="Button">
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Padding="{TemplateBinding Padding}" Margin="{TemplateBinding Margin}">
+                            <ContentPresenter />
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style TargetType="ComboBox">
+            <Setter Property="Background" Value="{StaticResource TextBoxBackgroundBrush}" />
+        </Style>
     </Application.Resources>
 </Application>

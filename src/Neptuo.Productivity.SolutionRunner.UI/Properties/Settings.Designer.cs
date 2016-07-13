@@ -154,5 +154,17 @@ namespace Neptuo.Productivity.SolutionRunner.Properties {
                 this["IsHiddentOnStartup"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string AdditionalApplications {
+            get {
+                return ((string)(this["AdditionalApplications"]));
+            }
+            set {
+                this["AdditionalApplications"] = value;
+            }
+        }
     }
 }

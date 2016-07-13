@@ -17,6 +17,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using EventManager = Neptuo.Productivity.SolutionRunner.ViewModels.EventManager;
+using Neptuo.Productivity.SolutionRunner.Services.Applications;
 
 namespace Neptuo.Productivity.SolutionRunner.Views
 {
@@ -68,6 +69,12 @@ namespace Neptuo.Productivity.SolutionRunner.Views
             }
         }
 
+        private void OnPreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (WindowDrag.TryMove(e))
+                DragMove();
+        }
+
         private void btnCancel_Click(object sender, RoutedEventArgs e)
         {
             Close();
@@ -86,15 +93,34 @@ namespace Neptuo.Productivity.SolutionRunner.Views
             navigator.OpenMain();
         }
 
-        private void OnPreviewMouseDown(object sender, MouseButtonEventArgs e)
-        {
-            if (WindowDrag.TryMove(e))
-                DragMove();
-        }
-
         private void btnAbout_Click(object sender, RoutedEventArgs e)
         {
             Process.Start("http://www.neptuo.com/project/desktop/solutionrunner");
+        }
+
+        private AdditionalApplicationModel editedApplicationModel;
+
+        private void btnAddApplication_Click(object sender, RoutedEventArgs e)
+        {
+            editedApplicationModel = null;
+            navigator.OpenAdditionalApplicationEdit(null, OnApplicationSaved);
+        }
+
+        private void OnApplicationSaved(AdditionalApplicationModel model)
+        {
+            if (model != null)
+            {
+                if (editedApplicationModel != null && editedApplicationModel != model)
+                {
+                    // TODO: Check for duplicities.
+                    // TODO: Update...
+                }
+                else
+                {
+                    // TODO: Check for duplicities.
+                    ViewModel.AdditionalApplications.Add(new AdditionalApplicationListViewModel(model));
+                }
+            }
         }
     }
 }

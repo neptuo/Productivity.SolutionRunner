@@ -1,5 +1,7 @@
 ﻿using Neptuo.Activators;
 using Neptuo.Observables;
+using Neptuo.Observables.Collections;
+using Neptuo.Productivity.SolutionRunner.Services;
 using Neptuo.Productivity.SolutionRunner.Services.Searching;
 using Neptuo.Productivity.SolutionRunner.ViewModels.Commands;
 using System;
@@ -141,6 +143,8 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels
                 }
             }
         }
+        
+        public ObservableCollection<AdditionalApplicationListViewModel> AdditionalApplications { get; set; }
 
         public string Version { get; private set; }
 
@@ -150,12 +154,26 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels
             get { return saveCommand; }
         }
 
-        public ConfigurationViewModel(IFactory<SaveConfigurationCommand, ConfigurationViewModel> commandFactory)
+        private RemoveAdditionalApplicationCommand removeAdditionalApplicationCommand;
+        public ICommand RemoveAdditionalApplicationCommand
+        {
+            get { return removeAdditionalApplicationCommand; }
+        }
+
+        private EditAdditionalApplicationCommand editAdditionalApplicationCommand;
+        public ICommand EditAdditionalApplicationCommand
+        {
+            get { return editAdditionalApplicationCommand; }
+        }
+
+        public ConfigurationViewModel(IFactory<SaveConfigurationCommand, ConfigurationViewModel> commandFactory, INavigator navigator)
         {
             Version version = Assembly.GetExecutingAssembly().GetName().Version;
             Version = String.Format("v{0}.{1}.{2}", version.Major, version.Minor, version.Build);
 
             saveCommand = commandFactory.Create(this);
+            editAdditionalApplicationCommand = new EditAdditionalApplicationCommand(this, navigator);
+            removeAdditionalApplicationCommand = new RemoveAdditionalApplicationCommand(this);
         }
     }
 }

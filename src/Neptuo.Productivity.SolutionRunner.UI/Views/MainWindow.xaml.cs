@@ -1,8 +1,10 @@
-﻿using Neptuo.Linq.Expressions;
+﻿using Neptuo.Collections.Specialized;
+using Neptuo.Linq.Expressions;
 using Neptuo.Productivity.SolutionRunner.Properties;
 using Neptuo.Productivity.SolutionRunner.Services;
 using Neptuo.Productivity.SolutionRunner.ViewModels;
 using Neptuo.Productivity.SolutionRunner.Views.Controls;
+using Neptuo.Text.Tokens;
 using Neptuo.Windows.Threading;
 using System;
 using System.Collections.Generic;
@@ -33,6 +35,7 @@ namespace Neptuo.Productivity.SolutionRunner.Views
     {
         private static readonly string FileIsPinnedPropertyName = TypeHelper.PropertyName<FileViewModel, bool>(vm => vm.IsPinned);
         private static readonly string FileNamePropertyName = TypeHelper.PropertyName<FileViewModel, string>(vm => vm.Name);
+        private static readonly string ApplicationIsMainPropertyName = TypeHelper.PropertyName<ApplicationViewModel, bool>(vm => vm.IsMain);
         private static readonly string ApplicationNamePropertyName = TypeHelper.PropertyName<ApplicationViewModel, string>(vm => vm.Name);
 
         private readonly INavigator navigator;
@@ -72,9 +75,23 @@ namespace Neptuo.Productivity.SolutionRunner.Views
                 }
 
                 if (file == null)
+                {
                     Process.Start(application.Path);
+                }
                 else
-                    Process.Start(new ProcessStartInfo(application.Path, file.Path));
+                {
+                    string arguments = file.Path;
+                    if (!String.IsNullOrEmpty(application.Arguments))
+                    {
+                        TokenWriter writer = new TokenWriter(application.Arguments);
+                        arguments = writer.Format(new KeyValueCollection()
+                            .Add("FilePath", file.Path)
+                            .Add("DirectoryPath", System.IO.Path.GetDirectoryName(file.Path))
+                        );
+                    }
+
+                    Process.Start(new ProcessStartInfo(application.Path, arguments));
+                }
 
                 Close();
             }
@@ -106,6 +123,7 @@ namespace Neptuo.Productivity.SolutionRunner.Views
             ICollectionView applicationsView = CollectionViewSource.GetDefaultView(viewModel.Applications);
             if (applicationsView != null)
             {
+                applicationsView.SortDescriptions.Add(new SortDescription(ApplicationIsMainPropertyName, ListSortDirection.Descending));
                 applicationsView.SortDescriptions.Add(new SortDescription(ApplicationNamePropertyName, ListSortDirection.Ascending));
                 applicationsView.CollectionChanged += OnApplicationsViewCollectionChanged;
                 filesView.Refresh();

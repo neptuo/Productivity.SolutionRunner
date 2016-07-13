@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" 
         xmlns:dd="clr-namespace:Neptuo.Productivity.SolutionRunner.UI.DesignData" d:DataContext="{x:Static dd:ViewModelLocator.MainViewModel}"
         xmlns:converters="clr-namespace:Neptuo.Productivity.SolutionRunner.Views.Converters"
-        Title="Solution runner" Width="525" SizeToContent="Height" 
+        Title="Solution runner" MinWidth="525" SizeToContent="WidthAndHeight" 
         ResizeMode="CanMinimize" WindowStyle="None" WindowStartupLocation="CenterScreen" ShowInTaskbar="False" Background="{StaticResource BackgroundBrush}"
         PreviewMouseDown="OnPreviewMouseDown" PreviewKeyDown="OnPreviewKeyDown">
     <Window.Resources>

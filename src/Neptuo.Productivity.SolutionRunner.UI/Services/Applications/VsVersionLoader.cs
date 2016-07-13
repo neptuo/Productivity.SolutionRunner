@@ -14,7 +14,7 @@ using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
-namespace Neptuo.Productivity.SolutionRunner.Services
+namespace Neptuo.Productivity.SolutionRunner.Services.Applications
 {
     public class VsVersionLoader
     {
@@ -31,23 +31,14 @@ namespace Neptuo.Productivity.SolutionRunner.Services
                     FileVersionInfo version = FileVersionInfo.GetVersionInfo(filePath);
 
                     applications.Add(
-                        String.Format("Visual studio {0}.{1}", version.FileMajorPart, version.FileMinorPart),
+                        String.Format("Visual Studio {0}.{1}", version.FileMajorPart, version.FileMinorPart),
                         filePath,
-                        GetIcon(filePath)
+                        null,
+                        IconExtractor.Get(filePath),
+                        true
                     );
                 }
             }
-        }
-
-        private static ImageSource GetIcon(string filename)
-        {
-            Icon icon = Icon.ExtractAssociatedIcon(filename);
-            ImageSource imageSource;
-
-            using (Icon i = Icon.FromHandle(icon.ToBitmap().GetHicon()))
-                imageSource = Imaging.CreateBitmapSourceFromHIcon(i.Handle, new Int32Rect(0, 0, 32, 32), BitmapSizeOptions.FromEmptyOptions());
-
-            return imageSource;
         }
     }
 }
