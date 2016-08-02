@@ -72,7 +72,7 @@
 
     </Window.Resources>
     <Border BorderBrush="{StaticResource ActiveBrush}" BorderThickness="1">
-        <Grid Style="{StaticResource MainGridStyle}">
+        <Grid x:Name="grdMain" Style="{StaticResource MainGridStyle}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
@@ -123,7 +123,7 @@
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ContentControl x:Name="cocFile" MouseDoubleClick="cocFile_MouseDoubleClick">
-                            <DockPanel Width="476">
+                            <DockPanel Width="{Binding FileWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}}">
                                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" DockPanel.Dock="Right">
                                     <Button Command="{Binding PinCommand}" Visibility="{Binding IsPinned, Converter={StaticResource TrueToVisibleConverter}}" Style="{StaticResource PlainButtonStyle}">
                                         <Image Source="{StaticResource PinImage}" Width="16" />

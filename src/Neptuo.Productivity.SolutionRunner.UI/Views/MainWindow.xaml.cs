@@ -52,6 +52,21 @@ namespace Neptuo.Productivity.SolutionRunner.Views
             }
         }
 
+        #region FileWidth
+
+        public const double FileWidthDefaultValue = 476d;
+
+        public double FileWidth
+        {
+            get { return (double)GetValue(FileWidthProperty); }
+            set { SetValue(FileWidthProperty, value); }
+        }
+
+        public static readonly DependencyProperty FileWidthProperty =
+            DependencyProperty.Register("FileWidth", typeof(double), typeof(MainWindow), new PropertyMetadata(FileWidthDefaultValue));
+
+        #endregion
+
         public MainWindow(INavigator navigator, bool isAutoSelectApplicationVersion)
         {
             Ensure.NotNull(navigator, "navigator");
@@ -133,6 +148,18 @@ namespace Neptuo.Productivity.SolutionRunner.Views
 
                 lvwApplications.SelectedIndex = 0;
             }
+
+            InitializeWidth();
+        }
+
+        private void InitializeWidth()
+        {
+            FileWidth = FileWidthDefaultValue;
+            Task.Factory.StartNew(() =>
+            {
+                Thread.Sleep(10);
+                DispatcherHelper.Run(Dispatcher, () => FileWidth = Math.Max(grdMain.ActualWidth, FileWidthDefaultValue) - 20);
+            });
         }
 
         private void OnFilesViewCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
@@ -175,7 +202,12 @@ namespace Neptuo.Productivity.SolutionRunner.Views
         {
             if (lvwFiles.Items.Count > 0)
             {
-                if (e.Key == Key.Down)
+                if(e.Key == Key.F1)
+                {
+                    btnConfiguration_Click(sender, new RoutedEventArgs(e.RoutedEvent, sender));
+                    e.Handled = true;
+                }
+                else if (e.Key == Key.Down)
                 {
                     lvwFiles.SelectedIndex = (lvwFiles.SelectedIndex + 1) % lvwFiles.Items.Count;
                     e.Handled = true;
@@ -189,12 +221,12 @@ namespace Neptuo.Productivity.SolutionRunner.Views
                     lvwFiles.SelectedIndex = newIndex;
                     e.Handled = true;
                 }
-                else if (e.Key == Key.Home)
+                else if (e.Key == Key.Home && !IsModifierKeyPressed())
                 {
                     lvwFiles.SelectedIndex = 0;
                     e.Handled = true;
                 }
-                else if (e.Key == Key.End)
+                else if (e.Key == Key.End && !IsModifierKeyPressed())
                 {
                     lvwFiles.SelectedIndex = lvwFiles.Items.Count - 1;
                     e.Handled = true;
@@ -262,6 +294,20 @@ namespace Neptuo.Productivity.SolutionRunner.Views
             {
                 tbxSearch.Focus();
             }
+        }
+
+        private bool IsModifierKeyPressed()
+        {
+            if (Keyboard.IsKeyDown(Key.LeftAlt) || Keyboard.IsKeyDown(Key.RightAlt))
+                return true;
+
+            if (Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl))
+                return true;
+
+            if (Keyboard.IsKeyDown(Key.LeftShift) || Keyboard.IsKeyDown(Key.RightShift))
+                return true;
+
+            return false;
         }
 
         private void OnPreviewMouseDown(object sender, MouseButtonEventArgs e)
