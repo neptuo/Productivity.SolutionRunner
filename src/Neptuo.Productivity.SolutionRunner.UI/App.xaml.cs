@@ -243,7 +243,7 @@ namespace Neptuo.Productivity.SolutionRunner
                 return Enumerable.Empty<AdditionalApplicationListViewModel>();
 
             CompositeModelFormatter formatter = new CompositeModelFormatter(
-                type => Activator.CreateInstance(type), 
+                type => Activator.CreateInstance(type),
                 Factory.Getter(() => new JsonCompositeStorage())
             );
 
@@ -283,12 +283,21 @@ namespace Neptuo.Productivity.SolutionRunner
                 onAdditionalApplicationSaved(model);
         }
 
+        private IFileSearchService CreateFileSearchService()
+        {
+            // We can make IF for runHotKey here, because othe file search services are too slow.
+
+            string directoryPath = Settings.Default.SourceDirectoryPath;
+
+            //return new LocalFileSearchService(directoryPath, this);
+            //return new DirectFileSearchService(directoryPath, this);
+            return new FileSystemWatcherSearchService(directoryPath, this);
+        }
+
         public void OpenMain()
         {
             if (mainWindow == null)
             {
-                string directoryPath = Settings.Default.SourceDirectoryPath;
-
                 mainWindow = new MainWindow(this);
                 mainWindow.Closing += OnMainWindowClosing;
                 mainWindow.Closed += OnMainWindowClosed;
@@ -297,9 +306,7 @@ namespace Neptuo.Productivity.SolutionRunner
                     new PinnedForEmptyPatternFileSearchService(
                         new DelayedFileSearchService(
                             Dispatcher,
-                            //new LocalFileSearchService(directoryPath, this)
-                            //new DirectFileSearchService(directoryPath, this),
-                            new FileSystemWatcherSearchService(directoryPath, this)
+                            CreateFileSearchService()
                         ),
                         this
                     ),
