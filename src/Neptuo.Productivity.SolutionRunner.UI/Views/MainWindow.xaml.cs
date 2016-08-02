@@ -52,6 +52,23 @@ namespace Neptuo.Productivity.SolutionRunner.Views
             }
         }
 
+        private bool isAutoSelectApplicationVersion;
+        public bool IsAutoSelectApplicationVersion
+        {
+            get { return isAutoSelectApplicationVersion; }
+            set
+            {
+                if (isAutoSelectApplicationVersion != value)
+                {
+                    isAutoSelectApplicationVersion = value;
+                    if (value)
+                        lvwFiles.SelectionChanged += lvwFiles_SelectionChanged;
+                    else
+                        lvwFiles.SelectionChanged -= lvwFiles_SelectionChanged;
+                }
+            }
+        }
+
         #region FileWidth
 
         public const double FileWidthDefaultValue = 476d;
@@ -67,16 +84,13 @@ namespace Neptuo.Productivity.SolutionRunner.Views
 
         #endregion
 
-        public MainWindow(INavigator navigator, bool isAutoSelectApplicationVersion)
+        public MainWindow(INavigator navigator)
         {
             Ensure.NotNull(navigator, "navigator");
             this.navigator = navigator;
 
             InitializeComponent();
             EventManager.FilePinned += OnFilePinned;
-
-            if (isAutoSelectApplicationVersion)
-                lvwFiles.SelectionChanged += lvwFiles_SelectionChanged;
         }
 
         private void RunSolution(ApplicationViewModel application, FileViewModel file)
@@ -202,7 +216,7 @@ namespace Neptuo.Productivity.SolutionRunner.Views
         {
             if (lvwFiles.Items.Count > 0)
             {
-                if(e.Key == Key.F1)
+                if (e.Key == Key.F1)
                 {
                     btnConfiguration_Click(sender, new RoutedEventArgs(e.RoutedEvent, sender));
                     e.Handled = true;

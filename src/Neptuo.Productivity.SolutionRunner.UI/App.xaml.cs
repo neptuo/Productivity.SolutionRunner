@@ -204,6 +204,7 @@ namespace Neptuo.Productivity.SolutionRunner
 
         private MainWindow mainWindow;
         private ConfigurationWindow configurationWindow;
+        private bool isMainWindowViewModelReloadRequired = false;
 
         public bool IsConfigurationOpened
         {
@@ -219,6 +220,8 @@ namespace Neptuo.Productivity.SolutionRunner
         {
             if (configurationWindow == null)
             {
+                isMainWindowViewModelReloadRequired = true;
+
                 ConfigurationViewModel viewModel = new ConfigurationViewModel(new SaveConfigurationCommandFactory(runHotKey), this);
                 viewModel.SourceDirectoryPath = Settings.Default.SourceDirectoryPath;
                 viewModel.PreferedApplicationPath = Settings.Default.PreferedApplicationPath;
@@ -241,7 +244,7 @@ namespace Neptuo.Productivity.SolutionRunner
             configurationWindow.Show();
             configurationWindow.Activate();
         }
-        
+
         private void OnConfigurationWindowClosed(object sender, EventArgs e)
         {
             configurationWindow.Closed -= OnConfigurationWindowClosed;
@@ -289,9 +292,15 @@ namespace Neptuo.Productivity.SolutionRunner
         {
             if (mainWindow == null)
             {
-                mainWindow = new MainWindow(this, Settings.Default.IsAutoSelectApplicationVersion);
+                mainWindow = new MainWindow(this);
                 mainWindow.Closing += OnMainWindowClosing;
                 mainWindow.Closed += OnMainWindowClosed;
+
+            }
+
+            if (mainWindow.ViewModel == null || isMainWindowViewModelReloadRequired)
+            {
+                mainWindow.IsAutoSelectApplicationVersion = Settings.Default.IsAutoSelectApplicationVersion;
 
                 MainViewModel viewModel = new MainViewModel(
                     new PinnedForEmptyPatternFileSearchService(
