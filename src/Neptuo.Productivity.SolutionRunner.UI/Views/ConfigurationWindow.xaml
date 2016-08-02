@@ -141,6 +141,7 @@
                             <Label Content="Others:" />
                             <CheckBox Content="Save last searched phrase" IsChecked="{Binding IsFileSearchPatternSaved}" />
                             <CheckBox Content="Save last used application as prefered" IsChecked="{Binding IsLastUsedApplicationSavedAsPrefered}" />
+                            <CheckBox Content="Auto select VsVersion from selected sln file" IsChecked="{Binding IsAutoSelectApplicationVersion}" />
                             <CheckBox Content="Dismiss after loosing focus" IsChecked="{Binding IsDismissedWhenLostFocus}" />
                             <CheckBox Content="Start hidden (only when hotkey is set)" IsChecked="{Binding IsHiddentOnStartup}" IsEnabled="{Binding RunKey, Converter={StaticResource notNullToBool}}" />
                         </StackPanel>

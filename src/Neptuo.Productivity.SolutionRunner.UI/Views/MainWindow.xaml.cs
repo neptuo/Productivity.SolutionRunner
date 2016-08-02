@@ -52,13 +52,16 @@ namespace Neptuo.Productivity.SolutionRunner.Views
             }
         }
 
-        public MainWindow(INavigator navigator)
+        public MainWindow(INavigator navigator, bool isAutoSelectApplicationVersion)
         {
             Ensure.NotNull(navigator, "navigator");
             this.navigator = navigator;
 
             InitializeComponent();
             EventManager.FilePinned += OnFilePinned;
+
+            if (isAutoSelectApplicationVersion)
+                lvwFiles.SelectionChanged += lvwFiles_SelectionChanged;
         }
 
         private void RunSolution(ApplicationViewModel application, FileViewModel file)
@@ -289,6 +292,19 @@ namespace Neptuo.Productivity.SolutionRunner.Views
 
             if (ViewModel != null)
                 ViewModel.Dispose();
+        }
+
+        private void lvwFiles_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            FileViewModel file = e.AddedItems.OfType<FileViewModel>().FirstOrDefault();
+            if (file != null && file.Version != null)
+            {
+                ApplicationViewModel application = ViewModel.Applications
+                    .FirstOrDefault(a => a.Version != null && a.Version.Major == file.Version.Major);
+
+                if (application != null && lvwApplications.SelectedItem != application)
+                    lvwApplications.SelectedItem = application;
+            }
         }
     }
 }

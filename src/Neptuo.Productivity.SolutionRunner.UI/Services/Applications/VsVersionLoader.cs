@@ -32,6 +32,7 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Applications
 
                     applications.Add(
                         String.Format("Visual Studio {0}.{1}", version.FileMajorPart, version.FileMinorPart),
+                        new Version(version.FileMajorPart, version.FileMinorPart),
                         filePath,
                         null,
                         IconExtractor.Get(filePath),

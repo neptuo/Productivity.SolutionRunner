@@ -27,6 +27,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Threading;
 using EventManager = Neptuo.Productivity.SolutionRunner.ViewModels.EventManager;
@@ -62,8 +63,8 @@ namespace Neptuo.Productivity.SolutionRunner
                 .AddJsonEnumSearchHandler()
                 .AddEnumSearchHandler(false)
                 .AddToStringSearchHandler()
-                .Add<string, KeyViewModel>(new StringToKeyViewModelConverter())
-                .Add<KeyViewModel, string>(new KeyViewModelToStringConverter());
+                .Add(new AdditionalApplicationCollectionConverter())
+                .Add(new KeyViewModelConverter());
 
 
             EventManager.FilePinned += OnFilePinned;
@@ -227,7 +228,12 @@ namespace Neptuo.Productivity.SolutionRunner
                 viewModel.IsLastUsedApplicationSavedAsPrefered = Settings.Default.IsLastUsedApplicationSavedAsPrefered;
                 viewModel.IsDismissedWhenLostFocus = Settings.Default.IsDismissedWhenLostFocus;
                 viewModel.IsHiddentOnStartup = Settings.Default.IsHiddentOnStartup;
-                viewModel.AdditionalApplications = new ObservableCollection<AdditionalApplicationListViewModel>(GetAdditionalApplicationListViewModels());
+                viewModel.IsAutoSelectApplicationVersion = Settings.Default.IsAutoSelectApplicationVersion;
+                viewModel.AdditionalApplications = new ObservableCollection<AdditionalApplicationListViewModel>(
+                    Converts
+                        .To<string, AdditionalApplicationCollection>(Settings.Default.AdditionalApplications)
+                        .Select(a => new AdditionalApplicationListViewModel(a))
+                );
                 viewModel.RunKey = runHotKey.FindKeyViewModel();
                 configurationWindow = new ConfigurationWindow(viewModel, this, String.IsNullOrEmpty(Settings.Default.SourceDirectoryPath));
                 configurationWindow.Closed += OnConfigurationWindowClosed;
@@ -235,22 +241,7 @@ namespace Neptuo.Productivity.SolutionRunner
             configurationWindow.Show();
             configurationWindow.Activate();
         }
-
-        private IEnumerable<AdditionalApplicationListViewModel> GetAdditionalApplicationListViewModels()
-        {
-            string rawValue = Settings.Default.AdditionalApplications;
-            if (String.IsNullOrEmpty(rawValue))
-                return Enumerable.Empty<AdditionalApplicationListViewModel>();
-
-            CompositeModelFormatter formatter = new CompositeModelFormatter(
-                type => Activator.CreateInstance(type),
-                Factory.Getter(() => new JsonCompositeStorage())
-            );
-
-            AdditionalApplicationCollection collection = formatter.Deserialize<AdditionalApplicationCollection>(rawValue);
-            return collection.Items.Select(m => new AdditionalApplicationListViewModel(m));
-        }
-
+        
         private void OnConfigurationWindowClosed(object sender, EventArgs e)
         {
             configurationWindow.Closed -= OnConfigurationWindowClosed;
@@ -298,7 +289,7 @@ namespace Neptuo.Productivity.SolutionRunner
         {
             if (mainWindow == null)
             {
-                mainWindow = new MainWindow(this);
+                mainWindow = new MainWindow(this, Settings.Default.IsAutoSelectApplicationVersion);
                 mainWindow.Closing += OnMainWindowClosing;
                 mainWindow.Closed += OnMainWindowClosed;
 
@@ -329,15 +320,19 @@ namespace Neptuo.Productivity.SolutionRunner
                 if (!String.IsNullOrEmpty(Settings.Default.PreferedApplicationPath))
                 {
                     int index = 0;
-                    foreach (ApplicationViewModel application in viewModel.Applications)
+                    ICollectionView applicationsView = CollectionViewSource.GetDefaultView(viewModel.Applications);
+                    if (applicationsView != null)
                     {
-                        if (application.Path == Settings.Default.PreferedApplicationPath)
+                        foreach (ApplicationViewModel application in applicationsView)
                         {
-                            mainWindow.lvwApplications.SelectedIndex = index;
-                            break;
-                        }
+                            if (application.Path == Settings.Default.PreferedApplicationPath)
+                            {
+                                mainWindow.lvwApplications.SelectedIndex = index;
+                                break;
+                            }
 
-                        index++;
+                            index++;
+                        }
                     }
                 }
             }

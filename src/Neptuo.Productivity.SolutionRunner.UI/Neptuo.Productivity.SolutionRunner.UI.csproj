@@ -161,9 +161,9 @@
     <Compile Include="Services\Applications\AdditionalApplicationCollection.cs" />
     <Compile Include="Services\Applications\AdditionalApplicationModel.cs" />
     <Compile Include="Services\Applications\IconExtractor.cs" />
-    <Compile Include="Services\Converters\KeyViewModelToStringConverter.cs" />
+    <Compile Include="Services\Converters\AdditionalApplicationCollectionConverter.cs" />
+    <Compile Include="Services\Converters\KeyViewModelConverter.cs" />
     <Compile Include="Services\Converters\NullToBoolConverter.cs" />
-    <Compile Include="Services\Converters\StringToKeyViewModelConverter.cs" />
     <Compile Include="Services\INavigatorState.cs" />
     <Compile Include="Services\IRunHotKeyService.cs" />
     <Compile Include="Services\DefaultRunHotKeyService.cs" />

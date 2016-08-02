@@ -143,7 +143,21 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels
                 }
             }
         }
-        
+
+        private bool isAutoSelectApplicationVersion;
+        public bool IsAutoSelectApplicationVersion
+        {
+            get { return isAutoSelectApplicationVersion; }
+            set
+            {
+                if (isAutoSelectApplicationVersion != value)
+                {
+                    isAutoSelectApplicationVersion = value;
+                    RaisePropertyChanged();
+                }
+            }
+        }
+
         public ObservableCollection<AdditionalApplicationListViewModel> AdditionalApplications { get; set; }
 
         public string Version { get; private set; }

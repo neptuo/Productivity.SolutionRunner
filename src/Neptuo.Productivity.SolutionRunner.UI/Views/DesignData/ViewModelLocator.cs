@@ -74,8 +74,7 @@ namespace Neptuo.Productivity.SolutionRunner.UI.DesignData
                 if (configurationViewModel == null)
                 {
                     Converts.Repository
-                        .Add<string, KeyViewModel>(new StringToKeyViewModelConverter())
-                        .Add<KeyViewModel, string>(new KeyViewModelToStringConverter());
+                        .Add(new KeyViewModelConverter());
 
                     configurationViewModel = new ConfigurationViewModel(new SaveConfigurationCommandFactory(), new Navigator());
                     configurationViewModel.SourceDirectoryPath = @"D:\Development";

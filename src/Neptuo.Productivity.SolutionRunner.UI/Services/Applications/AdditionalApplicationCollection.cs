@@ -5,10 +5,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Collections;
 
 namespace Neptuo.Productivity.SolutionRunner.Services.Applications
 {
-    public class AdditionalApplicationCollection : ICompositeModel
+    public class AdditionalApplicationCollection : ICompositeModel, IEnumerable<AdditionalApplicationModel>
     {
         private List<AdditionalApplicationModel> items;
 
@@ -55,6 +56,16 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Applications
                 itemStorage.Add("Path", item.Path);
                 itemStorage.Add("Arguments", item.Arguments);
             }
+        }
+
+        public IEnumerator<AdditionalApplicationModel> GetEnumerator()
+        {
+            return items.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
         }
     }
 }

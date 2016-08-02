@@ -41,7 +41,9 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels.Commands
             Settings.Default.IsLastUsedApplicationSavedAsPrefered = viewModel.IsLastUsedApplicationSavedAsPrefered;
             Settings.Default.IsDismissedWhenLostFocus = viewModel.IsDismissedWhenLostFocus;
             Settings.Default.IsHiddentOnStartup = viewModel.IsHiddentOnStartup;
-            Settings.Default.AdditionalApplications = SerializeAdditionalApplications(viewModel.AdditionalApplications);
+            Settings.Default.IsAutoSelectApplicationVersion = viewModel.IsAutoSelectApplicationVersion;
+            Settings.Default.AdditionalApplications = Converts
+                .To<AdditionalApplicationCollection, string>(new AdditionalApplicationCollection(viewModel.AdditionalApplications.Select(a => a.Model)));
 
             string runKeyValue;
             if (Converts.Try(viewModel.RunKey, out runKeyValue))
@@ -54,22 +56,6 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels.Commands
 
             Settings.Default.Save();
             EventManager.RaiseConfigurationSaved(viewModel);
-        }
-
-        private string SerializeAdditionalApplications(IEnumerable<AdditionalApplicationListViewModel> viewModels)
-        {
-            if (viewModels.Any())
-            {
-                CompositeModelFormatter formatter = new CompositeModelFormatter(
-                    type => Activator.CreateInstance(type),
-                    Factory.Getter(() => new JsonCompositeStorage())
-                );
-
-                string rawValue = formatter.Serialize(new AdditionalApplicationCollection(viewModels.Select(vm => vm.Model)));
-                return rawValue;
-            }
-
-            return null;
         }
     }
 }

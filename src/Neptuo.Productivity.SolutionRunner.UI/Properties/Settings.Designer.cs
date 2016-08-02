@@ -166,5 +166,17 @@ namespace Neptuo.Productivity.SolutionRunner.Properties {
                 this["AdditionalApplications"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool IsAutoSelectApplicationVersion {
+            get {
+                return ((bool)(this["IsAutoSelectApplicationVersion"]));
+            }
+            set {
+                this["IsAutoSelectApplicationVersion"] = value;
+            }
+        }
     }
 }
