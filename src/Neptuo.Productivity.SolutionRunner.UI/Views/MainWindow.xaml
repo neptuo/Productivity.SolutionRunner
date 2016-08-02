@@ -109,7 +109,7 @@
                     </Button>
                 </StackPanel>-->
                 <StackPanel HorizontalAlignment="Right">
-                    <Button x:Name="btnConfiguration" Click="btnConfiguration_Click" ToolTip="Application configuration" Style="{StaticResource ShellButtonStyle}">
+                    <Button x:Name="btnConfiguration" Click="btnConfiguration_Click" ToolTip="Application configuration (F1)" Style="{StaticResource ShellButtonStyle}">
                         <Image Source="{StaticResource SettingsImage}" Width="16" />
                     </Button>
                 </StackPanel>
