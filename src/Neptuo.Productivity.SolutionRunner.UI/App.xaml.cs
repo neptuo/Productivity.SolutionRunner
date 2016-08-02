@@ -300,6 +300,7 @@ namespace Neptuo.Productivity.SolutionRunner
 
             if (mainWindow.ViewModel == null || isMainWindowViewModelReloadRequired)
             {
+                isMainWindowViewModelReloadRequired = false;
                 mainWindow.IsAutoSelectApplicationVersion = Settings.Default.IsAutoSelectApplicationVersion;
 
                 MainViewModel viewModel = new MainViewModel(
