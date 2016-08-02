@@ -24,7 +24,7 @@
         <Style x:Key="WindowBorderStyle" TargetType="Border">
             <Setter Property="BorderBrush" Value="{StaticResource ActiveBrush}" />
             <Setter Property="BorderThickness" Value="1" />
-            <Setter Property="Margin" Value="0,10" />
+            <Setter Property="Padding" Value="0,10" />
         </Style>
 
         <!-- EditForm -->
