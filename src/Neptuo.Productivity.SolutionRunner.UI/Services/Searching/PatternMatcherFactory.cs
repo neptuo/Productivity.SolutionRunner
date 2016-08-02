@@ -34,7 +34,7 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Searching
 
         private bool IsNameStartedWith(IFileModel file, string searchPattern)
         {
-            return file.Name.ToLowerInvariant().StartsWith(searchPattern);
+            return file.NameWithExtension.ToLowerInvariant().StartsWith(searchPattern);
         }
 
         private bool IsPathSearchMatched(IFileModel file, string[] searchPattern)
@@ -54,7 +54,7 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Searching
 
         public interface IFileModel
         {
-            string Name { get; }
+            string NameWithExtension { get; }
             string Path { get; }
         }
     }

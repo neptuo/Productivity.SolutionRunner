@@ -9,6 +9,7 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Searching
     public class FileModel : PatternMatcherFactory.IFileModel
     {
         public string Name { get; private set; }
+        public string NameWithExtension { get; private set; }
 
         private string path;
         public string Path
@@ -18,6 +19,7 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Searching
             {
                 path = value;
                 Name = System.IO.Path.GetFileNameWithoutExtension(path);
+                NameWithExtension = System.IO.Path.GetFileName(path);
             }
         }
 
@@ -28,7 +30,7 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Searching
 
         public override int GetHashCode()
         {
-            return 23 ^ Name.GetHashCode() ^ Path.GetHashCode();
+            return 23 ^ NameWithExtension.GetHashCode() ^ Path.GetHashCode();
         }
 
         public override bool Equals(object obj)
