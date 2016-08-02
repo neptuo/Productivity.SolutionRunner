@@ -17,6 +17,15 @@
         <Style TargetType="TextBlock" BasedOn="{StaticResource DescriptionStyle}">
             <Setter Property="Padding" Value="2" />
         </Style>
+        <Style x:Key="ImageAwesome" TargetType="fa:ImageAwesome">
+            <Setter Property="Width" Value="16" />
+            <Setter Property="Foreground" Value="White" />
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Foreground" Value="#BEE6FD" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
     </Window.Resources>
     <Border Style="{StaticResource WindowBorderStyle}">
         <DockPanel Style="{StaticResource RootPanelStyle}">
@@ -56,8 +65,8 @@
                 <StackPanel Style="{StaticResource EditorPanelStyle}">
                     <Grid>
                         <Label Content="Additional applications:" Target="{Binding ElementName=tbxAdditionalApplications}" />
-                        <Button x:Name="btnAddApplication" Click="btnAddApplication_Click" Style="{StaticResource PlainButtonStyle}" HorizontalAlignment="Right">
-                            <fa:ImageAwesome Icon="Plus" Width="10" Foreground="White" />
+                        <Button x:Name="btnAddApplication" Command="{Binding CreateAdditionalApplicationCommand}" Style="{StaticResource PlainButtonStyle}" HorizontalAlignment="Right">
+                            <fa:ImageAwesome Icon="Plus" Style="{StaticResource ImageAwesome}" Margin="0 0 3 0" />
                         </Button>
                     </Grid>
                     <ItemsControl ItemsSource="{Binding AdditionalApplications}">
@@ -78,12 +87,12 @@
                                             <Button ToolTip="Update additional application" Style="{StaticResource PlainButtonStyle}" HorizontalAlignment="Right"
                                              Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ItemsControl}}, Path=DataContext.EditAdditionalApplicationCommand}"
                                              CommandParameter="{Binding}">
-                                                <fa:ImageAwesome Icon="Edit" Width="16" Foreground="White" />
+                                                <fa:ImageAwesome Icon="Edit" Style="{StaticResource ImageAwesome}" />
                                             </Button>
                                             <Button ToolTip="Remove additional application" Style="{StaticResource PlainButtonStyle}" HorizontalAlignment="Right" Margin="2,0,0,0"
                                              Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ItemsControl}}, Path=DataContext.RemoveAdditionalApplicationCommand}"
                                              CommandParameter="{Binding}">
-                                                <fa:ImageAwesome Icon="Remove" Width="14" Foreground="White" />
+                                                <fa:ImageAwesome Icon="Remove" Style="{StaticResource ImageAwesome}" Width="14" />
                                             </Button>
                                         </StackPanel>
                                     </Grid>

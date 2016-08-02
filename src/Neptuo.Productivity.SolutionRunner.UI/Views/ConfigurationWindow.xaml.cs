@@ -98,29 +98,29 @@ namespace Neptuo.Productivity.SolutionRunner.Views
             Process.Start("http://www.neptuo.com/project/desktop/solutionrunner");
         }
 
-        private AdditionalApplicationModel editedApplicationModel;
+        //private AdditionalApplicationModel editedApplicationModel;
 
-        private void btnAddApplication_Click(object sender, RoutedEventArgs e)
-        {
-            editedApplicationModel = null;
-            navigator.OpenAdditionalApplicationEdit(null, OnApplicationSaved);
-        }
+        //private void btnAddApplication_Click(object sender, RoutedEventArgs e)
+        //{
+        //    editedApplicationModel = null;
+        //    navigator.OpenAdditionalApplicationEdit(null, OnApplicationSaved);
+        //}
 
-        private void OnApplicationSaved(AdditionalApplicationModel model)
-        {
-            if (model != null)
-            {
-                if (editedApplicationModel != null && editedApplicationModel != model)
-                {
-                    // TODO: Check for duplicities.
-                    // TODO: Update...
-                }
-                else
-                {
-                    // TODO: Check for duplicities.
-                    ViewModel.AdditionalApplications.Add(new AdditionalApplicationListViewModel(model));
-                }
-            }
-        }
+        //private void OnApplicationSaved(AdditionalApplicationModel model)
+        //{
+        //    if (model != null)
+        //    {
+        //        if (editedApplicationModel != null && editedApplicationModel != model)
+        //        {
+        //            // TODO: Check for duplicities.
+        //            // TODO: Update...
+        //        }
+        //        else
+        //        {
+        //            // TODO: Check for duplicities.
+        //            ViewModel.AdditionalApplications.Add(new AdditionalApplicationListViewModel(model));
+        //        }
+        //    }
+        //}
     }
 }

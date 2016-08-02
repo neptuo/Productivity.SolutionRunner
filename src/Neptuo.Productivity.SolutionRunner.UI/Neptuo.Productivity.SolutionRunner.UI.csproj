@@ -189,6 +189,7 @@
     <Compile Include="ViewModels\AdditionalApplicationEditViewModel.cs" />
     <Compile Include="ViewModels\AdditionalApplicationListViewModel.cs" />
     <Compile Include="ViewModels\Commands\CommandBase.cs" />
+    <Compile Include="ViewModels\Commands\CreateAdditionalApplicationCommand.cs" />
     <Compile Include="ViewModels\Commands\PinCommand.cs" />
     <Compile Include="ViewModels\Commands\EditAdditionalApplicationCommand.cs" />
     <Compile Include="ViewModels\Commands\RemoveAdditionalApplicationCommand.cs" />

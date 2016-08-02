@@ -166,6 +166,12 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels
             get { return editAdditionalApplicationCommand; }
         }
 
+        private CreateAdditionalApplicationCommand createAdditionalApplicationCommand;
+        public ICommand CreateAdditionalApplicationCommand
+        {
+            get { return createAdditionalApplicationCommand; }
+        }
+
         public ConfigurationViewModel(IFactory<SaveConfigurationCommand, ConfigurationViewModel> commandFactory, INavigator navigator)
         {
             Version version = Assembly.GetExecutingAssembly().GetName().Version;
@@ -174,6 +180,7 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels
             saveCommand = commandFactory.Create(this);
             editAdditionalApplicationCommand = new EditAdditionalApplicationCommand(this, navigator);
             removeAdditionalApplicationCommand = new RemoveAdditionalApplicationCommand(this);
+            createAdditionalApplicationCommand = new CreateAdditionalApplicationCommand(this, navigator);
         }
     }
 }
