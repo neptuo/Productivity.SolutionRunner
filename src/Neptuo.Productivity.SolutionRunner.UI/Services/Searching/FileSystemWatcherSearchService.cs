@@ -11,7 +11,7 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Searching
 {
     public class FileSystemWatcherSearchService : DisposableBase, IFileSearchService
     {
-        private readonly FileSystemWatcher watcher;
+        private readonly List<FileSystemWatcher> watchers;
         private readonly IPinStateService pinStateService;
         private readonly PatternMatcherFactory matcherFactory = new PatternMatcherFactory();
 
@@ -21,30 +21,38 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Searching
         {
             Ensure.Condition.DirectoryExists(directoryPath, "directoryPath");
             Ensure.NotNull(pinStateService, "pinStateService");
-            this.watcher = CreateWatcher(directoryPath);
+            this.watchers = CreateWatcher(directoryPath);
             this.pinStateService = pinStateService;
 
             storage.AddRange(Directory.GetFiles(directoryPath, "*.sln", SearchOption.AllDirectories).Select(f => new FileModel(f)));
         }
 
-        private FileSystemWatcher CreateWatcher(string directoryPath)
+        private List<FileSystemWatcher> CreateWatcher(string directoryPath)
         {
-            FileSystemWatcher watcher = new FileSystemWatcher(directoryPath, "*.sln");
-            watcher.EnableRaisingEvents = true;
-            watcher.IncludeSubdirectories = true;
-            watcher.NotifyFilter = NotifyFilters.FileName | NotifyFilters.DirectoryName;
-            watcher.Created += OnFileCreated;
-            watcher.Deleted += OnFileDeleted;
-            watcher.Renamed += OnFileRenamed;
-            //watcher.Error += OnWatcherError;
-            return watcher;
-        }
+            List<FileSystemWatcher> result = new List<FileSystemWatcher>();
 
-        private void OnWatcherError(object sender, ErrorEventArgs e)
-        {
-            throw e.GetException();
-        }
+            // Watcher for changes on directory structure.
+            FileSystemWatcher directoryWatcher = new FileSystemWatcher(directoryPath);
+            directoryWatcher.EnableRaisingEvents = true;
+            directoryWatcher.IncludeSubdirectories = true;
+            directoryWatcher.NotifyFilter = NotifyFilters.DirectoryName;
+            directoryWatcher.Deleted += OnFileDeleted;
+            directoryWatcher.Renamed += OnFileRenamed;
+            result.Add(directoryWatcher);
 
+            // Watcher for changes on *.sln files.
+            FileSystemWatcher fileWatcher = new FileSystemWatcher(directoryPath, "*.sln");
+            fileWatcher.EnableRaisingEvents = true;
+            fileWatcher.IncludeSubdirectories = true;
+            fileWatcher.NotifyFilter = NotifyFilters.FileName;
+            fileWatcher.Created += OnFileCreated;
+            fileWatcher.Deleted += OnFileDeleted;
+            fileWatcher.Renamed += OnFileRenamed;
+            result.Add(fileWatcher);
+
+            return result;
+        }
+        
         private void OnFileCreated(object sender, FileSystemEventArgs e)
         {
             storage.Add(new FileModel(e.FullPath));
@@ -52,16 +60,46 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Searching
 
         private void OnFileDeleted(object sender, FileSystemEventArgs e)
         {
-            FileModel model = storage.FirstOrDefault(f => f.Path == e.FullPath);
-            if (model != null)
-                storage.Remove(model);
+            if (String.IsNullOrEmpty(Path.GetExtension(e.FullPath)))
+            {
+                // Deleting directory.
+                List<FileModel> toRemove = new List<FileModel>();
+                foreach (FileModel model in storage)
+                {
+                    if (model.Path.StartsWith(e.FullPath))
+                        toRemove.Add(model);
+                }
+
+                foreach (FileModel model in toRemove)
+                    storage.Remove(model);
+            }
+            else
+            {
+                // Deleting file.
+                FileModel model = storage.FirstOrDefault(f => f.Path == e.FullPath);
+                if (model != null)
+                    storage.Remove(model);
+            }
         }
 
         private void OnFileRenamed(object sender, RenamedEventArgs e)
         {
-            FileModel model = storage.FirstOrDefault(f => f.Path == e.OldFullPath);
-            if (model != null)
-                model.Path = e.FullPath;
+            if (String.IsNullOrEmpty(Path.GetExtension(e.OldFullPath)))
+            {
+                // Renaming directory.
+                foreach (FileModel model in storage)
+                {
+                    if (model.Path.StartsWith(e.OldFullPath))
+                        model.Path = model.Path.Replace(e.OldFullPath, e.FullPath);
+                }
+            }
+            else
+            {
+                // Renaming solution file.
+                FileModel model = storage.FirstOrDefault(f => f.Path == e.OldFullPath);
+                if (model != null)
+                    model.Path = e.FullPath;
+            }
         }
 
         public Task SearchAsync(string searchPattern, FileSearchMode mode, int count, IFileCollection files)
@@ -79,7 +117,9 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Searching
         protected override void DisposeManagedResources()
         {
             base.DisposeManagedResources();
-            watcher.Dispose();
+
+            foreach (FileSystemWatcher watcher in watchers)
+                watcher.Dispose();
         }
     }
 }
