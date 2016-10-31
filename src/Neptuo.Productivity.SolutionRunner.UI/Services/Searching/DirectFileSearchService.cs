@@ -1,4 +1,5 @@
 ﻿using Neptuo.FileSystems;
+using Neptuo.Threading.Tasks;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -20,6 +21,11 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Searching
             Ensure.NotNull(pinStateService, "pinStateService");
             this.directoryPath = directoryPath;
             this.pinStateService = pinStateService;
+        }
+
+        public Task InitializeAsync()
+        {
+            return Async.CompletedTask;
         }
 
         public Task SearchAsync(string searchPattern, FileSearchMode mode, int count, IFileCollection files, CancellationToken cancellationToken)

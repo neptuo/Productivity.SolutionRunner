@@ -34,6 +34,22 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels
 
             applications = new ObservableCollection<ApplicationViewModel>();
             files = new ObservableCollection<FileViewModel>();
+
+            IsLoading = true;
+        }
+
+        private bool isLoading;
+        public bool IsLoading
+        {
+            get { return isLoading; }
+            set
+            {
+                if (isLoading != value)
+                {
+                    isLoading = value;
+                    RaisePropertyChanged();
+                }
+            }
         }
 
         #region Searching
@@ -113,5 +129,11 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels
         }
 
         #endregion
+
+        public async Task InitializeAsync()
+        {
+            await fileSearch.InitializeAsync();
+            IsLoading = false;
+        }
     }
 }

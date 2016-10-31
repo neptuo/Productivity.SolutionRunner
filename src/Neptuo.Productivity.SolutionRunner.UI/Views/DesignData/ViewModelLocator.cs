@@ -10,6 +10,7 @@ using Neptuo.Productivity.SolutionRunner.Services.Converters;
 using Neptuo.Productivity.SolutionRunner.Services.Searching;
 using Neptuo.Productivity.SolutionRunner.ViewModels;
 using Neptuo.Productivity.SolutionRunner.ViewModels.Commands;
+using Neptuo.Threading.Tasks;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -37,6 +38,7 @@ namespace Neptuo.Productivity.SolutionRunner.UI.DesignData
                 {
                     mainViewModel = new MainViewModel(new FileSearchService(), () => FileSearchMode.StartsWith, () => 20);
                     mainViewModel.SearchPattern = "Magic.sln";
+                    mainViewModel.IsLoading = false;
 
                     VsVersionLoader loader = new VsVersionLoader();
                     loader.Add(mainViewModel);
@@ -51,6 +53,11 @@ namespace Neptuo.Productivity.SolutionRunner.UI.DesignData
 
         private class FileSearchService : IFileSearchService
         {
+            public Task InitializeAsync()
+            {
+                return Async.CompletedTask;
+            }
+
             public Task SearchAsync(string searchPattern, FileSearchMode mode, int count, IFileCollection files, CancellationToken cancellationToken)
             {
                 files.Add("Neptuo", @"C:\Development\Framework\Neptuo.sln", true);

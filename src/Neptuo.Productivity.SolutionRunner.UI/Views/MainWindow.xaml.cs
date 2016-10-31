@@ -164,6 +164,7 @@ namespace Neptuo.Productivity.SolutionRunner.Views
             }
 
             InitializeWidth();
+            viewModel.InitializeAsync();
         }
 
         private void InitializeWidth()

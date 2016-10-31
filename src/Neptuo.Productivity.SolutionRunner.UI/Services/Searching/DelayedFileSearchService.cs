@@ -25,6 +25,11 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Searching
             this.innerService = innerService;
         }
 
+        public Task InitializeAsync()
+        {
+            return innerService.InitializeAsync();
+        }
+
         public Task SearchAsync(string searchPattern, FileSearchMode mode, int count, IFileCollection files, CancellationToken cancellationToken)
         {
             return Task.Factory.StartNew(

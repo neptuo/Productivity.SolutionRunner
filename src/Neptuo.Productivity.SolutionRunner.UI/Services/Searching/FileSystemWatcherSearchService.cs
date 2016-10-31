@@ -12,6 +12,7 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Searching
 {
     public class FileSystemWatcherSearchService : DisposableBase, IFileSearchService
     {
+        private readonly string directoryPath;
         private readonly List<FileSystemWatcher> watchers;
         private readonly IPinStateService pinStateService;
         private readonly PatternMatcherFactory matcherFactory = new PatternMatcherFactory();
@@ -22,16 +23,30 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Searching
         {
             Ensure.Condition.DirectoryExists(directoryPath, "directoryPath");
             Ensure.NotNull(pinStateService, "pinStateService");
-            this.watchers = CreateWatcher(directoryPath);
+            this.directoryPath = directoryPath;
             this.pinStateService = pinStateService;
-
-            storage.AddRange(Directory.GetFiles(directoryPath, "*.sln", SearchOption.AllDirectories).Select(f => new FileModel(f)));
+            this.watchers = new List<FileSystemWatcher>();
         }
 
-        private List<FileSystemWatcher> CreateWatcher(string directoryPath)
+        public Task InitializeAsync()
         {
-            List<FileSystemWatcher> result = new List<FileSystemWatcher>();
+            if (watchers.Count == 0)
+            {
+                return Task.Factory.StartNew(() =>
+                {
+                    if (watchers.Count == 0)
+                    {
+                        InitializeWatchers(directoryPath);
+                        storage.AddRange(Directory.GetFiles(directoryPath, "*.sln", SearchOption.AllDirectories).Select(f => new FileModel(f)));
+                    }
+                });
+            }
 
+            return Async.CompletedTask;
+        }
+
+        private void InitializeWatchers(string directoryPath)
+        {
             // Watcher for changes on directory structure.
             FileSystemWatcher directoryWatcher = new FileSystemWatcher(directoryPath);
             directoryWatcher.EnableRaisingEvents = true;
@@ -39,7 +54,7 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Searching
             directoryWatcher.NotifyFilter = NotifyFilters.DirectoryName;
             directoryWatcher.Deleted += OnFileDeleted;
             directoryWatcher.Renamed += OnFileRenamed;
-            result.Add(directoryWatcher);
+            watchers.Add(directoryWatcher);
 
             // Watcher for changes on *.sln files.
             FileSystemWatcher fileWatcher = new FileSystemWatcher(directoryPath, "*.sln");
@@ -49,11 +64,9 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Searching
             fileWatcher.Created += OnFileCreated;
             fileWatcher.Deleted += OnFileDeleted;
             fileWatcher.Renamed += OnFileRenamed;
-            result.Add(fileWatcher);
-
-            return result;
+            watchers.Add(fileWatcher);
         }
-        
+
         private void OnFileCreated(object sender, FileSystemEventArgs e)
         {
             storage.Add(new FileModel(e.FullPath));

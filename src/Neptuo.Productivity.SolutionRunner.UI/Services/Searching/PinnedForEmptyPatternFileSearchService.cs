@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Neptuo.Threading.Tasks;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -12,6 +13,7 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Searching
     {
         private readonly IPinStateService pinStateService;
         private readonly IFileSearchService innerService;
+        private CancellationTokenSource lastCancellation;
 
         public PinnedForEmptyPatternFileSearchService(IFileSearchService innerService, IPinStateService pinStateService)
         {
@@ -21,7 +23,10 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Searching
             this.pinStateService = pinStateService;
         }
 
-        private CancellationTokenSource lastCancellation;
+        public Task InitializeAsync()
+        {
+            return innerService.InitializeAsync();
+        }
 
         public Task SearchAsync(string searchPattern, FileSearchMode mode, int count, IFileCollection files, CancellationToken cancellationToken)
         {

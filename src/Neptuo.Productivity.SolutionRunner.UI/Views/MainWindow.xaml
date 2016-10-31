@@ -72,77 +72,83 @@
 
     </Window.Resources>
     <Border BorderBrush="{StaticResource ActiveBrush}" BorderThickness="1">
-        <Grid x:Name="grdMain" Style="{StaticResource MainGridStyle}">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>
+        <Grid>
+            <Grid x:Name="grdMain" Style="{StaticResource MainGridStyle}">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
 
-            <Grid Margin="0,0,0,10" Grid.Row="0">
-                <ListView x:Name="lvwApplications" ItemsSource="{Binding Applications}" ItemContainerStyle="{StaticResource ApplicationListViewItemStyle}">
-                    <ListView.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" />
-                        </ItemsPanelTemplate>
-                    </ListView.ItemsPanel>
+                <Grid Margin="0,0,0,10" Grid.Row="0">
+                    <ListView x:Name="lvwApplications" ItemsSource="{Binding Applications}" ItemContainerStyle="{StaticResource ApplicationListViewItemStyle}" Margin="10,0">
+                        <ListView.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" />
+                            </ItemsPanelTemplate>
+                        </ListView.ItemsPanel>
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <ContentControl x:Name="cocApplication"  MouseDoubleClick="cocApplication_MouseDoubleClick">
+                                    <Grid Width="100" Height="60">
+                                        <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+                                            <DockPanel>
+                                                <TextBlock Text="{Binding Name}" DockPanel.Dock="Bottom" />
+                                                <Image Source="{Binding Icon}" Width="32" />
+                                            </DockPanel>
+                                        </Grid>
+                                    </Grid>
+                                </ContentControl>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+
+                    <!--<StackPanel HorizontalAlignment="Left">
+                        <Button x:Name="btnHelp" ToolTip="Help (F1)" Style="{StaticResource ShellButtonStyle}">
+                            <Image Source="{StaticResource HelpImage}" Width="16" />
+                        </Button>
+                    </StackPanel>-->
+                    <StackPanel HorizontalAlignment="Right">
+                        <Button x:Name="btnConfiguration" Click="btnConfiguration_Click" ToolTip="Application configuration (F1)" Style="{StaticResource ShellButtonStyle}">
+                            <Image Source="{StaticResource SettingsImage}" Width="16" />
+                        </Button>
+                    </StackPanel>
+                </Grid>
+
+                <Border Grid.Row="1">
+                    <TextBox x:Name="tbxSearch" Text="{Binding SearchPattern, UpdateSourceTrigger=PropertyChanged}" />
+                </Border>
+
+                <ListView x:Name="lvwFiles" ItemsSource="{Binding Files}" ItemContainerStyle="{StaticResource ListViewItemStyle}" Grid.Row="3">
                     <ListView.ItemTemplate>
                         <DataTemplate>
-                            <ContentControl x:Name="cocApplication"  MouseDoubleClick="cocApplication_MouseDoubleClick">
-                                <Grid Width="100" Height="60">
-                                    <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
-                                        <DockPanel>
-                                            <TextBlock Text="{Binding Name}" DockPanel.Dock="Bottom" />
-                                            <Image Source="{Binding Icon}" Width="32" />
-                                        </DockPanel>
-                                    </Grid>
-                                </Grid>
+                            <ContentControl x:Name="cocFile" MouseDoubleClick="cocFile_MouseDoubleClick">
+                                <DockPanel Width="{Binding FileWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}}" Margin="20,0">
+                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" DockPanel.Dock="Right">
+                                        <Button Command="{Binding PinCommand}" Visibility="{Binding IsPinned, Converter={StaticResource TrueToVisibleConverter}}" Style="{StaticResource PlainButtonStyle}">
+                                            <Image Source="{StaticResource PinImage}" Width="16" />
+                                        </Button>
+                                        <Button Command="{Binding UnPinCommand}" Visibility="{Binding IsPinned, Converter={StaticResource TrueToCollapsedConverter}}" Style="{StaticResource PlainButtonStyle}">
+                                            <Image Source="{StaticResource UnPinImage}" Width="16" />
+                                        </Button>
+                                    </StackPanel>
+
+                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                        <TextBlock Text="{Binding Name}" />
+                                        <TextBlock Text=" " />
+                                        <TextBlock Text="{Binding Path}" Opacity=".5" />
+                                    </StackPanel>
+                                </DockPanel>
                             </ContentControl>
                         </DataTemplate>
                     </ListView.ItemTemplate>
                 </ListView>
-
-                <!--<StackPanel HorizontalAlignment="Left">
-                    <Button x:Name="btnHelp" ToolTip="Help (F1)" Style="{StaticResource ShellButtonStyle}">
-                        <Image Source="{StaticResource HelpImage}" Width="16" />
-                    </Button>
-                </StackPanel>-->
-                <StackPanel HorizontalAlignment="Right">
-                    <Button x:Name="btnConfiguration" Click="btnConfiguration_Click" ToolTip="Application configuration (F1)" Style="{StaticResource ShellButtonStyle}">
-                        <Image Source="{StaticResource SettingsImage}" Width="16" />
-                    </Button>
-                </StackPanel>
             </Grid>
-
-            <Border Grid.Row="1">
-                <TextBox x:Name="tbxSearch" Text="{Binding SearchPattern, UpdateSourceTrigger=PropertyChanged}" />
-            </Border>
-
-            <ListView x:Name="lvwFiles" ItemsSource="{Binding Files}" ItemContainerStyle="{StaticResource ListViewItemStyle}" Grid.Row="3">
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <ContentControl x:Name="cocFile" MouseDoubleClick="cocFile_MouseDoubleClick">
-                            <DockPanel Width="{Binding FileWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}}">
-                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" DockPanel.Dock="Right">
-                                    <Button Command="{Binding PinCommand}" Visibility="{Binding IsPinned, Converter={StaticResource TrueToVisibleConverter}}" Style="{StaticResource PlainButtonStyle}">
-                                        <Image Source="{StaticResource PinImage}" Width="16" />
-                                    </Button>
-                                    <Button Command="{Binding UnPinCommand}" Visibility="{Binding IsPinned, Converter={StaticResource TrueToCollapsedConverter}}" Style="{StaticResource PlainButtonStyle}">
-                                        <Image Source="{StaticResource UnPinImage}" Width="16" />
-                                    </Button>
-                                </StackPanel>
-
-                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                                    <TextBlock Text="{Binding Name}" />
-                                    <TextBlock Text=" " />
-                                    <TextBlock Text="{Binding Path}" Opacity=".5" />
-                                </StackPanel>
-                            </DockPanel>
-                        </ContentControl>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
+            <Grid Visibility="{Binding IsLoading, Converter={StaticResource TrueToCollapsedConverter}}" Grid.RowSpan="4">
+                <Grid Background="Black" Opacity=".5" />
+                <ProgressBar IsIndeterminate="True" Height="3" BorderThickness="0" VerticalAlignment="Top" />
+            </Grid>
         </Grid>
     </Border>
 </Window>
