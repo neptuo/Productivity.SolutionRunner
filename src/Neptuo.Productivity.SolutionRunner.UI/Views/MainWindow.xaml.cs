@@ -62,10 +62,13 @@ namespace Neptuo.Productivity.SolutionRunner.Views
                 {
                     isAutoSelectApplicationVersion = value;
                     if (value)
-                        lvwFiles.SelectionChanged += lvwFiles_SelectionChanged;
+                        lvwFiles.SelectionChanged += OnAutoSelectApplicationVersionSelectionChanged;
                     else
-                        lvwFiles.SelectionChanged -= lvwFiles_SelectionChanged;
+                        lvwFiles.SelectionChanged -= OnAutoSelectApplicationVersionSelectionChanged;
                 }
+
+                if (value)
+                    TryAutoSelectApplicationVersion();
             }
         }
 
@@ -104,6 +107,10 @@ namespace Neptuo.Productivity.SolutionRunner.Views
                         Settings.Default.PreferedApplicationPath = application.Path;
                         Settings.Default.Save();
                     }
+                }
+                else
+                {
+                    TrySelectPreferedApplication();
                 }
 
                 if (file == null)
@@ -331,6 +338,28 @@ namespace Neptuo.Productivity.SolutionRunner.Views
                 DragMove();
         }
 
+        public void TrySelectPreferedApplication()
+        {
+            if (!String.IsNullOrEmpty(Settings.Default.PreferedApplicationPath))
+            {
+                int index = 0;
+                ICollectionView applicationsView = CollectionViewSource.GetDefaultView(ViewModel.Applications);
+                if (applicationsView != null)
+                {
+                    foreach (ApplicationViewModel application in applicationsView)
+                    {
+                        if (application.Path == Settings.Default.PreferedApplicationPath)
+                        {
+                            lvwApplications.SelectedIndex = index;
+                            break;
+                        }
+
+                        index++;
+                    }
+                }
+            }
+        }
+
         private void cocApplication_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             ApplicationViewModel application = lvwApplications.SelectedItem as ApplicationViewModel;
@@ -355,9 +384,14 @@ namespace Neptuo.Productivity.SolutionRunner.Views
                 ViewModel.Dispose();
         }
 
-        private void lvwFiles_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void OnAutoSelectApplicationVersionSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            FileViewModel file = e.AddedItems.OfType<FileViewModel>().FirstOrDefault();
+            TryAutoSelectApplicationVersion();
+        }
+
+        public void TryAutoSelectApplicationVersion()
+        {
+            FileViewModel file = lvwFiles.SelectedItem as FileViewModel;
             if (file != null && file.Version != null)
             {
                 ApplicationViewModel application = ViewModel.Applications

@@ -326,26 +326,10 @@ namespace Neptuo.Productivity.SolutionRunner
                     files.Add(Path.GetFileNameWithoutExtension(filePath), filePath, true);
 
                 mainWindow.ViewModel = viewModel;
-
-                if (!String.IsNullOrEmpty(Settings.Default.PreferedApplicationPath))
-                {
-                    int index = 0;
-                    ICollectionView applicationsView = CollectionViewSource.GetDefaultView(viewModel.Applications);
-                    if (applicationsView != null)
-                    {
-                        foreach (ApplicationViewModel application in applicationsView)
-                        {
-                            if (application.Path == Settings.Default.PreferedApplicationPath)
-                            {
-                                mainWindow.lvwApplications.SelectedIndex = index;
-                                break;
-                            }
-
-                            index++;
-                        }
-                    }
-                }
+                mainWindow.TrySelectPreferedApplication();
             }
+
+            mainWindow.IsAutoSelectApplicationVersion = Settings.Default.IsAutoSelectApplicationVersion;
 
             if (Settings.Default.IsFileSearchPatternSaved)
                 mainWindow.ViewModel.SearchPattern = Settings.Default.FileSearchPattern;

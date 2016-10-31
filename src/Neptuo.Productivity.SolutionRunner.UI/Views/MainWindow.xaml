@@ -11,6 +11,8 @@
     <Window.Resources>
         <converters:BoolConverter x:Key="TrueToCollapsedConverter" TrueValue="Collapsed" FalseValue="Visible" />
         <converters:BoolConverter x:Key="TrueToVisibleConverter" TrueValue="Visible" FalseValue="Collapsed" />
+        <converters:CuttingConverter x:Key="ZeroToCollapsedConverter" EdgeValue="0" GreaterValue="Visible" LowerValue="Collapsed" />
+        <converters:CuttingConverter x:Key="ZeroToVisibleConverter" EdgeValue="0" GreaterValue="Collapsed" LowerValue="Visible" />
 
         <BitmapImage x:Key="CloseImage" UriSource="Icons/Close.png" />
         <BitmapImage x:Key="SettingsImage" UriSource="Icons/Settings.png" />
@@ -57,6 +59,12 @@
                     <Setter Property="Background" Value="{StaticResource ActiveBrush}" />
                 </Trigger>
             </Style.Triggers>
+        </Style>
+        <Style x:Key="NoDataStyle" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="HorizontalAlignment" Value="Center" />
+            <Setter Property="FontStyle" Value="Italic" />
+            <Setter Property="Padding" Value="0,8" />
         </Style>
         <Style x:Key="ApplicationListViewItemStyle" TargetType="ListViewItem" BasedOn="{StaticResource ListViewItemStyle}">
             <Setter Property="Template">
@@ -120,7 +128,7 @@
                     <TextBox x:Name="tbxSearch" Text="{Binding SearchPattern, UpdateSourceTrigger=PropertyChanged}" />
                 </Border>
 
-                <ListView x:Name="lvwFiles" ItemsSource="{Binding Files}" ItemContainerStyle="{StaticResource ListViewItemStyle}" Grid.Row="3">
+                <ListView x:Name="lvwFiles" ItemsSource="{Binding Files}" ItemContainerStyle="{StaticResource ListViewItemStyle}" Visibility="{Binding Files.Count, Converter={StaticResource ZeroToCollapsedConverter}}" Grid.Row="3">
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <ContentControl x:Name="cocFile" MouseDoubleClick="cocFile_MouseDoubleClick">
@@ -144,6 +152,7 @@
                         </DataTemplate>
                     </ListView.ItemTemplate>
                 </ListView>
+                <TextBlock Text="No matching solution file found" Style="{StaticResource NoDataStyle}" Visibility="{Binding Files.Count, Converter={StaticResource ZeroToVisibleConverter}}" Grid.Row="3" />
             </Grid>
             <Grid Visibility="{Binding IsLoading, Converter={StaticResource TrueToCollapsedConverter}}" Grid.RowSpan="4">
                 <Grid Background="Black" Opacity=".5" />

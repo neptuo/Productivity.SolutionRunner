@@ -60,11 +60,11 @@ namespace Neptuo.Productivity.SolutionRunner.UI.DesignData
 
             public Task SearchAsync(string searchPattern, FileSearchMode mode, int count, IFileCollection files, CancellationToken cancellationToken)
             {
-                files.Add("Neptuo", @"C:\Development\Framework\Neptuo.sln", true);
-                files.Add("Neptuo.Templates", @"C:\Development\Templates\Neptuo.Templates.sln", false);
-                files.Add("Neptuo.Productivity", @"C:\Development\Productivity\Neptuo.Productivity.sln", false);
-                files.Add("Neptuo.Productivity.SolutionRunner", @"C:\Development\Productivity\Neptuo.Productivity.SolutionRunner.sln", false);
-                files.Add("Sample", @"C:\Development\Sample.sln", false);
+                //files.Add("Neptuo", @"C:\Development\Framework\Neptuo.sln", true);
+                //files.Add("Neptuo.Templates", @"C:\Development\Templates\Neptuo.Templates.sln", false);
+                //files.Add("Neptuo.Productivity", @"C:\Development\Productivity\Neptuo.Productivity.sln", false);
+                //files.Add("Neptuo.Productivity.SolutionRunner", @"C:\Development\Productivity\Neptuo.Productivity.SolutionRunner.sln", false);
+                //files.Add("Sample", @"C:\Development\Sample.sln", false);
                 return Task.FromResult(true);
             }
         }
