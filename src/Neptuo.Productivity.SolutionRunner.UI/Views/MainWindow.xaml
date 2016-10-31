@@ -152,7 +152,7 @@
                         </DataTemplate>
                     </ListView.ItemTemplate>
                 </ListView>
-                <TextBlock Text="No matching solution file found" Style="{StaticResource NoDataStyle}" Visibility="{Binding Files.Count, Converter={StaticResource ZeroToVisibleConverter}}" Grid.Row="3" />
+                <TextBlock Text="{Binding Message}" Style="{StaticResource NoDataStyle}" Visibility="{Binding Files.Count, Converter={StaticResource ZeroToVisibleConverter}}" Grid.Row="3" />
             </Grid>
             <Grid Visibility="{Binding IsLoading, Converter={StaticResource TrueToCollapsedConverter}}" Grid.RowSpan="4">
                 <Grid Background="Black" Opacity=".5" />

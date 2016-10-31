@@ -54,6 +54,20 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels
 
         #region Searching
 
+        private string message;
+        public string Message
+        {
+            get { return message; }
+            set
+            {
+                if (message != value)
+                {
+                    message = value;
+                    RaisePropertyChanged();
+                }
+            }
+        }
+
         private string searchPattern;
         public string SearchPattern
         {
@@ -66,7 +80,9 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels
                     RaisePropertyChanged();
                     
                     files.Clear();
-                    fileSearch.SearchAsync(searchPattern, fileSearchModeGetter(), fileSearchCountGetter(), this, new CancellationToken());
+                    Message = "Searching...";
+                    fileSearch.SearchAsync(searchPattern, fileSearchModeGetter(), fileSearchCountGetter(), this, new CancellationToken())
+                        .ContinueWith(t => Message = "No matching solution file found");
                 }
             }
         }
