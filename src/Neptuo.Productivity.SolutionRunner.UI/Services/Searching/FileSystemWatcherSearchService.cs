@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Neptuo.Productivity.SolutionRunner.Services.Searching
@@ -102,8 +103,11 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Searching
             }
         }
 
-        public Task SearchAsync(string searchPattern, FileSearchMode mode, int count, IFileCollection files)
+        public Task SearchAsync(string searchPattern, FileSearchMode mode, int count, IFileCollection files, CancellationToken cancellationToken)
         {
+            if (cancellationToken.IsCancellationRequested)
+                return Async.CompletedTask;
+
             files.Clear();
 
             Func<FileModel, bool> filter = matcherFactory.Create(searchPattern, mode);

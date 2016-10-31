@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Neptuo.Productivity.SolutionRunner.Services.Searching
@@ -20,7 +21,9 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Searching
             this.pinStateService = pinStateService;
         }
 
-        public Task SearchAsync(string searchPattern, FileSearchMode mode, int count, IFileCollection files)
+        private CancellationTokenSource lastCancellation;
+
+        public Task SearchAsync(string searchPattern, FileSearchMode mode, int count, IFileCollection files, CancellationToken cancellationToken)
         {
             if (String.IsNullOrEmpty(searchPattern))
             {
@@ -28,10 +31,18 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Searching
                 foreach (string filePath in pinStateService.GetList())
                     files.Add(Path.GetFileNameWithoutExtension(filePath), filePath, true);
 
+                if (lastCancellation != null)
+                {
+                    lastCancellation.Cancel();
+                    lastCancellation = null;
+                }
+
                 return Task.FromResult(true);
             }
 
-            return innerService.SearchAsync(searchPattern, mode, count, files);
+            lastCancellation = new CancellationTokenSource();
+            Task result = innerService.SearchAsync(searchPattern, mode, count, files, lastCancellation.Token);
+            return result;
         }
 
         protected override void DisposeManagedResources()

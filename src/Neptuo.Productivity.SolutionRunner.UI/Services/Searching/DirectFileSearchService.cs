@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Neptuo.Productivity.SolutionRunner.Services.Searching
@@ -21,7 +22,7 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Searching
             this.pinStateService = pinStateService;
         }
 
-        public Task SearchAsync(string searchPattern, FileSearchMode mode, int count, IFileCollection files)
+        public Task SearchAsync(string searchPattern, FileSearchMode mode, int count, IFileCollection files, CancellationToken cancellationToken)
         {
             files.Clear();
 

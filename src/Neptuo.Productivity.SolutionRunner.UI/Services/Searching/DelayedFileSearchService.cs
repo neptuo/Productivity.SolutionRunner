@@ -25,7 +25,7 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Searching
             this.innerService = innerService;
         }
 
-        public Task SearchAsync(string searchPattern, FileSearchMode mode, int count, IFileCollection files)
+        public Task SearchAsync(string searchPattern, FileSearchMode mode, int count, IFileCollection files, CancellationToken cancellationToken)
         {
             return Task.Factory.StartNew(
                 (requestIndex) =>
@@ -36,15 +36,19 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Searching
                     {
                         dispatcher.Run(() =>
                         {
+                            if (cancellationToken.IsCancellationRequested)
+                                return;
+
                             if (currentRequestIndex == (int)requestIndex)
                             {
                                 currentRequestIndex = 0;
-                                innerService.SearchAsync(searchPattern, mode, count, files);
+                                innerService.SearchAsync(searchPattern, mode, count, files, cancellationToken);
                             }
                         });
                     }
                 },
-                ++currentRequestIndex
+                ++currentRequestIndex,
+                cancellationToken
             );
         }
 

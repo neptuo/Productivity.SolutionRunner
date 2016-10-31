@@ -15,6 +15,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -50,7 +51,7 @@ namespace Neptuo.Productivity.SolutionRunner.UI.DesignData
 
         private class FileSearchService : IFileSearchService
         {
-            public Task SearchAsync(string searchPattern, FileSearchMode mode, int count, IFileCollection files)
+            public Task SearchAsync(string searchPattern, FileSearchMode mode, int count, IFileCollection files, CancellationToken cancellationToken)
             {
                 files.Add("Neptuo", @"C:\Development\Framework\Neptuo.sln", true);
                 files.Add("Neptuo.Templates", @"C:\Development\Templates\Neptuo.Templates.sln", false);

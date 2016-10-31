@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Neptuo.Productivity.SolutionRunner.Services.Searching
@@ -22,7 +23,7 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Searching
             this.pinStateService = pinStateService;
         }
 
-        public Task SearchAsync(string searchPattern, FileSearchMode mode, int count, IFileCollection files)
+        public Task SearchAsync(string searchPattern, FileSearchMode mode, int count, IFileCollection files, CancellationToken cancellationToken)
         {
             IEnumerable<IFile> matchedFiles = filePathSearch.FindFiles(TextSearch.CreateContained(searchPattern), TextSearch.CreateMatched("sln"));
             files.Clear();
