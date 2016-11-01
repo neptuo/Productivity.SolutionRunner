@@ -1,4 +1,5 @@
 ﻿using Neptuo.Observables;
+using Neptuo.Productivity.SolutionRunner.Services.Execution;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +9,7 @@ using System.Windows.Media;
 
 namespace Neptuo.Productivity.SolutionRunner.ViewModels
 {
-    public class ApplicationViewModel : ObservableObject
+    public class ApplicationViewModel : ObservableObject, IApplication
     {
         public string Name { get; private set; }
         public string Path { get; private set; }

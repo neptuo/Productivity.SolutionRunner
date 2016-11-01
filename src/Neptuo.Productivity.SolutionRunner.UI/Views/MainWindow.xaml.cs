@@ -1,7 +1,9 @@
-﻿using Neptuo.Collections.Specialized;
+﻿using Neptuo;
+using Neptuo.Collections.Specialized;
 using Neptuo.Linq.Expressions;
 using Neptuo.Productivity.SolutionRunner.Properties;
 using Neptuo.Productivity.SolutionRunner.Services;
+using Neptuo.Productivity.SolutionRunner.Services.Execution;
 using Neptuo.Productivity.SolutionRunner.ViewModels;
 using Neptuo.Productivity.SolutionRunner.Views.Controls;
 using Neptuo.Text.Tokens;
@@ -39,6 +41,7 @@ namespace Neptuo.Productivity.SolutionRunner.Views
         private static readonly string ApplicationNamePropertyName = TypeHelper.PropertyName<ApplicationViewModel, string>(vm => vm.Name);
 
         private readonly INavigator navigator;
+        private readonly ProcessService processService;
 
         public MainViewModel ViewModel
         {
@@ -87,10 +90,12 @@ namespace Neptuo.Productivity.SolutionRunner.Views
 
         #endregion
 
-        public MainWindow(INavigator navigator)
+        public MainWindow(INavigator navigator, ProcessService processService)
         {
             Ensure.NotNull(navigator, "navigator");
+            Ensure.NotNull(processService, "processService");
             this.navigator = navigator;
+            this.processService = processService;
 
             InitializeComponent();
             EventManager.FilePinned += OnFilePinned;
@@ -113,25 +118,7 @@ namespace Neptuo.Productivity.SolutionRunner.Views
                     TrySelectPreferedApplication();
                 }
 
-                if (file == null)
-                {
-                    Process.Start(application.Path);
-                }
-                else
-                {
-                    string arguments = file.Path;
-                    if (!String.IsNullOrEmpty(application.Arguments))
-                    {
-                        TokenWriter writer = new TokenWriter(application.Arguments);
-                        arguments = writer.Format(new KeyValueCollection()
-                            .Add("FilePath", file.Path)
-                            .Add("DirectoryPath", System.IO.Path.GetDirectoryName(file.Path))
-                        );
-                    }
-
-                    Process.Start(new ProcessStartInfo(application.Path, arguments));
-                }
-
+                processService.Run(application, file);
                 Close();
             }
         }
@@ -140,6 +127,7 @@ namespace Neptuo.Productivity.SolutionRunner.Views
         {
             if (ViewModel != null)
             {
+                // Update sorting.
                 ICollectionView filesView = CollectionViewSource.GetDefaultView(ViewModel.Files);
                 if (filesView != null)
                     filesView.Refresh();
@@ -171,7 +159,7 @@ namespace Neptuo.Productivity.SolutionRunner.Views
             }
 
             InitializeWidth();
-            viewModel.InitializeAsync();
+            viewModel.InitializeAsync().ContinueWith(t => DispatcherHelper.Run(Dispatcher, FocusTextBox));
         }
 
         private void InitializeWidth()
@@ -211,7 +199,13 @@ namespace Neptuo.Productivity.SolutionRunner.Views
         protected override void OnActivated(EventArgs e)
         {
             base.OnActivated(e);
+            FocusTextBox();
+        }
+
+        private void FocusTextBox()
+        {
             tbxSearch.Focus();
+            tbxSearch.CaretIndex = tbxSearch.Text.Length;
         }
 
         private void btnConfiguration_Click(object sender, RoutedEventArgs e)

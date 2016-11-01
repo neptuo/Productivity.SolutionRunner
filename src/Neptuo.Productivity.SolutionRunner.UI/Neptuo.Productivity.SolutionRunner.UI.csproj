@@ -165,6 +165,9 @@
     <Compile Include="Services\Converters\AdditionalApplicationCollectionConverter.cs" />
     <Compile Include="Services\Converters\KeyViewModelConverter.cs" />
     <Compile Include="Services\Converters\NullToBoolConverter.cs" />
+    <Compile Include="Services\Execution\IApplication.cs" />
+    <Compile Include="Services\Execution\IFile.cs" />
+    <Compile Include="Services\Execution\ProcessService.cs" />
     <Compile Include="Services\INavigatorState.cs" />
     <Compile Include="Services\IRunHotKeyService.cs" />
     <Compile Include="Services\DefaultRunHotKeyService.cs" />

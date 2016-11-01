@@ -1,5 +1,6 @@
 ﻿using Neptuo.Observables;
 using Neptuo.Productivity.SolutionRunner.Services;
+using Neptuo.Productivity.SolutionRunner.Services.Execution;
 using Neptuo.Productivity.SolutionRunner.ViewModels.Commands;
 using System;
 using System.Collections.Generic;
@@ -12,7 +13,7 @@ using System.Windows.Input;
 
 namespace Neptuo.Productivity.SolutionRunner.ViewModels
 {
-    public class FileViewModel : ObservableObject
+    public class FileViewModel : ObservableObject, IFile
     {
         private Version version;
 
