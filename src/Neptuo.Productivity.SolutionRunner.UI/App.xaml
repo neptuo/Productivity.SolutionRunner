@@ -60,7 +60,7 @@
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
                         <Border Padding="{TemplateBinding Padding}" Margin="{TemplateBinding Margin}">
-                            <ContentPresenter />
+                            <ContentPresenter VerticalAlignment="Bottom" />
                         </Border>
                     </ControlTemplate>
                 </Setter.Value>

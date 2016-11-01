@@ -57,7 +57,8 @@ namespace Neptuo.Productivity.SolutionRunner.Views
         protected override void OnActivated(EventArgs e)
         {
             base.OnActivated(e);
-            tbxSourceDirectory.Focus();
+            //tbxSourceDirectory.Focus();
+            dbrSourceDirectory.Focus();
         }
 
         private void OnPreviewKeyDown(object sender, KeyEventArgs e)

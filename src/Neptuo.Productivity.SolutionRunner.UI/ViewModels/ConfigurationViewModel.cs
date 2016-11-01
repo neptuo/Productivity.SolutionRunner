@@ -136,7 +136,7 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels
             get { return isHiddentOnStartup; }
             set
             {
-                if(isHiddentOnStartup != value)
+                if (isHiddentOnStartup != value)
                 {
                     isHiddentOnStartup = value;
                     RaisePropertyChanged();
@@ -167,34 +167,19 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels
         {
             get { return saveCommand; }
         }
-
-        private RemoveAdditionalApplicationCommand removeAdditionalApplicationCommand;
-        public ICommand RemoveAdditionalApplicationCommand
-        {
-            get { return removeAdditionalApplicationCommand; }
-        }
-
-        private EditAdditionalApplicationCommand editAdditionalApplicationCommand;
-        public ICommand EditAdditionalApplicationCommand
-        {
-            get { return editAdditionalApplicationCommand; }
-        }
-
-        private CreateAdditionalApplicationCommand createAdditionalApplicationCommand;
-        public ICommand CreateAdditionalApplicationCommand
-        {
-            get { return createAdditionalApplicationCommand; }
-        }
+        public ICommand RemoveAdditionalApplicationCommand { get; private set; }
+        public ICommand EditAdditionalApplicationCommand { get; private set; }
+        public ICommand CreateAdditionalApplicationCommand { get; private set; }
 
         public ConfigurationViewModel(IFactory<SaveConfigurationCommand, ConfigurationViewModel> commandFactory, INavigator navigator)
         {
-            Version version = Assembly.GetExecutingAssembly().GetName().Version;
-            Version = String.Format("v{0}.{1}.{2}", version.Major, version.Minor, version.Build);
+            string version = Assembly.GetExecutingAssembly().GetCustomAttribute<AssemblyInformationalVersionAttribute>().InformationalVersion;
+            Version = String.Format("v{0}", version);
 
             saveCommand = commandFactory.Create(this);
-            editAdditionalApplicationCommand = new EditAdditionalApplicationCommand(this, navigator);
-            removeAdditionalApplicationCommand = new RemoveAdditionalApplicationCommand(this);
-            createAdditionalApplicationCommand = new CreateAdditionalApplicationCommand(this, navigator);
+            EditAdditionalApplicationCommand = new EditAdditionalApplicationCommand(this, navigator);
+            RemoveAdditionalApplicationCommand = new RemoveAdditionalApplicationCommand(this);
+            CreateAdditionalApplicationCommand = new CreateAdditionalApplicationCommand(this, navigator);
         }
     }
 }

@@ -53,7 +53,8 @@
                         <Label Content="Root directory:" Target="{Binding ElementName=tbxSourceDirectory}" />
                         <TextBlock Text="Directory where to search for solution files" HorizontalAlignment="Right" />
                     </Grid>
-                    <TextBox x:Name="tbxSourceDirectory" Text="{Binding SourceDirectoryPath, UpdateSourceTrigger=PropertyChanged}" Margin="0" />
+                    <ui:DirectoryBrowser x:Name="dbrSourceDirectory" Path="{Binding SourceDirectoryPath, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Margin="0" />
+                    <!--<TextBox x:Name="tbxSourceDirectory" Text="{Binding SourceDirectoryPath, UpdateSourceTrigger=PropertyChanged}" Margin="0" />-->
                 </StackPanel>
                 <StackPanel Style="{StaticResource EditorPanelStyle}">
                     <Grid>

@@ -28,7 +28,16 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels.Commands
 
         protected override bool CanExecute()
         {
-            return !String.IsNullOrEmpty(viewModel.SourceDirectoryPath) && Directory.Exists(viewModel.SourceDirectoryPath) && viewModel.FileSearchCount > 0;
+            if (String.IsNullOrEmpty(viewModel.SourceDirectoryPath))
+                return false;
+
+            if (!Directory.Exists(viewModel.SourceDirectoryPath))
+                return false;
+
+            if (viewModel.FileSearchCount <= 0)
+                return false;
+
+            return true;
         }
 
         protected override void Execute()
