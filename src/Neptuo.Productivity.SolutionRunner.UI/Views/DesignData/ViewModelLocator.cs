@@ -37,10 +37,12 @@ namespace Neptuo.Productivity.SolutionRunner.UI.DesignData
             {
                 if (mainViewModel == null)
                 {
+                    Properties.Settings.Default.IsFileNameRemovedFromDisplayedPath = true;
+                    //Properties.Settings.Default.IsDisplayedPathTrimmedToLastFolderName = true;
+
                     mainViewModel = new MainViewModel(new FileSearchService(true), () => FileSearchMode.StartsWith, () => 20);
-                    mainViewModel.SearchPattern = "Magic.sln";
                     mainViewModel.IsLoading = false;
-                    //mainViewModel.IsFileListAvailable = true;
+                    mainViewModel.SearchPattern = "Neptuo.sln";
 
                     VsVersionLoader loader = new VsVersionLoader();
                     loader.Add(mainViewModel);

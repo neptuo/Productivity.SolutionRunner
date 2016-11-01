@@ -214,6 +214,7 @@
     <Compile Include="Views\Controls\HotKeyTextBox.cs" />
     <Compile Include="Views\Converters\BoolConverter.cs" />
     <Compile Include="Views\Converters\CuttingConverter.cs" />
+    <Compile Include="Views\Converters\PathConverter.cs" />
     <Compile Include="Views\DataSources\FileSearchModes.cs" />
     <Compile Include="Views\DesignData\ViewModelLocator.cs" />
     <Compile Include="ViewModels\ApplicationViewModel.cs" />

@@ -158,6 +158,34 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels
             }
         }
 
+        private bool isFileNameRemovedFromDisplayedPath;
+        public bool IsFileNameRemovedFromDisplayedPath
+        {
+            get { return isFileNameRemovedFromDisplayedPath; }
+            set
+            {
+                if (isFileNameRemovedFromDisplayedPath != value)
+                {
+                    isFileNameRemovedFromDisplayedPath = value;
+                    RaisePropertyChanged();
+                }
+            }
+        }
+
+        private bool isDisplayedPathTrimmedToLastFolderName;
+        public bool IsDisplayedPathTrimmedToLastFolderName
+        {
+            get { return isDisplayedPathTrimmedToLastFolderName; }
+            set
+            {
+                if (isDisplayedPathTrimmedToLastFolderName != value)
+                {
+                    isDisplayedPathTrimmedToLastFolderName = value;
+                    RaisePropertyChanged();
+                }
+            }
+        }
+
         public ObservableCollection<AdditionalApplicationListViewModel> AdditionalApplications { get; set; }
 
         public string Version { get; private set; }

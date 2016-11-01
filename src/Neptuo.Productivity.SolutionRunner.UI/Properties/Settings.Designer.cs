@@ -178,5 +178,29 @@ namespace Neptuo.Productivity.SolutionRunner.Properties {
                 this["IsAutoSelectApplicationVersion"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool IsFileNameRemovedFromDisplayedPath {
+            get {
+                return ((bool)(this["IsFileNameRemovedFromDisplayedPath"]));
+            }
+            set {
+                this["IsFileNameRemovedFromDisplayedPath"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool IsDisplayedPathTrimmedToLastFolderName {
+            get {
+                return ((bool)(this["IsDisplayedPathTrimmedToLastFolderName"]));
+            }
+            set {
+                this["IsDisplayedPathTrimmedToLastFolderName"] = value;
+            }
+        }
     }
 }

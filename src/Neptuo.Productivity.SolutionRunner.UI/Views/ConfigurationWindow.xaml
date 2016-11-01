@@ -146,6 +146,8 @@
                             <CheckBox Content="Auto select VsVersion from selected sln file" IsChecked="{Binding IsAutoSelectApplicationVersion}" />
                             <CheckBox Content="Dismiss after loosing focus" IsChecked="{Binding IsDismissedWhenLostFocus}" />
                             <CheckBox Content="Start hidden (only when hotkey is set)" IsChecked="{Binding IsHiddentOnStartup}" IsEnabled="{Binding RunKey, Converter={StaticResource NullToTrueConverter}}" />
+                            <CheckBox Content="Remove file name from displayed path" IsChecked="{Binding IsFileNameRemovedFromDisplayedPath}" />
+                            <CheckBox Content="Trim displayed path to last folder name only" IsChecked="{Binding IsDisplayedPathTrimmedToLastFolderName}" IsEnabled="{Binding IsFileNameRemovedFromDisplayedPath}" />
                         </StackPanel>
                     </Grid>
                 </StackPanel>

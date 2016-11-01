@@ -232,17 +232,26 @@ namespace Neptuo.Productivity.SolutionRunner
                 viewModel.IsDismissedWhenLostFocus = Settings.Default.IsDismissedWhenLostFocus;
                 viewModel.IsHiddentOnStartup = Settings.Default.IsHiddentOnStartup;
                 viewModel.IsAutoSelectApplicationVersion = Settings.Default.IsAutoSelectApplicationVersion;
-                viewModel.AdditionalApplications = new ObservableCollection<AdditionalApplicationListViewModel>(
-                    Converts
-                        .To<string, AdditionalApplicationCollection>(Settings.Default.AdditionalApplications)
-                        .Select(a => new AdditionalApplicationListViewModel(a))
-                );
+                viewModel.IsFileNameRemovedFromDisplayedPath = Settings.Default.IsFileNameRemovedFromDisplayedPath;
+                viewModel.IsDisplayedPathTrimmedToLastFolderName = Settings.Default.IsDisplayedPathTrimmedToLastFolderName;
+                viewModel.AdditionalApplications = new ObservableCollection<AdditionalApplicationListViewModel>(LoadAdditionalApplications());
                 viewModel.RunKey = runHotKey.FindKeyViewModel();
                 configurationWindow = new ConfigurationWindow(viewModel, this, String.IsNullOrEmpty(Settings.Default.SourceDirectoryPath));
                 configurationWindow.Closed += OnConfigurationWindowClosed;
             }
             configurationWindow.Show();
             configurationWindow.Activate();
+        }
+
+        private IEnumerable<AdditionalApplicationListViewModel> LoadAdditionalApplications()
+        {
+            string rawValue = Settings.Default.AdditionalApplications;
+            if (String.IsNullOrEmpty(rawValue))
+                return Enumerable.Empty<AdditionalApplicationListViewModel>();
+
+            return Converts
+                .To<string, AdditionalApplicationCollection>(Settings.Default.AdditionalApplications)
+                .Select(a => new AdditionalApplicationListViewModel(a));
         }
 
         private void OnConfigurationWindowClosed(object sender, EventArgs e)

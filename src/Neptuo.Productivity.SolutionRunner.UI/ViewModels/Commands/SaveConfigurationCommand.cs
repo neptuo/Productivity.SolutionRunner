@@ -51,6 +51,8 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels.Commands
             Settings.Default.IsDismissedWhenLostFocus = viewModel.IsDismissedWhenLostFocus;
             Settings.Default.IsHiddentOnStartup = viewModel.IsHiddentOnStartup;
             Settings.Default.IsAutoSelectApplicationVersion = viewModel.IsAutoSelectApplicationVersion;
+            Settings.Default.IsFileNameRemovedFromDisplayedPath = viewModel.IsFileNameRemovedFromDisplayedPath;
+            Settings.Default.IsDisplayedPathTrimmedToLastFolderName = viewModel.IsDisplayedPathTrimmedToLastFolderName;
             Settings.Default.AdditionalApplications = Converts
                 .To<AdditionalApplicationCollection, string>(new AdditionalApplicationCollection(viewModel.AdditionalApplications.Select(a => a.Model)));
 

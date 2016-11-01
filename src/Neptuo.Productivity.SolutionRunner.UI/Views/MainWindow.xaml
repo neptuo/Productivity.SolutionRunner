@@ -12,8 +12,7 @@
         <converters:BoolConverter x:Key="TrueToCollapsedConverter" TrueValue="Collapsed" FalseValue="Visible" />
         <converters:BoolConverter x:Key="TrueToVisibleConverter" TrueValue="Visible" FalseValue="Collapsed" />
         <converters:BoolConverter x:Key="TrueToFalseConverter" TrueValue="False" FalseValue="True" />
-        <!--<converters:CuttingConverter x:Key="ZeroToCollapsedConverter" EdgeValue="0" GreaterValue="Visible" LowerValue="Collapsed" />-->
-        <!--<converters:CuttingConverter x:Key="ZeroToVisibleConverter" EdgeValue="0" GreaterValue="Collapsed" LowerValue="Visible" />-->
+        <converters:PathConverter x:Key="PathConverter" />
 
         <BitmapImage x:Key="CloseImage" UriSource="Icons/Close.png" />
         <BitmapImage x:Key="SettingsImage" UriSource="Icons/Settings.png" />
@@ -155,7 +154,7 @@
                                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                                         <TextBlock Text="{Binding Name}" />
                                         <TextBlock Text=" " />
-                                        <TextBlock Text="{Binding Path}" Opacity=".5" />
+                                        <TextBlock Text="{Binding Path, Converter={StaticResource PathConverter}}" Opacity=".5" />
                                     </StackPanel>
                                 </DockPanel>
                             </ContentControl>
