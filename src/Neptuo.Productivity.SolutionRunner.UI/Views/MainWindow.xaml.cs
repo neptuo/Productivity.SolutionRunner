@@ -310,10 +310,6 @@ namespace Neptuo.Productivity.SolutionRunner.Views
 
                 e.Handled = true;
             }
-            //else if (e.Key == Key.F1)
-            //{
-            //    btnHelp.RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
-            //}
 
             // Lastly, if non of the hot keys was pressed. Try to focus search box.
             if (!e.Handled && !tbxSearch.IsFocused)
@@ -383,6 +379,7 @@ namespace Neptuo.Productivity.SolutionRunner.Views
         protected override void OnClosed(EventArgs e)
         {
             base.OnClosed(e);
+            EventManager.FilePinned -= OnFilePinned;
 
             if (ViewModel != null)
                 ViewModel.Dispose();
