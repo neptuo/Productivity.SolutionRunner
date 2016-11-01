@@ -43,6 +43,8 @@ namespace Neptuo.Productivity.SolutionRunner.Views
         private readonly INavigator navigator;
         private readonly ProcessService processService;
 
+        public DispatcherHelper DispatcherHelper { get; private set; }
+
         public MainViewModel ViewModel
         {
             get { return (MainViewModel)DataContext; }
@@ -99,6 +101,7 @@ namespace Neptuo.Productivity.SolutionRunner.Views
 
             InitializeComponent();
             EventManager.FilePinned += OnFilePinned;
+            DispatcherHelper = new DispatcherHelper(Dispatcher);
         }
 
         private void RunSolution(ApplicationViewModel application, FileViewModel file)
@@ -159,7 +162,7 @@ namespace Neptuo.Productivity.SolutionRunner.Views
             }
 
             InitializeWidth();
-            viewModel.InitializeAsync().ContinueWith(t => DispatcherHelper.Run(Dispatcher, FocusTextBox));
+            viewModel.InitializeAsync().ContinueWith(t => DispatcherHelper.Run(FocusTextBox));
         }
 
         private void InitializeWidth()
@@ -168,7 +171,7 @@ namespace Neptuo.Productivity.SolutionRunner.Views
             Task.Factory.StartNew(() =>
             {
                 Thread.Sleep(10);
-                DispatcherHelper.Run(Dispatcher, () => FileWidth = Math.Max(grdMain.ActualWidth, FileWidthDefaultValue) - 20);
+                DispatcherHelper.Run(() => FileWidth = Math.Max(grdMain.ActualWidth, FileWidthDefaultValue) - 20);
             });
         }
 
@@ -179,7 +182,7 @@ namespace Neptuo.Productivity.SolutionRunner.Views
                 Task.Factory.StartNew(() =>
                 {
                     Thread.Sleep(10);
-                    DispatcherHelper.Run(Dispatcher, () => lvwFiles.SelectedIndex = 0);
+                    DispatcherHelper.Run(() => lvwFiles.SelectedIndex = 0);
                 });
             }
         }
@@ -191,7 +194,7 @@ namespace Neptuo.Productivity.SolutionRunner.Views
                 Task.Factory.StartNew(() =>
                 {
                     Thread.Sleep(10);
-                    DispatcherHelper.Run(Dispatcher, () => lvwApplications.SelectedIndex = 0);
+                    DispatcherHelper.Run(() => lvwApplications.SelectedIndex = 0);
                 });
             }
         }
