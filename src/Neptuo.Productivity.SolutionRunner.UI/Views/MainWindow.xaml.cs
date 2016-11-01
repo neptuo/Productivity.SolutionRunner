@@ -222,6 +222,9 @@ namespace Neptuo.Productivity.SolutionRunner.Views
 
         private void OnPreviewKeyDown(object sender, KeyEventArgs e)
         {
+            if (ViewModel == null || ViewModel.IsLoading)
+                return;
+
             if (e.Key == Key.F1)
             {
                 btnConfiguration_Click(sender, new RoutedEventArgs(e.RoutedEvent, sender));
