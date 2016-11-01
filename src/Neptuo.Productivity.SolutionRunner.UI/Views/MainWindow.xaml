@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" 
         xmlns:dd="clr-namespace:Neptuo.Productivity.SolutionRunner.UI.DesignData" d:DataContext="{x:Static dd:ViewModelLocator.MainViewModel}"
         xmlns:converters="clr-namespace:Neptuo.Productivity.SolutionRunner.Views.Converters"
-        Title="Solution runner" MinWidth="525" SizeToContent="WidthAndHeight" 
+        Title="Solution runner" MinWidth="525" SizeToContent="WidthAndHeight"
         ResizeMode="CanMinimize" WindowStyle="None" WindowStartupLocation="CenterScreen" ShowInTaskbar="False" Background="{StaticResource BackgroundBrush}"
         PreviewMouseDown="OnPreviewMouseDown" PreviewKeyDown="OnPreviewKeyDown">
     <Window.Resources>
@@ -79,7 +79,7 @@
         </Style>
 
     </Window.Resources>
-    <Border BorderBrush="{StaticResource ActiveBrush}" BorderThickness="1">
+    <Border Style="{StaticResource WindowBorderStyle}" Padding="0">
         <Grid>
             <Grid x:Name="grdMain" Style="{StaticResource MainGridStyle}">
                 <Grid.RowDefinitions>

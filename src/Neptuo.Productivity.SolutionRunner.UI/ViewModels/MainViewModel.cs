@@ -52,8 +52,6 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels
             }
         }
 
-        #region Searching
-
         private string message;
         public string Message
         {
@@ -68,6 +66,8 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels
             }
         }
 
+        #region Searching
+
         private string searchPattern;
         public string SearchPattern
         {
@@ -78,13 +78,23 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels
                 {
                     searchPattern = value;
                     RaisePropertyChanged();
-                    
+
                     files.Clear();
                     Message = "Searching...";
                     fileSearch.SearchAsync(searchPattern, fileSearchModeGetter(), fileSearchCountGetter(), this, new CancellationToken())
-                        .ContinueWith(t => Message = "No matching solution file found");
+                        .ContinueWith(t => UpdateMessageAfterSearching());
                 }
             }
+        }
+
+        private async Task UpdateMessageAfterSearching()
+        {
+            await Task.Delay(1000);
+
+            if (String.IsNullOrEmpty(SearchPattern))
+                Message = "No favourite solution files, start by typing...";
+            else
+                Message = "No matching solution file found";
         }
 
         private ObservableCollection<FileViewModel> files;
@@ -139,6 +149,7 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels
                 return;
 
             IsDisposed = true;
+
             IDisposable disposable = fileSearch as IDisposable;
             if (disposable != null)
                 disposable.Dispose();
@@ -148,8 +159,10 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels
 
         public async Task InitializeAsync()
         {
+            Message = "Initializing...";
             await fileSearch.InitializeAsync();
             IsLoading = false;
+            Message = "No favourite solution files, start by typing...";
         }
     }
 }

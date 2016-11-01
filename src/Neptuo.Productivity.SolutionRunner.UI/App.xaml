@@ -1,11 +1,16 @@
 ﻿<Application x:Class="Neptuo.Productivity.SolutionRunner.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" DispatcherUnhandledException="OnDispatcherUnhandledException" ShutdownMode="OnExplicitShutdown">
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:converters="clr-namespace:Neptuo.Productivity.SolutionRunner.Views.Converters"
+             DispatcherUnhandledException="OnDispatcherUnhandledException" ShutdownMode="OnExplicitShutdown">
     <Application.Resources>
 
         <SolidColorBrush x:Key="BackgroundBrush">#1E1E1E</SolidColorBrush>
         <SolidColorBrush x:Key="TextBoxBackgroundBrush">#3F3F46</SolidColorBrush>
+        <SolidColorBrush x:Key="InactiveBrush">#3F3F46</SolidColorBrush>
         <SolidColorBrush x:Key="ActiveBrush">#3683D3</SolidColorBrush>
+        
+        <converters:BoolConverter x:Key="ActiveBorderConverter" TrueValue="{StaticResource InactiveBrush}" FalseValue="{StaticResource ActiveBrush}" />
 
         <Style TargetType="TextBox">
             <Setter Property="FontSize" Value="20" />
@@ -22,7 +27,7 @@
         </Style>
 
         <Style x:Key="WindowBorderStyle" TargetType="Border">
-            <Setter Property="BorderBrush" Value="{StaticResource ActiveBrush}" />
+            <Setter Property="BorderBrush" Value="{Binding IsActive, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}, Converter={StaticResource ActiveBorderConverter}}" />
             <Setter Property="BorderThickness" Value="1" />
             <Setter Property="Padding" Value="0,10" />
         </Style>

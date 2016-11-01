@@ -222,14 +222,15 @@ namespace Neptuo.Productivity.SolutionRunner.Views
 
         private void OnPreviewKeyDown(object sender, KeyEventArgs e)
         {
+            if (e.Key == Key.F1)
+            {
+                btnConfiguration_Click(sender, new RoutedEventArgs(e.RoutedEvent, sender));
+                e.Handled = true;
+            }
+
             if (lvwFiles.Items.Count > 0)
             {
-                if (e.Key == Key.F1)
-                {
-                    btnConfiguration_Click(sender, new RoutedEventArgs(e.RoutedEvent, sender));
-                    e.Handled = true;
-                }
-                else if (e.Key == Key.Down)
+                if (e.Key == Key.Down)
                 {
                     lvwFiles.SelectedIndex = (lvwFiles.SelectedIndex + 1) % lvwFiles.Items.Count;
                     e.Handled = true;
