@@ -53,6 +53,9 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels
             IsLoading = false;
             Message = "No favourite solution files, start by typing...";
             UnLockFileList();
+
+            if (isFileSearchReqired)
+                TriggerFileSearch();
         }
 
         private bool isLoading;
@@ -110,11 +113,19 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels
             }
         }
 
+        private bool isFileSearchReqired = false;
+
         /// <summary>
         /// Triggers searching operation.
         /// </summary>
         private void TriggerFileSearch()
         {
+            if (IsLoading)
+            {
+                isFileSearchReqired = true;
+                return;
+            }
+
             ((IFileCollection)this).Clear();
 
             if (lastFileSearchToken != null)
@@ -170,7 +181,7 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels
         /// <param name="task">The task of completed search.</param>
         private void UpdateMessageAfterSearching(Task task)
         {
-            if (task.IsCanceled)
+            if (task.IsCanceled || IsLoading)
                 return;
             
             lastFileSearchToken = null;

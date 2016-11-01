@@ -295,7 +295,6 @@ namespace Neptuo.Productivity.SolutionRunner
                 mainWindow = new MainWindow(this);
                 mainWindow.Closing += OnMainWindowClosing;
                 mainWindow.Closed += OnMainWindowClosed;
-
             }
 
             if (mainWindow.ViewModel == null || isMainWindowViewModelReloadRequired)
