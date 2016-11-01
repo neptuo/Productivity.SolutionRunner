@@ -45,17 +45,8 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels
             }
         }
 
-        private readonly PinCommand pinCommand;
-        public ICommand PinCommand
-        {
-            get { return pinCommand; }
-        }
-
-        private readonly UnPinCommand unPinCommand;
-        public ICommand UnPinCommand
-        {
-            get { return unPinCommand; }
-        }
+        public ICommand PinCommand { get; private set; }
+        public ICommand UnPinCommand { get; private set; }
 
         public FileViewModel(string name, string path, bool isPinned = false)
         {
@@ -65,8 +56,8 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels
             Path = path;
             IsPinned = isPinned;
 
-            this.pinCommand = new PinCommand(this);
-            this.unPinCommand = new UnPinCommand(this);
+            PinCommand = new PinCommand(this);
+            UnPinCommand = new UnPinCommand(this);
         }
 
         public override bool Equals(object obj)

@@ -1,4 +1,5 @@
-﻿using Neptuo.Activators;
+﻿using Neptuo;
+using Neptuo.Activators;
 using Neptuo.Converters;
 using Neptuo.FileSystems;
 using Neptuo.FileSystems.Features;
@@ -36,9 +37,10 @@ namespace Neptuo.Productivity.SolutionRunner.UI.DesignData
             {
                 if (mainViewModel == null)
                 {
-                    mainViewModel = new MainViewModel(new FileSearchService(), () => FileSearchMode.StartsWith, () => 20);
+                    mainViewModel = new MainViewModel(new FileSearchService(true), () => FileSearchMode.StartsWith, () => 20);
                     mainViewModel.SearchPattern = "Magic.sln";
                     mainViewModel.IsLoading = false;
+                    //mainViewModel.IsFileListAvailable = true;
 
                     VsVersionLoader loader = new VsVersionLoader();
                     loader.Add(mainViewModel);
@@ -53,6 +55,13 @@ namespace Neptuo.Productivity.SolutionRunner.UI.DesignData
 
         private class FileSearchService : IFileSearchService
         {
+            private readonly bool hasItems;
+
+            public FileSearchService(bool hasItems)
+            {
+                this.hasItems = hasItems;
+            }
+
             public Task InitializeAsync()
             {
                 return Async.CompletedTask;
@@ -60,11 +69,14 @@ namespace Neptuo.Productivity.SolutionRunner.UI.DesignData
 
             public Task SearchAsync(string searchPattern, FileSearchMode mode, int count, IFileCollection files, CancellationToken cancellationToken)
             {
-                //files.Add("Neptuo", @"C:\Development\Framework\Neptuo.sln", true);
-                //files.Add("Neptuo.Templates", @"C:\Development\Templates\Neptuo.Templates.sln", false);
-                //files.Add("Neptuo.Productivity", @"C:\Development\Productivity\Neptuo.Productivity.sln", false);
-                //files.Add("Neptuo.Productivity.SolutionRunner", @"C:\Development\Productivity\Neptuo.Productivity.SolutionRunner.sln", false);
-                //files.Add("Sample", @"C:\Development\Sample.sln", false);
+                if (hasItems)
+                {
+                    files.Add("Neptuo", @"C:\Development\Framework\Neptuo.sln", true);
+                    files.Add("Neptuo.Templates", @"C:\Development\Templates\Neptuo.Templates.sln", false);
+                    files.Add("Neptuo.Productivity", @"C:\Development\Productivity\Neptuo.Productivity.sln", false);
+                    files.Add("Neptuo.Productivity.SolutionRunner", @"C:\Development\Productivity\Neptuo.Productivity.SolutionRunner.sln", false);
+                    files.Add("Sample", @"C:\Development\Sample.sln", false);
+                }
                 return Task.FromResult(true);
             }
         }

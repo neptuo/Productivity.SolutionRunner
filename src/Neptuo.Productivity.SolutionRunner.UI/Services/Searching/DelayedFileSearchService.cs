@@ -32,29 +32,58 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Searching
 
         public Task SearchAsync(string searchPattern, FileSearchMode mode, int count, IFileCollection files, CancellationToken cancellationToken)
         {
-            return Task.Factory.StartNew(
-                (requestIndex) =>
+            TaskCompletionSource<bool> result = new TaskCompletionSource<bool>();
+            Task.Factory.StartNew(
+                DelayedSearchHandler,
+                new Context()
                 {
-                    Thread.Sleep(delay);
-
-                    if (currentRequestIndex == (int)requestIndex)
-                    {
-                        dispatcher.Run(() =>
-                        {
-                            if (cancellationToken.IsCancellationRequested)
-                                return;
-
-                            if (currentRequestIndex == (int)requestIndex)
-                            {
-                                currentRequestIndex = 0;
-                                innerService.SearchAsync(searchPattern, mode, count, files, cancellationToken);
-                            }
-                        });
-                    }
+                    RequestIndex = ++currentRequestIndex,
+                    CompletionSource = result,
+                    SearchPattern = searchPattern,
+                    Mode = mode,
+                    Count = count,
+                    Files = files,
+                    CancellationToken = cancellationToken
                 },
-                ++currentRequestIndex,
                 cancellationToken
             );
+
+            return result.Task;
+        }
+
+        /// <summary>
+        /// Executed in own thread for delayed searching.
+        /// </summary>
+        /// <param name="parameter">The context of type <see cref="Context"/>.</param>
+        private void DelayedSearchHandler(object parameter)
+        {
+            Thread.Sleep(delay);
+            Context context = (Context)parameter;
+
+            if (currentRequestIndex == context.RequestIndex)
+            {
+                dispatcher.Run(() =>
+                {
+                    if (context.CancellationToken.IsCancellationRequested)
+                        return;
+
+                    if (currentRequestIndex == context.RequestIndex)
+                    {
+                        currentRequestIndex = 0;
+                        innerService
+                            .SearchAsync(context.SearchPattern, context.Mode, context.Count, context.Files, context.CancellationToken)
+                            .ContinueWith(t => context.CompletionSource.SetResult(true));
+                    }
+                    else
+                    {
+                        context.CompletionSource.SetCanceled();
+                    }
+                });
+            }
+            else
+            {
+                context.CompletionSource.SetCanceled();
+            }
         }
 
         protected override void DisposeManagedResources()
@@ -64,6 +93,20 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Searching
             IDisposable disposable = innerService as IDisposable;
             if (disposable != null)
                 disposable.Dispose();
+        }
+
+        /// <summary>
+        /// A context of thread searching hit.
+        /// </summary>
+        private class Context
+        {
+            public int RequestIndex { get; set; }
+            public TaskCompletionSource<bool> CompletionSource { get; set; }
+            public string SearchPattern { get; set; }
+            public FileSearchMode Mode { get; set; }
+            public int Count { get; set; }
+            public IFileCollection Files { get; set; }
+            public CancellationToken CancellationToken { get; set; }
         }
     }
 }

@@ -45,7 +45,12 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Searching
                 return Task.FromResult(true);
             }
 
+            if (cancellationToken.IsCancellationRequested)
+                return Async.CompletedTask;
+
             lastCancellation = new CancellationTokenSource();
+            cancellationToken.Register(() => lastCancellation.Cancel());
+
             Task result = innerService.SearchAsync(searchPattern, mode, count, files, lastCancellation.Token);
             return result;
         }

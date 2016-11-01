@@ -12,7 +12,7 @@ namespace Neptuo.Productivity.SolutionRunner.Views.Converters
     public class BoolConverter : IValueConverter
     {
         [DefaultValue(true)]
-        public bool Test { get; set; }
+        public bool Test { get; set; } = true;
         public object TrueValue { get; set; }
         public object FalseValue { get; set; }
 

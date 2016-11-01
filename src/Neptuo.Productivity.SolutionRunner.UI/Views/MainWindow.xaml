@@ -11,8 +11,9 @@
     <Window.Resources>
         <converters:BoolConverter x:Key="TrueToCollapsedConverter" TrueValue="Collapsed" FalseValue="Visible" />
         <converters:BoolConverter x:Key="TrueToVisibleConverter" TrueValue="Visible" FalseValue="Collapsed" />
-        <converters:CuttingConverter x:Key="ZeroToCollapsedConverter" EdgeValue="0" GreaterValue="Visible" LowerValue="Collapsed" />
-        <converters:CuttingConverter x:Key="ZeroToVisibleConverter" EdgeValue="0" GreaterValue="Collapsed" LowerValue="Visible" />
+        <converters:BoolConverter x:Key="TrueToFalseConverter" TrueValue="False" FalseValue="True" />
+        <!--<converters:CuttingConverter x:Key="ZeroToCollapsedConverter" EdgeValue="0" GreaterValue="Visible" LowerValue="Collapsed" />-->
+        <!--<converters:CuttingConverter x:Key="ZeroToVisibleConverter" EdgeValue="0" GreaterValue="Collapsed" LowerValue="Visible" />-->
 
         <BitmapImage x:Key="CloseImage" UriSource="Icons/Close.png" />
         <BitmapImage x:Key="SettingsImage" UriSource="Icons/Settings.png" />
@@ -40,6 +41,15 @@
         <Style TargetType="ListView">
             <Setter Property="BorderThickness" Value="0" />
             <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ListView}">
+                        <ScrollViewer Focusable="false" Padding="{TemplateBinding Padding}" IsEnabled="{TemplateBinding IsEnabled}" SnapsToDevicePixels="true">
+                            <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                        </ScrollViewer>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
         </Style>
         <Style x:Key="ListViewItemStyle" TargetType="ListViewItem">
             <Setter Property="HorizontalContentAlignment" Value="Stretch" />
@@ -81,7 +91,7 @@
     </Window.Resources>
     <Border Style="{StaticResource WindowBorderStyle}" Padding="0">
         <Grid>
-            <Grid x:Name="grdMain" Style="{StaticResource MainGridStyle}">
+            <Grid x:Name="grdMain" Style="{StaticResource MainGridStyle}" IsEnabled="{Binding IsLoading, Converter={StaticResource TrueToFalseConverter}}">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
@@ -128,16 +138,16 @@
                     <TextBox x:Name="tbxSearch" Text="{Binding SearchPattern, UpdateSourceTrigger=PropertyChanged}" />
                 </Border>
 
-                <ListView x:Name="lvwFiles" ItemsSource="{Binding Files}" ItemContainerStyle="{StaticResource ListViewItemStyle}" Visibility="{Binding Files.Count, Converter={StaticResource ZeroToCollapsedConverter}}" Grid.Row="3">
+                <ListView x:Name="lvwFiles" ItemsSource="{Binding Files}" ItemContainerStyle="{StaticResource ListViewItemStyle}" Visibility="{Binding IsFileListAvailable, Converter={StaticResource TrueToVisibleConverter}}" Grid.Row="3">
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <ContentControl x:Name="cocFile" MouseDoubleClick="cocFile_MouseDoubleClick">
                                 <DockPanel Width="{Binding FileWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}}" Margin="20,0">
                                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" DockPanel.Dock="Right">
-                                        <Button Command="{Binding PinCommand}" Visibility="{Binding IsPinned, Converter={StaticResource TrueToVisibleConverter}}" Style="{StaticResource PlainButtonStyle}">
+                                        <Button Command="{Binding PinCommand}" Visibility="{Binding IsPinned, Converter={StaticResource TrueToCollapsedConverter}}" Style="{StaticResource PlainButtonStyle}">
                                             <Image Source="{StaticResource PinImage}" Width="16" />
                                         </Button>
-                                        <Button Command="{Binding UnPinCommand}" Visibility="{Binding IsPinned, Converter={StaticResource TrueToCollapsedConverter}}" Style="{StaticResource PlainButtonStyle}">
+                                        <Button Command="{Binding UnPinCommand}" Visibility="{Binding IsPinned, Converter={StaticResource TrueToVisibleConverter}}" Style="{StaticResource PlainButtonStyle}">
                                             <Image Source="{StaticResource UnPinImage}" Width="16" />
                                         </Button>
                                     </StackPanel>
@@ -152,11 +162,11 @@
                         </DataTemplate>
                     </ListView.ItemTemplate>
                 </ListView>
-                <TextBlock Text="{Binding Message}" Style="{StaticResource NoDataStyle}" Visibility="{Binding Files.Count, Converter={StaticResource ZeroToVisibleConverter}}" Grid.Row="3" />
+                <TextBlock Text="{Binding Message}" Style="{StaticResource NoDataStyle}" Visibility="{Binding IsFileListAvailable, Converter={StaticResource TrueToCollapsedConverter}}" Grid.Row="3" />
             </Grid>
-            <Grid Visibility="{Binding IsLoading, Converter={StaticResource TrueToCollapsedConverter}}" Grid.RowSpan="4">
-                <Grid Background="Black" Opacity=".5" />
-                <ProgressBar IsIndeterminate="True" Height="3" BorderThickness="0" VerticalAlignment="Top" />
+            <Grid Visibility="{Binding IsLoading, Converter={StaticResource TrueToVisibleConverter}}" Grid.RowSpan="4">
+                <!--<Grid Background="Black" Opacity=".5" />-->
+                <ProgressBar IsIndeterminate="True" Height="3" BorderThickness="0" VerticalAlignment="Bottom" Margin="10,5" Background="Transparent" />
             </Grid>
         </Grid>
     </Border>

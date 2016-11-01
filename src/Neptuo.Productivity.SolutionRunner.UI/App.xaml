@@ -9,8 +9,8 @@
         <SolidColorBrush x:Key="TextBoxBackgroundBrush">#3F3F46</SolidColorBrush>
         <SolidColorBrush x:Key="InactiveBrush">#3F3F46</SolidColorBrush>
         <SolidColorBrush x:Key="ActiveBrush">#3683D3</SolidColorBrush>
-        
-        <converters:BoolConverter x:Key="ActiveBorderConverter" TrueValue="{StaticResource InactiveBrush}" FalseValue="{StaticResource ActiveBrush}" />
+
+        <converters:BoolConverter x:Key="ActiveBorderConverter" TrueValue="{StaticResource ActiveBrush}" FalseValue="{StaticResource InactiveBrush}" />
 
         <Style TargetType="TextBox">
             <Setter Property="FontSize" Value="20" />

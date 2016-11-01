@@ -17,6 +17,9 @@ using System.Windows.Media;
 
 namespace Neptuo.Productivity.SolutionRunner.ViewModels
 {
+    /// <summary>
+    /// The view model of main window.
+    /// </summary>
     public class MainViewModel : ObservableObject, IApplicationCollection, IFileCollection, IDisposable
     {
         private readonly IFileSearchService fileSearch;
@@ -36,6 +39,20 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels
             files = new ObservableCollection<FileViewModel>();
 
             IsLoading = true;
+        }
+
+        #region Initialization
+
+        public async Task InitializeAsync()
+        {
+            LockFileList();
+            Message = "Initializing...";
+
+            await fileSearch.InitializeAsync();
+            EventManager.FilePinned += OnFilePinned;
+            IsLoading = false;
+            Message = "No favourite solution files, start by typing...";
+            UnLockFileList();
         }
 
         private bool isLoading;
@@ -66,7 +83,17 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels
             }
         }
 
+        #endregion
+
         #region Searching
+
+        private void OnFilePinned(FileViewModel viewModel)
+        {
+            if (!viewModel.IsPinned)
+                TriggerFileSearch();
+        }
+
+        private CancellationTokenSource lastFileSearchToken;
 
         private string searchPattern;
         public string SearchPattern
@@ -78,24 +105,86 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels
                 {
                     searchPattern = value;
                     RaisePropertyChanged();
-
-                    files.Clear();
-                    Message = "Searching...";
-                    fileSearch.SearchAsync(searchPattern, fileSearchModeGetter(), fileSearchCountGetter(), this, new CancellationToken())
-                        .ContinueWith(t => UpdateMessageAfterSearching());
+                    TriggerFileSearch();
                 }
             }
         }
 
-        private async Task UpdateMessageAfterSearching()
+        /// <summary>
+        /// Triggers searching operation.
+        /// </summary>
+        private void TriggerFileSearch()
         {
-            await Task.Delay(1000);
+            ((IFileCollection)this).Clear();
 
+            if (lastFileSearchToken != null)
+                lastFileSearchToken.Cancel();
+
+            lastFileSearchToken = new CancellationTokenSource();
+
+            Message = "Searching...";
+            fileSearch.SearchAsync(SearchPattern, fileSearchModeGetter(), fileSearchCountGetter(), this, lastFileSearchToken.Token)
+                .ContinueWith(UpdateMessageAfterSearching);
+        }
+
+        private bool isFileListLocked;
+
+        /// <summary>
+        /// Locks availability of file list.
+        /// Even if list should be available, it is not.
+        /// </summary>
+        private void LockFileList()
+        {
+            isFileListLocked = true;
+            RaisePropertyChanged(nameof(IsFileListAvailable));
+        }
+
+        /// <summary>
+        /// Unlocks availability of file list.
+        /// If state of availability changed when locked, <see cref="PropertyChanged"/> is raised.
+        /// </summary>
+        private void UnLockFileList()
+        {
+            isFileListLocked = false;
+            RaisePropertyChanged(nameof(IsFileListAvailable));
+        }
+
+        private bool isFileListAvailable;
+        public bool IsFileListAvailable
+        {
+            get { return !isFileListLocked && isFileListAvailable; }
+            set
+            {
+                if (isFileListAvailable != value)
+                {
+                    isFileListAvailable = value;
+                    RaisePropertyChanged();
+                }
+            }
+        }
+
+        /// <summary>
+        /// Updates message text after completing search.
+        /// If <paramref name="task"/> is <see cref="Task.IsCanceled"/>, nothing is done.
+        /// </summary>
+        /// <param name="task">The task of completed search.</param>
+        private void UpdateMessageAfterSearching(Task task)
+        {
+            if (task.IsCanceled)
+                return;
+            
+            lastFileSearchToken = null;
             if (String.IsNullOrEmpty(SearchPattern))
                 Message = "No favourite solution files, start by typing...";
             else
                 Message = "No matching solution file found";
+
+            RaisePropertyChanged(nameof(IsFileListAvailable));
         }
+
+        #endregion
+
+        #region Files
 
         private ObservableCollection<FileViewModel> files;
         public IEnumerable<FileViewModel> Files
@@ -105,6 +194,7 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels
 
         IFileCollection IFileCollection.Clear()
         {
+            IsFileListAvailable = false;
             files.Clear();
             return this;
         }
@@ -112,6 +202,7 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels
         IFileCollection IFileCollection.Add(string fileName, string filePath, bool isPinned)
         {
             files.Add(new FileViewModel(fileName, filePath, isPinned));
+            IsFileListAvailable = true;
             return this;
         }
 
@@ -139,7 +230,7 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels
 
         #endregion
 
-        #region IDisposable
+        #region Disposing
 
         public bool IsDisposed { get; private set; }
 
@@ -149,6 +240,7 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels
                 return;
 
             IsDisposed = true;
+            EventManager.FilePinned -= OnFilePinned;
 
             IDisposable disposable = fileSearch as IDisposable;
             if (disposable != null)
@@ -156,13 +248,5 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels
         }
 
         #endregion
-
-        public async Task InitializeAsync()
-        {
-            Message = "Initializing...";
-            await fileSearch.InitializeAsync();
-            IsLoading = false;
-            Message = "No favourite solution files, start by typing...";
-        }
     }
 }
