@@ -43,8 +43,12 @@ namespace Neptuo.Productivity.SolutionRunner
         private StartupModel startup;
         private DefaultRunHotKeyService runHotKey;
 
+        protected DispatcherHelper DispatcherHelper { get; private set; }
+
         private void PrepareStartup(StartupEventArgs e)
         {
+            DispatcherHelper = new DispatcherHelper(Dispatcher);
+
             StartupModelProvider provider = new StartupModelProvider();
             startup = provider.Get(e.Args);
             startup.IsStartup = true;
@@ -358,9 +362,9 @@ namespace Neptuo.Productivity.SolutionRunner
         {
             if (Settings.Default.IsDismissedWhenLostFocus && mainWindow != null)
             {
-                DispatcherHelper.Run(Dispatcher, () =>
+                DispatcherHelper.Run(() =>
                 {
-                    if (Settings.Default.IsDismissedWhenLostFocus && mainWindow != null)
+                    if (Settings.Default.IsDismissedWhenLostFocus && mainWindow != null && !mainWindow.IsActive)
                         mainWindow.Close();
                 }, 500);
             }
