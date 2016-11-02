@@ -187,6 +187,7 @@
     <Compile Include="Services\Searching\_EnsureExceptionExtensions.cs" />
     <Compile Include="Services\StartupFlags\StartupModel.cs" />
     <Compile Include="Services\StartupFlags\StartupModelProvider.cs" />
+    <Compile Include="Services\StartupShortcuts\ShortcutService.cs" />
     <Compile Include="Services\UserConfigurations\FileSearchCountGetter.cs" />
     <Compile Include="Services\UserConfigurations\FileSearchModeGetter.cs" />
     <Compile Include="Services\Applications\VsVersionLoader.cs" />

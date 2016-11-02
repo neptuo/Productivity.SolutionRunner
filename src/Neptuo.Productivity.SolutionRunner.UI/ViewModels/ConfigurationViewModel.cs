@@ -186,6 +186,20 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels
             }
         }
 
+        private bool isAutoStartup;
+        public bool IsAutoStartup
+        {
+            get { return isAutoStartup; }
+            set
+            {
+                if (isAutoStartup != value)
+                {
+                    isAutoStartup = value;
+                    RaisePropertyChanged();
+                }
+            }
+        }
+
         public ObservableCollection<AdditionalApplicationListViewModel> AdditionalApplications { get; set; }
 
         public string Version { get; private set; }

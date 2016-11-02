@@ -1,9 +1,11 @@
-﻿using Neptuo.Activators;
+﻿using Neptuo;
+using Neptuo.Activators;
 using Neptuo.Formatters;
 using Neptuo.Productivity.SolutionRunner.Properties;
 using Neptuo.Productivity.SolutionRunner.Services;
 using Neptuo.Productivity.SolutionRunner.Services.Applications;
 using Neptuo.Productivity.SolutionRunner.Services.Searching;
+using Neptuo.Productivity.SolutionRunner.Services.StartupShortcuts;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -17,13 +19,16 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels.Commands
     {
         private readonly ConfigurationViewModel viewModel;
         private readonly IRunHotKeyService runHotKey;
+        private readonly ShortcutService shortcutService;
 
-        public SaveConfigurationCommand(ConfigurationViewModel viewModel, IRunHotKeyService runHotKey)
+        public SaveConfigurationCommand(ConfigurationViewModel viewModel, IRunHotKeyService runHotKey, ShortcutService shortcutService)
         {
             Ensure.NotNull(viewModel, "viewModel");
             Ensure.NotNull(runHotKey, "runHotKey");
+            Ensure.NotNull(shortcutService, "shortcutService");
             this.viewModel = viewModel;
             this.runHotKey = runHotKey;
+            this.shortcutService = shortcutService;
         }
 
         protected override bool CanExecute()
@@ -55,6 +60,11 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels.Commands
             Settings.Default.IsDisplayedPathTrimmedToLastFolderName = viewModel.IsDisplayedPathTrimmedToLastFolderName;
             Settings.Default.AdditionalApplications = Converts
                 .To<AdditionalApplicationCollection, string>(new AdditionalApplicationCollection(viewModel.AdditionalApplications.Select(a => a.Model)));
+
+            if (viewModel.IsAutoStartup)
+                shortcutService.Create(Environment.SpecialFolder.Startup);
+            else
+                shortcutService.Delete(Environment.SpecialFolder.Startup);
 
             string runKeyValue;
             if (Converts.Try(viewModel.RunKey, out runKeyValue))

@@ -13,6 +13,7 @@ using Neptuo.Productivity.SolutionRunner.Services.Converters;
 using Neptuo.Productivity.SolutionRunner.Services.Execution;
 using Neptuo.Productivity.SolutionRunner.Services.Searching;
 using Neptuo.Productivity.SolutionRunner.Services.StartupFlags;
+using Neptuo.Productivity.SolutionRunner.Services.StartupShortcuts;
 using Neptuo.Productivity.SolutionRunner.ViewModels;
 using Neptuo.Productivity.SolutionRunner.ViewModels.Commands.Factories;
 using Neptuo.Productivity.SolutionRunner.Views;
@@ -42,6 +43,13 @@ namespace Neptuo.Productivity.SolutionRunner
     {
         private StartupModel startup;
         private DefaultRunHotKeyService runHotKey;
+
+        // THIS must be synchronized with Click-Once deployment settings.
+        private readonly ShortcutService shortcutService = new ShortcutService(
+            companyName: "Neptuo", 
+            suiteName: "Productivity", 
+            productName: "Productivity.SolutionRunner"
+        );
 
         protected DispatcherHelper DispatcherHelper { get; private set; }
 
@@ -227,7 +235,7 @@ namespace Neptuo.Productivity.SolutionRunner
             {
                 isMainWindowViewModelReloadRequired = true;
 
-                ConfigurationViewModel viewModel = new ConfigurationViewModel(new SaveConfigurationCommandFactory(runHotKey), this);
+                ConfigurationViewModel viewModel = new ConfigurationViewModel(new SaveConfigurationCommandFactory(runHotKey, shortcutService), this);
                 viewModel.SourceDirectoryPath = Settings.Default.SourceDirectoryPath;
                 viewModel.PreferedApplicationPath = Settings.Default.PreferedApplicationPath;
                 viewModel.FileSearchMode = GetUserFileSearchMode();
@@ -239,6 +247,7 @@ namespace Neptuo.Productivity.SolutionRunner
                 viewModel.IsAutoSelectApplicationVersion = Settings.Default.IsAutoSelectApplicationVersion;
                 viewModel.IsFileNameRemovedFromDisplayedPath = Settings.Default.IsFileNameRemovedFromDisplayedPath;
                 viewModel.IsDisplayedPathTrimmedToLastFolderName = Settings.Default.IsDisplayedPathTrimmedToLastFolderName;
+                viewModel.IsAutoStartup = shortcutService.Exists(Environment.SpecialFolder.Startup);
                 viewModel.AdditionalApplications = new ObservableCollection<AdditionalApplicationListViewModel>(LoadAdditionalApplications());
                 viewModel.RunKey = runHotKey.FindKeyViewModel();
                 configurationWindow = new ConfigurationWindow(viewModel, this, String.IsNullOrEmpty(Settings.Default.SourceDirectoryPath));

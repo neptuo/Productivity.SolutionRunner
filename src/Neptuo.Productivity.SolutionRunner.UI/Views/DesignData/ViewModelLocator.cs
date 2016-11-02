@@ -9,6 +9,7 @@ using Neptuo.Productivity.SolutionRunner.Services;
 using Neptuo.Productivity.SolutionRunner.Services.Applications;
 using Neptuo.Productivity.SolutionRunner.Services.Converters;
 using Neptuo.Productivity.SolutionRunner.Services.Searching;
+using Neptuo.Productivity.SolutionRunner.Services.StartupShortcuts;
 using Neptuo.Productivity.SolutionRunner.ViewModels;
 using Neptuo.Productivity.SolutionRunner.ViewModels.Commands;
 using Neptuo.Threading.Tasks;
@@ -28,7 +29,7 @@ namespace Neptuo.Productivity.SolutionRunner.UI.DesignData
     internal class ViewModelLocator
     {
         #region Main
-        
+
         private static MainViewModel mainViewModel;
 
         public static MainViewModel MainViewModel
@@ -120,7 +121,7 @@ namespace Neptuo.Productivity.SolutionRunner.UI.DesignData
         {
             public SaveConfigurationCommand Create(ConfigurationViewModel viewModel)
             {
-                return new SaveConfigurationCommand(viewModel, new RunHotKeyService());
+                return new SaveConfigurationCommand(viewModel, new RunHotKeyService(), new ShortcutService(null, null, null));
             }
         }
 
@@ -175,7 +176,7 @@ namespace Neptuo.Productivity.SolutionRunner.UI.DesignData
         {
             get
             {
-                if(additionalApplication == null)
+                if (additionalApplication == null)
                 {
                     additionalApplication = new AdditionalApplicationEditViewModel(null, m => { });
                     additionalApplication.Path = @"C:\Windows\notepad.exe";

@@ -66,7 +66,6 @@
                         <TextBlock Text="Directory where to search for solution files" HorizontalAlignment="Right" />
                     </Grid>
                     <ui:DirectoryBrowser x:Name="dbrSourceDirectory" Path="{Binding SourceDirectoryPath, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Margin="0" />
-                    <!--<TextBox x:Name="tbxSourceDirectory" Text="{Binding SourceDirectoryPath, UpdateSourceTrigger=PropertyChanged}" Margin="0" />-->
                 </StackPanel>
                 <StackPanel Style="{StaticResource EditorPanelStyle}">
                     <Grid>
@@ -160,9 +159,12 @@
                             <CheckBox Content="Save last used application as prefered" IsChecked="{Binding IsLastUsedApplicationSavedAsPrefered}" />
                             <CheckBox Content="Auto select VsVersion from selected sln file" IsChecked="{Binding IsAutoSelectApplicationVersion}" />
                             <CheckBox Content="Dismiss after loosing focus" IsChecked="{Binding IsDismissedWhenLostFocus}" />
-                            <CheckBox Content="Start hidden (only when hotkey is set)" IsChecked="{Binding IsHiddentOnStartup}" IsEnabled="{Binding RunKey, Converter={StaticResource NullToTrueConverter}}" />
                             <CheckBox Content="Remove file name from displayed path" IsChecked="{Binding IsFileNameRemovedFromDisplayedPath}" />
                             <CheckBox Content="Trim displayed path to last folder name only" IsChecked="{Binding IsDisplayedPathTrimmedToLastFolderName}" IsEnabled="{Binding IsFileNameRemovedFromDisplayedPath}" />
+
+                            <Label Content="Startup:" Margin="0,10,0,0" />
+                            <CheckBox Content="Start when logged in" IsChecked="{Binding IsAutoStartup}" />
+                            <CheckBox Content="Start hidden (only when hotkey is set)" IsChecked="{Binding IsHiddentOnStartup}" IsEnabled="{Binding RunKey, Converter={StaticResource NullToTrueConverter}}" />
                         </StackPanel>
                     </Grid>
                 </StackPanel>
@@ -181,7 +183,7 @@
                 <StackPanel Style="{StaticResource EditorPanelStyle}">
                     <Label Content="Keyboard shortcuts" />
                     <Grid>
-                        <TextBlock Text="Open configuration window" />
+                        <TextBlock Text="Open configuration &amp; help window" />
                         <TextBlock Text="F1" HorizontalAlignment="Right" />
                     </Grid>
                     <Grid>
