@@ -7,8 +7,9 @@
 
         <SolidColorBrush x:Key="BackgroundBrush">#1E1E1E</SolidColorBrush>
         <SolidColorBrush x:Key="TextBoxBackgroundBrush">#3F3F46</SolidColorBrush>
-        <SolidColorBrush x:Key="InactiveBrush">#ABADB3</SolidColorBrush>
+        <SolidColorBrush x:Key="InactiveBrush">#3F3F46</SolidColorBrush>
         <SolidColorBrush x:Key="ActiveBrush">#3683D3</SolidColorBrush>
+        <SolidColorBrush x:Key="TextBoxInactiveBrush">#ABADB3</SolidColorBrush>
 
         <converters:CuttingConverter x:Key="ZeroOrLowerToVisibleConverter" EdgeValue="0" GreaterValue="Collapsed" LowerValue="Visible" EqualValue="Visible" />
         <converters:BoolConverter x:Key="ActiveBorderConverter" TrueValue="{StaticResource ActiveBrush}" FalseValue="{StaticResource InactiveBrush}" />

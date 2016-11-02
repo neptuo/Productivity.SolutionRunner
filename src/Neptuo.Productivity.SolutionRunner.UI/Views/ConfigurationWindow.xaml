@@ -22,7 +22,7 @@
             <Setter Property="Padding" Value="4,0" />
             <Setter Property="Margin" Value="0,0,0,2" />
             <Setter Property="BorderThickness" Value="0,0,0,1" />
-            <Setter Property="BorderBrush" Value="{StaticResource InactiveBrush}" />
+            <Setter Property="BorderBrush" Value="{StaticResource TextBoxInactiveBrush}" />
         </Style>
         <Style x:Key="AdditionalButtonStyle" TargetType="Button" BasedOn="{StaticResource PlainButtonStyle}">
             <Setter Property="VerticalAlignment" Value="Center" />
