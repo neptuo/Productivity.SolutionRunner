@@ -24,7 +24,11 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels.Commands
         protected override void Execute(AdditionalApplicationListViewModel parameter)
         {
             if (viewModel.AdditionalApplications != null && parameter != null)
+            {
                 viewModel.AdditionalApplications.Remove(parameter);
+                if (parameter.Path.Equals(viewModel.PreferedApplicationPath, StringComparison.InvariantCultureIgnoreCase))
+                    viewModel.PreferedApplicationPath = null;
+            }
         }
     }
 }
