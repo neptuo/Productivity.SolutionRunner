@@ -1,8 +1,4 @@
-﻿using Neptuo.FileSystems;
-using Neptuo.FileSystems.Features;
-using Neptuo.FileSystems.Features.Searching;
-using Neptuo.Linq.Expressions;
-using Neptuo.Observables;
+﻿using Neptuo.Observables;
 using Neptuo.Observables.Collections;
 using Neptuo.Productivity.SolutionRunner.Services;
 using Neptuo.Productivity.SolutionRunner.Services.Searching;

@@ -1,9 +1,6 @@
 ﻿using Neptuo;
 using Neptuo.Activators;
 using Neptuo.Converters;
-using Neptuo.FileSystems;
-using Neptuo.FileSystems.Features;
-using Neptuo.FileSystems.Features.Searching;
 using Neptuo.Observables.Collections;
 using Neptuo.Productivity.SolutionRunner.Properties;
 using Neptuo.Productivity.SolutionRunner.Services;

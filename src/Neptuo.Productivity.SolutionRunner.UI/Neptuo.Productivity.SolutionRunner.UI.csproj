@@ -172,7 +172,6 @@
     <Compile Include="Services\IRunHotKeyService.cs" />
     <Compile Include="Services\DefaultRunHotKeyService.cs" />
     <Compile Include="Services\Searching\DelayedFileSearchService.cs" />
-    <Compile Include="Services\Searching\DirectFileSearchService.cs" />
     <Compile Include="Services\IApplicationCollection.cs" />
     <Compile Include="Services\IFileCollection.cs" />
     <Compile Include="Services\Searching\FileModel.cs" />
@@ -181,7 +180,6 @@
     <Compile Include="Services\Searching\IFileSearchService.cs" />
     <Compile Include="Services\INavigator.cs" />
     <Compile Include="Services\IPinStateService.cs" />
-    <Compile Include="Services\Searching\LocalFileSearchService.cs" />
     <Compile Include="Services\Searching\PatternMatcherFactory.cs" />
     <Compile Include="Services\Searching\PinnedForEmptyPatternFileSearchService.cs" />
     <Compile Include="Services\Searching\_EnsureExceptionExtensions.cs" />
