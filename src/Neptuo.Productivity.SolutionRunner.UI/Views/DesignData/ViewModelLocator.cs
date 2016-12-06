@@ -122,7 +122,16 @@ namespace Neptuo.Productivity.SolutionRunner.UI.DesignData
         {
             public SaveConfigurationCommand Create(ConfigurationViewModel viewModel)
             {
-                return new SaveConfigurationCommand(viewModel, Settings.Default, new RunHotKeyService(), new ShortcutService(null, null, null));
+                return new SaveConfigurationCommand(
+                    viewModel, 
+                    Settings.Default, 
+                    new RunHotKeyService(), 
+                    new ShortcutService(
+                        "Neptuo", 
+                        "Productivity", 
+                        "SolutionRunner"
+                    )
+                );
             }
         }
 

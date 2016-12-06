@@ -250,7 +250,10 @@ namespace Neptuo.Productivity.SolutionRunner
                 viewModel.IsAutoStartup = shortcutService.Exists(Environment.SpecialFolder.Startup);
                 viewModel.AdditionalApplications = new ObservableCollection<AdditionalApplicationListViewModel>(LoadAdditionalApplications());
                 viewModel.RunKey = runHotKey.FindKeyViewModel();
+
                 configurationWindow = new ConfigurationWindow(viewModel, this, String.IsNullOrEmpty(Settings.Default.SourceDirectoryPath));
+                configurationWindow.ShowInTaskbar = !runHotKey.IsSet;
+                configurationWindow.ResizeMode = !runHotKey.IsSet ? ResizeMode.CanMinimize : ResizeMode.NoResize;
                 configurationWindow.Closed += OnConfigurationWindowClosed;
             }
             configurationWindow.Show();
@@ -302,7 +305,7 @@ namespace Neptuo.Productivity.SolutionRunner
 
         private IFileSearchService CreateFileSearchService()
         {
-            // We can make IF for runHotKey here, because othe file search services are too slow.
+            // We CAN'T make IF for runHotKey here, because other file search services are too slow.
 
             string directoryPath = Settings.Default.SourceDirectoryPath;
 
@@ -323,6 +326,8 @@ namespace Neptuo.Productivity.SolutionRunner
             if (mainWindow.ViewModel == null || isMainWindowViewModelReloadRequired)
             {
                 isMainWindowViewModelReloadRequired = false;
+
+                mainWindow.ShowInTaskbar = !runHotKey.IsSet;
                 mainWindow.IsAutoSelectApplicationVersion = Settings.Default.IsAutoSelectApplicationVersion;
 
                 MainViewModel viewModel = new MainViewModel(

@@ -8,8 +8,8 @@
         xmlns:ui="clr-namespace:Neptuo.Productivity.SolutionRunner.Views.Controls"
         xmlns:ds="clr-namespace:Neptuo.Productivity.SolutionRunner.Views.DataSources"
         xmlns:converters="clr-namespace:Neptuo.Productivity.SolutionRunner.Services.Converters"
-        Title="Solution runner - Configuration" Width="510" SizeToContent="Height" ResizeMode="NoResize" 
-        ShowInTaskbar="False" Background="{StaticResource BackgroundBrush}" WindowStartupLocation="CenterScreen"  WindowStyle="None"
+        Title="Solution runner - Configuration" Width="510" SizeToContent="Height" 
+        Background="{StaticResource BackgroundBrush}" WindowStartupLocation="CenterScreen" WindowStyle="None"
         PreviewKeyDown="OnPreviewKeyDown" PreviewMouseDown="OnPreviewMouseDown" Closing="OnClosing">
     <Window.Resources>
         <converters:NullToBoolConverter x:Key="NullToTrueConverter" IsInverted="True" />
