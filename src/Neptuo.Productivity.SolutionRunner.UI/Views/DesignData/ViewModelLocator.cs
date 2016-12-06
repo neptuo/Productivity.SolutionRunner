@@ -5,6 +5,7 @@ using Neptuo.FileSystems;
 using Neptuo.FileSystems.Features;
 using Neptuo.FileSystems.Features.Searching;
 using Neptuo.Observables.Collections;
+using Neptuo.Productivity.SolutionRunner.Properties;
 using Neptuo.Productivity.SolutionRunner.Services;
 using Neptuo.Productivity.SolutionRunner.Services.Applications;
 using Neptuo.Productivity.SolutionRunner.Services.Converters;
@@ -121,7 +122,7 @@ namespace Neptuo.Productivity.SolutionRunner.UI.DesignData
         {
             public SaveConfigurationCommand Create(ConfigurationViewModel viewModel)
             {
-                return new SaveConfigurationCommand(viewModel, new RunHotKeyService(), new ShortcutService(null, null, null));
+                return new SaveConfigurationCommand(viewModel, Settings.Default, new RunHotKeyService(), new ShortcutService(null, null, null));
             }
         }
 

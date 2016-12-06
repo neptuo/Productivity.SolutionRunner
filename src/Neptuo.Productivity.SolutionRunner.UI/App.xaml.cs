@@ -235,7 +235,7 @@ namespace Neptuo.Productivity.SolutionRunner
             {
                 isMainWindowViewModelReloadRequired = true;
 
-                ConfigurationViewModel viewModel = new ConfigurationViewModel(new SaveConfigurationCommandFactory(runHotKey, shortcutService), this);
+                ConfigurationViewModel viewModel = new ConfigurationViewModel(new SaveConfigurationCommandFactory(Settings.Default, runHotKey, shortcutService), this);
                 viewModel.SourceDirectoryPath = Settings.Default.SourceDirectoryPath;
                 viewModel.PreferedApplicationPath = Settings.Default.PreferedApplicationPath;
                 viewModel.FileSearchMode = GetUserFileSearchMode();

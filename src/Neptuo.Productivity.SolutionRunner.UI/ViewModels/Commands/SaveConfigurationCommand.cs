@@ -18,15 +18,18 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels.Commands
     public class SaveConfigurationCommand : CommandBase
     {
         private readonly ConfigurationViewModel viewModel;
+        private readonly Settings settings;
         private readonly IRunHotKeyService runHotKey;
         private readonly ShortcutService shortcutService;
 
-        public SaveConfigurationCommand(ConfigurationViewModel viewModel, IRunHotKeyService runHotKey, ShortcutService shortcutService)
+        internal SaveConfigurationCommand(ConfigurationViewModel viewModel, Settings settings, IRunHotKeyService runHotKey, ShortcutService shortcutService)
         {
             Ensure.NotNull(viewModel, "viewModel");
+            Ensure.NotNull(settings, "settings");
             Ensure.NotNull(runHotKey, "runHotKey");
             Ensure.NotNull(shortcutService, "shortcutService");
             this.viewModel = viewModel;
+            this.settings = settings;
             this.runHotKey = runHotKey;
             this.shortcutService = shortcutService;
         }
@@ -47,18 +50,18 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels.Commands
 
         protected override void Execute()
         {
-            Settings.Default.SourceDirectoryPath = viewModel.SourceDirectoryPath;
-            Settings.Default.PreferedApplicationPath = viewModel.PreferedApplicationPath;
-            Settings.Default.FileSearchMode = Converts.To<FileSearchMode, string>(viewModel.FileSearchMode);
-            Settings.Default.FileSearchCount = viewModel.FileSearchCount;
-            Settings.Default.IsFileSearchPatternSaved = viewModel.IsFileSearchPatternSaved;
-            Settings.Default.IsLastUsedApplicationSavedAsPrefered = viewModel.IsLastUsedApplicationSavedAsPrefered;
-            Settings.Default.IsDismissedWhenLostFocus = viewModel.IsDismissedWhenLostFocus;
-            Settings.Default.IsHiddentOnStartup = viewModel.IsHiddentOnStartup;
-            Settings.Default.IsAutoSelectApplicationVersion = viewModel.IsAutoSelectApplicationVersion;
-            Settings.Default.IsFileNameRemovedFromDisplayedPath = viewModel.IsFileNameRemovedFromDisplayedPath;
-            Settings.Default.IsDisplayedPathTrimmedToLastFolderName = viewModel.IsDisplayedPathTrimmedToLastFolderName;
-            Settings.Default.AdditionalApplications = Converts
+            settings.SourceDirectoryPath = viewModel.SourceDirectoryPath;
+            settings.PreferedApplicationPath = viewModel.PreferedApplicationPath;
+            settings.FileSearchMode = Converts.To<FileSearchMode, string>(viewModel.FileSearchMode);
+            settings.FileSearchCount = viewModel.FileSearchCount;
+            settings.IsFileSearchPatternSaved = viewModel.IsFileSearchPatternSaved;
+            settings.IsLastUsedApplicationSavedAsPrefered = viewModel.IsLastUsedApplicationSavedAsPrefered;
+            settings.IsDismissedWhenLostFocus = viewModel.IsDismissedWhenLostFocus;
+            settings.IsHiddentOnStartup = viewModel.IsHiddentOnStartup;
+            settings.IsAutoSelectApplicationVersion = viewModel.IsAutoSelectApplicationVersion;
+            settings.IsFileNameRemovedFromDisplayedPath = viewModel.IsFileNameRemovedFromDisplayedPath;
+            settings.IsDisplayedPathTrimmedToLastFolderName = viewModel.IsDisplayedPathTrimmedToLastFolderName;
+            settings.AdditionalApplications = Converts
                 .To<AdditionalApplicationCollection, string>(new AdditionalApplicationCollection(viewModel.AdditionalApplications.Select(a => a.Model)));
 
             if (viewModel.IsAutoStartup)
@@ -68,14 +71,14 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels.Commands
 
             string runKeyValue;
             if (Converts.Try(viewModel.RunKey, out runKeyValue))
-                Settings.Default.RunKey = runKeyValue;
+                settings.RunKey = runKeyValue;
 
             if (viewModel.RunKey == null)
                 runHotKey.UnBind();
             else
                 runHotKey.Bind(viewModel.RunKey.Key, viewModel.RunKey.Modifier);
 
-            Settings.Default.Save();
+            settings.Save();
             EventManager.RaiseConfigurationSaved(viewModel);
         }
     }
