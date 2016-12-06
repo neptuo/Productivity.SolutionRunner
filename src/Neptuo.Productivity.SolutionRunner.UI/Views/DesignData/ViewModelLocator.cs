@@ -36,8 +36,8 @@ namespace Neptuo.Productivity.SolutionRunner.UI.DesignData
             {
                 if (mainViewModel == null)
                 {
-                    Properties.Settings.Default.IsFileNameRemovedFromDisplayedPath = true;
-                    //Properties.Settings.Default.IsDisplayedPathTrimmedToLastFolderName = true;
+                    Settings.Default.IsFileNameRemovedFromDisplayedPath = true;
+                    //Settings.Default.IsDisplayedPathTrimmedToLastFolderName = true;
 
                     mainViewModel = new MainViewModel(new FileSearchService(true), () => FileSearchMode.StartsWith, () => 20);
                     mainViewModel.IsLoading = false;

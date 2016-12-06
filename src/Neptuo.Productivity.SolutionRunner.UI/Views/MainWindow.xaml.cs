@@ -35,11 +35,6 @@ namespace Neptuo.Productivity.SolutionRunner.Views
     /// </summary>
     public partial class MainWindow : Window
     {
-        private static readonly string FileIsPinnedPropertyName = TypeHelper.PropertyName<FileViewModel, bool>(vm => vm.IsPinned);
-        private static readonly string FileNamePropertyName = TypeHelper.PropertyName<FileViewModel, string>(vm => vm.Name);
-        private static readonly string ApplicationIsMainPropertyName = TypeHelper.PropertyName<ApplicationViewModel, bool>(vm => vm.IsMain);
-        private static readonly string ApplicationNamePropertyName = TypeHelper.PropertyName<ApplicationViewModel, string>(vm => vm.Name);
-
         private readonly INavigator navigator;
         private readonly Settings settings;
         private readonly ProcessService processService;
@@ -145,8 +140,8 @@ namespace Neptuo.Productivity.SolutionRunner.Views
             ICollectionView filesView = CollectionViewSource.GetDefaultView(viewModel.Files);
             if (filesView != null)
             {
-                filesView.SortDescriptions.Add(new SortDescription(FileIsPinnedPropertyName, ListSortDirection.Descending));
-                filesView.SortDescriptions.Add(new SortDescription(FileNamePropertyName, ListSortDirection.Ascending));
+                filesView.SortDescriptions.Add(new SortDescription(nameof(FileViewModel.IsPinned), ListSortDirection.Descending));
+                filesView.SortDescriptions.Add(new SortDescription(nameof(FileViewModel.Name), ListSortDirection.Ascending));
                 filesView.CollectionChanged += OnFilesViewCollectionChanged;
                 filesView.Refresh();
 
@@ -156,8 +151,8 @@ namespace Neptuo.Productivity.SolutionRunner.Views
             ICollectionView applicationsView = CollectionViewSource.GetDefaultView(viewModel.Applications);
             if (applicationsView != null)
             {
-                applicationsView.SortDescriptions.Add(new SortDescription(ApplicationIsMainPropertyName, ListSortDirection.Descending));
-                applicationsView.SortDescriptions.Add(new SortDescription(ApplicationNamePropertyName, ListSortDirection.Ascending));
+                applicationsView.SortDescriptions.Add(new SortDescription(nameof(ApplicationViewModel.IsMain), ListSortDirection.Descending));
+                applicationsView.SortDescriptions.Add(new SortDescription(nameof(ApplicationViewModel.Name), ListSortDirection.Ascending));
                 applicationsView.CollectionChanged += OnApplicationsViewCollectionChanged;
                 filesView.Refresh();
 
