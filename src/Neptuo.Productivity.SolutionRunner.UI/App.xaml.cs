@@ -315,7 +315,7 @@ namespace Neptuo.Productivity.SolutionRunner
         {
             if (mainWindow == null)
             {
-                mainWindow = new MainWindow(this, new ProcessService());
+                mainWindow = new MainWindow(this, Settings.Default, new ProcessService());
                 mainWindow.Closing += OnMainWindowClosing;
                 mainWindow.Closed += OnMainWindowClosed;
             }

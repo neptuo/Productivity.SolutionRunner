@@ -41,6 +41,7 @@ namespace Neptuo.Productivity.SolutionRunner.Views
         private static readonly string ApplicationNamePropertyName = TypeHelper.PropertyName<ApplicationViewModel, string>(vm => vm.Name);
 
         private readonly INavigator navigator;
+        private readonly Settings settings;
         private readonly ProcessService processService;
 
         public DispatcherHelper DispatcherHelper { get; private set; }
@@ -92,11 +93,13 @@ namespace Neptuo.Productivity.SolutionRunner.Views
 
         #endregion
 
-        public MainWindow(INavigator navigator, ProcessService processService)
+        internal MainWindow(INavigator navigator, Settings settings, ProcessService processService)
         {
             Ensure.NotNull(navigator, "navigator");
+            Ensure.NotNull(settings, "settings");
             Ensure.NotNull(processService, "processService");
             this.navigator = navigator;
+            this.settings = settings;
             this.processService = processService;
 
             InitializeComponent();
@@ -108,12 +111,12 @@ namespace Neptuo.Productivity.SolutionRunner.Views
         {
             if (application != null)
             {
-                if (Settings.Default.IsLastUsedApplicationSavedAsPrefered)
+                if (settings.IsLastUsedApplicationSavedAsPrefered)
                 {
-                    if (application.Path != Settings.Default.PreferedApplicationPath)
+                    if (application.Path != settings.PreferedApplicationPath)
                     {
-                        Settings.Default.PreferedApplicationPath = application.Path;
-                        Settings.Default.Save();
+                        settings.PreferedApplicationPath = application.Path;
+                        settings.Save();
                     }
                 }
                 else
@@ -337,7 +340,7 @@ namespace Neptuo.Productivity.SolutionRunner.Views
 
         public void TrySelectPreferedApplication()
         {
-            if (!String.IsNullOrEmpty(Settings.Default.PreferedApplicationPath))
+            if (!String.IsNullOrEmpty(settings.PreferedApplicationPath))
             {
                 int index = 0;
                 ICollectionView applicationsView = CollectionViewSource.GetDefaultView(ViewModel.Applications);
@@ -345,7 +348,7 @@ namespace Neptuo.Productivity.SolutionRunner.Views
                 {
                     foreach (ApplicationViewModel application in applicationsView)
                     {
-                        if (application.Path == Settings.Default.PreferedApplicationPath)
+                        if (application.Path == settings.PreferedApplicationPath)
                         {
                             lvwApplications.SelectedIndex = index;
                             break;
