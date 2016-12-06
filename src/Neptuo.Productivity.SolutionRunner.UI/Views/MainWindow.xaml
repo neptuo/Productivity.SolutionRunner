@@ -107,7 +107,7 @@
                         </ListView.ItemsPanel>
                         <ListView.ItemTemplate>
                             <DataTemplate>
-                                <ContentControl x:Name="cocApplication"  MouseDoubleClick="cocApplication_MouseDoubleClick">
+                                <ContentControl x:Name="cocApplication" MouseDoubleClick="cocApplication_MouseDoubleClick" ToolTip="{Binding Path}">
                                     <Grid Width="100" Height="60">
                                         <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
                                             <DockPanel>
@@ -135,13 +135,13 @@
                 <ListView x:Name="lvwFiles" ItemsSource="{Binding Files}" ItemContainerStyle="{StaticResource ListViewItemStyle}" Visibility="{Binding IsFileListAvailable, Converter={StaticResource TrueToVisibleConverter}}" Grid.Row="3">
                     <ListView.ItemTemplate>
                         <DataTemplate>
-                            <ContentControl x:Name="cocFile" MouseDoubleClick="cocFile_MouseDoubleClick">
+                            <ContentControl x:Name="cocFile" MouseDoubleClick="cocFile_MouseDoubleClick" ToolTip="{Binding Path}">
                                 <DockPanel Width="{Binding FileWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}}" Margin="20,0">
                                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" DockPanel.Dock="Right">
-                                        <Button Command="{Binding PinCommand}" Visibility="{Binding IsPinned, Converter={StaticResource TrueToCollapsedConverter}}" Style="{StaticResource PlainButtonStyle}">
+                                        <Button Command="{Binding PinCommand}" ToolTip="Pin file" Visibility="{Binding IsPinned, Converter={StaticResource TrueToCollapsedConverter}}" Style="{StaticResource PlainButtonStyle}">
                                             <Image Source="{StaticResource PinImage}" Width="16" />
                                         </Button>
-                                        <Button Command="{Binding UnPinCommand}" Visibility="{Binding IsPinned, Converter={StaticResource TrueToVisibleConverter}}" Style="{StaticResource PlainButtonStyle}">
+                                        <Button Command="{Binding UnPinCommand}" ToolTip="Unpin file" Visibility="{Binding IsPinned, Converter={StaticResource TrueToVisibleConverter}}" Style="{StaticResource PlainButtonStyle}">
                                             <Image Source="{StaticResource UnPinImage}" Width="16" />
                                         </Button>
                                     </StackPanel>
@@ -159,7 +159,6 @@
                 <TextBlock Text="{Binding Message}" Style="{StaticResource NoDataStyle}" Visibility="{Binding IsFileListAvailable, Converter={StaticResource TrueToCollapsedConverter}}" Grid.Row="3" />
             </Grid>
             <Grid Visibility="{Binding IsLoading, Converter={StaticResource TrueToVisibleConverter}}" Grid.RowSpan="4">
-                <!--<Grid Background="Black" Opacity=".5" />-->
                 <ProgressBar IsIndeterminate="True" Height="3" BorderThickness="0" VerticalAlignment="Bottom" Margin="10,5" Background="Transparent" />
             </Grid>
         </Grid>
