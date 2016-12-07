@@ -200,6 +200,20 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels
             }
         }
 
+        private bool isTrayIcon;
+        public bool IsTrayIcon
+        {
+            get { return isTrayIcon; }
+            set
+            {
+                if (isTrayIcon != value)
+                {
+                    isTrayIcon = value;
+                    RaisePropertyChanged();
+                }
+            }
+        }
+
         public ObservableCollection<AdditionalApplicationListViewModel> AdditionalApplications { get; set; }
 
         public string Version { get; private set; }

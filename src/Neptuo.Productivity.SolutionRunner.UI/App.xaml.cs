@@ -22,8 +22,11 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Configuration;
 using System.Data;
+using System.Diagnostics;
+using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -31,6 +34,7 @@ using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Threading;
 using EventManager = Neptuo.Productivity.SolutionRunner.ViewModels.EventManager;
+using NotifyIcon = System.Windows.Forms.NotifyIcon;
 
 namespace Neptuo.Productivity.SolutionRunner
 {
@@ -44,8 +48,8 @@ namespace Neptuo.Productivity.SolutionRunner
 
         // THIS must be synchronized with Click-Once deployment settings.
         private readonly ShortcutService shortcutService = new ShortcutService(
-            companyName: "Neptuo", 
-            suiteName: "Productivity", 
+            companyName: "Neptuo",
+            suiteName: "Productivity",
             productName: "Productivity.SolutionRunner"
         );
 
@@ -77,8 +81,8 @@ namespace Neptuo.Productivity.SolutionRunner
                 .Add(new AdditionalApplicationCollectionConverter())
                 .Add(new KeyViewModelConverter());
 
-
             EventManager.FilePinned += OnFilePinned;
+            EventManager.ConfigurationSaved += OnConfigurationSaved;
 
             // Bind global hotkey.
             runHotKey = new DefaultRunHotKeyService(this, this);
@@ -106,7 +110,53 @@ namespace Neptuo.Productivity.SolutionRunner
             else
                 OpenMain();
 
+            if (Settings.Default.IsTrayIcon)
+                TryCreateTrayIcon();
+
             startup.IsStartup = false;
+        }
+        
+        private NotifyIcon trayIcon;
+
+        private void OnConfigurationSaved(ConfigurationViewModel viewModel)
+        {
+            if (viewModel.IsTrayIcon)
+                TryCreateTrayIcon();
+            else
+                TryDestroyTrayIcon();
+        }
+
+        private bool TryCreateTrayIcon()
+        {
+            if (trayIcon == null)
+            {
+                trayIcon = new NotifyIcon();
+                trayIcon.Icon = Icon.ExtractAssociatedIcon(Process.GetCurrentProcess().MainModule.FileName);
+                trayIcon.Text = "SolutionRunner";
+                trayIcon.Click += OnTrayIconClick;
+                trayIcon.Visible = true;
+                return true;
+            }
+
+            return false;
+        }
+
+        private bool TryDestroyTrayIcon()
+        {
+            if (trayIcon != null)
+            {
+                trayIcon.Click -= OnTrayIconClick;
+                trayIcon.Dispose();
+                trayIcon = null;
+                return true;
+            }
+
+            return false;
+        }
+
+        private void OnTrayIconClick(object sender, EventArgs e)
+        {
+            OpenMain();
         }
 
         public void Activate()
@@ -159,6 +209,7 @@ namespace Neptuo.Productivity.SolutionRunner
         protected override void OnExit(ExitEventArgs e)
         {
             runHotKey.Dispose();
+            TryDestroyTrayIcon();
             base.OnExit(e);
         }
 
@@ -246,6 +297,7 @@ namespace Neptuo.Productivity.SolutionRunner
                 viewModel.IsFileNameRemovedFromDisplayedPath = Settings.Default.IsFileNameRemovedFromDisplayedPath;
                 viewModel.IsDisplayedPathTrimmedToLastFolderName = Settings.Default.IsDisplayedPathTrimmedToLastFolderName;
                 viewModel.IsAutoStartup = shortcutService.Exists(Environment.SpecialFolder.Startup);
+                viewModel.IsTrayIcon = Settings.Default.IsTrayIcon;
                 viewModel.AdditionalApplications = new ObservableCollection<AdditionalApplicationListViewModel>(LoadAdditionalApplications());
                 viewModel.RunKey = runHotKey.FindKeyViewModel();
 

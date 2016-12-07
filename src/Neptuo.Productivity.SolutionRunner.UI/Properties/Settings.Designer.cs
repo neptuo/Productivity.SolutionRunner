@@ -202,5 +202,17 @@ namespace Neptuo.Productivity.SolutionRunner.Properties {
                 this["IsDisplayedPathTrimmedToLastFolderName"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool IsTrayIcon {
+            get {
+                return ((bool)(this["IsTrayIcon"]));
+            }
+            set {
+                this["IsTrayIcon"] = value;
+            }
+        }
     }
 }

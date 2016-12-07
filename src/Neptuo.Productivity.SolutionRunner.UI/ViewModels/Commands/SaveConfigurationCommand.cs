@@ -61,6 +61,7 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels.Commands
             settings.IsAutoSelectApplicationVersion = viewModel.IsAutoSelectApplicationVersion;
             settings.IsFileNameRemovedFromDisplayedPath = viewModel.IsFileNameRemovedFromDisplayedPath;
             settings.IsDisplayedPathTrimmedToLastFolderName = viewModel.IsDisplayedPathTrimmedToLastFolderName;
+            settings.IsTrayIcon = viewModel.IsTrayIcon;
             settings.AdditionalApplications = Converts
                 .To<AdditionalApplicationCollection, string>(new AdditionalApplicationCollection(viewModel.AdditionalApplications.Select(a => a.Model)));
 
