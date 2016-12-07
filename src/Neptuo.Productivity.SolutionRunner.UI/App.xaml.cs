@@ -301,15 +301,18 @@ namespace Neptuo.Productivity.SolutionRunner
                 onAdditionalApplicationSaved(model);
         }
 
+        private string directoryPath;
+        private FileSystemWatcherSearchService fileSearchService;
+
         private IFileSearchService CreateFileSearchService()
         {
-            // We CAN'T make IF for runHotKey here, because other file search services are too slow.
+            if (fileSearchService == null || directoryPath != Settings.Default.SourceDirectoryPath)
+            {
+                directoryPath = Settings.Default.SourceDirectoryPath;
+                fileSearchService = new FileSystemWatcherSearchService(directoryPath, this);
+            }
 
-            string directoryPath = Settings.Default.SourceDirectoryPath;
-
-            //return new LocalFileSearchService(directoryPath, this);
-            //return new DirectFileSearchService(directoryPath, this);
-            return new FileSystemWatcherSearchService(directoryPath, this);
+            return fileSearchService;
         }
 
         public void OpenMain()
