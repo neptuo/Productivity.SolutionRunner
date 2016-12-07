@@ -164,7 +164,6 @@
     <Compile Include="Services\Applications\IconExtractor.cs" />
     <Compile Include="Services\Converters\AdditionalApplicationCollectionConverter.cs" />
     <Compile Include="Services\Converters\KeyViewModelConverter.cs" />
-    <Compile Include="Services\Converters\NullToBoolConverter.cs" />
     <Compile Include="Services\Execution\IApplication.cs" />
     <Compile Include="Services\Execution\IFile.cs" />
     <Compile Include="Services\Execution\ProcessService.cs" />
@@ -213,11 +212,17 @@
     <Compile Include="Views\Controls\DirectoryBrowser.xaml.cs">
       <DependentUpon>DirectoryBrowser.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Controls\HelpPopup.xaml.cs">
+      <DependentUpon>HelpPopup.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Controls\HotKeyTextBox.cs" />
     <Compile Include="Views\Converters\BoolConverter.cs" />
     <Compile Include="Views\Converters\CuttingConverter.cs" />
+    <Compile Include="Views\Converters\HelpVisibilityMultiValueConverter.cs" />
+    <Compile Include="Views\Converters\NullConverter.cs" />
     <Compile Include="Views\Converters\PathConverter.cs" />
     <Compile Include="Views\DataSources\FileSearchModes.cs" />
+    <Compile Include="Views\DataSources\Boolean.cs" />
     <Compile Include="Views\DesignData\ViewModelLocator.cs" />
     <Compile Include="ViewModels\ApplicationViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
@@ -230,6 +235,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Controls\DirectoryBrowser.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Controls\HelpPopup.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

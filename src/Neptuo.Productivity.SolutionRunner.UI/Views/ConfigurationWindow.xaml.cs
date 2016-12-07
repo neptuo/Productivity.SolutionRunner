@@ -27,7 +27,8 @@ namespace Neptuo.Productivity.SolutionRunner.Views
     public partial class ConfigurationWindow : Window
     {
         private readonly INavigator navigator;
-        private bool isSaveRequired;
+
+        public bool IsSaveRequired { get; private set; }
 
         public ConfigurationViewModel ViewModel
         {
@@ -40,8 +41,8 @@ namespace Neptuo.Productivity.SolutionRunner.Views
             Ensure.NotNull(viewModel, "viewModel");
             Ensure.NotNull(navigator, "navigator");
             ViewModel = viewModel;
+            IsSaveRequired = isSaveRequired;
             this.navigator = navigator;
-            this.isSaveRequired = isSaveRequired;
 
             InitializeComponent();
             EventManager.ConfigurationSaved += OnConfigurationSaved;
@@ -50,7 +51,7 @@ namespace Neptuo.Productivity.SolutionRunner.Views
         private void OnConfigurationSaved(ConfigurationViewModel viewModel)
         {
             EventManager.ConfigurationSaved -= OnConfigurationSaved;
-            isSaveRequired = false;
+            IsSaveRequired = false;
             Close();
         }
 
@@ -83,7 +84,7 @@ namespace Neptuo.Productivity.SolutionRunner.Views
 
         private void OnClosing(object sender, CancelEventArgs e)
         {
-            if (isSaveRequired)
+            if (IsSaveRequired)
             {
                 string message = "Source root directory is not set. Terminate the application?";
                 string caption = "Configuration";

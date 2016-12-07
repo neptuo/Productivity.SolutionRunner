@@ -1,18 +1,22 @@
 ﻿<Window x:Class="Neptuo.Productivity.SolutionRunner.Views.ConfigurationWindow"
+        x:Name="this"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" 
         xmlns:dd="clr-namespace:Neptuo.Productivity.SolutionRunner.UI.DesignData" d:DataContext="{x:Static dd:ViewModelLocator.ConfigurationViewModel}"
+        xmlns:system="clr-namespace:System;assembly=mscorlib"
         xmlns:fa="http://schemas.fontawesome.io/icons/"
         xmlns:ui="clr-namespace:Neptuo.Productivity.SolutionRunner.Views.Controls"
         xmlns:ds="clr-namespace:Neptuo.Productivity.SolutionRunner.Views.DataSources"
-        xmlns:converters="clr-namespace:Neptuo.Productivity.SolutionRunner.Services.Converters"
+        xmlns:converters="clr-namespace:Neptuo.Productivity.SolutionRunner.Views.Converters"
         Title="Solution runner - Configuration" Width="510" SizeToContent="Height" 
         Background="{StaticResource BackgroundBrush}" WindowStartupLocation="CenterScreen" WindowStyle="None"
         PreviewKeyDown="OnPreviewKeyDown" PreviewMouseDown="OnPreviewMouseDown" Closing="OnClosing">
     <Window.Resources>
-        <converters:NullToBoolConverter x:Key="NullToTrueConverter" IsInverted="True" />
+        <converters:NullConverter x:Key="NullToTrueConverter" TrueValue="{x:Static ds:Boolean.True}" FalseValue="{x:Static ds:Boolean.False}" />
+        <converters:NullConverter x:Key="NullToFalseConverter" TrueValue="False" FalseValue="True" />
+        <converters:HelpVisibilityMultiValueConverter x:Key="HelpVisibilityMultiValueConverter" />
 
         <Style TargetType="TextBlock" BasedOn="{StaticResource DescriptionStyle}">
             <Setter Property="Padding" Value="2" />
@@ -62,10 +66,23 @@
             <StackPanel>
                 <StackPanel Style="{StaticResource EditorPanelStyle}">
                     <Grid>
-                        <Label Content="Root directory:" Target="{Binding ElementName=tbxSourceDirectory}" />
+                        <Label Content="Root directory:" Target="{Binding ElementName=dbrSourceDirectory}" />
                         <TextBlock Text="Directory where to search for solution files" HorizontalAlignment="Right" />
                     </Grid>
                     <ui:DirectoryBrowser x:Name="dbrSourceDirectory" Path="{Binding SourceDirectoryPath, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Margin="0" />
+                    <ui:HelpPopup x:Name="hepSourceDirectory" Placement="Top" PlacementRectangle="{Binding ElementName=dbrSourceDirectory}" VerticalOffset="15">
+                        <ui:HelpPopup.IsOpen>
+                            <MultiBinding Converter="{StaticResource HelpVisibilityMultiValueConverter}">
+                                <Binding Path="SourceDirectoryPath" Converter="{StaticResource NullToTrueConverter}" Mode="OneWay" />
+                                <Binding Path="IsSaveRequired" ElementName="this" />
+                            </MultiBinding>
+                        </ui:HelpPopup.IsOpen>
+                        <StackPanel>
+                            <TextBlock Text="SolutionRunner scans your file system, finds all *.sln files and offer those to you. " />
+                            <TextBlock Text="This field should contain root directory where to look for solution files. " />
+                            <TextBlock Text="If your projects are located under for eg. C:/Dev, than select this directory here." />
+                        </StackPanel>
+                    </ui:HelpPopup>
                 </StackPanel>
                 <StackPanel Style="{StaticResource EditorPanelStyle}">
                     <Grid>
@@ -167,7 +184,7 @@
 
                             <Label Content="Startup:" Margin="0,10,0,0" />
                             <CheckBox Content="Start when logged in" IsChecked="{Binding IsAutoStartup}" />
-                            <CheckBox Content="Start hidden (only when hotkey is set)" IsChecked="{Binding IsHiddentOnStartup}" IsEnabled="{Binding RunKey, Converter={StaticResource NullToTrueConverter}}" />
+                            <CheckBox Content="Start hidden (only when hotkey is set)" IsChecked="{Binding IsHiddentOnStartup}" IsEnabled="{Binding RunKey, Converter={StaticResource NullToFalseConverter}}" />
                         </StackPanel>
                     </Grid>
                 </StackPanel>
