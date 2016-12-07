@@ -333,10 +333,12 @@ namespace Neptuo.Productivity.SolutionRunner
 
                 MainViewModel viewModel = new MainViewModel(
                     new PinnedForEmptyPatternFileSearchService(
-                        new DelayedFileSearchService(
-                            Dispatcher,
-                            CreateFileSearchService()
-                        ),
+                        //new DelayedFileSearchService(
+                        //    Dispatcher,
+                        //    CreateFileSearchService()
+                        //),
+                        //this
+                        CreateFileSearchService(),
                         this
                     ),
                     GetUserFileSearchMode,
