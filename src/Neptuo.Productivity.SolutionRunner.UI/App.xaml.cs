@@ -120,7 +120,7 @@ namespace Neptuo.Productivity.SolutionRunner
         private static FileSearchMode GetUserFileSearchMode()
         {
             FileSearchMode result;
-            if (Converts.Try<string, FileSearchMode>(Settings.Default.FileSearchMode, out result))
+            if (Converts.Try(Settings.Default.FileSearchMode, out result))
                 return result;
 
             return FileSearchMode.StartsWith;

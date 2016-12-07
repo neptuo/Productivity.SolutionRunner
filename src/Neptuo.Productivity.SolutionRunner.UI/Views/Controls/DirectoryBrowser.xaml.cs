@@ -28,8 +28,11 @@ namespace Neptuo.Productivity.SolutionRunner.Views.Controls
             set { SetValue(PathProperty, value); }
         }
 
-        public static readonly DependencyProperty PathProperty =
-            DependencyProperty.Register("Path", typeof(string), typeof(DirectoryBrowser));
+        public static readonly DependencyProperty PathProperty = DependencyProperty.Register(
+            "Path", 
+            typeof(string), 
+            typeof(DirectoryBrowser)
+        );
 
         public DirectoryBrowser()
         {
