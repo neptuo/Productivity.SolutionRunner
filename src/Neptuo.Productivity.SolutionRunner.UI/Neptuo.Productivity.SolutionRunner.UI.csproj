@@ -185,6 +185,9 @@
     <Compile Include="Services\StartupFlags\StartupModel.cs" />
     <Compile Include="Services\StartupFlags\StartupModelProvider.cs" />
     <Compile Include="Services\StartupShortcuts\ShortcutService.cs" />
+    <Compile Include="Services\Statistics\CountingService.cs" />
+    <Compile Include="Services\Statistics\ICountingAppender.cs" />
+    <Compile Include="Services\Statistics\SwitchableContingService.cs" />
     <Compile Include="Services\UserConfigurations\FileSearchCountGetter.cs" />
     <Compile Include="Services\UserConfigurations\FileSearchModeGetter.cs" />
     <Compile Include="Services\Applications\VsVersionLoader.cs" />

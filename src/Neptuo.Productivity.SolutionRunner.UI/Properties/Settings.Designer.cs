@@ -214,5 +214,17 @@ namespace Neptuo.Productivity.SolutionRunner.Properties {
                 this["IsTrayIcon"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool IsStatisticsCounted {
+            get {
+                return ((bool)(this["IsStatisticsCounted"]));
+            }
+            set {
+                this["IsStatisticsCounted"] = value;
+            }
+        }
     }
 }

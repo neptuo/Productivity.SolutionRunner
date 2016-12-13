@@ -1,4 +1,6 @@
-﻿using Neptuo.Collections.Specialized;
+﻿using Neptuo;
+using Neptuo.Collections.Specialized;
+using Neptuo.Productivity.SolutionRunner.Services.Statistics;
 using Neptuo.Text.Tokens;
 using System;
 using System.Collections.Generic;
@@ -11,10 +13,19 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Execution
 {
     public class ProcessService
     {
+        private readonly ICountingAppender countingAppender;
+
+        public ProcessService(ICountingAppender countingAppender)
+        {
+            Ensure.NotNull(countingAppender, "countingAppender");
+            this.countingAppender = countingAppender;
+        }
+
         public void Run(IApplication application, IFile file)
         {
             if (file == null)
             {
+                countingAppender.Application(application.Path);
                 Process.Start(application.Path);
             }
             else
@@ -27,6 +38,12 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Execution
                         .Add("FilePath", file.Path)
                         .Add("DirectoryPath", System.IO.Path.GetDirectoryName(file.Path))
                     );
+
+                    countingAppender.File(application.Path, application.Arguments, file.Path);
+                }
+                else
+                {
+                    countingAppender.File(application.Path, file.Path);
                 }
 
                 Process.Start(new ProcessStartInfo(application.Path, arguments));

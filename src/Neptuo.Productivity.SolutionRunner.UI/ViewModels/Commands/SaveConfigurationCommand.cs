@@ -62,6 +62,7 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels.Commands
             settings.IsFileNameRemovedFromDisplayedPath = viewModel.IsFileNameRemovedFromDisplayedPath;
             settings.IsDisplayedPathTrimmedToLastFolderName = viewModel.IsDisplayedPathTrimmedToLastFolderName;
             settings.IsTrayIcon = viewModel.IsTrayIcon;
+            settings.IsStatisticsCounted = viewModel.IsStatisticsCounted;
             settings.AdditionalApplications = Converts
                 .To<AdditionalApplicationCollection, string>(new AdditionalApplicationCollection(viewModel.AdditionalApplications.Select(a => a.Model)));
 

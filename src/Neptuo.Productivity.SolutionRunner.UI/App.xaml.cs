@@ -12,6 +12,7 @@ using Neptuo.Productivity.SolutionRunner.Services.Execution;
 using Neptuo.Productivity.SolutionRunner.Services.Searching;
 using Neptuo.Productivity.SolutionRunner.Services.StartupFlags;
 using Neptuo.Productivity.SolutionRunner.Services.StartupShortcuts;
+using Neptuo.Productivity.SolutionRunner.Services.Statistics;
 using Neptuo.Productivity.SolutionRunner.ViewModels;
 using Neptuo.Productivity.SolutionRunner.ViewModels.Commands.Factories;
 using Neptuo.Productivity.SolutionRunner.Views;
@@ -45,6 +46,7 @@ namespace Neptuo.Productivity.SolutionRunner
     {
         private StartupModel startup;
         private DefaultRunHotKeyService runHotKey;
+        private ICountingAppender countingAppender;
 
         // THIS must be synchronized with Click-Once deployment settings.
         private readonly ShortcutService shortcutService = new ShortcutService(
@@ -103,6 +105,8 @@ namespace Neptuo.Productivity.SolutionRunner
 
             if (!runHotKey.IsSet)
                 startup.IsHidden = false;
+
+            countingAppender = new SwitchableContingService(Settings.Default, new CountingService());
 
             // Open window.
             if (String.IsNullOrEmpty(Settings.Default.SourceDirectoryPath))
@@ -298,6 +302,7 @@ namespace Neptuo.Productivity.SolutionRunner
                 viewModel.IsDisplayedPathTrimmedToLastFolderName = Settings.Default.IsDisplayedPathTrimmedToLastFolderName;
                 viewModel.IsAutoStartup = shortcutService.Exists(Environment.SpecialFolder.Startup);
                 viewModel.IsTrayIcon = Settings.Default.IsTrayIcon;
+                viewModel.IsStatisticsCounted = Settings.Default.IsStatisticsCounted;
                 viewModel.AdditionalApplications = new ObservableCollection<AdditionalApplicationListViewModel>(LoadAdditionalApplications());
                 viewModel.RunKey = runHotKey.FindKeyViewModel();
 
@@ -371,7 +376,7 @@ namespace Neptuo.Productivity.SolutionRunner
         {
             if (mainWindow == null)
             {
-                mainWindow = new MainWindow(this, Settings.Default, new ProcessService());
+                mainWindow = new MainWindow(this, Settings.Default, new ProcessService(countingAppender));
                 mainWindow.Closing += OnMainWindowClosing;
                 mainWindow.Closed += OnMainWindowClosed;
             }

@@ -214,6 +214,20 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels
             }
         }
 
+        private bool isStatisticsCounted;
+        public bool IsStatisticsCounted
+        {
+            get { return isStatisticsCounted; }
+            set
+            {
+                if (isStatisticsCounted != value)
+                {
+                    isStatisticsCounted = value;
+                    RaisePropertyChanged();
+                }
+            }
+        }
+
         public ObservableCollection<AdditionalApplicationListViewModel> AdditionalApplications { get; set; }
 
         public string Version { get; private set; }

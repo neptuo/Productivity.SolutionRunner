@@ -177,7 +177,8 @@
                             <CheckBox Content="Auto select VsVersion from selected sln file" IsChecked="{Binding IsAutoSelectApplicationVersion}" />
                             <CheckBox Content="Remove file name from displayed path" IsChecked="{Binding IsFileNameRemovedFromDisplayedPath}" />
                             <CheckBox Content="Trim displayed path to last folder name only" IsChecked="{Binding IsDisplayedPathTrimmedToLastFolderName}" IsEnabled="{Binding IsFileNameRemovedFromDisplayedPath}" />
-                            
+                            <CheckBox Content="Count statistics" IsChecked="{Binding IsStatisticsCounted}" />
+
                             <Label Content="Behavior:" Margin="0,10,0,0" />
                             <CheckBox Content="Dismiss after loosing focus" IsChecked="{Binding IsDismissedWhenLostFocus}" />
                             <CheckBox Content="Show tray-icon" IsChecked="{Binding IsTrayIcon}" />
