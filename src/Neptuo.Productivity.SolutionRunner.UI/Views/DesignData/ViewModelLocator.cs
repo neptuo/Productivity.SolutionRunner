@@ -120,12 +120,12 @@ namespace Neptuo.Productivity.SolutionRunner.UI.DesignData
             public SaveConfigurationCommand Create(ConfigurationViewModel viewModel)
             {
                 return new SaveConfigurationCommand(
-                    viewModel, 
-                    Settings.Default, 
-                    new RunHotKeyService(), 
+                    viewModel,
+                    Settings.Default,
+                    new RunHotKeyService(),
                     new ShortcutService(
-                        "Neptuo", 
-                        "Productivity", 
+                        "Neptuo",
+                        "Productivity",
                         "SolutionRunner"
                     )
                 );
@@ -171,6 +171,11 @@ namespace Neptuo.Productivity.SolutionRunner.UI.DesignData
             {
                 throw new NotImplementedException();
             }
+
+            public void OpenStatistics()
+            {
+                throw new NotImplementedException();
+            }
         }
 
         #endregion
@@ -192,6 +197,28 @@ namespace Neptuo.Productivity.SolutionRunner.UI.DesignData
                 }
 
                 return additionalApplication;
+            }
+        }
+
+        #endregion
+
+        #region Statistics
+
+        private static StatisticsViewModel statistics;
+
+        public static StatisticsViewModel Statistics
+        {
+            get
+            {
+                if (statistics == null)
+                {
+                    statistics = new StatisticsViewModel();
+                    statistics.AddApplication(@"C:\Windows\Notepad.exe", 15);
+                    statistics.AddApplication(@"C:\Windows\calc.exe", 22);
+                    statistics.AddFile(@"C:\Temp\Log.txt", 15);
+                }
+
+                return statistics;
             }
         }
 

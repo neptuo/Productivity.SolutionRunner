@@ -185,8 +185,11 @@
     <Compile Include="Services\StartupFlags\StartupModel.cs" />
     <Compile Include="Services\StartupFlags\StartupModelProvider.cs" />
     <Compile Include="Services\StartupShortcuts\ShortcutService.cs" />
+    <Compile Include="Services\Statistics\ApplicationCountModel.cs" />
     <Compile Include="Services\Statistics\CountingService.cs" />
+    <Compile Include="Services\Statistics\FileCountModel.cs" />
     <Compile Include="Services\Statistics\ICountingAppender.cs" />
+    <Compile Include="Services\Statistics\ICountingReader.cs" />
     <Compile Include="Services\Statistics\SwitchableContingService.cs" />
     <Compile Include="Services\UserConfigurations\FileSearchCountGetter.cs" />
     <Compile Include="Services\UserConfigurations\FileSearchModeGetter.cs" />
@@ -206,6 +209,8 @@
     <Compile Include="ViewModels\Commands\Factories\SaveConfigurationCommandFactory.cs" />
     <Compile Include="ViewModels\FileViewModel.cs" />
     <Compile Include="ViewModels\KeyViewModel.cs" />
+    <Compile Include="ViewModels\StatisticsItemViewModel.cs" />
+    <Compile Include="ViewModels\StatisticsViewModel.cs" />
     <Compile Include="Views\AdditionalApplicationEditWindow.xaml.cs">
       <DependentUpon>AdditionalApplicationEditWindow.xaml</DependentUpon>
     </Compile>
@@ -229,6 +234,9 @@
     <Compile Include="Views\DesignData\ViewModelLocator.cs" />
     <Compile Include="ViewModels\ApplicationViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
+    <Compile Include="Views\StatisticsWindow.xaml.cs">
+      <DependentUpon>StatisticsWindow.xaml</DependentUpon>
+    </Compile>
     <Page Include="Views\AdditionalApplicationEditWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -258,6 +266,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Views\StatisticsWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">

@@ -13,5 +13,6 @@ namespace Neptuo.Productivity.SolutionRunner.Services
         void OpenMain();
         void OpenConfiguration();
         void OpenAdditionalApplicationEdit(AdditionalApplicationModel model, Action<AdditionalApplicationModel> onSaved);
+        void OpenStatistics();
     }
 }

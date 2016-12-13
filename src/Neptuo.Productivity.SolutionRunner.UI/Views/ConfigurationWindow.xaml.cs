@@ -100,6 +100,11 @@ namespace Neptuo.Productivity.SolutionRunner.Views
             Process.Start("http://www.neptuo.com/project/desktop/solutionrunner");
         }
 
+        private void btnViewStatistics_Click(object sender, RoutedEventArgs e)
+        {
+            navigator.OpenStatistics();
+        }
+
         //private AdditionalApplicationModel editedApplicationModel;
 
         //private void btnAddApplication_Click(object sender, RoutedEventArgs e)

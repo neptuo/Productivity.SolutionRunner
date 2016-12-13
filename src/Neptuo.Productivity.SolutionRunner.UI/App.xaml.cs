@@ -46,7 +46,7 @@ namespace Neptuo.Productivity.SolutionRunner
     {
         private StartupModel startup;
         private DefaultRunHotKeyService runHotKey;
-        private ICountingAppender countingAppender;
+        private SwitchableContingService countingService;
 
         // THIS must be synchronized with Click-Once deployment settings.
         private readonly ShortcutService shortcutService = new ShortcutService(
@@ -106,7 +106,7 @@ namespace Neptuo.Productivity.SolutionRunner
             if (!runHotKey.IsSet)
                 startup.IsHidden = false;
 
-            countingAppender = new SwitchableContingService(Settings.Default, new CountingService());
+            InitializeCounting();
 
             // Open window.
             if (String.IsNullOrEmpty(Settings.Default.SourceDirectoryPath))
@@ -119,7 +119,13 @@ namespace Neptuo.Productivity.SolutionRunner
 
             startup.IsStartup = false;
         }
-        
+
+        private void InitializeCounting()
+        {
+            CountingService inner = new CountingService();
+            countingService = new SwitchableContingService(Settings.Default, inner, inner);
+        }
+
         private NotifyIcon trayIcon;
 
         private void OnConfigurationSaved(ConfigurationViewModel viewModel)
@@ -376,7 +382,7 @@ namespace Neptuo.Productivity.SolutionRunner
         {
             if (mainWindow == null)
             {
-                mainWindow = new MainWindow(this, Settings.Default, new ProcessService(countingAppender));
+                mainWindow = new MainWindow(this, Settings.Default, new ProcessService(countingService));
                 mainWindow.Closing += OnMainWindowClosing;
                 mainWindow.Closed += OnMainWindowClosed;
             }
@@ -469,6 +475,15 @@ namespace Neptuo.Productivity.SolutionRunner
 
             if (!runHotKey.IsSet && configurationWindow == null)
                 Shutdown();
+        }
+
+        private StatisticsWindow statisticsWindow;
+
+        public void OpenStatistics()
+        {
+            statisticsWindow = new StatisticsWindow();
+            statisticsWindow.Owner = configurationWindow;
+            statisticsWindow.ShowDialog();
         }
 
         #endregion

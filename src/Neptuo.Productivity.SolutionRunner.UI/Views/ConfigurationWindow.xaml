@@ -42,18 +42,22 @@
                 </Trigger>
             </Style.Triggers>
         </Style>
+        <Style x:Key="LinkButtonStyle" TargetType="Button">
+            <Setter Property="Height" Value="15" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <TextBlock Text="{TemplateBinding Content}" Foreground="#4A9AD4" TextDecorations="Underline" Cursor="Hand" ToolTip="{TemplateBinding ToolTip}" Margin="0" Padding="0" />
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
     </Window.Resources>
     <Border Style="{StaticResource WindowBorderStyle}">
         <DockPanel Style="{StaticResource RootPanelStyle}">
             <Grid DockPanel.Dock="Bottom">
                 <StackPanel VerticalAlignment="Bottom" Orientation="Horizontal">
-                    <Button x:Name="btnAbout" Click="btnAbout_Click" Margin="0,0,5,0" Height="15">
-                        <Button.Template>
-                            <ControlTemplate TargetType="Button">
-                                <TextBlock Text="About" Foreground="#4A9AD4" TextDecorations="Underline" Cursor="Hand" ToolTip="www.neptuo.com/project/desktop/solutionrunner" Margin="0" Padding="0" />
-                            </ControlTemplate>
-                        </Button.Template>
-                    </Button>
+                    <Button x:Name="btnAbout" Content="About" ToolTip="www.neptuo.com/project/desktop/solutionrunner" Click="btnAbout_Click" Style="{StaticResource LinkButtonStyle}" Margin="0,0,5,0" />
                     <TextBlock Text="{Binding Version}" />
                 </StackPanel>
 
@@ -177,7 +181,10 @@
                             <CheckBox Content="Auto select VsVersion from selected sln file" IsChecked="{Binding IsAutoSelectApplicationVersion}" />
                             <CheckBox Content="Remove file name from displayed path" IsChecked="{Binding IsFileNameRemovedFromDisplayedPath}" />
                             <CheckBox Content="Trim displayed path to last folder name only" IsChecked="{Binding IsDisplayedPathTrimmedToLastFolderName}" IsEnabled="{Binding IsFileNameRemovedFromDisplayedPath}" />
-                            <CheckBox Content="Count statistics" IsChecked="{Binding IsStatisticsCounted}" />
+                            <StackPanel Orientation="Horizontal">
+                                <CheckBox Content="Count statistics" IsChecked="{Binding IsStatisticsCounted}" />
+                                <Button x:Name="btnViewStatistics" Content="View" IsEnabled="{Binding IsStatisticsCounted}" Click="btnViewStatistics_Click" Style="{StaticResource LinkButtonStyle}" Margin="5,0,0,0" />
+                            </StackPanel>
 
                             <Label Content="Behavior:" Margin="0,10,0,0" />
                             <CheckBox Content="Dismiss after loosing focus" IsChecked="{Binding IsDismissedWhenLostFocus}" />
