@@ -87,14 +87,17 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Statistics
 
             foreach (string[] parts in ReadLines())
             {
-                if (parts.Length >= 2)
+                if (parts.Length > 1)
                 {
-                    string applicationPath = parts[2];
+                    string filePath = parts[1];
+                    if (parts.Length > 2)
+                        filePath = parts[2];
+
                     int value;
-                    if (result.TryGetValue(applicationPath, out value))
-                        result[applicationPath] = value++;
+                    if (result.TryGetValue(filePath, out value))
+                        result[filePath] = value++;
                     else
-                        result[applicationPath] = 1;
+                        result[filePath] = 1;
                 }
             }
 

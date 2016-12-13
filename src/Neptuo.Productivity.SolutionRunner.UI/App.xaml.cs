@@ -481,7 +481,15 @@ namespace Neptuo.Productivity.SolutionRunner
 
         public void OpenStatistics()
         {
+            StatisticsViewModel viewModel = new StatisticsViewModel();
+            foreach (ApplicationCountModel application in countingService.Applications())
+                viewModel.AddApplication(application.Path, application.Count);
+
+            foreach (FileCountModel file in countingService.Files())
+                viewModel.AddFile(file.Path, file.Count);
+
             statisticsWindow = new StatisticsWindow();
+            statisticsWindow.ViewModel = viewModel;
             statisticsWindow.Owner = configurationWindow;
             statisticsWindow.ShowDialog();
         }

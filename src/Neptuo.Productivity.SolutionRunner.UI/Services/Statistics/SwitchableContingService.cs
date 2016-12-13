@@ -48,7 +48,7 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Statistics
         public IEnumerable<ApplicationCountModel> Applications()
         {
             if (settings.IsStatisticsCounted)
-                reader.Applications();
+                return reader.Applications();
 
             return Enumerable.Empty<ApplicationCountModel>();
         }
@@ -56,7 +56,7 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Statistics
         public IEnumerable<FileCountModel> Files()
         {
             if (settings.IsStatisticsCounted)
-                reader.Files();
+                return reader.Files();
 
             return Enumerable.Empty<FileCountModel>();
         }
