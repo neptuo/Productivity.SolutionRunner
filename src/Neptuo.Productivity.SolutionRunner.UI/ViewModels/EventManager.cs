@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Neptuo;
+using Neptuo.Productivity.SolutionRunner.Services.Execution;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -25,6 +27,15 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels
             Ensure.NotNull(viewModel, "viewModel");
             if (ConfigurationSaved != null)
                 ConfigurationSaved(viewModel);
+        }
+
+        public static event Action<IApplication, IFile> ProcessStarted;
+
+        public static void RaiseProcessStarted(IApplication application, IFile file)
+        {
+            Ensure.NotNull(application, "application");
+            if (ProcessStarted != null)
+                ProcessStarted(application, file);
         }
     }
 }

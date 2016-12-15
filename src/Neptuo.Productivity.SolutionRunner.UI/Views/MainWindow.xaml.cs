@@ -38,6 +38,7 @@ namespace Neptuo.Productivity.SolutionRunner.Views
         private readonly INavigator navigator;
         private readonly Settings settings;
         private readonly ProcessService processService;
+        private readonly bool isClosedAfterStartingProcess;
 
         public DispatcherHelper DispatcherHelper { get; private set; }
 
@@ -88,7 +89,7 @@ namespace Neptuo.Productivity.SolutionRunner.Views
 
         #endregion
 
-        internal MainWindow(INavigator navigator, Settings settings, ProcessService processService)
+        internal MainWindow(INavigator navigator, Settings settings, ProcessService processService, bool isClosedAfterStartingProcess)
         {
             Ensure.NotNull(navigator, "navigator");
             Ensure.NotNull(settings, "settings");
@@ -96,6 +97,7 @@ namespace Neptuo.Productivity.SolutionRunner.Views
             this.navigator = navigator;
             this.settings = settings;
             this.processService = processService;
+            this.isClosedAfterStartingProcess = isClosedAfterStartingProcess;
 
             InitializeComponent();
             EventManager.FilePinned += OnFilePinned;
@@ -120,7 +122,9 @@ namespace Neptuo.Productivity.SolutionRunner.Views
                 }
 
                 processService.Run(application, file);
-                Close();
+
+                if (isClosedAfterStartingProcess)
+                    Close();
             }
         }
 

@@ -86,6 +86,7 @@ namespace Neptuo.Productivity.SolutionRunner
 
             EventManager.FilePinned += OnFilePinned;
             EventManager.ConfigurationSaved += OnConfigurationSaved;
+            EventManager.ProcessStarted += OnProcessStarted;
 
             // Bind global hotkey.
             runHotKey = new DefaultRunHotKeyService(this, this);
@@ -119,6 +120,15 @@ namespace Neptuo.Productivity.SolutionRunner
                 TryCreateTrayIcon();
 
             startup.IsStartup = false;
+        }
+
+        private void OnProcessStarted(IApplication application, IFile file)
+        {
+            if (Settings.Default.IsFileSearchPatternSaved)
+            {
+                Settings.Default.FileSearchPattern = mainWindow.ViewModel.SearchPattern;
+                Settings.Default.Save();
+            }
         }
 
         private void InitializeCounting()
@@ -383,7 +393,7 @@ namespace Neptuo.Productivity.SolutionRunner
         {
             if (mainWindow == null)
             {
-                mainWindow = new MainWindow(this, Settings.Default, new ProcessService(countingService));
+                mainWindow = new MainWindow(this, Settings.Default, new ProcessService(countingService), runHotKey.IsSet);
                 mainWindow.Closing += OnMainWindowClosing;
                 mainWindow.Closed += OnMainWindowClosed;
             }
@@ -453,12 +463,6 @@ namespace Neptuo.Productivity.SolutionRunner
 
         private void OnMainWindowClosing(object sender, CancelEventArgs e)
         {
-            if (Settings.Default.IsFileSearchPatternSaved)
-            {
-                Settings.Default.FileSearchPattern = mainWindow.ViewModel.SearchPattern;
-                Settings.Default.Save();
-            }
-
             if (runHotKey.IsSet)
             {
                 mainWindow.Hide();

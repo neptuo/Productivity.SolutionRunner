@@ -1,6 +1,7 @@
 ﻿using Neptuo;
 using Neptuo.Collections.Specialized;
 using Neptuo.Productivity.SolutionRunner.Services.Statistics;
+using Neptuo.Productivity.SolutionRunner.ViewModels;
 using Neptuo.Text.Tokens;
 using System;
 using System.Collections.Generic;
@@ -47,6 +48,7 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Execution
                 }
 
                 Process.Start(new ProcessStartInfo(application.Path, arguments));
+                EventManager.RaiseProcessStarted(application, file);
             }
         }
     }

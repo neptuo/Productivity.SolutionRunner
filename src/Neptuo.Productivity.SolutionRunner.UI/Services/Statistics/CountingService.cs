@@ -28,19 +28,24 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Statistics
                 writer.WriteLine(line);
         }
 
+        private string GetDateTimeNow()
+        {
+            return DateTime.Now.ToString("yyyy-MM-dd");
+        }
+
         public void Application(string path)
         {
-            Append(path);
+            Append(String.Concat(GetDateTimeNow(), ";", path));
         }
 
         public void File(string applicationPath, string filePath)
         {
-            Append(String.Concat(applicationPath, ";", filePath));
+            Append(String.Concat(GetDateTimeNow(), ";", applicationPath, ";", filePath));
         }
 
         public void File(string applicationPath, string argumentsTemplate, string filePath)
         {
-            Append(String.Concat(applicationPath, ";", argumentsTemplate, ";", filePath));
+            Append(String.Concat(GetDateTimeNow(), ";", applicationPath, ";", argumentsTemplate, ";", filePath));
         }
 
         private IEnumerable<string[]> ReadLines()
@@ -70,10 +75,10 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Statistics
 
             foreach (string[] parts in ReadLines())
             {
-                string applicationPath = parts[0];
+                string applicationPath = parts[1];
                 int value;
                 if (result.TryGetValue(applicationPath, out value))
-                    result[applicationPath] = value++;
+                    result[applicationPath] = ++value;
                 else
                     result[applicationPath] = 1;
             }
@@ -87,11 +92,11 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Statistics
 
             foreach (string[] parts in ReadLines())
             {
-                if (parts.Length > 1)
+                if (parts.Length > 2)
                 {
-                    string filePath = parts[1];
-                    if (parts.Length > 2)
-                        filePath = parts[2];
+                    string filePath = parts[2];
+                    if (parts.Length > 3)
+                        filePath = parts[3];
 
                     int value;
                     if (result.TryGetValue(filePath, out value))
