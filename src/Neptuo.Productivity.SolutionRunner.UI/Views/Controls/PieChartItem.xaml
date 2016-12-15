@@ -1,0 +1,31 @@
+﻿<UserControl x:Class="Neptuo.Productivity.SolutionRunner.Views.Controls.PieChartItem"
+             x:Name="root"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Neptuo.Productivity.SolutionRunner.Views.Controls"
+             mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="300">
+    <Grid>
+        <Path x:Name="path" Stroke="{Binding Foreground, ElementName=root}" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <Path.Data>
+                <PathGeometry>
+                    <PathGeometry.Figures>
+                        <PathFigureCollection>
+                            <PathFigure x:Name="figure">
+                                <PathFigure.Segments>
+                                    <PathSegmentCollection>
+                                        <ArcSegment x:Name="segment" SweepDirection="Clockwise" />
+                                    </PathSegmentCollection>
+                                </PathFigure.Segments>
+                            </PathFigure>
+                        </PathFigureCollection>
+                    </PathGeometry.Figures>
+                </PathGeometry>
+            </Path.Data>
+        </Path>
+        <Canvas x:Name="labelPanel" Width="{Binding ActualWidth, ElementName=path}" Height="{Binding ActualHeight, ElementName=path}" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed">
+            <ContentPresenter x:Name="label" ContentTemplate="{Binding LabelTemplate, ElementName=root}" Content="{Binding DataContext, ElementName=root}" />
+        </Canvas>
+    </Grid>
+</UserControl>
