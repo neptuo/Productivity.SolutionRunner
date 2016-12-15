@@ -5,6 +5,7 @@ using Neptuo.Observables.Collections;
 using Neptuo.Productivity.SolutionRunner.Properties;
 using Neptuo.Productivity.SolutionRunner.Services;
 using Neptuo.Productivity.SolutionRunner.Services.Applications;
+using Neptuo.Productivity.SolutionRunner.Services.Colors;
 using Neptuo.Productivity.SolutionRunner.Services.Converters;
 using Neptuo.Productivity.SolutionRunner.Services.Searching;
 using Neptuo.Productivity.SolutionRunner.Services.StartupShortcuts;
@@ -212,10 +213,16 @@ namespace Neptuo.Productivity.SolutionRunner.UI.DesignData
             {
                 if (statistics == null)
                 {
-                    statistics = new StatisticsViewModel();
+                    statistics = new StatisticsViewModel(new RandomColorGenerator());
                     statistics.AddApplication(@"C:\Windows\Notepad.exe", 15);
                     statistics.AddApplication(@"C:\Windows\calc.exe", 22);
-                    statistics.AddFile(@"C:\Temp\Log.txt", 15);
+                    statistics.AddApplication(@"C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\IDE\devenv.exe", 103);
+                    statistics.AddApplication(@"C:\Program Files (x86)\Microsoft Visual Studio 12.0\Common7\IDE\devenv.exe", 14);
+
+                    statistics.AddFile(@"C:\Temp\Log.txt", 8);
+                    statistics.AddFile(@"C:\Development\Project1.sln", 34);
+                    statistics.AddFile(@"C:\Development\Project2.sln", 4);
+                    statistics.AddFile(@"C:\Development\Slider.sln", 18);
                 }
 
                 return statistics;

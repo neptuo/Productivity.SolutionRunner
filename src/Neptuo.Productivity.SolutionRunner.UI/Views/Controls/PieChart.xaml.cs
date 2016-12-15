@@ -82,6 +82,19 @@ namespace Neptuo.Productivity.SolutionRunner.Views.Controls
             new PropertyMetadata(null)
         );
 
+        public IValueConverter LabelConverter
+        {
+            get { return (IValueConverter)GetValue(LabelConverterProperty); }
+            set { SetValue(LabelConverterProperty, value); }
+        }
+
+        public static readonly DependencyProperty LabelConverterProperty = DependencyProperty.Register(
+            "LabelConverter", 
+            typeof(IValueConverter), 
+            typeof(PieChart), 
+            new PropertyMetadata(null)
+        );
+
         public double LabelOffset
         {
             get { return (double)GetValue(LabelOffsetProperty); }
@@ -123,7 +136,7 @@ namespace Neptuo.Productivity.SolutionRunner.Views.Controls
                 item.SetBinding(PieChartItem.ForegroundProperty, new Binding(ForegroundPath));
 
             if (!String.IsNullOrEmpty(LabelPath))
-                item.SetBinding(PieChartItem.LabelProperty, new Binding(LabelPath));
+                item.SetBinding(PieChartItem.LabelProperty, new Binding(LabelPath) { Converter = LabelConverter });
 
             return item;
         }

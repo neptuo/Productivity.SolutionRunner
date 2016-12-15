@@ -6,6 +6,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d" d:DataContext="{x:Static dd:ViewModelLocator.Statistics}"
         xmlns:converters="clr-namespace:Neptuo.Productivity.SolutionRunner.Views.Converters"
+        xmlns:controls="clr-namespace:Neptuo.Productivity.SolutionRunner.Views.Controls"
         xmlns:cm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
         Title="Solution runner - Statistics" Width="500" MinHeight="300" SizeToContent="Height" 
         Background="{StaticResource BackgroundBrush}" WindowStartupLocation="CenterOwner" WindowStyle="None"
@@ -23,36 +24,54 @@
                 <cm:SortDescription PropertyName="Count" Direction="Descending" />
             </CollectionViewSource.SortDescriptions>
         </CollectionViewSource>
+
+        <Style TargetType="ItemsControl">
+            <Setter Property="Margin" Value="10,0" />
+            <Setter Property="ItemContainerStyle">
+                <Setter.Value>
+                    <Style TargetType="ContentPresenter">
+                        <Setter Property="HorizontalAlignment" Value="Stretch" />
+                    </Style>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="ItemTemplate">
+                <Setter.Value>
+                    <DataTemplate>
+                        <Grid>
+                            <TextBlock Text="{Binding Count}" Foreground="{Binding ColorBrush}" FontWeight="Bold" HorizontalAlignment="Right" />
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                                <TextBlock Text="{Binding Name}" Foreground="{Binding ColorBrush}" />
+                                <TextBlock Text=" " />
+                                <TextBlock Text="{Binding Path, Converter={StaticResource PathConverter}}" Foreground="{Binding ColorBrush}" Opacity=".5" />
+                            </StackPanel>
+                        </Grid>
+                    </DataTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style TargetType="controls:PieChart">
+            <Setter Property="Margin" Value="10" />
+            <Setter Property="ValuePath" Value="Count" />
+            <Setter Property="ForegroundPath" Value="ColorBrush" />
+            <Setter Property="Thickness" Value="20" />
+        </Style>
     </Window.Resources>
     <Border Style="{StaticResource WindowBorderStyle}">
         <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
 
-            <ItemsControl ItemsSource="{Binding Source={StaticResource ApplicationsSource}}" Grid.Column="0">
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="{Binding Path, Converter={StaticResource PathConverter}}" Foreground="{Binding ColorBrush}" />
-                            <TextBlock Text=" " />
-                            <TextBlock Text="{Binding Count}" Foreground="{Binding ColorBrush}" />
-                        </StackPanel>
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>
-            <ItemsControl ItemsSource="{Binding Source={StaticResource FilesSource}}" Grid.Column="1">
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="{Binding Path, Converter={StaticResource PathConverter}}" Foreground="{Binding ColorBrush}" />
-                            <TextBlock Text=" " />
-                            <TextBlock Text="{Binding Count}" Foreground="{Binding ColorBrush}" />
-                        </StackPanel>
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>
+            <ItemsControl ItemsSource="{Binding Source={StaticResource ApplicationsSource}}" Grid.Column="0" />
+            <controls:PieChart ItemsSource="{Binding Applications}" Grid.Column="0" Grid.Row="1" />
+
+            <ItemsControl ItemsSource="{Binding Source={StaticResource FilesSource}}" Grid.Column="1" />
+            <controls:PieChart ItemsSource="{Binding Files}" Grid.Column="1" Grid.Row="1" />
         </Grid>
     </Border>
 </Window>

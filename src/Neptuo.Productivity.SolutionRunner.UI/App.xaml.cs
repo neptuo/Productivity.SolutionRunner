@@ -7,6 +7,7 @@ using Neptuo.Observables.Collections;
 using Neptuo.Productivity.SolutionRunner.Properties;
 using Neptuo.Productivity.SolutionRunner.Services;
 using Neptuo.Productivity.SolutionRunner.Services.Applications;
+using Neptuo.Productivity.SolutionRunner.Services.Colors;
 using Neptuo.Productivity.SolutionRunner.Services.Converters;
 using Neptuo.Productivity.SolutionRunner.Services.Execution;
 using Neptuo.Productivity.SolutionRunner.Services.Searching;
@@ -481,7 +482,7 @@ namespace Neptuo.Productivity.SolutionRunner
 
         public void OpenStatistics()
         {
-            StatisticsViewModel viewModel = new StatisticsViewModel();
+            StatisticsViewModel viewModel = new StatisticsViewModel(new RandomColorGenerator());
             foreach (ApplicationCountModel application in countingService.Applications())
                 viewModel.AddApplication(application.Path, application.Count);
 

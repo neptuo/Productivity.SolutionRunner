@@ -162,6 +162,9 @@
     <Compile Include="Services\Applications\AdditionalApplicationCollection.cs" />
     <Compile Include="Services\Applications\AdditionalApplicationModel.cs" />
     <Compile Include="Services\Applications\IconExtractor.cs" />
+    <Compile Include="Services\Colors\IColorGenerator.cs" />
+    <Compile Include="Services\Colors\NamedColorGenerator.cs" />
+    <Compile Include="Services\Colors\RandomColorGenerator.cs" />
     <Compile Include="Services\Converters\AdditionalApplicationCollectionConverter.cs" />
     <Compile Include="Services\Converters\KeyViewModelConverter.cs" />
     <Compile Include="Services\Execution\IApplication.cs" />
