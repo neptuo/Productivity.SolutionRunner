@@ -14,6 +14,7 @@ using Neptuo.Productivity.SolutionRunner.Services.Searching;
 using Neptuo.Productivity.SolutionRunner.Services.StartupFlags;
 using Neptuo.Productivity.SolutionRunner.Services.StartupShortcuts;
 using Neptuo.Productivity.SolutionRunner.Services.Statistics;
+using Neptuo.Productivity.SolutionRunner.UI.DesignData;
 using Neptuo.Productivity.SolutionRunner.ViewModels;
 using Neptuo.Productivity.SolutionRunner.ViewModels.Commands.Factories;
 using Neptuo.Productivity.SolutionRunner.Views;
@@ -124,6 +125,11 @@ namespace Neptuo.Productivity.SolutionRunner
 
         private void OnProcessStarted(IApplication application, IFile file)
         {
+            TrySaveLastSearchPattern();
+        }
+
+        private void TrySaveLastSearchPattern()
+        {
             if (Settings.Default.IsFileSearchPatternSaved)
             {
                 Settings.Default.FileSearchPattern = mainWindow.ViewModel.SearchPattern;
@@ -177,15 +183,27 @@ namespace Neptuo.Productivity.SolutionRunner
 
         private void OnTrayIconClick(object sender, EventArgs e)
         {
-            OpenMain();
+            Activate();
         }
 
         public void Activate()
         {
-            if (mainWindow != null)
-                mainWindow.Activate();
+            Window wnd = null;
+
+            if (statisticsWindow != null)
+                wnd = statisticsWindow;
             else if (configurationWindow != null)
-                configurationWindow.Activate();
+                wnd = configurationWindow;
+            else if (mainWindow != null)
+                wnd = mainWindow;
+
+            if (wnd != null)
+            {
+                if (!wnd.IsVisible)
+                    wnd.Show();
+
+                wnd.Activate();
+            }
         }
 
         private static FileSearchMode GetUserFileSearchMode()
@@ -474,6 +492,7 @@ namespace Neptuo.Productivity.SolutionRunner
 
         private void OnMainWindowClosed(object sender, EventArgs e)
         {
+            TrySaveLastSearchPattern();
             mainWindow.Closed -= OnMainWindowClosed;
             mainWindow.Closing -= OnMainWindowClosed;
             mainWindow = null;
@@ -496,7 +515,14 @@ namespace Neptuo.Productivity.SolutionRunner
             statisticsWindow = new StatisticsWindow();
             statisticsWindow.ViewModel = viewModel;
             statisticsWindow.Owner = configurationWindow;
+            statisticsWindow.Closed += OnStatisticsWindowClosed;
             statisticsWindow.ShowDialog();
+        }
+
+        private void OnStatisticsWindowClosed(object sender, EventArgs e)
+        {
+            statisticsWindow.Closed -= OnStatisticsWindowClosed;
+            statisticsWindow = null;
         }
 
         #endregion

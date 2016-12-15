@@ -76,9 +76,9 @@ namespace Neptuo.Productivity.SolutionRunner.Views.Controls
         }
 
         public static readonly DependencyProperty LabelPathProperty = DependencyProperty.Register(
-            "LabelPath", 
-            typeof(string), 
-            typeof(PieChart), 
+            "LabelPath",
+            typeof(string),
+            typeof(PieChart),
             new PropertyMetadata(null)
         );
 
@@ -89,9 +89,9 @@ namespace Neptuo.Productivity.SolutionRunner.Views.Controls
         }
 
         public static readonly DependencyProperty LabelConverterProperty = DependencyProperty.Register(
-            "LabelConverter", 
-            typeof(IValueConverter), 
-            typeof(PieChart), 
+            "LabelConverter",
+            typeof(IValueConverter),
+            typeof(PieChart),
             new PropertyMetadata(null)
         );
 
@@ -121,9 +121,9 @@ namespace Neptuo.Productivity.SolutionRunner.Views.Controls
         }
 
         public static readonly DependencyProperty TooltipPathProperty = DependencyProperty.Register(
-            "TooltipPath", 
-            typeof(string), 
-            typeof(PieChart), 
+            "TooltipPath",
+            typeof(string),
+            typeof(PieChart),
             new PropertyMetadata(null)
         );
 
@@ -168,7 +168,7 @@ namespace Neptuo.Productivity.SolutionRunner.Views.Controls
             Update();
             return result;
         }
-        
+
         protected override void PrepareContainerForItemOverride(DependencyObject element, object item)
         {
             PieChartItem chartItem = element as PieChartItem;
@@ -200,10 +200,11 @@ namespace Neptuo.Productivity.SolutionRunner.Views.Controls
             for (int i = 0; i < Items.Count; i++)
             {
                 PieChartItem item = Items[i] as PieChartItem;
+                if (item == null)
+                    item = (PieChartItem)ItemContainerGenerator.ContainerFromIndex(i);
+
                 if (item != null)
                     yield return item;
-                else
-                    yield return (PieChartItem)ItemContainerGenerator.ContainerFromIndex(i);
             }
         }
 
