@@ -5,6 +5,8 @@
              DispatcherUnhandledException="OnDispatcherUnhandledException" ShutdownMode="OnExplicitShutdown">
     <Application.Resources>
 
+        <BitmapImage x:Key="IconBitmapImage" UriSource="/SolutionRunner.png" />
+
         <SolidColorBrush x:Key="BackgroundBrush">#1E1E1E</SolidColorBrush>
         <SolidColorBrush x:Key="TextBoxBackgroundBrush">#3F3F46</SolidColorBrush>
         <SolidColorBrush x:Key="InactiveBrush">#3F3F46</SolidColorBrush>

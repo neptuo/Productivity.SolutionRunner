@@ -10,7 +10,7 @@
         xmlns:ui="clr-namespace:Neptuo.Productivity.SolutionRunner.Views.Controls"
         xmlns:ds="clr-namespace:Neptuo.Productivity.SolutionRunner.Views.DataSources"
         xmlns:converters="clr-namespace:Neptuo.Productivity.SolutionRunner.Views.Converters"
-        Title="Solution runner - Configuration" Width="510" SizeToContent="Height" 
+        Title="Solution runner - Configuration" Width="510" SizeToContent="Height" Icon="{StaticResource IconBitmapImage}"
         Background="{StaticResource BackgroundBrush}" WindowStartupLocation="CenterScreen" WindowStyle="None"
         PreviewKeyDown="OnPreviewKeyDown" PreviewMouseDown="OnPreviewMouseDown" Closing="OnClosing">
     <Window.Resources>
