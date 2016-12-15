@@ -26,15 +26,7 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Applications
         {
             Icon icon = Icon.ExtractAssociatedIcon(filename);
             ImageSource imageSource;
-
-            if (filename == @"C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\IDE\devenv.exe")
-            {
-                using (FileStream file = File.Create(@"C:\Temp\Vs14.ico"))
-                {
-                    icon.Save(file);
-                }
-            }
-
+            
             using (Icon i = Icon.FromHandle(icon.ToBitmap().GetHicon()))
             {
                 imageSource = Imaging.CreateBitmapSourceFromHIcon(
