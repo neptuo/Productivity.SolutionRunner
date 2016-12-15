@@ -37,7 +37,7 @@
             <Setter Property="ItemTemplate">
                 <Setter.Value>
                     <DataTemplate>
-                        <Grid>
+                        <Grid ToolTip="{Binding Path}">
                             <TextBlock Text="{Binding Count}" Foreground="{Binding ColorBrush}" FontWeight="Bold" HorizontalAlignment="Right" />
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
                                 <TextBlock Text="{Binding Name}" Foreground="{Binding ColorBrush}" />
@@ -53,14 +53,15 @@
             <Setter Property="Margin" Value="10" />
             <Setter Property="ValuePath" Value="Count" />
             <Setter Property="ForegroundPath" Value="ColorBrush" />
-            <Setter Property="Thickness" Value="20" />
+            <Setter Property="TooltipPath" Value="Path" />
+            <Setter Property="Thickness" Value="170" />
         </Style>
     </Window.Resources>
     <Border Style="{StaticResource WindowBorderStyle}">
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
-                <RowDefinition Height="*" />
+                <RowDefinition Height="220" />
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />

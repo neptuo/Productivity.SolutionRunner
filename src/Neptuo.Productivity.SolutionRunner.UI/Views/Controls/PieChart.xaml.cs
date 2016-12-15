@@ -114,6 +114,19 @@ namespace Neptuo.Productivity.SolutionRunner.Views.Controls
             chart.Update();
         }
 
+        public string TooltipPath
+        {
+            get { return (string)GetValue(TooltipPathProperty); }
+            set { SetValue(TooltipPathProperty, value); }
+        }
+
+        public static readonly DependencyProperty TooltipPathProperty = DependencyProperty.Register(
+            "TooltipPath", 
+            typeof(string), 
+            typeof(PieChart), 
+            new PropertyMetadata(null)
+        );
+
         public PieChart()
         {
             InitializeComponent();
@@ -137,6 +150,9 @@ namespace Neptuo.Productivity.SolutionRunner.Views.Controls
 
             if (!String.IsNullOrEmpty(LabelPath))
                 item.SetBinding(PieChartItem.LabelProperty, new Binding(LabelPath) { Converter = LabelConverter });
+
+            if (!String.IsNullOrEmpty(TooltipPath))
+                item.SetBinding(PieChartItem.ToolTipProperty, new Binding(TooltipPath));
 
             return item;
         }
