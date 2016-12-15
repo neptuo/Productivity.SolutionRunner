@@ -8,7 +8,7 @@
         xmlns:converters="clr-namespace:Neptuo.Productivity.SolutionRunner.Views.Converters"
         xmlns:controls="clr-namespace:Neptuo.Productivity.SolutionRunner.Views.Controls"
         xmlns:cm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
-        Title="Solution runner - Statistics" Width="500" MinHeight="300" SizeToContent="Height" 
+        Title="Solution runner - Statistics" Width="500" MinHeight="300" SizeToContent="Height" ShowInTaskbar="False"
         Background="{StaticResource BackgroundBrush}" WindowStartupLocation="CenterOwner" WindowStyle="None"
         PreviewKeyDown="OnPreviewKeyDown" PreviewMouseDown="OnPreviewMouseDown">
     <Window.Resources>

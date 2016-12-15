@@ -100,7 +100,7 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Statistics
 
                     int value;
                     if (result.TryGetValue(filePath, out value))
-                        result[filePath] = value++;
+                        result[filePath] = ++value;
                     else
                         result[filePath] = 1;
                 }
