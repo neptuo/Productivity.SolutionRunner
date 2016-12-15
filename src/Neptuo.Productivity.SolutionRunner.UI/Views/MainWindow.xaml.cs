@@ -310,6 +310,29 @@ namespace Neptuo.Productivity.SolutionRunner.Views
                 e.Handled = true;
             }
 
+            if (e.Key == Key.C && Keyboard.IsKeyDown(Key.LeftCtrl) && tbxSearch.SelectionLength == 0)
+            {
+                string text = null;
+                if (Keyboard.IsKeyDown(Key.LeftShift))
+                {
+                    ApplicationViewModel application = lvwApplications.SelectedItem as ApplicationViewModel;
+                    if (application != null)
+                        text = application.Path;
+                }
+                else
+                {
+                    FileViewModel file = lvwFiles.SelectedItem as FileViewModel;
+                    if (file != null)
+                        text = file.Path;
+                }
+
+                if (text != null)
+                {
+                    Clipboard.SetText(text);
+                    e.Handled = true;
+                }
+            }
+
             // Lastly, if non of the hot keys was pressed. Try to focus search box.
             if (!e.Handled && !tbxSearch.IsFocused)
             {
