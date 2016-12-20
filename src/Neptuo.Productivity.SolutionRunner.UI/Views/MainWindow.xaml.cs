@@ -178,7 +178,7 @@ namespace Neptuo.Productivity.SolutionRunner.Views
             Task.Factory.StartNew(() =>
             {
                 Thread.Sleep(10);
-                DispatcherHelper.Run(() => FileWidth = Math.Max(grdMain.ActualWidth, FileWidthDefaultValue) - 20);
+                DispatcherHelper.Run(() => FileWidth = Math.Max(grdMain.ActualWidth, FileWidthDefaultValue) - 40);
             });
         }
 
