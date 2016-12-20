@@ -40,6 +40,9 @@ namespace Neptuo.Productivity.SolutionRunner.Views
         private readonly ProcessService processService;
         private readonly bool isClosedAfterStartingProcess;
 
+        private readonly ThrottlingHelper fileThrottler;
+        private readonly ThrottlingHelper applicationThrottler;
+
         public DispatcherHelper DispatcherHelper { get; private set; }
 
         public MainViewModel ViewModel
@@ -48,7 +51,6 @@ namespace Neptuo.Productivity.SolutionRunner.Views
             set
             {
                 DataContext = value;
-
                 if (value != null)
                     InitializeViewModel(value);
             }
@@ -102,6 +104,9 @@ namespace Neptuo.Productivity.SolutionRunner.Views
             InitializeComponent();
             EventManager.FilePinned += OnFilePinned;
             DispatcherHelper = new DispatcherHelper(Dispatcher);
+
+            fileThrottler = new ThrottlingHelper(DispatcherHelper, () => lvwFiles.SelectedIndex = 0, 0);
+            applicationThrottler = new ThrottlingHelper(DispatcherHelper, () => lvwApplications.SelectedIndex = 0, 0);
         }
 
         private void RunSolution(ApplicationViewModel application, FileViewModel file)
@@ -180,25 +185,13 @@ namespace Neptuo.Productivity.SolutionRunner.Views
         private void OnFilesViewCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             if (e.Action == NotifyCollectionChangedAction.Add)
-            {
-                Task.Factory.StartNew(() =>
-                {
-                    Thread.Sleep(10);
-                    DispatcherHelper.Run(() => lvwFiles.SelectedIndex = 0);
-                });
-            }
+                fileThrottler.Run();
         }
 
         private void OnApplicationsViewCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             if (e.Action == NotifyCollectionChangedAction.Add)
-            {
-                Task.Factory.StartNew(() =>
-                {
-                    Thread.Sleep(10);
-                    DispatcherHelper.Run(() => lvwApplications.SelectedIndex = 0);
-                });
-            }
+                applicationThrottler.Run();
         }
 
         protected override void OnActivated(EventArgs e)
