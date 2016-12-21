@@ -7,6 +7,7 @@ using Neptuo.Productivity.SolutionRunner.Services;
 using Neptuo.Productivity.SolutionRunner.Services.Applications;
 using Neptuo.Productivity.SolutionRunner.Services.Colors;
 using Neptuo.Productivity.SolutionRunner.Services.Converters;
+using Neptuo.Productivity.SolutionRunner.Services.Positions;
 using Neptuo.Productivity.SolutionRunner.Services.Searching;
 using Neptuo.Productivity.SolutionRunner.Services.StartupShortcuts;
 using Neptuo.Productivity.SolutionRunner.ViewModels;
@@ -110,6 +111,10 @@ namespace Neptuo.Productivity.SolutionRunner.UI.DesignData
                         new AdditionalApplicationListViewModel(new AdditionalApplicationModel("GitExtensions", @"C:\Program Files (x86)\GitExtensions\GitExtensions.exe", ""))
                     };
                     configurationViewModel.RunKey = new KeyViewModel(Key.V, ModifierKeys.Control);
+
+                    configurationViewModel.PositionMode = PositionMode.UserDefined;
+                    configurationViewModel.PositionLeft = 450;
+                    configurationViewModel.PositionTop = 20;
                 }
 
                 return configurationViewModel;

@@ -7,6 +7,7 @@ using Neptuo.Productivity.SolutionRunner.Services.Applications;
 using Neptuo.Productivity.SolutionRunner.Services.Colors;
 using Neptuo.Productivity.SolutionRunner.Services.Converters;
 using Neptuo.Productivity.SolutionRunner.Services.Execution;
+using Neptuo.Productivity.SolutionRunner.Services.Positions;
 using Neptuo.Productivity.SolutionRunner.Services.Searching;
 using Neptuo.Productivity.SolutionRunner.Services.StartupFlags;
 using Neptuo.Productivity.SolutionRunner.Services.StartupShortcuts;
@@ -44,6 +45,7 @@ namespace Neptuo.Productivity.SolutionRunner
         private StartupModel startup;
         private DefaultRunHotKeyService runHotKey;
         private SwitchableContingService countingService;
+        private IPositionProvider positionProvider;
 
         // THIS must be synchronized with Click-Once deployment settings.
         private readonly ShortcutService shortcutService = new ShortcutService(
@@ -104,6 +106,7 @@ namespace Neptuo.Productivity.SolutionRunner
             if (!runHotKey.IsSet)
                 startup.IsHidden = false;
 
+            positionProvider = new PositionService(Settings.Default);
             InitializeCounting();
 
             // Open window.
@@ -336,6 +339,10 @@ namespace Neptuo.Productivity.SolutionRunner
                 viewModel.AdditionalApplications = new ObservableCollection<AdditionalApplicationListViewModel>(LoadAdditionalApplications());
                 viewModel.RunKey = runHotKey.FindKeyViewModel();
 
+                viewModel.PositionMode = Settings.Default.PositionMode;
+                viewModel.PositionLeft = Settings.Default.PositionLeft;
+                viewModel.PositionTop = Settings.Default.PositionTop;
+
                 configurationWindow = new ConfigurationWindow(viewModel, this, String.IsNullOrEmpty(Settings.Default.SourceDirectoryPath));
                 configurationWindow.ShowInTaskbar = !runHotKey.IsSet;
                 configurationWindow.ResizeMode = !runHotKey.IsSet ? ResizeMode.CanMinimize : ResizeMode.NoResize;
@@ -457,6 +464,8 @@ namespace Neptuo.Productivity.SolutionRunner
 
             if (!startup.IsStartup || !startup.IsHidden)
             {
+                positionProvider.Apply(mainWindow);
+
                 mainWindow.Show();
                 mainWindow.Activate();
             }

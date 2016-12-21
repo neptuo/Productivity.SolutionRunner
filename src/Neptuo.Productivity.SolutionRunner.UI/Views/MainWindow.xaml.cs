@@ -4,6 +4,7 @@ using Neptuo.Linq.Expressions;
 using Neptuo.Productivity.SolutionRunner.Properties;
 using Neptuo.Productivity.SolutionRunner.Services;
 using Neptuo.Productivity.SolutionRunner.Services.Execution;
+using Neptuo.Productivity.SolutionRunner.Services.Positions;
 using Neptuo.Productivity.SolutionRunner.ViewModels;
 using Neptuo.Productivity.SolutionRunner.Views.Controls;
 using Neptuo.Text.Tokens;
@@ -33,7 +34,7 @@ namespace Neptuo.Productivity.SolutionRunner.Views
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow : Window, IPositionTarget
     {
         private readonly INavigator navigator;
         private readonly Settings settings;

@@ -2,6 +2,7 @@
 using Neptuo.Observables;
 using Neptuo.Observables.Collections;
 using Neptuo.Productivity.SolutionRunner.Services;
+using Neptuo.Productivity.SolutionRunner.Services.Positions;
 using Neptuo.Productivity.SolutionRunner.Services.Searching;
 using Neptuo.Productivity.SolutionRunner.ViewModels.Commands;
 using System;
@@ -223,6 +224,48 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels
                 if (isStatisticsCounted != value)
                 {
                     isStatisticsCounted = value;
+                    RaisePropertyChanged();
+                }
+            }
+        }
+
+        private PositionMode positionMode;
+        public PositionMode PositionMode
+        {
+            get { return positionMode; }
+            set
+            {
+                if (positionMode != value)
+                {
+                    positionMode = value;
+                    RaisePropertyChanged();
+                }
+            }
+        }
+
+        private double? positionLeft;
+        public double? PositionLeft
+        {
+            get { return positionLeft; }
+            set
+            {
+                if (positionLeft != value)
+                {
+                    positionLeft = value;
+                    RaisePropertyChanged();
+                }
+            }
+        }
+
+        private double? positionTop;
+        public double? PositionTop
+        {
+            get { return positionTop; }
+            set
+            {
+                if (positionTop != value)
+                {
+                    positionTop = value;
                     RaisePropertyChanged();
                 }
             }

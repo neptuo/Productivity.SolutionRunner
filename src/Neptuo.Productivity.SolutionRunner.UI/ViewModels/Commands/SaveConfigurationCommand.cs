@@ -80,6 +80,10 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels.Commands
             else
                 runHotKey.Bind(viewModel.RunKey.Key, viewModel.RunKey.Modifier);
 
+            settings.PositionMode = viewModel.PositionMode;
+            settings.PositionLeft = viewModel.PositionLeft ?? 0;
+            settings.PositionTop = viewModel.PositionTop ?? 0;
+
             settings.Save();
             EventManager.RaiseConfigurationSaved(viewModel);
         }

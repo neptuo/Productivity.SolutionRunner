@@ -226,5 +226,41 @@ namespace Neptuo.Productivity.SolutionRunner.Properties {
                 this["IsStatisticsCounted"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("CenterPrimaryScreen")]
+        public global::Neptuo.Productivity.SolutionRunner.Services.Positions.PositionMode PositionMode {
+            get {
+                return ((global::Neptuo.Productivity.SolutionRunner.Services.Positions.PositionMode)(this["PositionMode"]));
+            }
+            set {
+                this["PositionMode"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public double PositionLeft {
+            get {
+                return ((double)(this["PositionLeft"]));
+            }
+            set {
+                this["PositionLeft"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public double PositionTop {
+            get {
+                return ((double)(this["PositionTop"]));
+            }
+            set {
+                this["PositionTop"] = value;
+            }
+        }
     }
 }
