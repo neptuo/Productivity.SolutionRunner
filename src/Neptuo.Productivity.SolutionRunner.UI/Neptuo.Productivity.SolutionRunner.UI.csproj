@@ -81,7 +81,7 @@
     <StartupObject>Neptuo.Productivity.SolutionRunner.App</StartupObject>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>SolutionRunner.ico</ApplicationIcon>
+    <ApplicationIcon>Resources\SolutionRunner.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="FontAwesome.WPF, Version=4.5.0.37524, Culture=neutral, PublicKeyToken=0758b07a11a4f466, processorArchitecture=MSIL">
@@ -360,13 +360,10 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="SolutionRunner.ico" />
+    <Resource Include="Resources\SolutionRunner.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\MainIcon.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="SolutionRunner.png" />
+    <Resource Include="Resources\SolutionRunner.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
