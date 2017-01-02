@@ -72,9 +72,9 @@ namespace Neptuo.Productivity.SolutionRunner
         {
             TaskScheduler.UnobservedTaskException += OnTaskSchedulerUnobservedException;
 
-#if DEBUG
-            Settings.Default.Reset();
-#endif
+//#if DEBUG
+//            Settings.Default.Reset();
+//#endif
 
             PrepareStartup(e);
             base.OnStartup(e);
