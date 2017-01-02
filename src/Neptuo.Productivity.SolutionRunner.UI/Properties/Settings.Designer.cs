@@ -97,7 +97,7 @@ namespace Neptuo.Productivity.SolutionRunner.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
         public string FileSearchPattern {
             get {
                 return ((string)(this["FileSearchPattern"]));
