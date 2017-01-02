@@ -11,6 +11,10 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Positions
     {
         double Left { get; set; }
         double Top { get; set; }
+
+        double ActualWidth { get; }
+        double ActualHeight { get; }
+
         WindowStartupLocation WindowStartupLocation { get; set; }
     }
 }

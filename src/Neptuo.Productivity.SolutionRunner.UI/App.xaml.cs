@@ -464,9 +464,10 @@ namespace Neptuo.Productivity.SolutionRunner
 
             if (!startup.IsStartup || !startup.IsHidden)
             {
+                mainWindow.Show();
+
                 positionProvider.Apply(mainWindow);
 
-                mainWindow.Show();
                 mainWindow.Activate();
             }
         }

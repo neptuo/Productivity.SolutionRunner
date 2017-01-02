@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Forms;
 
 namespace Neptuo.Productivity.SolutionRunner.Services.Positions
 {
@@ -26,7 +27,9 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Positions
             switch (settings.PositionMode)
             {
                 case PositionMode.CenterPrimaryScreen:
-                    target.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+                    Screen screen = Screen.PrimaryScreen;
+                    target.Left = (screen.WorkingArea.Width - target.ActualWidth) / 2 + screen.WorkingArea.Left;
+                    target.Top = (screen.WorkingArea.Height - target.ActualHeight) / 2 + screen.WorkingArea.Top;
                     break;
                 case PositionMode.UserDefined:
                     target.Left = settings.PositionLeft;
