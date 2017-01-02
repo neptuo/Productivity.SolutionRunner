@@ -10,10 +10,17 @@ using System.Windows.Forms;
 
 namespace Neptuo.Productivity.SolutionRunner.Services.Positions
 {
+    /// <summary>
+    /// An implmentation of <see cref="IPositionProvider"/> based on saved user settings.
+    /// </summary>
     public class PositionService : IPositionProvider
     {
         private readonly Settings settings;
 
+        /// <summary>
+        /// Creates a new instance.
+        /// </summary>
+        /// <param name="settings">User settings.</param>
         internal PositionService(Settings settings)
         {
             Ensure.NotNull(settings, "settings");
