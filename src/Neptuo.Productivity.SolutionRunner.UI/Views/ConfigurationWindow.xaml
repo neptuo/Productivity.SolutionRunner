@@ -61,7 +61,7 @@
                     <ControlTemplate TargetType="{x:Type ListBoxItem}">
                         <Border Name="theBorder" Background="Transparent">
                             <RadioButton Focusable="False" IsHitTestVisible="False" IsChecked="{TemplateBinding IsSelected}" Padding="2,-1,0,0">
-                                <TextBlock Text="{Binding}" Foreground="White" />
+                                <TextBlock Text="{Binding Name}" Foreground="White" />
                             </RadioButton>
                         </Border>
                     </ControlTemplate>
@@ -71,6 +71,7 @@
         <Style x:Key="CheckBoxList" TargetType="ListBox">
             <Setter Property="ItemContainerStyle" Value="{StaticResource CheckBoxListItemStyle}" />
             <Setter Property="SelectionMode" Value="Single" />
+            <Setter Property="SelectedValuePath" Value="Value" />
             <Setter Property="Background" Value="Transparent" />
             <Setter Property="BorderThickness" Value="0" />
         </Style>
@@ -177,7 +178,7 @@
 
                         <StackPanel Style="{StaticResource EditorPanelStyle}" Margin="0,0,10,0">
                             <Label Content="Search mode:" />
-                            <ListBox ItemsSource="{ds:FileSearchModes}" SelectedItem="{Binding FileSearchMode}" Style="{StaticResource CheckBoxList}" />
+                            <ListBox ItemsSource="{ds:FileSearchModes}" SelectedValue="{Binding FileSearchMode}" Style="{StaticResource CheckBoxList}" />
                         </StackPanel>
                         <StackPanel Style="{StaticResource EditorPanelStyle}" Margin="0,0,50,0" Grid.Column="1">
                             <Label Content="Search count:" Target="{Binding ElementName=tbxFileSearchCount}" />
@@ -187,7 +188,7 @@
                         <StackPanel Margin="0,0,10,0" Grid.ColumnSpan="2" Grid.Row="1">
                             <StackPanel Style="{StaticResource EditorPanelStyle}" Margin="0,10,00,0">
                                 <Label Content="Position mode:" />
-                                <ListBox ItemsSource="{ds:PositionModes}" SelectedItem="{Binding PositionMode}" Style="{StaticResource CheckBoxList}" />
+                                <ListBox ItemsSource="{ds:PositionModes}" SelectedValue="{Binding PositionMode}" Style="{StaticResource CheckBoxList}" />
                             </StackPanel>
 
                             <Grid Visibility="{Binding PositionMode, Converter={StaticResource PositionUserDefinedToVisibleConverter}}">

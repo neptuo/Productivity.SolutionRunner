@@ -1,4 +1,5 @@
 ﻿using Neptuo.Productivity.SolutionRunner.Services.Positions;
+using Neptuo.Productivity.SolutionRunner.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,10 +13,10 @@ namespace Neptuo.Productivity.SolutionRunner.Views.DataSources
     {
         public override object ProvideValue(IServiceProvider serviceProvider)
         {
-            return new List<PositionMode>()
+            return new List<NameValueViewModel>()
             {
-                PositionMode.CenterPrimaryScreen,
-                PositionMode.UserDefined
+                new NameValueViewModel("Centered on primary screen", PositionMode.CenterPrimaryScreen),
+                new NameValueViewModel("Custom", PositionMode.UserDefined)
             };
         }
     }

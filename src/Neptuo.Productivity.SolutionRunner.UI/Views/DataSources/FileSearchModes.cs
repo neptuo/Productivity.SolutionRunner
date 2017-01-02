@@ -1,4 +1,5 @@
 ﻿using Neptuo.Productivity.SolutionRunner.Services.Searching;
+using Neptuo.Productivity.SolutionRunner.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,10 +13,10 @@ namespace Neptuo.Productivity.SolutionRunner.Views.DataSources
     {
         public override object ProvideValue(IServiceProvider serviceProvider)
         {
-            return new List<FileSearchMode>() 
+            return new List<NameValueViewModel>() 
             {
-                FileSearchMode.StartsWith,
-                FileSearchMode.Contains
+                new NameValueViewModel("Starts with", FileSearchMode.StartsWith),
+                new NameValueViewModel("Contains", FileSearchMode.Contains)
             };
         }
     }
