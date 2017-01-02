@@ -170,7 +170,13 @@ namespace Neptuo.Productivity.SolutionRunner.Views
             }
 
             InitializeWidth();
-            viewModel.InitializeAsync().ContinueWith(t => DispatcherHelper.Run(FocusTextBox));
+            viewModel.InitializeAsync().ContinueWith(t =>
+            {
+                if (t.IsFaulted)
+                    DispatcherHelper.Run(() => App.ShowExceptionDialog(t.Exception));
+                else
+                    DispatcherHelper.Run(FocusTextBox);
+            });
         }
 
         private void InitializeWidth()

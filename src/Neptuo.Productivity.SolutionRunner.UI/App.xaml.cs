@@ -70,6 +70,12 @@ namespace Neptuo.Productivity.SolutionRunner
 
         protected override void OnStartup(StartupEventArgs e)
         {
+            TaskScheduler.UnobservedTaskException += OnTaskSchedulerUnobservedException;
+
+#if DEBUG
+            Settings.Default.Reset();
+#endif
+
             PrepareStartup(e);
             base.OnStartup(e);
 
@@ -224,11 +230,16 @@ namespace Neptuo.Productivity.SolutionRunner
 
         #region Handling exceptions
 
-        private void OnDispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
+        public static void ShowExceptionDialog(Exception e)
+        {
+            ((App)Current).ShowExceptionDialogInternal(e);
+        }
+
+        private void ShowExceptionDialogInternal(Exception e)
         {
             StringBuilder message = new StringBuilder();
 
-            string exceptionMessage = e.Exception.ToString();
+            string exceptionMessage = e.ToString();
             if (exceptionMessage.Length > 800)
                 exceptionMessage = exceptionMessage.Substring(0, 800);
 
@@ -237,8 +248,18 @@ namespace Neptuo.Productivity.SolutionRunner
             MessageBoxResult result = MessageBox.Show(message.ToString(), "Do you want to kill the aplication?", MessageBoxButton.YesNo);
             if (result == MessageBoxResult.Yes)
                 Shutdown();
+        }
 
+        private void OnDispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
+        {
+            ShowExceptionDialog(e.Exception);
             e.Handled = true;
+        }
+
+        private void OnTaskSchedulerUnobservedException(object sender, UnobservedTaskExceptionEventArgs e)
+        {
+            ShowExceptionDialog(e.Exception);
+            e.SetObserved();
         }
 
         #endregion
