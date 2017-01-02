@@ -1,4 +1,5 @@
 ﻿using Neptuo.Productivity.SolutionRunner.Services;
+using Neptuo.Productivity.SolutionRunner.Services.Applications;
 using Neptuo.Productivity.SolutionRunner.ViewModels;
 using Neptuo.Productivity.SolutionRunner.Views.Controls;
 using System;
@@ -17,7 +18,6 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using EventManager = Neptuo.Productivity.SolutionRunner.ViewModels.EventManager;
-using Neptuo.Productivity.SolutionRunner.Services.Applications;
 
 namespace Neptuo.Productivity.SolutionRunner.Views
 {
@@ -46,6 +46,9 @@ namespace Neptuo.Productivity.SolutionRunner.Views
 
             InitializeComponent();
             EventManager.ConfigurationSaved += OnConfigurationSaved;
+
+            if (isSaveRequired)
+                btnCancel.Content = "Exit";
         }
 
         private void OnConfigurationSaved(ConfigurationViewModel viewModel)
