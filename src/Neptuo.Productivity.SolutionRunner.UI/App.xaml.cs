@@ -205,25 +205,7 @@ namespace Neptuo.Productivity.SolutionRunner
                 wnd.Activate();
             }
         }
-
-        private static FileSearchMode GetUserFileSearchMode()
-        {
-            FileSearchMode result;
-            if (Converts.Try(Settings.Default.FileSearchMode, out result))
-                return result;
-
-            return FileSearchMode.StartsWith;
-        }
-
-        private static int GetUserFileSearchCount()
-        {
-            int value = Settings.Default.FileSearchCount;
-            if (value == 0)
-                value = 10;
-
-            return value;
-        }
-
+        
         #region Handling exceptions
 
         public static void ShowExceptionDialog(Exception e)
@@ -341,8 +323,8 @@ namespace Neptuo.Productivity.SolutionRunner
                 ConfigurationViewModel viewModel = new ConfigurationViewModel(new SaveConfigurationCommandFactory(Settings.Default, runHotKey, shortcutService), this);
                 viewModel.SourceDirectoryPath = Settings.Default.SourceDirectoryPath;
                 viewModel.PreferedApplicationPath = Settings.Default.PreferedApplicationPath;
-                viewModel.FileSearchMode = GetUserFileSearchMode();
-                viewModel.FileSearchCount = GetUserFileSearchCount();
+                viewModel.FileSearchMode = Settings.Default.GetFileSearchMode();
+                viewModel.FileSearchCount = Settings.Default.GetFileSearchCount();
                 viewModel.IsFileSearchPatternSaved = Settings.Default.IsFileSearchPatternSaved;
                 viewModel.IsLastUsedApplicationSavedAsPrefered = Settings.Default.IsLastUsedApplicationSavedAsPrefered;
                 viewModel.IsDismissedWhenLostFocus = Settings.Default.IsDismissedWhenLostFocus;
@@ -452,8 +434,8 @@ namespace Neptuo.Productivity.SolutionRunner
                         CreateFileSearchService(),
                         this
                     ),
-                    GetUserFileSearchMode,
-                    GetUserFileSearchCount
+                    Settings.Default.GetFileSearchMode,
+                    Settings.Default.GetFileSearchCount
                 );
 
                 VsVersionLoader vsLoader = new VsVersionLoader();
