@@ -491,6 +491,7 @@ namespace Neptuo.Productivity.SolutionRunner
                 e.Cancel = true;
             }
 
+            TrySaveLastSearchPattern();
             mainWindow.Deactivated -= OnMainWindowDeactivated;
         }
 
@@ -498,7 +499,7 @@ namespace Neptuo.Productivity.SolutionRunner
         {
             TrySaveLastSearchPattern();
             mainWindow.Closed -= OnMainWindowClosed;
-            mainWindow.Closing -= OnMainWindowClosed;
+            mainWindow.Closing -= OnMainWindowClosing;
             mainWindow = null;
 
             if (!runHotKey.IsSet && configurationWindow == null)

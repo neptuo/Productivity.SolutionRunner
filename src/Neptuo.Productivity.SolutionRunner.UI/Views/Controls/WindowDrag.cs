@@ -27,6 +27,9 @@ namespace Neptuo.Productivity.SolutionRunner.Views.Controls
 
         public static bool TryMove(MouseButtonEventArgs e)
         {
+            if (e.LeftButton != MouseButtonState.Pressed)
+                return false;
+
             FrameworkElement element = e.OriginalSource as FrameworkElement;
             if (element != null)
             {
