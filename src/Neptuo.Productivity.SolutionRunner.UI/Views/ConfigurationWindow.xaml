@@ -97,7 +97,7 @@
                         <TextBlock Text="Directory where to search for solution files" HorizontalAlignment="Right" />
                     </Grid>
                     <ui:DirectoryBrowser x:Name="dbrSourceDirectory" Path="{Binding SourceDirectoryPath, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Margin="0" />
-                    <ui:HelpPopup x:Name="hepSourceDirectory" Placement="Top" PlacementRectangle="{Binding ElementName=dbrSourceDirectory}" VerticalOffset="15">
+                    <ui:HelpPopup x:Name="hepSourceDirectory" Placement="Top" PlacementTarget="{Binding ElementName=dbrSourceDirectory}" VerticalOffset="-5">
                         <ui:HelpPopup.IsOpen>
                             <MultiBinding Converter="{StaticResource HelpVisibilityMultiValueConverter}">
                                 <Binding Path="SourceDirectoryPath" Converter="{StaticResource NullToTrueConverter}" Mode="OneWay" />

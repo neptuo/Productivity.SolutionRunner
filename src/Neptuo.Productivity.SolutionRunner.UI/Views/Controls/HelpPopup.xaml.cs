@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,6 +24,8 @@ namespace Neptuo.Productivity.SolutionRunner.Views.Controls
     [ContentProperty("Body")]
     public partial class HelpPopup : Popup
     {
+        private Window window;
+
         public object Body
         {
             get { return (object)GetValue(BodyProperty); }
@@ -30,15 +33,35 @@ namespace Neptuo.Productivity.SolutionRunner.Views.Controls
         }
 
         public static readonly DependencyProperty BodyProperty = DependencyProperty.Register(
-            "Body", 
-            typeof(object), 
-            typeof(HelpPopup), 
+            "Body",
+            typeof(object),
+            typeof(HelpPopup),
             new PropertyMetadata(null)
         );
 
         public HelpPopup()
         {
+            DependencyPropertyDescriptor placementTarget = DependencyPropertyDescriptor.FromProperty(PlacementTargetProperty, typeof(Popup));
+            placementTarget.AddValueChanged(this, OnPlacementTargetChanged);
+
             InitializeComponent();
+        }
+
+        private void OnPlacementTargetChanged(object sender, EventArgs e)
+        {
+            if (window != null)
+                window.LocationChanged -= OnWindowLocationChanged;
+
+            window = Window.GetWindow(PlacementTarget);
+            if (window != null)
+                window.LocationChanged += OnWindowLocationChanged;
+        }
+        
+        private void OnWindowLocationChanged(object sender, EventArgs e)
+        {
+            double offset = HorizontalOffset;
+            HorizontalOffset = offset + 1;
+            HorizontalOffset = offset;
         }
     }
 }
