@@ -24,6 +24,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -111,14 +112,14 @@ namespace Neptuo.Productivity.SolutionRunner
             positionProvider = new PositionService(Settings.Default);
             InitializeCounting();
 
+            if (Settings.Default.IsTrayIcon)
+                TryCreateTrayIcon();
+
             // Open window.
             if (String.IsNullOrEmpty(Settings.Default.SourceDirectoryPath))
                 OpenConfiguration();
             else
                 OpenMain();
-
-            if (Settings.Default.IsTrayIcon)
-                TryCreateTrayIcon();
 
             startup.IsStartup = false;
         }
@@ -175,6 +176,23 @@ namespace Neptuo.Productivity.SolutionRunner
                 trayIcon.Click -= OnTrayIconClick;
                 trayIcon.Dispose();
                 trayIcon = null;
+                return true;
+            }
+
+            return false;
+        }
+
+        private bool TryUpdateTrayIcon()
+        {
+            if (trayIcon != null && mainWindow != null)
+            {
+                string resourceName = null;
+                if (mainWindow.ViewModel.IsLoading)
+                    resourceName = "Neptuo.Productivity.SolutionRunner.Resources.Loading.ico";
+                else
+                    resourceName = "Neptuo.Productivity.SolutionRunner.Resources.SolutionRunner.ico";
+
+                trayIcon.Icon = new Icon(Assembly.GetExecutingAssembly().GetManifestResourceStream(resourceName));
                 return true;
             }
 
@@ -443,6 +461,7 @@ namespace Neptuo.Productivity.SolutionRunner
                     Settings.Default.GetFileSearchMode,
                     Settings.Default.GetFileSearchCount
                 );
+                viewModel.PropertyChanged += OnMainViewModelPropertyChanged;
 
                 VsVersionLoader vsLoader = new VsVersionLoader();
                 vsLoader.Add(viewModel);
@@ -462,12 +481,20 @@ namespace Neptuo.Productivity.SolutionRunner
             ResetLastSearchPattern();
             mainWindow.Deactivated += OnMainWindowDeactivated;
 
+            TryUpdateTrayIcon();
+
             if (!startup.IsStartup || !startup.IsHidden)
             {
                 mainWindow.Show();
                 positionProvider.Apply(mainWindow);
                 mainWindow.Activate();
             }
+        }
+
+        private void OnMainViewModelPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == nameof(MainViewModel.IsLoading))
+                TryUpdateTrayIcon();
         }
 
         private void ResetLastSearchPattern()
@@ -505,6 +532,10 @@ namespace Neptuo.Productivity.SolutionRunner
         private void OnMainWindowClosed(object sender, EventArgs e)
         {
             TrySaveLastSearchPattern();
+
+            if (mainWindow.ViewModel != null)
+                mainWindow.ViewModel.PropertyChanged -= OnMainViewModelPropertyChanged;
+
             mainWindow.Closed -= OnMainWindowClosed;
             mainWindow.Closing -= OnMainWindowClosing;
             mainWindow = null;

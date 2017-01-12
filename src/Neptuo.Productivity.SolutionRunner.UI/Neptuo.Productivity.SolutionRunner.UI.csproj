@@ -365,10 +365,10 @@
     <Resource Include="Resources\SolutionRunner.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\SolutionRunner.ico" />
+    <EmbeddedResource Include="Resources\SolutionRunner.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\Loading.ico" />
+    <EmbeddedResource Include="Resources\Loading.ico" />
     <Resource Include="Resources\Loading.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
