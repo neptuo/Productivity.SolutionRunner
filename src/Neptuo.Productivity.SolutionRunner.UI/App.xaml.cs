@@ -68,9 +68,9 @@ namespace Neptuo.Productivity.SolutionRunner
         {
             TaskScheduler.UnobservedTaskException += OnTaskSchedulerUnobservedException;
 
-//#if DEBUG
-//            Settings.Default.Reset();
-//#endif
+            //#if DEBUG
+            //            Settings.Default.Reset();
+            //#endif
 
             PrepareStartup(e);
             base.OnStartup(e);
@@ -202,10 +202,16 @@ namespace Neptuo.Productivity.SolutionRunner
                 if (!wnd.IsVisible)
                     wnd.Show();
 
+                if (wnd == mainWindow)
+                {
+                    ResetLastSearchPattern();
+                    positionProvider.Apply(mainWindow);
+                }
+
                 wnd.Activate();
             }
         }
-        
+
         #region Handling exceptions
 
         public static void ShowExceptionDialog(Exception e)
@@ -453,22 +459,23 @@ namespace Neptuo.Productivity.SolutionRunner
             }
 
             mainWindow.IsAutoSelectApplicationVersion = Settings.Default.IsAutoSelectApplicationVersion;
-
-            if (Settings.Default.IsFileSearchPatternSaved)
-                mainWindow.ViewModel.SearchPattern = Settings.Default.FileSearchPattern;
-            else if (!String.IsNullOrEmpty(mainWindow.ViewModel.SearchPattern))
-                mainWindow.ViewModel.SearchPattern = String.Empty;
-
+            ResetLastSearchPattern();
             mainWindow.Deactivated += OnMainWindowDeactivated;
 
             if (!startup.IsStartup || !startup.IsHidden)
             {
                 mainWindow.Show();
-
                 positionProvider.Apply(mainWindow);
-
                 mainWindow.Activate();
             }
+        }
+
+        private void ResetLastSearchPattern()
+        {
+            if (Settings.Default.IsFileSearchPatternSaved)
+                mainWindow.ViewModel.SearchPattern = Settings.Default.FileSearchPattern;
+            else if (!String.IsNullOrEmpty(mainWindow.ViewModel.SearchPattern))
+                mainWindow.ViewModel.SearchPattern = String.Empty;
         }
 
         private void OnMainWindowDeactivated(object sender, EventArgs e)
