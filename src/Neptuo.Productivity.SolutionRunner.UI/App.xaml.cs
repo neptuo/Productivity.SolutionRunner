@@ -208,24 +208,18 @@ namespace Neptuo.Productivity.SolutionRunner
         {
             Window wnd = null;
 
-            if (statisticsWindow != null)
+            if (statisticsWindow != null) 
                 wnd = statisticsWindow;
             else if (configurationWindow != null)
-                wnd = configurationWindow;
+                OpenConfiguration();
             else if (mainWindow != null)
-                wnd = mainWindow;
+                OpenMain();
 
             if (wnd != null)
             {
                 if (!wnd.IsVisible)
                     wnd.Show();
-
-                if (wnd == mainWindow)
-                {
-                    ResetLastSearchPattern();
-                    positionProvider.Apply(mainWindow);
-                }
-
+                
                 wnd.Activate();
             }
         }
