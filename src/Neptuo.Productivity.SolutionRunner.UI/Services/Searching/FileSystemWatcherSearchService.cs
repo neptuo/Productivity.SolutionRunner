@@ -28,6 +28,13 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Searching
             this.watchers = new List<FileSystemWatcher>();
         }
 
+        private IEnumerable<FileModel> EnumerateDirectory(string directoryPath)
+        {
+            return Directory
+                .GetFiles(directoryPath, "*.sln", SearchOption.AllDirectories)
+                .Select(f => new FileModel(f));
+        }
+
         public Task InitializeAsync()
         {
             if (watchers.Count == 0)
@@ -37,7 +44,7 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Searching
                     if (watchers.Count == 0)
                     {
                         InitializeWatchers(directoryPath);
-                        storage.AddRange(Directory.GetFiles(directoryPath, "*.sln", SearchOption.AllDirectories).Select(f => new FileModel(f)));
+                        storage.AddRange(EnumerateDirectory(directoryPath));
                     }
                 });
             }
@@ -52,6 +59,7 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Searching
             directoryWatcher.EnableRaisingEvents = true;
             directoryWatcher.IncludeSubdirectories = true;
             directoryWatcher.NotifyFilter = NotifyFilters.DirectoryName;
+            directoryWatcher.Created += OnFileCreated;
             directoryWatcher.Deleted += OnFileDeleted;
             directoryWatcher.Renamed += OnFileRenamed;
             watchers.Add(directoryWatcher);
@@ -69,7 +77,18 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Searching
 
         private void OnFileCreated(object sender, FileSystemEventArgs e)
         {
-            storage.Add(new FileModel(e.FullPath));
+            if (String.IsNullOrEmpty(Path.GetExtension(e.FullPath)))
+            {
+                foreach (FileModel file in EnumerateDirectory(e.FullPath))
+                {
+                    if (!storage.Any(f => f.Path == file.Path))
+                        storage.Add(file);
+                }
+            }
+            else
+            {
+                storage.Add(new FileModel(e.FullPath));
+            }
         }
 
         private void OnFileDeleted(object sender, FileSystemEventArgs e)
