@@ -27,7 +27,7 @@
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
     <InstallUrl>http://apps.neptuo.com/solution-runner/</InstallUrl>
-    <SupportUrl>http://apps.neptuo.com/solution-runner</SupportUrl>
+    <SupportUrl>https://github.com/neptuo/Productivity.SolutionRunner/issues</SupportUrl>
     <ProductName>Productivity.SolutionRunner</ProductName>
     <PublisherName>Neptuo</PublisherName>
     <SuiteName>Productivity</SuiteName>
