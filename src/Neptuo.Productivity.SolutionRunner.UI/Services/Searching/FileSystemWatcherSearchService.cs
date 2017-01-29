@@ -77,7 +77,8 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Searching
 
         private void OnFileCreated(object sender, FileSystemEventArgs e)
         {
-            if (String.IsNullOrEmpty(Path.GetExtension(e.FullPath)))
+            string extension = Path.GetExtension(e.FullPath);
+            if (String.IsNullOrEmpty(extension))
             {
                 foreach (FileModel file in EnumerateDirectory(e.FullPath))
                 {
@@ -85,7 +86,7 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Searching
                         storage.Add(file);
                 }
             }
-            else
+            else if(extension == ".sln" && File.Exists(e.FullPath))
             {
                 storage.Add(new FileModel(e.FullPath));
             }
