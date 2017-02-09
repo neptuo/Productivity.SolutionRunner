@@ -21,24 +21,57 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Applications
         public void Add(IApplicationCollection applications)
         {
             IDirectoryNameSearch search = new LocalSearchProvider(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86));
+            Add2015AndOlder(search, applications);
+            Add2017AndNewer(search, applications);
+        }
+
+        private void Add2017AndNewer(IDirectoryNameSearch search, IApplicationCollection applications)
+        {
+            IDirectory root = search
+                .FindDirectories(TextSearch.CreateMatched("Microsoft Visual Studio"))
+                .FirstOrDefault();
+
+            if (root == null)
+                return;
+
+            foreach (IDirectory version in root.WithDirectoryEnumerator())
+            {
+                if (version.Name.Length == 4)
+                {
+                    foreach (IDirectory edition in version.WithDirectoryEnumerator())
+                        TryAdd(applications, edition);
+                }
+            }
+        }
+
+        private void Add2015AndOlder(IDirectoryNameSearch search, IApplicationCollection applications)
+        {
             IEnumerable<IDirectory> directories = search.FindDirectories(TextSearch.CreatePrefixed("Microsoft Visual Studio"));
 
             foreach (IDirectory directory in directories)
-            {
-                string filePath = Path.Combine(directory.WithAbsolutePath().AbsolutePath, @"Common7\IDE\devenv.exe");
-                if (File.Exists(filePath))
-                {
-                    FileVersionInfo version = FileVersionInfo.GetVersionInfo(filePath);
+                TryAdd(applications, directory);
+        }
 
-                    applications.Add(
-                        String.Format("Visual Studio {0}.{1}", version.FileMajorPart, version.FileMinorPart),
-                        new Version(version.FileMajorPart, version.FileMinorPart),
-                        filePath,
-                        null,
-                        IconExtractor.Get(filePath),
-                        true
-                    );
-                }
+        private void TryAdd(IApplicationCollection applications, IDirectory directory)
+        {
+            string filePath = Path.Combine(directory.WithAbsolutePath().AbsolutePath, @"Common7\IDE\devenv.exe");
+            TryAdd(applications, filePath);
+        }
+
+        private void TryAdd(IApplicationCollection applications, string filePath)
+        {
+            if (File.Exists(filePath))
+            {
+                FileVersionInfo version = FileVersionInfo.GetVersionInfo(filePath);
+
+                applications.Add(
+                    String.Format("Visual Studio {0}.{1}", version.FileMajorPart, version.FileMinorPart),
+                    new Version(version.FileMajorPart, version.FileMinorPart),
+                    filePath,
+                    null,
+                    IconExtractor.Get(filePath),
+                    true
+                );
             }
         }
     }
