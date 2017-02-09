@@ -59,9 +59,9 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Searching
             directoryWatcher.EnableRaisingEvents = true;
             directoryWatcher.IncludeSubdirectories = true;
             directoryWatcher.NotifyFilter = NotifyFilters.DirectoryName;
-            directoryWatcher.Created += OnFileCreated;
-            directoryWatcher.Deleted += OnFileDeleted;
-            directoryWatcher.Renamed += OnFileRenamed;
+            directoryWatcher.Created += (sender, e) => SafeChangeWatcher(sender, e, OnFileCreated);
+            directoryWatcher.Deleted += (sender, e) => SafeChangeWatcher(sender, e, OnFileDeleted);
+            directoryWatcher.Renamed += (sender, e) => SafeChangeWatcher(sender, e, OnFileRenamed);
             watchers.Add(directoryWatcher);
 
             // Watcher for changes on *.sln files.
@@ -69,10 +69,28 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Searching
             fileWatcher.EnableRaisingEvents = true;
             fileWatcher.IncludeSubdirectories = true;
             fileWatcher.NotifyFilter = NotifyFilters.FileName;
-            fileWatcher.Created += OnFileCreated;
-            fileWatcher.Deleted += OnFileDeleted;
-            fileWatcher.Renamed += OnFileRenamed;
+            fileWatcher.Created += (sender, e) => SafeChangeWatcher(sender, e, OnFileCreated);
+            fileWatcher.Deleted += (sender, e) => SafeChangeWatcher(sender, e, OnFileDeleted);
+            fileWatcher.Renamed += (sender, e) => SafeChangeWatcher(sender, e, OnFileRenamed);
             watchers.Add(fileWatcher);
+        }
+
+        private void SafeChangeWatcher<T>(object sender, T e, Action<object, T> inner)
+            where T : EventArgs
+        {
+            for (int i = 1; i < 6; i++)
+            {
+                try
+                {
+                    inner(sender, e);
+                    return;
+                }
+                catch (Exception)
+                {
+                    // Some times there is a problem with IO for newly created folders.
+                    Thread.Sleep(500 * i);
+                }
+            }
         }
 
         private void OnFileCreated(object sender, FileSystemEventArgs e)
@@ -86,7 +104,7 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Searching
                         storage.Add(file);
                 }
             }
-            else if(extension == ".sln" && File.Exists(e.FullPath))
+            else if (extension == ".sln" && File.Exists(e.FullPath))
             {
                 storage.Add(new FileModel(e.FullPath));
             }
