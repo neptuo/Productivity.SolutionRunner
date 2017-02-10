@@ -10,7 +10,7 @@ namespace Neptuo.Productivity.SolutionRunner.UI
 {
     public class VersionInfo
     {
-        internal const string Version = "1.6.2";
+        internal const string Version = "1.6.3";
         internal const string Preview = null;//"-beta1";
 
         public static Version GetVersion()
