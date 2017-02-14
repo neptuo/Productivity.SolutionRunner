@@ -1,6 +1,7 @@
 ﻿using Neptuo.Productivity.SolutionRunner.Services.Searching;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Reflection;
 using System.Resources;
 using System.Runtime.CompilerServices;
@@ -27,6 +28,14 @@ namespace Neptuo.Productivity.SolutionRunner.Properties
                 value = 10;
 
             return value;
+        }
+
+        public string[] GetHiddenMainApplications()
+        {
+            if (String.IsNullOrEmpty(HiddenMainApplications))
+                return new string[0];
+
+            return HiddenMainApplications.Split(Path.PathSeparator);
         }
     }
 }

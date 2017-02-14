@@ -368,6 +368,8 @@ namespace Neptuo.Productivity.SolutionRunner
                 MainApplicationCollection mainApplications = new MainApplicationCollection();
                 vsLoader.Add(mainApplications);
                 viewModel.MainApplications = mainApplications;
+                foreach (MainApplicationListViewModel application in mainApplications)
+                    application.IsEnabled = !Settings.Default.GetHiddenMainApplications().Contains(application.Path);
 
                 viewModel.RunKey = runHotKey.FindKeyViewModel();
                 viewModel.PositionMode = Settings.Default.PositionMode;

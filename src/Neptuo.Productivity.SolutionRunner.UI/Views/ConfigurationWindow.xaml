@@ -133,7 +133,7 @@
                                     <Grid>
                                         <StackPanel Orientation="Horizontal">
                                             <Image Source="{Binding Icon}" Width="24" Margin="0,0,5,0" />
-                                            <TextBlock Text="{Binding Name}" ToolTip="{Binding Path}" Style="{StaticResource DescriptionStyle}" VerticalAlignment="Center" FontSize="20" />
+                                            <TextBlock Text="{Binding Name}" ToolTip="{Binding Path}" Style="{StaticResource DescriptionStyle}" Foreground="White" VerticalAlignment="Center" FontSize="20" />
                                         </StackPanel>
 
                                         <ToggleButton IsChecked="{Binding IsEnabled}" Style="{StaticResource PlainToggleButtonStyle}" HorizontalAlignment="Right">
@@ -191,7 +191,7 @@
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>
                     <Border Style="{StaticResource AdditionalBorderStyle}" Visibility="{Binding AdditionalApplications.Count, Converter={StaticResource ZeroOrLowerToVisibleConverter}}">
-                        <TextBlock Text="No additional application. Use '+' to add one..." Style="{StaticResource DescriptionStyle}" VerticalAlignment="Center" FontSize="20" />
+                        <TextBlock Text="No additional application. Use '+' to add some..." Style="{StaticResource DescriptionStyle}" VerticalAlignment="Center" FontSize="20" />
                     </Border>
                 </StackPanel>
                 <StackPanel Style="{StaticResource EditorPanelStyle}">

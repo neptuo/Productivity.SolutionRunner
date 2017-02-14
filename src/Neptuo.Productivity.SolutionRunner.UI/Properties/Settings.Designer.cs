@@ -262,5 +262,17 @@ namespace Neptuo.Productivity.SolutionRunner.Properties {
                 this["PositionTop"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string HiddenMainApplications {
+            get {
+                return ((string)(this["HiddenMainApplications"]));
+            }
+            set {
+                this["HiddenMainApplications"] = value;
+            }
+        }
     }
 }

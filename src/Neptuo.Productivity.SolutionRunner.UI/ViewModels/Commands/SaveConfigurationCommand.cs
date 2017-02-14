@@ -84,6 +84,11 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels.Commands
             settings.PositionLeft = viewModel.PositionLeft ?? 0;
             settings.PositionTop = viewModel.PositionTop ?? 0;
 
+            settings.HiddenMainApplications = String.Join(
+                Path.PathSeparator.ToString(), 
+                viewModel.MainApplications.Where(a => !a.IsEnabled).Select(a => a.Path)
+            );
+
             settings.Save();
             EventManager.RaiseConfigurationSaved(viewModel);
         }
