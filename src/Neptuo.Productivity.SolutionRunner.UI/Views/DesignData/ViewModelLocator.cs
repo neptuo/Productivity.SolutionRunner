@@ -116,12 +116,14 @@ namespace Neptuo.Productivity.SolutionRunner.UI.DesignData
                         {
                             Name = "Visual Studio 12.0",
                             Path = @"C:\Program Files (x86)\Microsoft Visual Studio 12.0\Common7\IDE\devenv.exe",
+                            Icon = IconExtractor.Get(@"C:\Program Files (x86)\Microsoft Visual Studio 12.0\Common7\IDE\devenv.exe"),
                             IsEnabled = false
                         },
                         new MainApplicationListViewModel()
                         {
                             Name = "Visual Studio 14.0",
                             Path = @"C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\IDE\devenv.exe",
+                            Icon = IconExtractor.Get(@"C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\IDE\devenv.exe"),
                             IsEnabled = true
                         }
                     };

@@ -220,6 +220,7 @@
     <Compile Include="ViewModels\EventManager.cs" />
     <Compile Include="ViewModels\Commands\Factories\SaveConfigurationCommandFactory.cs" />
     <Compile Include="ViewModels\FileViewModel.cs" />
+    <Compile Include="ViewModels\MainApplicationCollection.cs" />
     <Compile Include="ViewModels\MainApplicationListViewModel.cs" />
     <Compile Include="ViewModels\NameValueViewModel.cs" />
     <Compile Include="ViewModels\KeyViewModel.cs" />

@@ -40,6 +40,7 @@ namespace Neptuo.Productivity.SolutionRunner
     public partial class App : Application, INavigator, INavigatorState, IPinStateService
     {
         private StartupModel startup;
+        private VsVersionLoader vsLoader;
         private DefaultRunHotKeyService runHotKey;
         private SwitchableContingService countingService;
         private IPositionProvider positionProvider;
@@ -88,6 +89,8 @@ namespace Neptuo.Productivity.SolutionRunner
             EventManager.FilePinned += OnFilePinned;
             EventManager.ConfigurationSaved += OnConfigurationSaved;
             EventManager.ProcessStarted += OnProcessStarted;
+
+            vsLoader = new VsVersionLoader();
 
             // Bind global hotkey.
             runHotKey = new DefaultRunHotKeyService(this, this);
@@ -361,9 +364,12 @@ namespace Neptuo.Productivity.SolutionRunner
                 viewModel.IsTrayIcon = Settings.Default.IsTrayIcon;
                 viewModel.IsStatisticsCounted = Settings.Default.IsStatisticsCounted;
                 viewModel.AdditionalApplications = new ObservableCollection<AdditionalApplicationListViewModel>(LoadAdditionalApplications());
-                viewModel.MainApplications = new ObservableCollection<MainApplicationListViewModel>();
-                viewModel.RunKey = runHotKey.FindKeyViewModel();
 
+                MainApplicationCollection mainApplications = new MainApplicationCollection();
+                vsLoader.Add(mainApplications);
+                viewModel.MainApplications = mainApplications;
+
+                viewModel.RunKey = runHotKey.FindKeyViewModel();
                 viewModel.PositionMode = Settings.Default.PositionMode;
                 viewModel.PositionLeft = Settings.Default.PositionLeft;
                 viewModel.PositionTop = Settings.Default.PositionTop;
@@ -465,7 +471,6 @@ namespace Neptuo.Productivity.SolutionRunner
                 );
                 viewModel.PropertyChanged += OnMainViewModelPropertyChanged;
 
-                VsVersionLoader vsLoader = new VsVersionLoader();
                 vsLoader.Add(viewModel);
 
                 AdditionalApplicationLoader additionalLoader = new AdditionalApplicationLoader();

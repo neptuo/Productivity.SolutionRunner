@@ -71,6 +71,18 @@
                 </Setter.Value>
             </Setter>
         </Style>
+        <Style x:Key="PlainToggleButtonStyle" TargetType="ToggleButton">
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ToggleButton">
+                        <Border Padding="{TemplateBinding Padding}" Margin="{TemplateBinding Margin}">
+                            <ContentPresenter VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
         <Style TargetType="ComboBox">
             <Setter Property="Background" Value="{StaticResource TextBoxBackgroundBrush}" />
         </Style>
