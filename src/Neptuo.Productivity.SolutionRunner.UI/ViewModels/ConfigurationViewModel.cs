@@ -272,6 +272,7 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels
         }
 
         public ObservableCollection<AdditionalApplicationListViewModel> AdditionalApplications { get; set; }
+        public ObservableCollection<MainApplicationListViewModel> MainApplications { get; set; }
 
         public string Version { get; private set; }
 

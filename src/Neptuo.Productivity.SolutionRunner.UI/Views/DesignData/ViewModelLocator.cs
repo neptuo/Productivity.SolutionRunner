@@ -110,6 +110,21 @@ namespace Neptuo.Productivity.SolutionRunner.UI.DesignData
                         new AdditionalApplicationListViewModel(new AdditionalApplicationModel("Notepad", @"C:\Windows\notepad.exe", "")),
                         new AdditionalApplicationListViewModel(new AdditionalApplicationModel("GitExtensions", @"C:\Program Files (x86)\GitExtensions\GitExtensions.exe", ""))
                     };
+                    configurationViewModel.MainApplications = new ObservableCollection<MainApplicationListViewModel>()
+                    {
+                        new MainApplicationListViewModel()
+                        {
+                            Name = "Visual Studio 12.0",
+                            Path = @"C:\Program Files (x86)\Microsoft Visual Studio 12.0\Common7\IDE\devenv.exe",
+                            IsEnabled = false
+                        },
+                        new MainApplicationListViewModel()
+                        {
+                            Name = "Visual Studio 14.0",
+                            Path = @"C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\IDE\devenv.exe",
+                            IsEnabled = true
+                        }
+                    };
                     configurationViewModel.RunKey = new KeyViewModel(Key.V, ModifierKeys.Control);
 
                     configurationViewModel.PositionMode = PositionMode.UserDefined;

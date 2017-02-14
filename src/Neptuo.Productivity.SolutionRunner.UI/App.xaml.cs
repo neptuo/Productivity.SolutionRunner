@@ -361,6 +361,7 @@ namespace Neptuo.Productivity.SolutionRunner
                 viewModel.IsTrayIcon = Settings.Default.IsTrayIcon;
                 viewModel.IsStatisticsCounted = Settings.Default.IsStatisticsCounted;
                 viewModel.AdditionalApplications = new ObservableCollection<AdditionalApplicationListViewModel>(LoadAdditionalApplications());
+                viewModel.MainApplications = new ObservableCollection<MainApplicationListViewModel>();
                 viewModel.RunKey = runHotKey.FindKeyViewModel();
 
                 viewModel.PositionMode = Settings.Default.PositionMode;
