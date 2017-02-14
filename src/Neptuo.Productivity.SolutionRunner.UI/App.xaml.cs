@@ -161,8 +161,14 @@ namespace Neptuo.Productivity.SolutionRunner
                 trayIcon = new NotifyIcon();
                 trayIcon.Icon = Icon.ExtractAssociatedIcon(Process.GetCurrentProcess().MainModule.FileName);
                 trayIcon.Text = "SolutionRunner";
-                trayIcon.Click += OnTrayIconClick;
+                trayIcon.MouseClick += OnTrayIconClick;
                 trayIcon.Visible = true;
+
+                trayIcon.ContextMenu = new System.Windows.Forms.ContextMenu();
+                trayIcon.ContextMenu.MenuItems.Add("Open", (sender, e) => { OpenMain(); configurationWindow?.Close(); statisticsWindow?.Close(); });
+                trayIcon.ContextMenu.MenuItems.Add("Configuration", (sender, e) => { OpenConfiguration(); mainWindow?.Close(); statisticsWindow?.Close(); });
+                trayIcon.ContextMenu.MenuItems.Add("Statistics", (sender, e) => OpenStatistics());
+                trayIcon.ContextMenu.MenuItems.Add("Exit", (sender, e) => Shutdown());
                 return true;
             }
 
@@ -173,7 +179,7 @@ namespace Neptuo.Productivity.SolutionRunner
         {
             if (trayIcon != null)
             {
-                trayIcon.Click -= OnTrayIconClick;
+                trayIcon.MouseClick -= OnTrayIconClick;
                 trayIcon.Dispose();
                 trayIcon = null;
                 return true;
@@ -199,16 +205,17 @@ namespace Neptuo.Productivity.SolutionRunner
             return false;
         }
 
-        private void OnTrayIconClick(object sender, EventArgs e)
+        private void OnTrayIconClick(object sender, System.Windows.Forms.MouseEventArgs e)
         {
-            Activate();
+            if (e.Button != System.Windows.Forms.MouseButtons.Right)
+                Activate();
         }
 
         public void Activate()
         {
             Window wnd = null;
 
-            if (statisticsWindow != null) 
+            if (statisticsWindow != null)
                 wnd = statisticsWindow;
             else if (configurationWindow != null)
                 OpenConfiguration();
@@ -219,7 +226,7 @@ namespace Neptuo.Productivity.SolutionRunner
             {
                 if (!wnd.IsVisible)
                     wnd.Show();
-                
+
                 wnd.Activate();
             }
         }
