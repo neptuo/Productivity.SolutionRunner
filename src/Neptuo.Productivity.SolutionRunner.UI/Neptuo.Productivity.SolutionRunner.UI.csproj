@@ -167,6 +167,7 @@
     <Compile Include="Services\Applications\AdditionalApplicationCollection.cs" />
     <Compile Include="Services\Applications\AdditionalApplicationModel.cs" />
     <Compile Include="Services\Applications\IconExtractor.cs" />
+    <Compile Include="Services\Applications\ApplicationFilteredCollection.cs" />
     <Compile Include="Services\Colors\IColorGenerator.cs" />
     <Compile Include="Services\Colors\NamedColorGenerator.cs" />
     <Compile Include="Services\Colors\RandomColorGenerator.cs" />

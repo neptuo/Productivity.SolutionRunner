@@ -473,7 +473,8 @@ namespace Neptuo.Productivity.SolutionRunner
                 );
                 viewModel.PropertyChanged += OnMainViewModelPropertyChanged;
 
-                vsLoader.Add(viewModel);
+                ApplicationFilteredCollection applications = new ApplicationFilteredCollection(Settings.Default, viewModel);
+                vsLoader.Add(applications);
 
                 AdditionalApplicationLoader additionalLoader = new AdditionalApplicationLoader();
                 additionalLoader.Add(viewModel);
