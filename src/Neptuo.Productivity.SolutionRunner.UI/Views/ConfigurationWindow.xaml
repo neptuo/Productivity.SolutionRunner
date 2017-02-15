@@ -21,6 +21,7 @@
         <converters:BoolConverter x:Key="TrueToEyeConverter" TrueValue="Eye" FalseValue="EyeSlash" />
         <converters:BoolConverter x:Key="TrueToOpacityConverter" TrueValue="1" FalseValue=".5" />
         <converters:BoolConverter x:Key="TrueToDescriptionConverter" TrueValue="Visible" FalseValue="Hidden" />
+        <converters:BoolConverter x:Key="TrueToVisibleConverter" TrueValue="Visible" FalseValue="Collapsed" />
 
         <Style TargetType="TextBlock" BasedOn="{StaticResource DescriptionStyle}">
             <Setter Property="Padding" Value="2" />
@@ -242,7 +243,16 @@
                             <Label Content="Others:" />
                             <CheckBox Content="Save last searched phrase" IsChecked="{Binding IsFileSearchPatternSaved}" />
                             <CheckBox Content="Save last used application as prefered" IsChecked="{Binding IsLastUsedApplicationSavedAsPrefered}" />
-                            <CheckBox Content="Auto select VsVersion from selected sln file" IsChecked="{Binding IsAutoSelectApplicationVersion}" />
+                            <CheckBox Content="Select VsVersion from selected sln " IsChecked="{Binding IsAutoSelectApplicationVersion}" />
+                            <StackPanel Orientation="Horizontal" Visibility="{Binding IsAutoSelectApplicationVersion, Converter={StaticResource TrueToVisibleConverter}}">
+                                <Label Content="Minimal version" Margin="18,0,8,0" />
+                                <ComboBox SelectedValue="10.0">
+                                    <ComboBoxItem Content="10.0" />
+                                    <ComboBoxItem Content="12.0" />
+                                    <ComboBoxItem Content="14.0" />
+                                    <ComboBoxItem Content="15.0" />
+                                </ComboBox>
+                            </StackPanel>
                             <CheckBox Content="Remove file name from displayed path" IsChecked="{Binding IsFileNameRemovedFromDisplayedPath}" />
                             <CheckBox Content="Trim displayed path to last folder name only" IsChecked="{Binding IsDisplayedPathTrimmedToLastFolderName}" IsEnabled="{Binding IsFileNameRemovedFromDisplayedPath}" />
                             <StackPanel Orientation="Horizontal">
