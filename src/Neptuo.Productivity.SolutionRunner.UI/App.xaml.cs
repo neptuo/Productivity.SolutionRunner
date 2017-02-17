@@ -1,4 +1,5 @@
-﻿using Neptuo.Converters;
+﻿using Neptuo.Activators;
+using Neptuo.Converters;
 using Neptuo.Formatters.Converters;
 using Neptuo.Observables.Collections;
 using Neptuo.Productivity.SolutionRunner.Properties;
@@ -14,6 +15,7 @@ using Neptuo.Productivity.SolutionRunner.Services.StartupShortcuts;
 using Neptuo.Productivity.SolutionRunner.Services.Statistics;
 using Neptuo.Productivity.SolutionRunner.ViewModels;
 using Neptuo.Productivity.SolutionRunner.ViewModels.Commands.Factories;
+using Neptuo.Productivity.SolutionRunner.ViewModels.Factories;
 using Neptuo.Productivity.SolutionRunner.Views;
 using Neptuo.Windows.Threading;
 using System;
@@ -44,6 +46,8 @@ namespace Neptuo.Productivity.SolutionRunner
         private DefaultRunHotKeyService runHotKey;
         private SwitchableContingService countingService;
         private IPositionProvider positionProvider;
+
+        private IFactory<ConfigurationViewModel> configurationFactory;
 
         // THIS must be synchronized with Click-Once deployment settings.
         private readonly ShortcutService shortcutService = new ShortcutService(
@@ -111,6 +115,14 @@ namespace Neptuo.Productivity.SolutionRunner
 
             if (!runHotKey.IsSet)
                 startup.IsHidden = false;
+
+            configurationFactory = new ConfigurationViewModelFactory(
+                vsLoader, 
+                shortcutService, 
+                runHotKey, 
+                Settings.Default, 
+                this
+            );
 
             positionProvider = new PositionService(Settings.Default);
             InitializeCounting();
@@ -348,58 +360,13 @@ namespace Neptuo.Productivity.SolutionRunner
             {
                 isMainWindowViewModelReloadRequired = true;
 
-                ConfigurationViewModel viewModel = new ConfigurationViewModel(new SaveConfigurationCommandFactory(Settings.Default, runHotKey, shortcutService), this);
-                viewModel.SourceDirectoryPath = Settings.Default.SourceDirectoryPath;
-                viewModel.PreferedApplicationPath = Settings.Default.PreferedApplicationPath;
-                viewModel.FileSearchMode = Settings.Default.GetFileSearchMode();
-                viewModel.FileSearchCount = Settings.Default.GetFileSearchCount();
-                viewModel.IsFileSearchPatternSaved = Settings.Default.IsFileSearchPatternSaved;
-                viewModel.IsLastUsedApplicationSavedAsPrefered = Settings.Default.IsLastUsedApplicationSavedAsPrefered;
-                viewModel.IsDismissedWhenLostFocus = Settings.Default.IsDismissedWhenLostFocus;
-                viewModel.IsHiddentOnStartup = Settings.Default.IsHiddentOnStartup;
-                viewModel.IsAutoSelectApplicationVersion = Settings.Default.IsAutoSelectApplicationVersion;
-                viewModel.AutoSelectApplicationMinimalVersion = Settings.Default.GetAutoSelectApplicationMinimalVersion();
-                viewModel.IsFileNameRemovedFromDisplayedPath = Settings.Default.IsFileNameRemovedFromDisplayedPath;
-                viewModel.IsDisplayedPathTrimmedToLastFolderName = Settings.Default.IsDisplayedPathTrimmedToLastFolderName;
-                viewModel.IsAutoStartup = shortcutService.Exists(Environment.SpecialFolder.Startup);
-                viewModel.IsTrayIcon = Settings.Default.IsTrayIcon;
-                viewModel.IsStatisticsCounted = Settings.Default.IsStatisticsCounted;
-                viewModel.AdditionalApplications = new ObservableCollection<AdditionalApplicationListViewModel>(LoadAdditionalApplications());
-
-                MainApplicationCollection mainApplications = new MainApplicationCollection();
-                vsLoader.Add(mainApplications);
-                viewModel.MainApplications = mainApplications;
-                
-                foreach (MainApplicationListViewModel application in mainApplications)
-                    application.IsEnabled = !Settings.Default.GetHiddenMainApplications().Contains(application.Path);
-
-                VsVersionCollection vsVersions = new VsVersionCollection();
-                vsLoader.Add(vsVersions);
-                viewModel.VsVersions = vsVersions;
-
-                viewModel.RunKey = runHotKey.FindKeyViewModel();
-                viewModel.PositionMode = Settings.Default.PositionMode;
-                viewModel.PositionLeft = Settings.Default.PositionLeft;
-                viewModel.PositionTop = Settings.Default.PositionTop;
-
-                configurationWindow = new ConfigurationWindow(viewModel, this, String.IsNullOrEmpty(Settings.Default.SourceDirectoryPath));
+                configurationWindow = new ConfigurationWindow(configurationFactory.Create(), this, String.IsNullOrEmpty(Settings.Default.SourceDirectoryPath));
                 configurationWindow.ShowInTaskbar = !runHotKey.IsSet;
                 configurationWindow.ResizeMode = !runHotKey.IsSet ? ResizeMode.CanMinimize : ResizeMode.NoResize;
                 configurationWindow.Closed += OnConfigurationWindowClosed;
             }
             configurationWindow.Show();
             configurationWindow.Activate();
-        }
-
-        private IEnumerable<AdditionalApplicationListViewModel> LoadAdditionalApplications()
-        {
-            string rawValue = Settings.Default.AdditionalApplications;
-            if (String.IsNullOrEmpty(rawValue))
-                return Enumerable.Empty<AdditionalApplicationListViewModel>();
-
-            return Converts
-                .To<string, AdditionalApplicationCollection>(Settings.Default.AdditionalApplications)
-                .Select(a => new AdditionalApplicationListViewModel(a));
         }
 
         private void OnConfigurationWindowClosed(object sender, EventArgs e)

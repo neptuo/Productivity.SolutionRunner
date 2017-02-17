@@ -54,8 +54,8 @@ namespace Neptuo.Productivity.SolutionRunner.Properties
         {
             if (version == null)
                 AutoSelectApplicationMinimalVersion = null;
-
-            AutoSelectApplicationMinimalVersion = version.ToString(2);
+            else
+                AutoSelectApplicationMinimalVersion = version.ToString(2);
         }
     }
 }
