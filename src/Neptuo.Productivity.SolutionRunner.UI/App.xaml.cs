@@ -264,15 +264,41 @@ namespace Neptuo.Productivity.SolutionRunner
 
         private void ShowExceptionDialogInternal(Exception e)
         {
-            StringBuilder message = new StringBuilder();
+            MessageBoxResult result = MessageBoxResult.Yes;
 
-            string exceptionMessage = e.ToString();
-            if (exceptionMessage.Length > 800)
-                exceptionMessage = exceptionMessage.Substring(0, 800);
+            AggregateException aggregate = e as AggregateException;
+            if (aggregate != null)
+                e = aggregate.InnerException;
 
-            message.AppendLine(exceptionMessage);
+            UnauthorizedAccessException unauthorizedAccess = e as UnauthorizedAccessException;
+            if (unauthorizedAccess != null)
+            {
+                result = MessageBox.Show(
+                    String.Format(
+                        "The path '{0}' is not accessible. {1}We are going to reset the root directory.", 
+                        Settings.Default.SourceDirectoryPath,
+                        Environment.NewLine
+                    ), 
+                    "Unauthorized access", 
+                    MessageBoxButton.OK
+                );
 
-            MessageBoxResult result = MessageBox.Show(message.ToString(), "Do you want to kill the aplication?", MessageBoxButton.YesNo);
+                OpenConfiguration();
+                mainWindow?.Close();
+            }
+            else
+            {
+                StringBuilder message = new StringBuilder();
+
+                string exceptionMessage = e.ToString();
+                if (exceptionMessage.Length > 800)
+                    exceptionMessage = exceptionMessage.Substring(0, 800);
+
+                message.AppendLine(exceptionMessage);
+
+                result = MessageBox.Show(message.ToString(), "Do you want to kill the aplication?", MessageBoxButton.YesNo);
+            }
+
             if (result == MessageBoxResult.Yes)
                 Shutdown();
         }
