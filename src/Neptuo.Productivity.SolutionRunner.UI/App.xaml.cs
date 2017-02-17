@@ -48,6 +48,7 @@ namespace Neptuo.Productivity.SolutionRunner
         private IPositionProvider positionProvider;
 
         private IFactory<ConfigurationViewModel> configurationFactory;
+        private IFactory<MainViewModel> mainFactory;
 
         // THIS must be synchronized with Click-Once deployment settings.
         private readonly ShortcutService shortcutService = new ShortcutService(
@@ -122,6 +123,14 @@ namespace Neptuo.Productivity.SolutionRunner
                 runHotKey, 
                 Settings.Default, 
                 this
+            );
+
+            mainFactory = new MainViewModelFactory(
+                this,
+                Settings.Default,
+                vsLoader,
+                GetPinnedFiles,
+                OnMainViewModelPropertyChanged
             );
 
             positionProvider = new PositionService(Settings.Default);
@@ -401,20 +410,6 @@ namespace Neptuo.Productivity.SolutionRunner
                 onAdditionalApplicationSaved(model);
         }
 
-        private string directoryPath;
-        private FileSystemWatcherSearchService fileSearchService;
-
-        private IFileSearchService CreateFileSearchService()
-        {
-            if (fileSearchService == null || directoryPath != Settings.Default.SourceDirectoryPath)
-            {
-                directoryPath = Settings.Default.SourceDirectoryPath;
-                fileSearchService = new FileSystemWatcherSearchService(directoryPath, this);
-            }
-
-            return fileSearchService;
-        }
-
         public void OpenMain()
         {
             if (mainWindow == null)
@@ -431,32 +426,7 @@ namespace Neptuo.Productivity.SolutionRunner
                 mainWindow.ShowInTaskbar = !runHotKey.IsSet;
                 mainWindow.IsAutoSelectApplicationVersion = Settings.Default.IsAutoSelectApplicationVersion;
 
-                MainViewModel viewModel = new MainViewModel(
-                    new PinnedForEmptyPatternFileSearchService(
-                        //new DelayedFileSearchService(
-                        //    Dispatcher,
-                        //    CreateFileSearchService()
-                        //),
-                        //this
-                        CreateFileSearchService(),
-                        this
-                    ),
-                    Settings.Default.GetFileSearchMode,
-                    Settings.Default.GetFileSearchCount
-                );
-                viewModel.PropertyChanged += OnMainViewModelPropertyChanged;
-
-                ApplicationFilteredCollection applications = new ApplicationFilteredCollection(Settings.Default, viewModel);
-                vsLoader.Add(applications);
-
-                AdditionalApplicationLoader additionalLoader = new AdditionalApplicationLoader();
-                additionalLoader.Add(viewModel);
-
-                IFileCollection files = viewModel;
-                foreach (string filePath in GetPinnedFiles())
-                    files.Add(Path.GetFileNameWithoutExtension(filePath), filePath, true);
-
-                mainWindow.ViewModel = viewModel;
+                mainWindow.ViewModel = mainFactory.Create();
                 mainWindow.TrySelectPreferedApplication();
             }
 
