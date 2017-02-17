@@ -1,6 +1,9 @@
 ﻿using Neptuo.Activators;
 using Neptuo.Converters;
 using Neptuo.Formatters.Converters;
+using Neptuo.Logging;
+using Neptuo.Logging.Serialization.Converters;
+using Neptuo.Logging.Serialization.Formatters;
 using Neptuo.Observables.Collections;
 using Neptuo.Productivity.SolutionRunner.Properties;
 using Neptuo.Productivity.SolutionRunner.Services;
@@ -8,6 +11,7 @@ using Neptuo.Productivity.SolutionRunner.Services.Applications;
 using Neptuo.Productivity.SolutionRunner.Services.Colors;
 using Neptuo.Productivity.SolutionRunner.Services.Converters;
 using Neptuo.Productivity.SolutionRunner.Services.Execution;
+using Neptuo.Productivity.SolutionRunner.Services.Logging;
 using Neptuo.Productivity.SolutionRunner.Services.Positions;
 using Neptuo.Productivity.SolutionRunner.Services.Searching;
 using Neptuo.Productivity.SolutionRunner.Services.StartupFlags;
@@ -46,6 +50,8 @@ namespace Neptuo.Productivity.SolutionRunner
         private DefaultRunHotKeyService runHotKey;
         private SwitchableContingService countingService;
         private IPositionProvider positionProvider;
+        private ILog log;
+        private ErrorLog errorLog;
 
         private IFactory<ConfigurationViewModel> configurationFactory;
         private IFactory<MainViewModel> mainFactory;
@@ -89,7 +95,8 @@ namespace Neptuo.Productivity.SolutionRunner
                 .AddEnumSearchHandler(false)
                 .AddToStringSearchHandler()
                 .Add(new AdditionalApplicationCollectionConverter())
-                .Add(new KeyViewModelConverter());
+                .Add(new KeyViewModelConverter())
+                .Add(new ExceptionModelConverter());
 
             EventManager.FilePinned += OnFilePinned;
             EventManager.ConfigurationSaved += OnConfigurationSaved;
@@ -118,10 +125,10 @@ namespace Neptuo.Productivity.SolutionRunner
                 startup.IsHidden = false;
 
             configurationFactory = new ConfigurationViewModelFactory(
-                vsLoader, 
-                shortcutService, 
-                runHotKey, 
-                Settings.Default, 
+                vsLoader,
+                shortcutService,
+                runHotKey,
+                Settings.Default,
                 this
             );
 
@@ -132,6 +139,16 @@ namespace Neptuo.Productivity.SolutionRunner
                 GetPinnedFiles,
                 OnMainViewModelPropertyChanged
             );
+
+            errorLog = new ErrorLog(new DefaultLogFormatter());
+            ILogFactory logFactory = new DefaultLogFactory()
+                .AddSerializer(errorLog);
+
+#if DEBUG
+            logFactory.AddConsole();
+#endif
+
+            log = logFactory.Scope("Root");
 
             positionProvider = new PositionService(Settings.Default);
             InitializeCounting();
@@ -275,11 +292,11 @@ namespace Neptuo.Productivity.SolutionRunner
             {
                 result = MessageBox.Show(
                     String.Format(
-                        "The path '{0}' is not accessible. {1}We are going to reset the root directory.", 
+                        "The path '{0}' is not accessible. {1}We are going to reset the root directory.",
                         Settings.Default.SourceDirectoryPath,
                         Environment.NewLine
-                    ), 
-                    "Unauthorized access", 
+                    ),
+                    "Unauthorized access",
                     MessageBoxButton.OK
                 );
 
@@ -288,6 +305,8 @@ namespace Neptuo.Productivity.SolutionRunner
             }
             else
             {
+                log.Fatal(e);
+
                 StringBuilder message = new StringBuilder();
 
                 string exceptionMessage = e.ToString();

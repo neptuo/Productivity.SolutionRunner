@@ -180,6 +180,8 @@
     <Compile Include="Services\INavigatorState.cs" />
     <Compile Include="Services\IRunHotKeyService.cs" />
     <Compile Include="Services\DefaultRunHotKeyService.cs" />
+    <Compile Include="Services\Logging\ErrorLog.cs" />
+    <Compile Include="Services\Logging\ILogProvider.cs" />
     <Compile Include="Services\Positions\IPositionProvider.cs" />
     <Compile Include="Services\Positions\IPositionTarget.cs" />
     <Compile Include="Services\Positions\PositionService.cs" />
