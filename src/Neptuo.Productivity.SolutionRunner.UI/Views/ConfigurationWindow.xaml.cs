@@ -5,6 +5,7 @@ using Neptuo.Productivity.SolutionRunner.Views.Controls;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Deployment.Application;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
@@ -58,6 +59,13 @@ namespace Neptuo.Productivity.SolutionRunner.Views
             Close();
         }
 
+        protected override void OnSourceInitialized(EventArgs e)
+        {
+            base.OnSourceInitialized(e);
+
+            btnUpdateCheck.IsEnabled = ApplicationDeployment.IsNetworkDeployed;
+        }
+
         protected override void OnActivated(EventArgs e)
         {
             base.OnActivated(e);
@@ -106,6 +114,29 @@ namespace Neptuo.Productivity.SolutionRunner.Views
         private void btnViewStatistics_Click(object sender, RoutedEventArgs e)
         {
             navigator.OpenStatistics();
+        }
+
+        private void btnUpdateCheck_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                brdUpdateCheck.Visibility = Visibility.Visible;
+
+                ApplicationDeployment deployment = ApplicationDeployment.CurrentDeployment;
+                UpdateCheckInfo info = deployment.CheckForDetailedUpdate();
+                if (info.UpdateAvailable)
+                {
+                    MessageBoxResult result = MessageBox.Show(
+                        "Update is ready for download. Restart the application?",
+                        "Update is ready",
+                        MessageBoxButton.YesNo
+                    );
+                }
+            }
+            finally
+            {
+                brdUpdateCheck.Visibility = Visibility.Hidden;
+            }
         }
     }
 }
