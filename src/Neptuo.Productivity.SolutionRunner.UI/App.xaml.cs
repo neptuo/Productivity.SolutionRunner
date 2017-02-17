@@ -414,7 +414,7 @@ namespace Neptuo.Productivity.SolutionRunner
             {
                 isMainWindowViewModelReloadRequired = true;
 
-                configurationWindow = new ConfigurationWindow(configurationFactory.Create(), this, String.IsNullOrEmpty(Settings.Default.SourceDirectoryPath));
+                configurationWindow = new ConfigurationWindow(configurationFactory.Create(), this, errorLog, String.IsNullOrEmpty(Settings.Default.SourceDirectoryPath));
                 configurationWindow.ShowInTaskbar = !runHotKey.IsSet;
                 configurationWindow.ResizeMode = !runHotKey.IsSet ? ResizeMode.CanMinimize : ResizeMode.NoResize;
                 configurationWindow.Closed += OnConfigurationWindowClosed;

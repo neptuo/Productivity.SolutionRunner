@@ -1,5 +1,7 @@
-﻿using Neptuo.Productivity.SolutionRunner.Services;
+﻿using Neptuo;
+using Neptuo.Productivity.SolutionRunner.Services;
 using Neptuo.Productivity.SolutionRunner.Services.Applications;
+using Neptuo.Productivity.SolutionRunner.Services.Logging;
 using Neptuo.Productivity.SolutionRunner.ViewModels;
 using Neptuo.Productivity.SolutionRunner.Views.Controls;
 using System;
@@ -28,6 +30,7 @@ namespace Neptuo.Productivity.SolutionRunner.Views
     public partial class ConfigurationWindow : Window
     {
         private readonly INavigator navigator;
+        private readonly ILogProvider logProvider;
 
         public bool IsSaveRequired { get; private set; }
 
@@ -37,13 +40,15 @@ namespace Neptuo.Productivity.SolutionRunner.Views
             set { DataContext = value; }
         }
 
-        public ConfigurationWindow(ConfigurationViewModel viewModel, INavigator navigator, bool isSaveRequired)
+        public ConfigurationWindow(ConfigurationViewModel viewModel, INavigator navigator, ILogProvider logProvider, bool isSaveRequired)
         {
             Ensure.NotNull(viewModel, "viewModel");
             Ensure.NotNull(navigator, "navigator");
+            Ensure.NotNull(logProvider, "logProvider");
             ViewModel = viewModel;
             IsSaveRequired = isSaveRequired;
             this.navigator = navigator;
+            this.logProvider = logProvider;
 
             InitializeComponent();
             EventManager.ConfigurationSaved += OnConfigurationSaved;
@@ -64,6 +69,7 @@ namespace Neptuo.Productivity.SolutionRunner.Views
             base.OnSourceInitialized(e);
 
             btnUpdateCheck.IsEnabled = ApplicationDeployment.IsNetworkDeployed;
+            btnErrorLog.IsEnabled = logProvider.GetFileNames().Any();
         }
 
         protected override void OnActivated(EventArgs e)
@@ -143,6 +149,31 @@ namespace Neptuo.Productivity.SolutionRunner.Views
             {
                 brdUpdateCheck.Visibility = Visibility.Hidden;
             }
+        }
+
+        private void btnErrorLog_Click(object sender, RoutedEventArgs e)
+        {
+            string fileName = logProvider.GetFileNames()
+                .OrderBy(f => f)
+                .LastOrDefault();
+
+            if (fileName == null)
+            {
+                MessageBox.Show("No errors");
+                return;
+            }
+
+            string log = logProvider.FindFileContent(fileName);
+            if (log == null)
+            {
+                MessageBox.Show("No errors");
+                return;
+            }
+
+            if (log.Length > 800)
+                log = log.Substring(0, 800);
+
+            MessageBox.Show(log);
         }
     }
 }

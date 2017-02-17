@@ -14,7 +14,7 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Logging
 {
     public class ErrorLog : ILogSerializer, ILogProvider
     {
-        public const string FileNameFormat = "ErrorLog_{yyyy-MM}.log";
+        public const string FileNameFormat = "ErrorLog_{0:yyyy-MM}.log";
 
         private readonly ILogFormatter formatter;
 

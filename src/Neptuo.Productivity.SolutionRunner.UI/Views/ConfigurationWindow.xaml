@@ -86,13 +86,6 @@
                 <StackPanel VerticalAlignment="Bottom" Orientation="Horizontal">
                     <Button x:Name="btnAbout" Content="About" ToolTip="www.neptuo.com/project/desktop/solutionrunner" Click="btnAbout_Click" Style="{StaticResource LinkButtonStyle}" Margin="0,0,5,0" />
                     <TextBlock Text="{Binding Version}" VerticalAlignment="Center" />
-
-                    <Grid Margin="8,0,0,0">
-                        <Button x:Name="btnUpdateCheck" Content="Check for updates" Click="btnUpdateCheck_Click" Margin="0" IsTabStop="False" />
-                        <Border x:Name="brdUpdateCheck" Background="{StaticResource BackgroundBrush}" Visibility="Hidden">
-                            <ProgressBar IsIndeterminate="True" Margin="0,5" />
-                        </Border>
-                    </Grid>
                 </StackPanel>
 
                 <StackPanel HorizontalAlignment="Right" Style="{StaticResource ActionBarStyle}">
@@ -322,6 +315,16 @@
                         <TextBlock Text="Close/hide" />
                         <TextBlock Text="Escape" HorizontalAlignment="Right" />
                     </Grid>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+                    <Grid>
+                        <Button x:Name="btnUpdateCheck" Content="Check for updates" Click="btnUpdateCheck_Click" Margin="0" IsTabStop="False" />
+                        <Border x:Name="brdUpdateCheck" Background="{StaticResource BackgroundBrush}" Visibility="Hidden">
+                            <ProgressBar IsIndeterminate="True" Margin="0,5" />
+                        </Border>
+                    </Grid>
+
+                    <Button x:Name="btnErrorLog" Content="Error log" Click="btnErrorLog_Click" />
                 </StackPanel>
             </StackPanel>
         </DockPanel>
