@@ -131,6 +131,12 @@ namespace Neptuo.Productivity.SolutionRunner.Views
                         "Update is ready",
                         MessageBoxButton.YesNo
                     );
+
+                    if (result == MessageBoxResult.Yes)
+                    {
+                        System.Windows.Forms.Application.Restart();
+                        Application.Current.Shutdown();
+                    }
                 }
             }
             finally
