@@ -59,6 +59,7 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels.Commands
             settings.IsDismissedWhenLostFocus = viewModel.IsDismissedWhenLostFocus;
             settings.IsHiddentOnStartup = viewModel.IsHiddentOnStartup;
             settings.IsAutoSelectApplicationVersion = viewModel.IsAutoSelectApplicationVersion;
+            settings.SetAutoSelectApplicationMinimalVersion(viewModel.AutoSelectApplicationMinimalVersion);
             settings.IsFileNameRemovedFromDisplayedPath = viewModel.IsFileNameRemovedFromDisplayedPath;
             settings.IsDisplayedPathTrimmedToLastFolderName = viewModel.IsDisplayedPathTrimmedToLastFolderName;
             settings.IsTrayIcon = viewModel.IsTrayIcon;

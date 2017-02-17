@@ -274,5 +274,17 @@ namespace Neptuo.Productivity.SolutionRunner.Properties {
                 this["HiddenMainApplications"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string AutoSelectApplicationMinimalVersion {
+            get {
+                return ((string)(this["AutoSelectApplicationMinimalVersion"]));
+            }
+            set {
+                this["AutoSelectApplicationMinimalVersion"] = value;
+            }
+        }
     }
 }

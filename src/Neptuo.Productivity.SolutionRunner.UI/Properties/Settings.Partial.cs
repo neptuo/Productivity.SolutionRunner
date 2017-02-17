@@ -37,5 +37,25 @@ namespace Neptuo.Productivity.SolutionRunner.Properties
 
             return HiddenMainApplications.Split(Path.PathSeparator);
         }
+
+        public Version GetAutoSelectApplicationMinimalVersion()
+        {
+            if (String.IsNullOrEmpty(AutoSelectApplicationMinimalVersion))
+                return null;
+
+            Version result;
+            if (Version.TryParse(AutoSelectApplicationMinimalVersion, out result))
+                return result;
+
+            return null;
+        }
+
+        public void SetAutoSelectApplicationMinimalVersion(Version version)
+        {
+            if (version == null)
+                AutoSelectApplicationMinimalVersion = null;
+
+            AutoSelectApplicationMinimalVersion = version.ToString(2);
+        }
     }
 }

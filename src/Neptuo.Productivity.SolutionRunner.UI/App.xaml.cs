@@ -358,6 +358,7 @@ namespace Neptuo.Productivity.SolutionRunner
                 viewModel.IsDismissedWhenLostFocus = Settings.Default.IsDismissedWhenLostFocus;
                 viewModel.IsHiddentOnStartup = Settings.Default.IsHiddentOnStartup;
                 viewModel.IsAutoSelectApplicationVersion = Settings.Default.IsAutoSelectApplicationVersion;
+                viewModel.AutoSelectApplicationMinimalVersion = Settings.Default.GetAutoSelectApplicationMinimalVersion();
                 viewModel.IsFileNameRemovedFromDisplayedPath = Settings.Default.IsFileNameRemovedFromDisplayedPath;
                 viewModel.IsDisplayedPathTrimmedToLastFolderName = Settings.Default.IsDisplayedPathTrimmedToLastFolderName;
                 viewModel.IsAutoStartup = shortcutService.Exists(Environment.SpecialFolder.Startup);
@@ -368,8 +369,13 @@ namespace Neptuo.Productivity.SolutionRunner
                 MainApplicationCollection mainApplications = new MainApplicationCollection();
                 vsLoader.Add(mainApplications);
                 viewModel.MainApplications = mainApplications;
+                
                 foreach (MainApplicationListViewModel application in mainApplications)
                     application.IsEnabled = !Settings.Default.GetHiddenMainApplications().Contains(application.Path);
+
+                VsVersionCollection vsVersions = new VsVersionCollection();
+                vsLoader.Add(vsVersions);
+                viewModel.VsVersions = vsVersions;
 
                 viewModel.RunKey = runHotKey.FindKeyViewModel();
                 viewModel.PositionMode = Settings.Default.PositionMode;

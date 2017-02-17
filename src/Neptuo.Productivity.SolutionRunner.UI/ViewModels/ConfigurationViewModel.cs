@@ -159,6 +159,20 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels
             }
         }
 
+        private Version autoSelectApplicationMinimalVersion;
+        public Version AutoSelectApplicationMinimalVersion
+        {
+            get { return autoSelectApplicationMinimalVersion; }
+            set
+            {
+                if (autoSelectApplicationMinimalVersion != value)
+                {
+                    autoSelectApplicationMinimalVersion = value;
+                    RaisePropertyChanged();
+                }
+            }
+        }
+
         private bool isFileNameRemovedFromDisplayedPath;
         public bool IsFileNameRemovedFromDisplayedPath
         {
@@ -273,6 +287,7 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels
 
         public ObservableCollection<AdditionalApplicationListViewModel> AdditionalApplications { get; set; }
         public ObservableCollection<MainApplicationListViewModel> MainApplications { get; set; }
+        public ObservableCollection<Version> VsVersions { get; set; }
 
         public string Version { get; private set; }
 

@@ -105,6 +105,7 @@ namespace Neptuo.Productivity.SolutionRunner.UI.DesignData
                     configurationViewModel.FileSearchMode = FileSearchMode.Contains;
                     configurationViewModel.FileSearchCount = 10;
                     configurationViewModel.IsFileSearchPatternSaved = true;
+                    configurationViewModel.IsAutoSelectApplicationVersion = true;
                     configurationViewModel.AdditionalApplications = new ObservableCollection<AdditionalApplicationListViewModel>()
                     {
                         new AdditionalApplicationListViewModel(new AdditionalApplicationModel("Notepad", @"C:\Windows\notepad.exe", "")),
@@ -126,6 +127,11 @@ namespace Neptuo.Productivity.SolutionRunner.UI.DesignData
                             Icon = IconExtractor.Get(@"C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\IDE\devenv.exe"),
                             IsEnabled = true
                         }
+                    };
+                    configurationViewModel.VsVersions = new ObservableCollection<Version>()
+                    {
+                        new Version(12, 0),
+                        new Version(14, 0)
                     };
                     configurationViewModel.RunKey = new KeyViewModel(Key.V, ModifierKeys.Control);
 
