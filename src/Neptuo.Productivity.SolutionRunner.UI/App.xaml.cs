@@ -1,5 +1,7 @@
 ﻿using Neptuo.Activators;
 using Neptuo.Converters;
+using Neptuo.Exceptions;
+using Neptuo.Exceptions.Handlers;
 using Neptuo.Formatters.Converters;
 using Neptuo.Logging;
 using Neptuo.Logging.Serialization.Converters;
@@ -10,6 +12,7 @@ using Neptuo.Productivity.SolutionRunner.Services;
 using Neptuo.Productivity.SolutionRunner.Services.Applications;
 using Neptuo.Productivity.SolutionRunner.Services.Colors;
 using Neptuo.Productivity.SolutionRunner.Services.Converters;
+using Neptuo.Productivity.SolutionRunner.Services.Exceptions;
 using Neptuo.Productivity.SolutionRunner.Services.Execution;
 using Neptuo.Productivity.SolutionRunner.Services.Logging;
 using Neptuo.Productivity.SolutionRunner.Services.Positions;
@@ -53,8 +56,10 @@ namespace Neptuo.Productivity.SolutionRunner
         private ILog log;
         private ErrorLog errorLog;
 
+        private IExceptionHandler exceptionHandler;
+
         private IFactory<ConfigurationViewModel> configurationFactory;
-        private IFactory<MainViewModel> mainFactory;
+        private MainViewModelFactory mainFactory;
 
         // THIS must be synchronized with Click-Once deployment settings.
         private readonly ShortcutService shortcutService = new ShortcutService(
@@ -87,6 +92,8 @@ namespace Neptuo.Productivity.SolutionRunner
 
             PrepareStartup(e);
             base.OnStartup(e);
+
+            BuildErrorHandler();
 
             Converts.Repository
                 .AddJsonPrimitivesSearchHandler()
@@ -140,16 +147,6 @@ namespace Neptuo.Productivity.SolutionRunner
                 OnMainViewModelPropertyChanged
             );
 
-            errorLog = new ErrorLog(new DefaultLogFormatter());
-            ILogFactory logFactory = new DefaultLogFactory()
-                .AddSerializer(errorLog);
-
-#if DEBUG
-            logFactory.AddConsole();
-#endif
-
-            log = logFactory.Scope("Root");
-
             positionProvider = new PositionService(Settings.Default);
             InitializeCounting();
 
@@ -163,6 +160,31 @@ namespace Neptuo.Productivity.SolutionRunner
                 OpenMain();
 
             startup.IsStartup = false;
+        }
+
+        private void BuildErrorHandler()
+        {
+            errorLog = new ErrorLog(new DefaultLogFormatter());
+            ILogFactory logFactory = new DefaultLogFactory()
+                .AddSerializer(errorLog)
+#if DEBUG
+                .AddConsole();
+#endif
+            ;
+
+            log = logFactory.Scope("Root");
+
+            ExceptionHandlerBuilder builder = new ExceptionHandlerBuilder();
+            builder
+                .Filter<UnauthorizedAccessException>()
+                .Handler(new UnauthorizedAccessExceptionHandler(Settings.Default, this, () => { mainWindow?.Close(); mainFactory.ClearService(); }));
+
+            builder
+                .Filter(e => !(e is UnauthorizedAccessException))
+                .Handler(new LogExceptionHandler(log))
+                .Handler(new MessageBoxExceptionHandler(this));
+
+            exceptionHandler = builder;
         }
 
         private void OnProcessStarted(IApplication application, IFile file)
@@ -281,45 +303,11 @@ namespace Neptuo.Productivity.SolutionRunner
 
         private void ShowExceptionDialogInternal(Exception e)
         {
-            MessageBoxResult result = MessageBoxResult.Yes;
-
             AggregateException aggregate = e as AggregateException;
             if (aggregate != null)
                 e = aggregate.InnerException;
 
-            UnauthorizedAccessException unauthorizedAccess = e as UnauthorizedAccessException;
-            if (unauthorizedAccess != null)
-            {
-                result = MessageBox.Show(
-                    String.Format(
-                        "The path '{0}' is not accessible. {1}We are going to reset the root directory.",
-                        Settings.Default.SourceDirectoryPath,
-                        Environment.NewLine
-                    ),
-                    "Unauthorized access",
-                    MessageBoxButton.OK
-                );
-
-                OpenConfiguration();
-                mainWindow?.Close();
-            }
-            else
-            {
-                log.Fatal(e);
-
-                StringBuilder message = new StringBuilder();
-
-                string exceptionMessage = e.ToString();
-                if (exceptionMessage.Length > 800)
-                    exceptionMessage = exceptionMessage.Substring(0, 800);
-
-                message.AppendLine(exceptionMessage);
-
-                result = MessageBox.Show(message.ToString(), "Do you want to kill the aplication?", MessageBoxButton.YesNo);
-            }
-
-            if (result == MessageBoxResult.Yes)
-                Shutdown();
+            exceptionHandler.Handle(e);
         }
 
         private void OnDispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)

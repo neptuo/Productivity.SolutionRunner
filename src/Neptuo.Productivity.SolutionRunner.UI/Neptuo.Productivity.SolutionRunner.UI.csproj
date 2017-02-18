@@ -94,6 +94,10 @@
       <HintPath>..\..\packages\Neptuo.5.2.0\lib\net45\Neptuo.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Neptuo.Exceptions, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Neptuo.Exceptions.1.1.0\lib\net45\Neptuo.Exceptions.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Neptuo.FileSystems, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Neptuo.FileSystems.1.0.1\lib\net45\Neptuo.FileSystems.dll</HintPath>
       <Private>True</Private>
@@ -174,6 +178,9 @@
     <Compile Include="Services\Colors\RandomColorGenerator.cs" />
     <Compile Include="Services\Converters\AdditionalApplicationCollectionConverter.cs" />
     <Compile Include="Services\Converters\KeyViewModelConverter.cs" />
+    <Compile Include="Services\Exceptions\LogExceptionHandler.cs" />
+    <Compile Include="Services\Exceptions\MessageBoxExceptionHandler.cs" />
+    <Compile Include="Services\Exceptions\UnauthorizedAccessExceptionHandler.cs" />
     <Compile Include="Services\Execution\IApplication.cs" />
     <Compile Include="Services\Execution\IFile.cs" />
     <Compile Include="Services\Execution\ProcessService.cs" />

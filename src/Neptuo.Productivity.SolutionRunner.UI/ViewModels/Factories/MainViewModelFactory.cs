@@ -80,5 +80,10 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels.Factories
 
             return fileSearchService;
         }
+
+        public void ClearService()
+        {
+            fileSearchService = null;
+        }
     }
 }
