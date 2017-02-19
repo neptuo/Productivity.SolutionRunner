@@ -318,7 +318,6 @@
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
                     <Grid>
-                        <Button x:Name="btnUpdateCheck" Content="Check for updates" Click="btnUpdateCheck_Click" Margin="0" IsTabStop="False" />
                         <Border x:Name="brdUpdateCheck" Background="{StaticResource BackgroundBrush}" Visibility="Hidden">
                             <ProgressBar IsIndeterminate="True" Margin="0,5" />
                         </Border>

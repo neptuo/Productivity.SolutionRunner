@@ -1,13 +1,11 @@
 ﻿using Neptuo;
 using Neptuo.Productivity.SolutionRunner.Services;
-using Neptuo.Productivity.SolutionRunner.Services.Applications;
 using Neptuo.Productivity.SolutionRunner.Services.Logging;
 using Neptuo.Productivity.SolutionRunner.ViewModels;
 using Neptuo.Productivity.SolutionRunner.Views.Controls;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Deployment.Application;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
@@ -68,7 +66,6 @@ namespace Neptuo.Productivity.SolutionRunner.Views
         {
             base.OnSourceInitialized(e);
 
-            btnUpdateCheck.IsEnabled = ApplicationDeployment.IsNetworkDeployed;
             btnErrorLog.IsEnabled = logProvider.GetFileNames().Any();
         }
 
@@ -121,36 +118,7 @@ namespace Neptuo.Productivity.SolutionRunner.Views
         {
             navigator.OpenStatistics();
         }
-
-        private void btnUpdateCheck_Click(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                brdUpdateCheck.Visibility = Visibility.Visible;
-
-                ApplicationDeployment deployment = ApplicationDeployment.CurrentDeployment;
-                UpdateCheckInfo info = deployment.CheckForDetailedUpdate();
-                if (info.UpdateAvailable)
-                {
-                    MessageBoxResult result = MessageBox.Show(
-                        "Update is ready for download. Restart the application?",
-                        "Update is ready",
-                        MessageBoxButton.YesNo
-                    );
-
-                    if (result == MessageBoxResult.Yes)
-                    {
-                        System.Windows.Forms.Application.Restart();
-                        Application.Current.Shutdown();
-                    }
-                }
-            }
-            finally
-            {
-                brdUpdateCheck.Visibility = Visibility.Hidden;
-            }
-        }
-
+        
         private void btnErrorLog_Click(object sender, RoutedEventArgs e)
         {
             string fileName = logProvider.GetFileNames()
