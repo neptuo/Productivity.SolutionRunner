@@ -87,8 +87,14 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels
                 {
                     fileReader.ReadLine();
                     string compatibleRawVersion = fileReader.ReadLine();
+                    if (compatibleRawVersion == null)
+                        return null;
+
                     fileReader.ReadLine();
                     string newRawVersion = fileReader.ReadLine();
+                    if (newRawVersion == null)
+                        return null;
+
                     int indexOfVersion = newRawVersion.IndexOf(newVersionLinePrefix);
                     if (indexOfVersion >= 0)
                     {
