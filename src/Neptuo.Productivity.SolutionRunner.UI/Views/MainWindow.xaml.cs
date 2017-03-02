@@ -357,7 +357,7 @@ namespace Neptuo.Productivity.SolutionRunner.Views
         private void OnAccessKeyPressed(object sender, AccessKeyPressedEventArgs e)
         {
             Key pressed;
-            if (Enum.TryParse(e.Key, out pressed))
+            if (Enum.TryParse(e.Key, out pressed) && pressed != Key.None)
             {
                 foreach (ApplicationViewModel application in ViewModel.Applications)
                 {
@@ -368,10 +368,23 @@ namespace Neptuo.Productivity.SolutionRunner.Views
 
                         if (isClosedAfterStartingProcess)
                             Close();
-                        else
-                            break;
+
+                        return;
                     }
                 }
+            }
+
+            int index;
+            if (Int32.TryParse(e.Key, out index))
+            {
+                index--;
+
+                ApplicationViewModel application = ViewModel.Applications
+                    .Where(a => a.IsMain)
+                    .ElementAtOrDefault(index);
+
+                if (application != null)
+                    processService.Run(application, lvwFiles.SelectedItem as FileViewModel);
             }
         }
 
