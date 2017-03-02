@@ -63,7 +63,7 @@
                         <Label Content="HotKey:" Target="{Binding ElementName=tbxHotKey}" />
                         <TextBlock Text="Ctrl + key to activate without selecting" HorizontalAlignment="Right" />
                     </Grid>
-                    <TextBox x:Name="tbxHotKey" Margin="0" ui:HotKeyTextBox.Key="{Binding HotKey, Mode=TwoWay}" />
+                    <TextBox x:Name="tbxHotKey" Margin="0" ui:HotKeyTextBox.Key="{Binding HotKey, Mode=TwoWay}" ui:HotKeyTextBox.AllowedModifiers="" />
                 </StackPanel>
             </StackPanel>
         </DockPanel>

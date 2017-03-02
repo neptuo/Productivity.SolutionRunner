@@ -42,6 +42,25 @@ namespace Neptuo.Productivity.SolutionRunner.Views.Controls
                 BindKeyValue(textBox, viewModel.Key, viewModel.Modifier);
         }
 
+
+        public static ModifierKeys GetAllowedModifiers(DependencyObject obj)
+        {
+            return (ModifierKeys)obj.GetValue(AllowedModifiersProperty);
+        }
+
+        public static void SetAllowedModifiers(DependencyObject obj, ModifierKeys value)
+        {
+            obj.SetValue(AllowedModifiersProperty, value);
+        }
+
+        public static readonly DependencyProperty AllowedModifiersProperty = DependencyProperty.RegisterAttached(
+            "AllowedModifiers", 
+            typeof(ModifierKeys), 
+            typeof(HotKeyTextBox), 
+            new PropertyMetadata(ModifierKeys.Windows | ModifierKeys.Control | ModifierKeys.Shift | ModifierKeys.Alt)
+        );
+
+
         private static void SetTextBoxValue(TextBox textBox, string value)
         {
             if (String.IsNullOrEmpty(value))
@@ -54,7 +73,6 @@ namespace Neptuo.Productivity.SolutionRunner.Views.Controls
                 textBox.Text = value;
                 textBox.IsReadOnlyCaretVisible = false;
             }
-
         }
 
         private static void OnLostFocus(object sender, RoutedEventArgs e)
@@ -89,12 +107,33 @@ namespace Neptuo.Productivity.SolutionRunner.Views.Controls
             if (Keyboard.IsKeyDown(Key.LWin) || Keyboard.IsKeyDown(Key.RWin))
                 modifier |= ModifierKeys.Windows;
 
+            modifier = FilterAllowedModifiers(textBox, modifier);
+
             if (BindKeyValue(textBox, key, modifier))
                 SetKey(textBox, new KeyViewModel(key, modifier));
             else
                 SetKey(textBox, null);
 
             e.Handled = true;
+        }
+
+        private static ModifierKeys FilterAllowedModifiers(TextBox textBox, ModifierKeys modifier)
+        {
+            ModifierKeys allowed = GetAllowedModifiers(textBox);
+
+            if (modifier.HasFlag(ModifierKeys.Windows) && !allowed.HasFlag(ModifierKeys.Windows))
+                modifier &= ~ModifierKeys.Windows;
+
+            if (modifier.HasFlag(ModifierKeys.Control) && !allowed.HasFlag(ModifierKeys.Control))
+                modifier &= ~ModifierKeys.Control;
+
+            if (modifier.HasFlag(ModifierKeys.Shift) && !allowed.HasFlag(ModifierKeys.Shift))
+                modifier &= ~ModifierKeys.Shift;
+
+            if (modifier.HasFlag(ModifierKeys.Alt) && !allowed.HasFlag(ModifierKeys.Alt))
+                modifier &= ~ModifierKeys.Alt;
+
+            return modifier;
         }
 
         private static bool BindKeyValue(TextBox textBox, Key key, ModifierKeys modifier)
