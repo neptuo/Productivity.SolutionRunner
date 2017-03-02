@@ -8,9 +8,9 @@
         xmlns:converters="clr-namespace:Neptuo.Productivity.SolutionRunner.Views.Converters"
         xmlns:controls="clr-namespace:Neptuo.Productivity.SolutionRunner.Views.Controls"
         xmlns:cm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
-        Title="Solution runner - Statistics" Width="480" MinHeight="300" SizeToContent="Height" ShowInTaskbar="False" Icon="{StaticResource IconBitmapImage}"
-        Background="{StaticResource BackgroundBrush}" WindowStartupLocation="CenterOwner" WindowStyle="None" ResizeMode="NoResize"
-        PreviewKeyDown="OnPreviewKeyDown" PreviewMouseDown="OnPreviewMouseDown">
+        Title="SolutionRunner - Statistics" Width="480" MinHeight="300" SizeToContent="Height" ShowInTaskbar="False" Icon="{StaticResource IconBitmapImage}"
+        Background="{StaticResource BackgroundBrush}" WindowStartupLocation="CenterOwner" ResizeMode="NoResize"
+        PreviewKeyDown="OnPreviewKeyDown">
     <Window.Resources>
         <converters:PathConverter x:Key="PathConverter" />
 
@@ -57,22 +57,20 @@
             <Setter Property="Thickness" Value="170" />
         </Style>
     </Window.Resources>
-    <Border Style="{StaticResource WindowBorderStyle}">
-        <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="220" />
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="220" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
 
-            <ItemsControl ItemsSource="{Binding Source={StaticResource ApplicationsSource}}" Grid.Column="0" />
-            <controls:PieChart ItemsSource="{Binding Applications}" Grid.Column="0" Grid.Row="1" />
+        <ItemsControl ItemsSource="{Binding Source={StaticResource ApplicationsSource}}" Grid.Column="0" />
+        <controls:PieChart ItemsSource="{Binding Applications}" Grid.Column="0" Grid.Row="1" />
 
-            <ItemsControl ItemsSource="{Binding Source={StaticResource FilesSource}}" Grid.Column="1" />
-            <controls:PieChart ItemsSource="{Binding Files}" Grid.Column="1" Grid.Row="1" />
-        </Grid>
-    </Border>
+        <ItemsControl ItemsSource="{Binding Source={StaticResource FilesSource}}" Grid.Column="1" />
+        <controls:PieChart ItemsSource="{Binding Files}" Grid.Column="1" Grid.Row="1" />
+    </Grid>
 </Window>

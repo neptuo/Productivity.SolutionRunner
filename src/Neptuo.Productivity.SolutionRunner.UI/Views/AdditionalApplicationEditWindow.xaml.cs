@@ -48,13 +48,7 @@ namespace Neptuo.Productivity.SolutionRunner.Views
                 e.Handled = true;
             }
         }
-
-        private void OnPreviewMouseDown(object sender, MouseButtonEventArgs e)
-        {
-            if (WindowDrag.TryMove(e))
-                DragMove();
-        }
-
+        
         private void btnCancel_Click(object sender, RoutedEventArgs e)
         {
             Close();
