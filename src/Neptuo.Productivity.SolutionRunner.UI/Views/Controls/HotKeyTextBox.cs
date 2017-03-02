@@ -95,7 +95,7 @@ namespace Neptuo.Productivity.SolutionRunner.Views.Controls
                 e.Handled = true;
                 return;
             }
-            else if (key == Key.Tab)
+            else if (key == Key.Tab || key == Key.Return)
             {
                 return;
             }
