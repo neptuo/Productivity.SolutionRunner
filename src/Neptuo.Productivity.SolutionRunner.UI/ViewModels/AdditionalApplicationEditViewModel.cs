@@ -117,7 +117,9 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels
                 Name = model.Name;
                 Path = model.Path;
                 Arguments = model.Arguments;
-                HotKey = new KeyViewModel(model.HotKey, ModifierKeys.None);
+                HotKey = model.HotKey == Key.None 
+                    ? null 
+                    : new KeyViewModel(model.HotKey, ModifierKeys.None);
             }
 
             saveCommand = new SaveApplicationCommand(this, model, onSaved);

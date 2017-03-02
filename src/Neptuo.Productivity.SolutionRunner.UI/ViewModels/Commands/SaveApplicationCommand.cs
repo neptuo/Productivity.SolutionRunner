@@ -29,13 +29,22 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels.Commands
             return !String.IsNullOrEmpty(viewModel.Path) && File.Exists(viewModel.Path);
         }
 
+        private Key GetKey(KeyViewModel viewModel)
+        {
+            if (viewModel == null)
+                return Key.None;
+
+            return viewModel.Key;
+        }
+
         protected override void Execute()
         {
             AdditionalApplicationModel targetModel = null;
+            Key key = GetKey(viewModel.HotKey);
             if (sourceModel == null)
-                targetModel = new AdditionalApplicationModel(viewModel.Name, viewModel.Path, viewModel.Arguments, viewModel.HotKey.Key);
-            else if(viewModel.Path != sourceModel.Path || viewModel.Name != sourceModel.Name || viewModel.Arguments != sourceModel.Arguments)
-                targetModel = new AdditionalApplicationModel(viewModel.Name, viewModel.Path, viewModel.Arguments, viewModel.HotKey.Key);
+                targetModel = new AdditionalApplicationModel(viewModel.Name, viewModel.Path, viewModel.Arguments, key);
+            else if(viewModel.Path != sourceModel.Path || viewModel.Name != sourceModel.Name || viewModel.Arguments != sourceModel.Arguments || key != sourceModel.HotKey)
+                targetModel = new AdditionalApplicationModel(viewModel.Name, viewModel.Path, viewModel.Arguments, key);
 
             if (targetModel != null)
                 onSaved(targetModel);
