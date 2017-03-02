@@ -288,6 +288,22 @@ namespace Neptuo.Productivity.SolutionRunner.Views
                         e.Handled = true;
                     }
                 }
+                else if(Keyboard.IsKeyDown(Key.LeftCtrl))
+                {
+                    foreach (ApplicationViewModel application in ViewModel.Applications)
+                    {
+                        if (application.HotKey == e.Key)
+                        {
+                            processService.Run(application, lvwFiles.SelectedItem as FileViewModel);
+                            e.Handled = true;
+
+                            if (isClosedAfterStartingProcess)
+                                Close();
+                            else
+                                break;
+                        }
+                    }
+                }
             }
 
             if (e.Key == Key.Enter)
@@ -428,6 +444,11 @@ namespace Neptuo.Productivity.SolutionRunner.Views
                 if (application != null && lvwApplications.SelectedItem != application)
                     lvwApplications.SelectedItem = application;
             }
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("Help!");
         }
     }
 }

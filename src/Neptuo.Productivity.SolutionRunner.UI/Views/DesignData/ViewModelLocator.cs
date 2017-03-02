@@ -48,8 +48,8 @@ namespace Neptuo.Productivity.SolutionRunner.UI.DesignData
                     VsVersionLoader loader = new VsVersionLoader();
                     loader.Add(mainViewModel);
 
-                    mainViewModel.Add("File Explorer", @"C:\Windows\explorer.exe", null, IconExtractor.Get(@"C:\Windows\explorer.exe"), false);
-                    mainViewModel.Add("Notepad", @"C:\Windows\notepad.exe", null, IconExtractor.Get(@"C:\Windows\notepad.exe"), false);
+                    mainViewModel.Add("File Explorer", @"C:\Windows\explorer.exe", null, IconExtractor.Get(@"C:\Windows\explorer.exe"), Key.E, false);
+                    mainViewModel.Add("Notepad", @"C:\Windows\notepad.exe", null, IconExtractor.Get(@"C:\Windows\notepad.exe"), Key.N, false);
                 }
 
                 return mainViewModel;
@@ -108,8 +108,8 @@ namespace Neptuo.Productivity.SolutionRunner.UI.DesignData
                     configurationViewModel.IsAutoSelectApplicationVersion = true;
                     configurationViewModel.AdditionalApplications = new ObservableCollection<AdditionalApplicationListViewModel>()
                     {
-                        new AdditionalApplicationListViewModel(new AdditionalApplicationModel("Notepad", @"C:\Windows\notepad.exe", "")),
-                        new AdditionalApplicationListViewModel(new AdditionalApplicationModel("GitExtensions", @"C:\Program Files (x86)\GitExtensions\GitExtensions.exe", ""))
+                        new AdditionalApplicationListViewModel(new AdditionalApplicationModel("Notepad", @"C:\Windows\notepad.exe", "", Key.N)),
+                        new AdditionalApplicationListViewModel(new AdditionalApplicationModel("GitExtensions", @"C:\Program Files (x86)\GitExtensions\GitExtensions.exe", "", Key.G))
                     };
                     configurationViewModel.MainApplications = new ObservableCollection<MainApplicationListViewModel>()
                     {

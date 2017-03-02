@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace Neptuo.Productivity.SolutionRunner.ViewModels.Commands
 {
@@ -32,9 +33,9 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels.Commands
         {
             AdditionalApplicationModel targetModel = null;
             if (sourceModel == null)
-                targetModel = new AdditionalApplicationModel(viewModel.Name, viewModel.Path, viewModel.Arguments);
+                targetModel = new AdditionalApplicationModel(viewModel.Name, viewModel.Path, viewModel.Arguments, viewModel.HotKey.Key);
             else if(viewModel.Path != sourceModel.Path || viewModel.Name != sourceModel.Name || viewModel.Arguments != sourceModel.Arguments)
-                targetModel = new AdditionalApplicationModel(viewModel.Name, viewModel.Path, viewModel.Arguments);
+                targetModel = new AdditionalApplicationModel(viewModel.Name, viewModel.Path, viewModel.Arguments, viewModel.HotKey.Key);
 
             if (targetModel != null)
                 onSaved(targetModel);

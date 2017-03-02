@@ -58,6 +58,13 @@
                         {DirectoryPath} is replaced with a full path to the directory of the selected file.
                     </TextBlock>
                 </StackPanel>
+                <StackPanel Style="{StaticResource EditorPanelStyle}">
+                    <Grid>
+                        <Label Content="HotKey:" Target="{Binding ElementName=tbxHotKey}" />
+                        <TextBlock Text="Ctrl + key to activate without selecting" HorizontalAlignment="Right" />
+                    </Grid>
+                    <TextBox x:Name="tbxHotKey" Margin="0" ui:HotKeyTextBox.Key="{Binding HotKey, Mode=TwoWay}" />
+                </StackPanel>
             </StackPanel>
         </DockPanel>
     </Border>

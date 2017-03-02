@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Collections;
+using System.Windows.Input;
 
 namespace Neptuo.Productivity.SolutionRunner.Services.Applications
 {
@@ -40,7 +41,8 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Applications
                     string name = itemStorage.Get<string>("Name");
                     string path = itemStorage.Get<string>("Path");
                     string arguments = itemStorage.Get<string>("Arguments", null);
-                    items.Add(new AdditionalApplicationModel(name, path, arguments));
+                    Key hotKey = itemStorage.Get("HotKey", Key.None);
+                    items.Add(new AdditionalApplicationModel(name, path, arguments, hotKey));
                 }
             }
         }
@@ -55,6 +57,9 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Applications
                 itemStorage.Add("Name", item.Name);
                 itemStorage.Add("Path", item.Path);
                 itemStorage.Add("Arguments", item.Arguments);
+
+                if (item.HotKey != Key.None)
+                    itemStorage.Add("HotKey", item.HotKey);
             }
         }
 

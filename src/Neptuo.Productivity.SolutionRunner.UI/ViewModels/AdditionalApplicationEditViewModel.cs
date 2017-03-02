@@ -89,6 +89,20 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels
             }
         }
 
+        private KeyViewModel hotKey;
+        public KeyViewModel HotKey
+        {
+            get { return hotKey; }
+            set
+            {
+                if (hotKey != value)
+                {
+                    hotKey = value;
+                    RaisePropertyChanged();
+                }
+            }
+        }
+
         private SaveApplicationCommand saveCommand;
         public ICommand SaveCommand
         {
@@ -103,6 +117,7 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels
                 Name = model.Name;
                 Path = model.Path;
                 Arguments = model.Arguments;
+                HotKey = new KeyViewModel(model.HotKey, ModifierKeys.None);
             }
 
             saveCommand = new SaveApplicationCommand(this, model, onSaved);

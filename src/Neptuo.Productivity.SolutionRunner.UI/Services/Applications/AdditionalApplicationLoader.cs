@@ -22,7 +22,7 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Applications
                     .To<string, AdditionalApplicationCollection>(rawValue);
 
                 foreach (AdditionalApplicationModel model in collection.Items)
-                    applications.Add(model.Name, model.Path, model.Arguments, IconExtractor.Get(model.Path), false);
+                    applications.Add(model.Name, model.Path, model.Arguments, IconExtractor.Get(model.Path), model.HotKey, false);
             }
         }
     }

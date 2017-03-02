@@ -104,7 +104,7 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels
                         return new Version(rawVersion);
                     }
 
-                    // We have some quite old sl file.
+                    // We have some quite old sln file.
                     indexOfVersion = compatibleRawVersion.IndexOf(compatibleVersionLinePrefix);
                     if (indexOfVersion >= 0)
                     {

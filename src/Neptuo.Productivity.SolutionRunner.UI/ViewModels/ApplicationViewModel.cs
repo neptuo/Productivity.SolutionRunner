@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using System.Windows.Media;
 
 namespace Neptuo.Productivity.SolutionRunner.ViewModels
@@ -17,8 +18,9 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels
         public string Arguments { get; private set; }
         public ImageSource Icon { get; private set; }
         public bool IsMain { get; private set; }
+        public Key HotKey { get; private set; }
 
-        public ApplicationViewModel(string name, Version version, string path, string arguments, ImageSource icon, bool isMain)
+        public ApplicationViewModel(string name, Version version, string path, string arguments, ImageSource icon, Key hotKey, bool isMain)
         {
             Ensure.NotNullOrEmpty(name, "name");
             Ensure.NotNull(path, "path");
@@ -29,6 +31,7 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels
             Arguments = arguments;
             Icon = icon;
             IsMain = isMain;
+            HotKey = hotKey;
         }
     }
 }

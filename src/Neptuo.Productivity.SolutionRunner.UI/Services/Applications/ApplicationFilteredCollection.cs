@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using System.Windows.Media;
 
 namespace Neptuo.Productivity.SolutionRunner.Services.Applications
@@ -25,21 +26,21 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Applications
             this.applications = applications;
         }
 
-        public IApplicationCollection Add(string name, string path, string arguments, ImageSource icon, bool isMain)
+        public IApplicationCollection Add(string name, string path, string arguments, ImageSource icon, Key hotKey, bool isMain)
         {
             if (isMain && settings.GetHiddenMainApplications().Contains(path))
                 return this;
 
-            applications.Add(name, path, arguments, icon, isMain);
+            applications.Add(name, path, arguments, icon, hotKey, isMain);
             return this;
         }
 
-        public IApplicationCollection Add(string name, Version version, string path, string arguments, ImageSource icon, bool isMain)
+        public IApplicationCollection Add(string name, Version version, string path, string arguments, ImageSource icon, Key hotKey, bool isMain)
         {
             if (isMain && settings.GetHiddenMainApplications().Contains(path))
                 return this;
 
-            applications.Add(name, version, path, arguments, icon, isMain);
+            applications.Add(name, version, path, arguments, icon, hotKey, isMain);
             return this;
         }
     }
