@@ -7,7 +7,7 @@
         xmlns:converters="clr-namespace:Neptuo.Productivity.SolutionRunner.Views.Converters"
         Title="SolutionRunner" MinWidth="525" SizeToContent="WidthAndHeight" Icon="{StaticResource IconBitmapImage}"
         ResizeMode="CanMinimize" WindowStyle="None" Background="{StaticResource BackgroundBrush}"
-        PreviewMouseDown="OnPreviewMouseDown" PreviewKeyDown="OnPreviewKeyDown">
+        PreviewMouseDown="OnPreviewMouseDown" PreviewKeyDown="OnPreviewKeyDown" AccessKeyManager.AccessKeyPressed="OnAccessKeyPressed">
     <Window.Resources>
         <converters:BoolConverter x:Key="TrueToIntermediateConverter" TrueValue="Indeterminate" FalseValue="None" />
         <converters:BoolConverter x:Key="TrueToCollapsedConverter" TrueValue="Collapsed" FalseValue="Visible" />

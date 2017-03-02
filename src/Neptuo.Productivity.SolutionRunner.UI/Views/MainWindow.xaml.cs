@@ -288,22 +288,6 @@ namespace Neptuo.Productivity.SolutionRunner.Views
                         e.Handled = true;
                     }
                 }
-                else if(Keyboard.IsKeyDown(Key.LeftCtrl))
-                {
-                    foreach (ApplicationViewModel application in ViewModel.Applications)
-                    {
-                        if (application.HotKey == e.Key)
-                        {
-                            processService.Run(application, lvwFiles.SelectedItem as FileViewModel);
-                            e.Handled = true;
-
-                            if (isClosedAfterStartingProcess)
-                                Close();
-                            else
-                                break;
-                        }
-                    }
-                }
             }
 
             if (e.Key == Key.Enter)
@@ -368,6 +352,27 @@ namespace Neptuo.Productivity.SolutionRunner.Views
                 return true;
 
             return false;
+        }
+
+        private void OnAccessKeyPressed(object sender, AccessKeyPressedEventArgs e)
+        {
+            Key pressed;
+            if (Enum.TryParse(e.Key, out pressed))
+            {
+                foreach (ApplicationViewModel application in ViewModel.Applications)
+                {
+                    if (application.HotKey == pressed)
+                    {
+                        processService.Run(application, lvwFiles.SelectedItem as FileViewModel);
+                        e.Handled = true;
+
+                        if (isClosedAfterStartingProcess)
+                            Close();
+                        else
+                            break;
+                    }
+                }
+            }
         }
 
         private void OnPreviewMouseDown(object sender, MouseButtonEventArgs e)
@@ -444,11 +449,6 @@ namespace Neptuo.Productivity.SolutionRunner.Views
                 if (application != null && lvwApplications.SelectedItem != application)
                     lvwApplications.SelectedItem = application;
             }
-        }
-
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            MessageBox.Show("Help!");
         }
     }
 }
