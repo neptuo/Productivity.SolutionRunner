@@ -142,9 +142,9 @@
                                 </MultiBinding>
                             </ui:HelpPopup.IsOpen>
                             <StackPanel>
-                                <TextBlock Text="SolutionRunner scans your file system, finds all *.sln files and offer those to you. " />
-                                <TextBlock Text="This field should contain root directory where to look for solution files. " />
-                                <TextBlock Text="If your projects are located under for eg. C:/Dev, than select this directory here." />
+                                <TextBlock Foreground="Black" Text="SolutionRunner scans your file system, finds all *.sln files and offer those to you. " />
+                                <TextBlock Foreground="Black" Text="This field should contain root directory where to look for solution files. " />
+                                <TextBlock Foreground="Black"  Text="If your projects are located under for eg. C:/Dev, than select this directory here." />
                             </StackPanel>
                         </ui:HelpPopup>
                     </StackPanel>
