@@ -79,245 +79,301 @@
             <Setter Property="Background" Value="Transparent" />
             <Setter Property="BorderThickness" Value="0" />
         </Style>
+        <Style TargetType="TabControl">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="BorderThickness" Value="0,1,0,0" />
+            <Setter Property="BorderBrush" Value="{StaticResource ActiveBrush}" />
+            <Setter Property="Padding" Value="8" />
+        </Style>
+        <Style TargetType="TabItem">
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="BorderBrush" Value="Transparent" />
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="Padding" Value="12,6" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type TabItem}">
+                        <Border x:Name="Border" BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}" Padding="{TemplateBinding Padding}" Margin="{TemplateBinding Margin}">
+                            <Border.Style>
+                                <Style TargetType="Border">
+                                    <Style.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter Property="Background" Value="{StaticResource TextBoxBackgroundBrush}"/>
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Border.Style>
+                            <ContentPresenter x:Name="ContentSite" ContentSource="Header" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter Property="TextElement.Foreground" TargetName="ContentSite" Value="White"/>
+                                <Setter Property="Background" TargetName="Border" Value="{StaticResource ActiveBrush}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
     </Window.Resources>
     <DockPanel Style="{StaticResource RootPanelStyle}">
         <Grid DockPanel.Dock="Bottom">
-            <StackPanel VerticalAlignment="Bottom" Orientation="Horizontal">
-                <Button x:Name="btnAbout" Content="About" ToolTip="www.neptuo.com/project/desktop/solutionrunner" Click="btnAbout_Click" Style="{StaticResource LinkButtonStyle}" Margin="0,0,5,0" />
-                <TextBlock Text="{Binding Version}" VerticalAlignment="Center" />
-            </StackPanel>
-
             <StackPanel HorizontalAlignment="Right" Style="{StaticResource ActionBarStyle}">
                 <Button Content="Apply" Command="{Binding SaveCommand}" IsDefault="True" />
                 <Button x:Name="btnCancel" Click="btnCancel_Click" Content="Cancel" IsCancel="True" />
             </StackPanel>
         </Grid>
 
-        <StackPanel>
-            <StackPanel Style="{StaticResource EditorPanelStyle}">
-                <Grid>
-                    <Label Content="Root directory:" Target="{Binding ElementName=dbrSourceDirectory}" />
-                    <TextBlock Text="Directory where to search for solution files" HorizontalAlignment="Right" />
-                </Grid>
-                <ui:DirectoryBrowser x:Name="dbrSourceDirectory" Path="{Binding SourceDirectoryPath, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Margin="0" />
-                <ui:HelpPopup x:Name="hepSourceDirectory" Placement="Top" PlacementTarget="{Binding ElementName=dbrSourceDirectory}" VerticalOffset="-5">
-                    <ui:HelpPopup.IsOpen>
-                        <MultiBinding Converter="{StaticResource HelpVisibilityMultiValueConverter}">
-                            <Binding Path="SourceDirectoryPath" Converter="{StaticResource NullToTrueConverter}" Mode="OneWay" />
-                            <Binding Path="IsSaveRequired" ElementName="this" />
-                        </MultiBinding>
-                    </ui:HelpPopup.IsOpen>
-                    <StackPanel>
-                        <TextBlock Text="SolutionRunner scans your file system, finds all *.sln files and offer those to you. " />
-                        <TextBlock Text="This field should contain root directory where to look for solution files. " />
-                        <TextBlock Text="If your projects are located under for eg. C:/Dev, than select this directory here." />
-                    </StackPanel>
-                </ui:HelpPopup>
-            </StackPanel>
-            <StackPanel Style="{StaticResource EditorPanelStyle}">
-                <Grid>
-                    <Label Content="Prefered application:" Target="{Binding ElementName=tbxSourceDirectory}" />
-                    <TextBlock Text="Full path to the prefered (preselected) application" HorizontalAlignment="Right" />
-                </Grid>
-                <TextBox x:Name="tbxPreferedApplication" Text="{Binding PreferedApplicationPath, UpdateSourceTrigger=PropertyChanged}" Margin="0" />
-            </StackPanel>
-            <StackPanel Style="{StaticResource EditorPanelStyle}">
-                <Grid>
-                    <Label Content="Main applications:" Target="{Binding ElementName=tbxAdditionalApplications}" />
-                    <TextBlock Text="Visual Studio versions" HorizontalAlignment="Right" />
-                </Grid>
-                <ItemsControl ItemsSource="{Binding MainApplications}">
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <Border Style="{StaticResource AdditionalBorderStyle}">
-                                <Grid>
-                                    <StackPanel Orientation="Horizontal">
-                                        <Image Source="{Binding Icon}" Width="24" Margin="0,0,5,0" />
-                                        <TextBlock Text="{Binding Name}" ToolTip="{Binding Path}" Style="{StaticResource DescriptionStyle}" Foreground="White" VerticalAlignment="Center" FontSize="20" />
-                                    </StackPanel>
-
-                                    <ToggleButton IsChecked="{Binding IsEnabled}" Style="{StaticResource PlainToggleButtonStyle}" HorizontalAlignment="Right">
-                                        <fa:ImageAwesome Style="{StaticResource ImageAwesome}"
-                                             Icon="{Binding IsEnabled, Converter={StaticResource TrueToEyeConverter}}" 
-                                             Opacity="{Binding IsEnabled, Converter={StaticResource TrueToOpacityConverter}}"
-                                             ToolTip="{Binding IsEnabled, Converter={StaticResource TrueToDescriptionConverter}}"/>
-                                    </ToggleButton>
-                                </Grid>
-                            </Border>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
-            </StackPanel>
-            <StackPanel Style="{StaticResource EditorPanelStyle}">
-                <Grid>
-                    <Label Content="Additional applications:" Target="{Binding ElementName=tbxAdditionalApplications}" />
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                        <TextBlock Text="Shown right after the visual studio versions" Margin="0 0 3 0" />
-                        <Button x:Name="btnAddApplication" ToolTip="Create new additional application" Style="{StaticResource PlainButtonStyle}" 
-                             Command="{Binding CreateAdditionalApplicationCommand}">
-                            <fa:ImageAwesome Icon="Plus" Style="{StaticResource ImageAwesome}" Margin="0 0 3 0" />
-                        </Button>
-                    </StackPanel>
-                </Grid>
-                <ItemsControl ItemsSource="{Binding AdditionalApplications}">
-                    <ItemsControl.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <StackPanel />
-                        </ItemsPanelTemplate>
-                    </ItemsControl.ItemsPanel>
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <Border Style="{StaticResource AdditionalBorderStyle}">
-                                <Grid>
-                                    <StackPanel Orientation="Horizontal">
-                                        <Image Source="{Binding Icon}" Width="24" Margin="0,0,5,0" />
-                                        <TextBlock Text="{Binding Path}" Style="{StaticResource DescriptionStyle}" VerticalAlignment="Center" FontSize="20" />
-                                    </StackPanel>
-                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                                        <Button ToolTip="Edit additional application" Style="{StaticResource AdditionalButtonStyle}"
-                                             Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ItemsControl}}, Path=DataContext.EditAdditionalApplicationCommand}"
-                                             CommandParameter="{Binding}">
-                                            <fa:ImageAwesome Icon="Edit" Style="{StaticResource ImageAwesome}" />
-                                        </Button>
-                                        <Button ToolTip="Remove additional application" Style="{StaticResource AdditionalButtonStyle}"
-                                             Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ItemsControl}}, Path=DataContext.RemoveAdditionalApplicationCommand}"
-                                             CommandParameter="{Binding}">
-                                            <fa:ImageAwesome Icon="Remove" Style="{StaticResource ImageAwesome}" Width="14" />
-                                        </Button>
-                                    </StackPanel>
-                                </Grid>
-                            </Border>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
-                <Border Style="{StaticResource AdditionalBorderStyle}" Visibility="{Binding AdditionalApplications.Count, Converter={StaticResource ZeroOrLowerToVisibleConverter}}">
-                    <TextBlock Text="No additional application. Use '+' to add some..." Style="{StaticResource DescriptionStyle}" VerticalAlignment="Center" FontSize="20" />
-                </Border>
-            </StackPanel>
-            <StackPanel Style="{StaticResource EditorPanelStyle}">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="100" />
-                        <ColumnDefinition Width="130" />
-                        <ColumnDefinition />
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="*" />
-                    </Grid.RowDefinitions>
-
-                    <StackPanel Style="{StaticResource EditorPanelStyle}" Margin="0,0,10,0">
-                        <Label Content="Search mode:" />
-                        <ListBox ItemsSource="{ds:FileSearchModes}" SelectedValue="{Binding FileSearchMode}" Style="{StaticResource CheckBoxList}" />
-                    </StackPanel>
-                    <StackPanel Style="{StaticResource EditorPanelStyle}" Margin="0,0,50,0" Grid.Column="1">
-                        <Label Content="Search count:" Target="{Binding ElementName=tbxFileSearchCount}" />
-                        <TextBox x:Name="tbxFileSearchCount" Text="{Binding FileSearchCount}" Margin="0" />
-                    </StackPanel>
-
-                    <StackPanel Margin="0,0,10,0" Grid.ColumnSpan="2" Grid.Row="1">
-                        <StackPanel Style="{StaticResource EditorPanelStyle}" Margin="0,10,00,0">
-                            <Label Content="Position mode:" />
-                            <ListBox ItemsSource="{ds:PositionModes}" SelectedValue="{Binding PositionMode}" Style="{StaticResource CheckBoxList}" />
-                        </StackPanel>
-
-                        <Grid Visibility="{Binding PositionMode, Converter={StaticResource PositionUserDefinedToVisibleConverter}}">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="*" />
-                            </Grid.ColumnDefinitions>
-
-                            <StackPanel Style="{StaticResource EditorPanelStyle}" Margin="0,0,10,0" Grid.Column="0">
-                                <Label Content="Left:" Target="{Binding ElementName=tbxPositionLeft}" />
-                                <TextBox x:Name="tbxPositionLeft" Text="{Binding PositionLeft}" Margin="0" />
+        <TabControl>
+            <TabItem Header="Searching">
+                <StackPanel>
+                    <StackPanel Style="{StaticResource EditorPanelStyle}">
+                        <Grid>
+                            <Label Content="Root directory:" Target="{Binding ElementName=dbrSourceDirectory}" />
+                            <TextBlock Text="Directory where to search for solution files" HorizontalAlignment="Right" />
+                        </Grid>
+                        <ui:DirectoryBrowser x:Name="dbrSourceDirectory" Path="{Binding SourceDirectoryPath, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Margin="0" />
+                        <ui:HelpPopup x:Name="hepSourceDirectory" Placement="Top" PlacementTarget="{Binding ElementName=dbrSourceDirectory}" VerticalOffset="-5">
+                            <ui:HelpPopup.IsOpen>
+                                <MultiBinding Converter="{StaticResource HelpVisibilityMultiValueConverter}">
+                                    <Binding Path="SourceDirectoryPath" Converter="{StaticResource NullToTrueConverter}" Mode="OneWay" />
+                                    <Binding Path="IsSaveRequired" ElementName="this" />
+                                </MultiBinding>
+                            </ui:HelpPopup.IsOpen>
+                            <StackPanel>
+                                <TextBlock Text="SolutionRunner scans your file system, finds all *.sln files and offer those to you. " />
+                                <TextBlock Text="This field should contain root directory where to look for solution files. " />
+                                <TextBlock Text="If your projects are located under for eg. C:/Dev, than select this directory here." />
                             </StackPanel>
-                            <StackPanel Style="{StaticResource EditorPanelStyle}" Margin="0,0,10,0" Grid.Column="1">
-                                <Label Content="Top:" Target="{Binding ElementName=tbxPositionTop}" />
-                                <TextBox x:Name="tbxPositionTop" Text="{Binding PositionTop}" Margin="0" />
+                        </ui:HelpPopup>
+                    </StackPanel>
+
+                    <StackPanel Style="{StaticResource EditorPanelStyle}">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="100" />
+                                <ColumnDefinition Width="130" />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+
+                            <StackPanel Style="{StaticResource EditorPanelStyle}" Margin="0,0,10,0">
+                                <Label Content="Search mode:" />
+                                <ListBox ItemsSource="{ds:FileSearchModes}" SelectedValue="{Binding FileSearchMode}" Style="{StaticResource CheckBoxList}" />
+                            </StackPanel>
+                            <StackPanel Style="{StaticResource EditorPanelStyle}" Margin="0,0,50,0" Grid.Column="1">
+                                <Label Content="Search count:" Target="{Binding ElementName=tbxFileSearchCount}" />
+                                <TextBox x:Name="tbxFileSearchCount" Text="{Binding FileSearchCount}" Margin="0" />
+                            </StackPanel>
+
+                            <StackPanel Margin="0,0,10,0" Grid.ColumnSpan="2" Grid.Row="1">
+                                <StackPanel Style="{StaticResource EditorPanelStyle}" Margin="0,10,00,0">
+                                    <Label Content="Position mode:" />
+                                    <ListBox ItemsSource="{ds:PositionModes}" SelectedValue="{Binding PositionMode}" Style="{StaticResource CheckBoxList}" />
+                                </StackPanel>
+
+                                <Grid Visibility="{Binding PositionMode, Converter={StaticResource PositionUserDefinedToVisibleConverter}}">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+
+                                    <StackPanel Style="{StaticResource EditorPanelStyle}" Margin="0,0,10,0" Grid.Column="0">
+                                        <Label Content="Left:" Target="{Binding ElementName=tbxPositionLeft}" />
+                                        <TextBox x:Name="tbxPositionLeft" Text="{Binding PositionLeft}" Margin="0" />
+                                    </StackPanel>
+                                    <StackPanel Style="{StaticResource EditorPanelStyle}" Margin="0,0,10,0" Grid.Column="1">
+                                        <Label Content="Top:" Target="{Binding ElementName=tbxPositionTop}" />
+                                        <TextBox x:Name="tbxPositionTop" Text="{Binding PositionTop}" Margin="0" />
+                                    </StackPanel>
+                                </Grid>
+                            </StackPanel>
+
+                            <StackPanel Style="{StaticResource EditorPanelStyle}" Grid.Column="2" Grid.RowSpan="2">
+                                <Label Content="Others:" />
+                                <CheckBox Content="Save last searched phrase" IsChecked="{Binding IsFileSearchPatternSaved}" />
+                                <CheckBox Content="Save last used application as prefered" IsChecked="{Binding IsLastUsedApplicationSavedAsPrefered}" />
+                                <CheckBox Content="Select VsVersion from selected sln " IsChecked="{Binding IsAutoSelectApplicationVersion}" />
+                                <StackPanel Orientation="Horizontal" Visibility="{Binding IsAutoSelectApplicationVersion, Converter={StaticResource TrueToVisibleConverter}}">
+                                    <Label Content="Minimal version" Margin="18,0,8,0" />
+                                    <ComboBox ItemsSource="{Binding VsVersions}" SelectedValue="{Binding AutoSelectApplicationMinimalVersion}" />
+                                </StackPanel>
+                                <CheckBox Content="Remove file name from displayed path" IsChecked="{Binding IsFileNameRemovedFromDisplayedPath}" />
+                                <CheckBox Content="Trim displayed path to last folder name only" IsChecked="{Binding IsDisplayedPathTrimmedToLastFolderName}" IsEnabled="{Binding IsFileNameRemovedFromDisplayedPath}" />
+                                <StackPanel Orientation="Horizontal">
+                                    <CheckBox Content="Count statistics" IsChecked="{Binding IsStatisticsCounted}" />
+                                    <Button x:Name="btnViewStatistics" Content="view" IsEnabled="{Binding IsStatisticsCounted}" Click="btnViewStatistics_Click" Style="{StaticResource LinkButtonStyle}" Margin="5,0,0,0" />
+                                </StackPanel>
+
+                                <Label Content="Behavior:" Margin="0,10,0,0" />
+                                <CheckBox Content="Dismiss after loosing focus" IsChecked="{Binding IsDismissedWhenLostFocus}" />
+                                <CheckBox Content="Show tray-icon" IsChecked="{Binding IsTrayIcon}" />
+
+                                <Label Content="Startup:" Margin="0,10,0,0" />
+                                <CheckBox Content="Start when logged in" IsChecked="{Binding IsAutoStartup}" />
+                                <CheckBox Content="Start hidden (only when hotkey is set)" IsChecked="{Binding IsHiddentOnStartup}" IsEnabled="{Binding RunKey, Converter={StaticResource NullToFalseConverter}}" />
                             </StackPanel>
                         </Grid>
                     </StackPanel>
-
-                    <StackPanel Style="{StaticResource EditorPanelStyle}" Grid.Column="2" Grid.RowSpan="2">
-                        <Label Content="Others:" />
-                        <CheckBox Content="Save last searched phrase" IsChecked="{Binding IsFileSearchPatternSaved}" />
-                        <CheckBox Content="Save last used application as prefered" IsChecked="{Binding IsLastUsedApplicationSavedAsPrefered}" />
-                        <CheckBox Content="Select VsVersion from selected sln " IsChecked="{Binding IsAutoSelectApplicationVersion}" />
-                        <StackPanel Orientation="Horizontal" Visibility="{Binding IsAutoSelectApplicationVersion, Converter={StaticResource TrueToVisibleConverter}}">
-                            <Label Content="Minimal version" Margin="18,0,8,0" />
-                            <ComboBox ItemsSource="{Binding VsVersions}" SelectedValue="{Binding AutoSelectApplicationMinimalVersion}" />
-                        </StackPanel>
-                        <CheckBox Content="Remove file name from displayed path" IsChecked="{Binding IsFileNameRemovedFromDisplayedPath}" />
-                        <CheckBox Content="Trim displayed path to last folder name only" IsChecked="{Binding IsDisplayedPathTrimmedToLastFolderName}" IsEnabled="{Binding IsFileNameRemovedFromDisplayedPath}" />
-                        <StackPanel Orientation="Horizontal">
-                            <CheckBox Content="Count statistics" IsChecked="{Binding IsStatisticsCounted}" />
-                            <Button x:Name="btnViewStatistics" Content="view" IsEnabled="{Binding IsStatisticsCounted}" Click="btnViewStatistics_Click" Style="{StaticResource LinkButtonStyle}" Margin="5,0,0,0" />
-                        </StackPanel>
-
-                        <Label Content="Behavior:" Margin="0,10,0,0" />
-                        <CheckBox Content="Dismiss after loosing focus" IsChecked="{Binding IsDismissedWhenLostFocus}" />
-                        <CheckBox Content="Show tray-icon" IsChecked="{Binding IsTrayIcon}" />
-
-                        <Label Content="Startup:" Margin="0,10,0,0" />
-                        <CheckBox Content="Start when logged in" IsChecked="{Binding IsAutoStartup}" />
-                        <CheckBox Content="Start hidden (only when hotkey is set)" IsChecked="{Binding IsHiddentOnStartup}" IsEnabled="{Binding RunKey, Converter={StaticResource NullToFalseConverter}}" />
+                </StackPanel>
+            </TabItem>
+            <TabItem Header="Applications">
+                <StackPanel>
+                    <StackPanel Style="{StaticResource EditorPanelStyle}">
+                        <Grid>
+                            <Label Content="Prefered:" Target="{Binding ElementName=tbxSourceDirectory}" />
+                            <TextBlock Text="Full path to the prefered (preselected) application" HorizontalAlignment="Right" />
+                        </Grid>
+                        <TextBox x:Name="tbxPreferedApplication" Text="{Binding PreferedApplicationPath, UpdateSourceTrigger=PropertyChanged}" Margin="0" />
                     </StackPanel>
-                </Grid>
-            </StackPanel>
-            <StackPanel Style="{StaticResource EditorPanelStyle}">
-                <Grid>
-                    <Label Content="Global hotkey:" Target="{Binding ElementName=tbxRunHotKey}" />
-                    <TextBlock Text="Ctrl + Windows + V or the another of your preference" HorizontalAlignment="Right"/>
-                </Grid>
-                <TextBox x:Name="tbxRunHotKey" Margin="0" ui:HotKeyTextBox.Key="{Binding RunKey, Mode=TwoWay}" />
-                <TextBlock TextWrapping="Wrap">
+                    <StackPanel Style="{StaticResource EditorPanelStyle}">
+                        <Grid>
+                            <Label Content="Main:" Target="{Binding ElementName=tbxAdditionalApplications}" />
+                            <TextBlock Text="Visual Studio versions" HorizontalAlignment="Right" />
+                        </Grid>
+                        <ItemsControl ItemsSource="{Binding MainApplications}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Border Style="{StaticResource AdditionalBorderStyle}">
+                                        <Grid>
+                                            <StackPanel Orientation="Horizontal">
+                                                <Image Source="{Binding Icon}" Width="24" Margin="0,0,5,0" />
+                                                <TextBlock Text="{Binding Name}" ToolTip="{Binding Path}" Style="{StaticResource DescriptionStyle}" Foreground="White" VerticalAlignment="Center" FontSize="20" />
+                                            </StackPanel>
+
+                                            <ToggleButton IsChecked="{Binding IsEnabled}" Style="{StaticResource PlainToggleButtonStyle}" HorizontalAlignment="Right">
+                                                <fa:ImageAwesome Style="{StaticResource ImageAwesome}"
+                                                     Icon="{Binding IsEnabled, Converter={StaticResource TrueToEyeConverter}}" 
+                                                     Opacity="{Binding IsEnabled, Converter={StaticResource TrueToOpacityConverter}}"
+                                                     ToolTip="{Binding IsEnabled, Converter={StaticResource TrueToDescriptionConverter}}"/>
+                                            </ToggleButton>
+                                        </Grid>
+                                    </Border>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </StackPanel>
+                    <StackPanel Style="{StaticResource EditorPanelStyle}">
+                        <Grid>
+                            <Label Content="Additional:" Target="{Binding ElementName=tbxAdditionalApplications}" />
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                                <TextBlock Text="Shown right after the visual studio versions" Margin="0 0 3 0" />
+                                <Button x:Name="btnAddApplication" ToolTip="Create new additional application" Style="{StaticResource PlainButtonStyle}" 
+                                     Command="{Binding CreateAdditionalApplicationCommand}">
+                                    <fa:ImageAwesome Icon="Plus" Style="{StaticResource ImageAwesome}" Margin="0 0 3 0" />
+                                </Button>
+                            </StackPanel>
+                        </Grid>
+                        <ItemsControl ItemsSource="{Binding AdditionalApplications}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel />
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Border Style="{StaticResource AdditionalBorderStyle}">
+                                        <Grid>
+                                            <StackPanel Orientation="Horizontal">
+                                                <Image Source="{Binding Icon}" Width="24" Margin="0,0,5,0" />
+                                                <TextBlock Text="{Binding Path}" Style="{StaticResource DescriptionStyle}" VerticalAlignment="Center" FontSize="20" />
+                                            </StackPanel>
+                                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                                                <Button ToolTip="Edit additional application" Style="{StaticResource AdditionalButtonStyle}"
+                                                     Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ItemsControl}}, Path=DataContext.EditAdditionalApplicationCommand}"
+                                                     CommandParameter="{Binding}">
+                                                    <fa:ImageAwesome Icon="Edit" Style="{StaticResource ImageAwesome}" />
+                                                </Button>
+                                                <Button ToolTip="Remove additional application" Style="{StaticResource AdditionalButtonStyle}"
+                                                     Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ItemsControl}}, Path=DataContext.RemoveAdditionalApplicationCommand}"
+                                                     CommandParameter="{Binding}">
+                                                    <fa:ImageAwesome Icon="Remove" Style="{StaticResource ImageAwesome}" Width="14" />
+                                                </Button>
+                                            </StackPanel>
+                                        </Grid>
+                                    </Border>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                        <Border Style="{StaticResource AdditionalBorderStyle}" Visibility="{Binding AdditionalApplications.Count, Converter={StaticResource ZeroOrLowerToVisibleConverter}}">
+                            <TextBlock Text="No additional application. Use '+' to add some..." Style="{StaticResource DescriptionStyle}" VerticalAlignment="Center" FontSize="20" />
+                        </Border>
+                    </StackPanel>
+                </StackPanel>
+            </TabItem>
+            <TabItem Header="Keyboard">
+                <StackPanel>
+                    <StackPanel Style="{StaticResource EditorPanelStyle}">
+                        <Grid>
+                            <Label Content="Global hotkey:" Target="{Binding ElementName=tbxRunHotKey}" />
+                            <TextBlock Text="Ctrl + Windows + V or the another of your preference" HorizontalAlignment="Right"/>
+                        </Grid>
+                        <TextBox x:Name="tbxRunHotKey" Margin="0" ui:HotKeyTextBox.Key="{Binding RunKey, Mode=TwoWay}" />
+                        <TextBlock TextWrapping="Wrap">
                         When the hot key is not set, the application exits when the main window is closed. 
                         Otherwise the application is hidden and it is triggered to the front by pressing the hot key.
-                </TextBlock>
-            </StackPanel>
+                        </TextBlock>
+                    </StackPanel>
 
-            <StackPanel Style="{StaticResource EditorPanelStyle}">
-                <Label Content="Keyboard shortcuts" />
+                    <StackPanel Style="{StaticResource EditorPanelStyle}">
+                        <Label Content="Shortcuts" />
+                        <Grid>
+                            <TextBlock Text="Open configuration &amp; help window" />
+                            <TextBlock Text="F1" HorizontalAlignment="Right" />
+                        </Grid>
+                        <Grid>
+                            <TextBlock Text="Switch application" />
+                            <TextBlock Text="Ctrl+Tab, Ctrl+Shift+Tab" HorizontalAlignment="Right" />
+                        </Grid>
+                        <Grid>
+                            <TextBlock Text="Switch file" />
+                            <TextBlock Text="ArrowDown, ArrowUp, Home, End" HorizontalAlignment="Right" />
+                        </Grid>
+                        <Grid>
+                            <TextBlock Text="Pin/unpin file" />
+                            <TextBlock Text="Ctrl+S" HorizontalAlignment="Right" />
+                        </Grid>
+                        <Grid>
+                            <TextBlock Text="Copy application path" />
+                            <TextBlock Text="Ctrl+Shift+C" HorizontalAlignment="Right" />
+                        </Grid>
+                        <Grid>
+                            <TextBlock Text="Copy file path" />
+                            <TextBlock Text="Ctrl+C" HorizontalAlignment="Right" />
+                        </Grid>
+                        <Grid>
+                            <TextBlock Text="Open empty instance of application" />
+                            <TextBlock Text="DoubleClick on application" HorizontalAlignment="Right" />
+                        </Grid>
+                        <Grid>
+                            <TextBlock Text="Open file in application" />
+                            <TextBlock Text="Enter, DoubleClick on file" HorizontalAlignment="Right" />
+                        </Grid>
+                        <Grid>
+                            <TextBlock Text="Close/hide" />
+                            <TextBlock Text="Escape" HorizontalAlignment="Right" />
+                        </Grid>
+                    </StackPanel>
+                </StackPanel>
+            </TabItem>
+            <TabItem Header="About">
                 <Grid>
-                    <TextBlock Text="Open configuration &amp; help window" />
-                    <TextBlock Text="F1" HorizontalAlignment="Right" />
+                    <StackPanel VerticalAlignment="Bottom">
+                        <TextBlock Text="{Binding Version}" VerticalAlignment="Center" FontSize="30" Foreground="White" />
+                        <TextBlock Text="Neptuo" VerticalAlignment="Center" />
+                        <TextBlock Text="Copyright © 2017" VerticalAlignment="Center" />
+                        <Button x:Name="btnAbout" Content="Documentation" ToolTip="www.neptuo.com/project/desktop/solutionrunner" Click="btnAbout_Click" Style="{StaticResource LinkButtonStyle}" Margin="0,0,5,0" />
+                    </StackPanel>
+
+                    <StackPanel HorizontalAlignment="Right">
+                        <Button x:Name="btnErrorLog" Content="Error log" Click="btnErrorLog_Click" Margin="0" />
+                    </StackPanel>
                 </Grid>
-                <Grid>
-                    <TextBlock Text="Switch application" />
-                    <TextBlock Text="Ctrl+Tab, Ctrl+Shift+Tab" HorizontalAlignment="Right" />
-                </Grid>
-                <Grid>
-                    <TextBlock Text="Switch file" />
-                    <TextBlock Text="ArrowDown, ArrowUp, Home, End" HorizontalAlignment="Right" />
-                </Grid>
-                <Grid>
-                    <TextBlock Text="Pin/unpin file" />
-                    <TextBlock Text="Ctrl+S" HorizontalAlignment="Right" />
-                </Grid>
-                <Grid>
-                    <TextBlock Text="Copy application path" />
-                    <TextBlock Text="Ctrl+Shift+C" HorizontalAlignment="Right" />
-                </Grid>
-                <Grid>
-                    <TextBlock Text="Copy file path" />
-                    <TextBlock Text="Ctrl+C" HorizontalAlignment="Right" />
-                </Grid>
-                <Grid>
-                    <TextBlock Text="Open empty instance of application" />
-                    <TextBlock Text="DoubleClick on application" HorizontalAlignment="Right" />
-                </Grid>
-                <Grid>
-                    <TextBlock Text="Open file in application" />
-                    <TextBlock Text="Enter, DoubleClick on file" HorizontalAlignment="Right" />
-                </Grid>
-                <Grid>
-                    <TextBlock Text="Close/hide" />
-                    <TextBlock Text="Escape" HorizontalAlignment="Right" />
-                </Grid>
-            </StackPanel>
-            <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
-                <Button x:Name="btnErrorLog" Content="Error log" Click="btnErrorLog_Click" Margin="0" />
-            </StackPanel>
-        </StackPanel>
+            </TabItem>
+        </TabControl>
     </DockPanel>
 </Window>
