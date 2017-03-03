@@ -7,7 +7,7 @@
         xmlns:ui="clr-namespace:Neptuo.Productivity.SolutionRunner.Views.Controls"
         xmlns:ds="clr-namespace:Neptuo.Productivity.SolutionRunner.Views.DataSources"
         xmlns:converters="clr-namespace:Neptuo.Productivity.SolutionRunner.Services.Converters"
-        Title="SolutionRunner - Additional application" Width="450" SizeToContent="Height" ResizeMode="NoResize" 
+        Title="SolutionRunner - Additional application" Width="450" SizeToContent="Height" ResizeMode="NoResize" Icon="{StaticResource IconBitmapImage}" 
         ShowInTaskbar="False" Background="{StaticResource BackgroundBrush}" WindowStartupLocation="CenterScreen"
         PreviewKeyDown="OnPreviewKeyDown">
     <Window.Resources>
