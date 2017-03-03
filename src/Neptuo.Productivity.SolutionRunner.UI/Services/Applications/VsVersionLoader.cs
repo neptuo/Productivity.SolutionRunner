@@ -17,7 +17,7 @@ using System.Windows.Media.Imaging;
 
 namespace Neptuo.Productivity.SolutionRunner.Services.Applications
 {
-    public class VsVersionLoader
+    public class VsVersionLoader : IApplicationLoader
     {
         public void Add(IApplicationCollection applications)
         {

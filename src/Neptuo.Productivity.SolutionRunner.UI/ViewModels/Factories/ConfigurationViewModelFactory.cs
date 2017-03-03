@@ -16,20 +16,20 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels.Factories
 {
     public class ConfigurationViewModelFactory : IFactory<ConfigurationViewModel>
     {
-        private readonly VsVersionLoader vsLoader;
+        private readonly IApplicationLoader mainApplicationLoader;
         private readonly ShortcutService shortcutService;
         private readonly DefaultRunHotKeyService runHotKey;
         private readonly Settings settings;
         private readonly INavigator navigator;
 
-        internal ConfigurationViewModelFactory(VsVersionLoader vsLoader, ShortcutService shortcutService, DefaultRunHotKeyService runHotKey, Settings settings, INavigator navigator)
+        internal ConfigurationViewModelFactory(IApplicationLoader mainApplicationLoader, ShortcutService shortcutService, DefaultRunHotKeyService runHotKey, Settings settings, INavigator navigator)
         {
-            Ensure.NotNull(vsLoader, "vsLoader");
+            Ensure.NotNull(mainApplicationLoader, "mainApplicationLoader");
             Ensure.NotNull(shortcutService, "shortcutService");
             Ensure.NotNull(runHotKey, "runHotKey");
             Ensure.NotNull(settings, "settings");
             Ensure.NotNull(navigator, "navigator");
-            this.vsLoader = vsLoader;
+            this.mainApplicationLoader = mainApplicationLoader;
             this.shortcutService = shortcutService;
             this.runHotKey = runHotKey;
             this.settings = settings;
@@ -57,14 +57,14 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels.Factories
             viewModel.AdditionalApplications = new ObservableCollection<AdditionalApplicationListViewModel>(LoadAdditionalApplications());
 
             MainApplicationCollection mainApplications = new MainApplicationCollection();
-            vsLoader.Add(mainApplications);
+            mainApplicationLoader.Add(mainApplications);
             viewModel.MainApplications = mainApplications;
 
             foreach (MainApplicationListViewModel application in mainApplications)
                 application.IsEnabled = !settings.GetHiddenMainApplications().Contains(application.Path);
 
             VsVersionCollection vsVersions = new VsVersionCollection();
-            vsLoader.Add(vsVersions);
+            mainApplicationLoader.Add(vsVersions);
             viewModel.VsVersions = vsVersions;
 
             viewModel.RunKey = runHotKey.FindKeyViewModel();

@@ -18,19 +18,19 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels.Factories
     {
         private readonly IPinStateService pinStateService;
         private readonly Settings settings;
-        private readonly VsVersionLoader vsLoader;
+        private readonly IApplicationLoader mainApplicationLoader;
         private readonly Func<HashSet<string>> pinnedFilesGetter;
         private readonly PropertyChangedEventHandler propertyChangedHandler;
 
-        internal MainViewModelFactory(IPinStateService pinStateService, Settings settings, VsVersionLoader vsLoader, Func<HashSet<string>> pinnedFilesGetter, PropertyChangedEventHandler propertyChangedHandler)
+        internal MainViewModelFactory(IPinStateService pinStateService, Settings settings, IApplicationLoader mainApplicationLoader, Func<HashSet<string>> pinnedFilesGetter, PropertyChangedEventHandler propertyChangedHandler)
         {
             Ensure.NotNull(pinStateService, "pinStateService");
             Ensure.NotNull(settings, "settings");
-            Ensure.NotNull(vsLoader, "vsLoader");
+            Ensure.NotNull(mainApplicationLoader, "mainApplicationLoader");
             Ensure.NotNull(pinnedFilesGetter, "pinnedFilesGetter");
             this.pinStateService = pinStateService;
             this.settings = settings;
-            this.vsLoader = vsLoader;
+            this.mainApplicationLoader = mainApplicationLoader;
             this.pinnedFilesGetter = pinnedFilesGetter;
             this.propertyChangedHandler = propertyChangedHandler;
         }
@@ -55,7 +55,7 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels.Factories
                 viewModel.PropertyChanged += propertyChangedHandler;
 
             ApplicationFilteredCollection applications = new ApplicationFilteredCollection(Settings.Default, viewModel);
-            vsLoader.Add(applications);
+            mainApplicationLoader.Add(applications);
 
             AdditionalApplicationLoader additionalLoader = new AdditionalApplicationLoader();
             additionalLoader.Add(viewModel);

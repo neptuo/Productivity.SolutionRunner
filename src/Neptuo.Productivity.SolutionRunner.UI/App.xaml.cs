@@ -49,7 +49,7 @@ namespace Neptuo.Productivity.SolutionRunner
     public partial class App : Application, INavigator, INavigatorState, IPinStateService
     {
         private StartupModel startup;
-        private VsVersionLoader vsLoader;
+        private IApplicationLoader mainApplicationLoader;
         private DefaultRunHotKeyService runHotKey;
         private SwitchableContingService countingService;
         private IPositionProvider positionProvider;
@@ -109,7 +109,9 @@ namespace Neptuo.Productivity.SolutionRunner
             EventManager.ConfigurationSaved += OnConfigurationSaved;
             EventManager.ProcessStarted += OnProcessStarted;
 
-            vsLoader = new VsVersionLoader();
+            mainApplicationLoader = new ApplicationLoaderCollection()
+                .Add(new VsVersionLoader())
+                .Add(new VsCodeLoader());
 
             // Bind global hotkey.
             runHotKey = new DefaultRunHotKeyService(this, this);
@@ -132,7 +134,7 @@ namespace Neptuo.Productivity.SolutionRunner
                 startup.IsHidden = false;
 
             configurationFactory = new ConfigurationViewModelFactory(
-                vsLoader,
+                mainApplicationLoader,
                 shortcutService,
                 runHotKey,
                 Settings.Default,
@@ -142,7 +144,7 @@ namespace Neptuo.Productivity.SolutionRunner
             mainFactory = new MainViewModelFactory(
                 this,
                 Settings.Default,
-                vsLoader,
+                mainApplicationLoader,
                 GetPinnedFiles,
                 OnMainViewModelPropertyChanged
             );
