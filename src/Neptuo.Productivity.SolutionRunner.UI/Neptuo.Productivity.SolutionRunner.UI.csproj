@@ -250,6 +250,9 @@
     <Compile Include="Views\ConfigurationWindow.xaml.cs">
       <DependentUpon>ConfigurationWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Controls\FileBrowser.xaml.cs">
+      <DependentUpon>FileBrowser.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Controls\DirectoryBrowser.xaml.cs">
       <DependentUpon>DirectoryBrowser.xaml</DependentUpon>
     </Compile>
@@ -285,6 +288,10 @@
     <Page Include="Views\ConfigurationWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Controls\FileBrowser.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\Controls\DirectoryBrowser.xaml">
       <SubType>Designer</SubType>

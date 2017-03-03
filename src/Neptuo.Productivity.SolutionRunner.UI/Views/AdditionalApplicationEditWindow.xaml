@@ -35,10 +35,10 @@
             </DockPanel>
             <StackPanel Style="{StaticResource EditorPanelStyle}">
                 <Grid>
-                    <Label Content="Path:" Target="{Binding ElementName=tbxName}" />
+                    <Label Content="Path:" Target="{Binding ElementName=fbrPath}" />
                     <TextBlock Text="Full path to additional application" HorizontalAlignment="Right" />
                 </Grid>
-                <TextBox x:Name="tbxPath" Text="{Binding Path, UpdateSourceTrigger=PropertyChanged}" Margin="0" />
+                <ui:FileBrowser x:Name="fbrPath" Path="{Binding Path, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Margin="0" />
             </StackPanel>
             <StackPanel Style="{StaticResource EditorPanelStyle}">
                 <Grid>
@@ -47,14 +47,14 @@
                 </Grid>
                 <TextBox x:Name="tbxArguments" Text="{Binding Arguments, UpdateSourceTrigger=PropertyChanged}" Margin="0" />
                 <TextBlock TextWrapping="Wrap">
-                        Here you can define additional application arguments. By default the only passed argument is a path to the selected file.
-                        Value can contain dynamic blocks that are replaced by values from selected file.
+                    Here you can define additional application arguments. By default the only passed argument is a path to the selected file.
+                    Value can contain dynamic blocks that are replaced by values from selected file.
                 </TextBlock>
                 <TextBlock TextWrapping="Wrap">
-                        {FilePath} is replaced with a full path to the selected file.
+                    {FilePath} is replaced with a full path to the selected file.
                 </TextBlock>
                 <TextBlock TextWrapping="Wrap">
-                        {DirectoryPath} is replaced with a full path to the directory of the selected file.
+                    {DirectoryPath} is replaced with a full path to the directory of the selected file.
                 </TextBlock>
             </StackPanel>
             <StackPanel Style="{StaticResource EditorPanelStyle}">
