@@ -225,10 +225,10 @@
                 <StackPanel>
                     <StackPanel Style="{StaticResource EditorPanelStyle}">
                         <Grid>
-                            <Label Content="Prefered:" Target="{Binding ElementName=tbxSourceDirectory}" />
+                            <Label Content="Prefered:" Target="{Binding ElementName=fbrPreferedApplication}" />
                             <TextBlock Text="Full path to the prefered (preselected) application" HorizontalAlignment="Right" />
                         </Grid>
-                        <TextBox x:Name="tbxPreferedApplication" Text="{Binding PreferedApplicationPath, UpdateSourceTrigger=PropertyChanged}" Margin="0" />
+                        <ui:FileBrowser x:Name="fbrPreferedApplication" Path="{Binding PreferedApplicationPath, UpdateSourceTrigger=PropertyChanged}" Margin="0" />
                     </StackPanel>
                     <StackPanel Style="{StaticResource EditorPanelStyle}">
                         <Grid>
