@@ -6,6 +6,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" 
         xmlns:dd="clr-namespace:Neptuo.Productivity.SolutionRunner.UI.DesignData" d:DataContext="{x:Static dd:ViewModelLocator.ConfigurationViewModel}"
         xmlns:system="clr-namespace:System;assembly=mscorlib"
+        xmlns:cm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
         xmlns:fa="http://schemas.fontawesome.io/icons/"
         xmlns:ui="clr-namespace:Neptuo.Productivity.SolutionRunner.Views.Controls"
         xmlns:ds="clr-namespace:Neptuo.Productivity.SolutionRunner.Views.DataSources"
@@ -22,6 +23,12 @@
         <converters:BoolConverter x:Key="TrueToOpacityConverter" TrueValue="1" FalseValue=".5" />
         <converters:BoolConverter x:Key="TrueToDescriptionConverter" TrueValue="Visible" FalseValue="Hidden" />
         <converters:BoolConverter x:Key="TrueToVisibleConverter" TrueValue="Visible" FalseValue="Collapsed" />
+
+        <CollectionViewSource x:Key="PreferedApplications" Source="{Binding PreferedApplications}">
+            <CollectionViewSource.SortDescriptions>
+                <cm:SortDescription PropertyName="Path" />
+            </CollectionViewSource.SortDescriptions>
+        </CollectionViewSource>
 
         <Style TargetType="TextBlock" BasedOn="{StaticResource DescriptionStyle}">
             <Setter Property="Padding" Value="2" />
@@ -188,10 +195,11 @@
                 <StackPanel>
                     <StackPanel Style="{StaticResource EditorPanelStyle}">
                         <Grid>
-                            <Label Content="Prefered:" Target="{Binding ElementName=fbrPreferedApplication}" />
+                            <Label Content="Prefered:" Target="{Binding ElementName=cobPreferedApplication}" />
                             <TextBlock Text="Full path to the prefered (preselected) application" HorizontalAlignment="Right" />
                         </Grid>
-                        <ui:FileBrowser x:Name="fbrPreferedApplication" Path="{Binding PreferedApplicationPath, UpdateSourceTrigger=PropertyChanged}" Margin="0" />
+
+                        <ComboBox x:Name="cobPreferedApplication" ItemsSource="{Binding Source={StaticResource PreferedApplications}}" SelectedItem="{Binding PreferedApplication}" DisplayMemberPath="Path" />
                     </StackPanel>
                     <StackPanel Style="{StaticResource EditorPanelStyle}">
                         <Grid>

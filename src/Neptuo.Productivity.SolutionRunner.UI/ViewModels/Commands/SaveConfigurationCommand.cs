@@ -51,7 +51,7 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels.Commands
         protected override void Execute()
         {
             settings.SourceDirectoryPath = viewModel.SourceDirectoryPath;
-            settings.PreferedApplicationPath = viewModel.PreferedApplicationPath;
+            settings.PreferedApplicationPath = viewModel.PreferedApplication?.Path;
             settings.FileSearchMode = Converts.To<FileSearchMode, string>(viewModel.FileSearchMode);
             settings.FileSearchCount = viewModel.FileSearchCount;
             settings.IsFileSearchPatternSaved = viewModel.IsFileSearchPatternSaved;

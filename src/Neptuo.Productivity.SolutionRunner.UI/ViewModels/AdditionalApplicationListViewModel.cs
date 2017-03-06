@@ -9,7 +9,7 @@ using System.Windows.Media;
 
 namespace Neptuo.Productivity.SolutionRunner.ViewModels
 {
-    public class AdditionalApplicationListViewModel : ObservableObject
+    public class AdditionalApplicationListViewModel : ObservableObject, IPreferedApplicationViewModel
     {
         public AdditionalApplicationModel Model { get; private set; }
 
@@ -25,6 +25,11 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels
                     RaisePropertyChanged();
                 }
             }
+        }
+
+        public string Name
+        {
+            get { return Model.Name; }
         }
 
         private string path;

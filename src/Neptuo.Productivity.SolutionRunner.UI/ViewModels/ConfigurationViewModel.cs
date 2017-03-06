@@ -12,6 +12,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using System.Collections.Specialized;
 
 namespace Neptuo.Productivity.SolutionRunner.ViewModels
 {
@@ -28,20 +29,6 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels
                     sourceDirectoryPath = value;
                     RaisePropertyChanged();
                     saveCommand.RaiseCanExecuteChanged();
-                }
-            }
-        }
-
-        private string preferedApplicationPath;
-        public string PreferedApplicationPath
-        {
-            get { return preferedApplicationPath; }
-            set
-            {
-                if (preferedApplicationPath != value)
-                {
-                    preferedApplicationPath = value;
-                    RaisePropertyChanged();
                 }
             }
         }
@@ -285,6 +272,22 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels
             }
         }
 
+        public ObservableCollection<IPreferedApplicationViewModel> PreferedApplications { get; set; }
+
+        private IPreferedApplicationViewModel preferedApplication;
+        public IPreferedApplicationViewModel PreferedApplication
+        {
+            get { return preferedApplication; }
+            set
+            {
+                if (preferedApplication != value)
+                {
+                    preferedApplication = value;
+                    RaisePropertyChanged();
+                }
+            }
+        }
+
         public ObservableCollection<AdditionalApplicationListViewModel> AdditionalApplications { get; set; }
         public ObservableCollection<MainApplicationListViewModel> MainApplications { get; set; }
         public ObservableCollection<Version> VsVersions { get; set; }
@@ -296,6 +299,7 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels
         {
             get { return saveCommand; }
         }
+
         public ICommand RemoveAdditionalApplicationCommand { get; private set; }
         public ICommand EditAdditionalApplicationCommand { get; private set; }
         public ICommand CreateAdditionalApplicationCommand { get; private set; }

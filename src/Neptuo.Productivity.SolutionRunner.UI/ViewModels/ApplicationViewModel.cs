@@ -10,7 +10,7 @@ using System.Windows.Media;
 
 namespace Neptuo.Productivity.SolutionRunner.ViewModels
 {
-    public class ApplicationViewModel : ObservableObject, IApplication
+    public class ApplicationViewModel : ObservableObject, IApplication, IPreferedApplicationViewModel
     {
         public string Name { get; private set; }
         public string Path { get; private set; }

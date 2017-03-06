@@ -40,7 +40,6 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels.Factories
         {
             ConfigurationViewModel viewModel = new ConfigurationViewModel(new SaveConfigurationCommandFactory(settings, runHotKey, shortcutService), navigator);
             viewModel.SourceDirectoryPath = settings.SourceDirectoryPath;
-            viewModel.PreferedApplicationPath = settings.PreferedApplicationPath;
             viewModel.FileSearchMode = settings.GetFileSearchMode();
             viewModel.FileSearchCount = settings.GetFileSearchCount();
             viewModel.IsFileSearchPatternSaved = settings.IsFileSearchPatternSaved;
@@ -62,6 +61,13 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels.Factories
 
             foreach (MainApplicationListViewModel application in mainApplications)
                 application.IsEnabled = !settings.GetHiddenMainApplications().Contains(application.Path);
+
+            PreferedApplicationCollection preferedApplications = new PreferedApplicationCollection()
+                .AddCollectionChanged(viewModel.AdditionalApplications)
+                .AddCollectionChanged(mainApplications);
+
+            viewModel.PreferedApplications = preferedApplications;
+            viewModel.PreferedApplication = preferedApplications.FirstOrDefault(a => a.Path.Equals(settings.PreferedApplicationPath, StringComparison.InvariantCultureIgnoreCase));
 
             VsVersionCollection vsVersions = new VsVersionCollection();
             mainApplicationLoader.Add(vsVersions);

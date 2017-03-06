@@ -101,18 +101,20 @@ namespace Neptuo.Productivity.SolutionRunner.UI.DesignData
 
                     configurationViewModel = new ConfigurationViewModel(new SaveConfigurationCommandFactory(), new Navigator());
                     configurationViewModel.SourceDirectoryPath = @"D:\Development";
-                    configurationViewModel.PreferedApplicationPath = @"C:\Program Files (x86)\Microsoft Visual Studio 12.0\Common7\IDE\devenv.exe";
                     configurationViewModel.FileSearchMode = FileSearchMode.Contains;
                     configurationViewModel.FileSearchCount = 10;
                     configurationViewModel.IsFileSearchPatternSaved = true;
                     configurationViewModel.IsAutoSelectApplicationVersion = true;
-                    configurationViewModel.AdditionalApplications = new ObservableCollection<AdditionalApplicationListViewModel>()
-                    {
+                    PreferedApplicationCollection preferedApplications = new PreferedApplicationCollection();
+                    configurationViewModel.AdditionalApplications = new ObservableCollection<AdditionalApplicationListViewModel>();
+                    preferedApplications.AddCollectionChanged(configurationViewModel.AdditionalApplications);
+                    configurationViewModel.AdditionalApplications.AddRange(
                         new AdditionalApplicationListViewModel(new AdditionalApplicationModel("Notepad", @"C:\Windows\notepad.exe", "", Key.N)),
                         new AdditionalApplicationListViewModel(new AdditionalApplicationModel("GitExtensions", @"C:\Program Files (x86)\GitExtensions\GitExtensions.exe", "", Key.G))
-                    };
-                    configurationViewModel.MainApplications = new ObservableCollection<MainApplicationListViewModel>()
-                    {
+                    );
+                    configurationViewModel.MainApplications = new ObservableCollection<MainApplicationListViewModel>();
+                    preferedApplications.AddCollectionChanged(configurationViewModel.MainApplications);
+                    configurationViewModel.MainApplications.AddRange(
                         new MainApplicationListViewModel()
                         {
                             Name = "Visual Studio 12.0",
@@ -127,7 +129,9 @@ namespace Neptuo.Productivity.SolutionRunner.UI.DesignData
                             Icon = IconExtractor.Get(@"C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\IDE\devenv.exe"),
                             IsEnabled = true
                         }
-                    };
+                    );
+                    configurationViewModel.PreferedApplications = preferedApplications;
+                    configurationViewModel.PreferedApplication = preferedApplications.FirstOrDefault();
                     configurationViewModel.VsVersions = new ObservableCollection<Version>()
                     {
                         new Version(12, 0),

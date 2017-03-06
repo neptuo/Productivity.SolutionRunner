@@ -9,7 +9,7 @@ using System.Windows.Media;
 
 namespace Neptuo.Productivity.SolutionRunner.ViewModels
 {
-    public class MainApplicationListViewModel : ObservableObject
+    public class MainApplicationListViewModel : ObservableObject, IPreferedApplicationViewModel
     {
         private ImageSource icon;
         public ImageSource Icon

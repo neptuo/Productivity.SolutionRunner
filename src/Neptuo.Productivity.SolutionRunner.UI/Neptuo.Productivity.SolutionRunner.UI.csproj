@@ -238,12 +238,14 @@
     <Compile Include="ViewModels\Factories\ConfigurationViewModelFactory.cs" />
     <Compile Include="ViewModels\Factories\MainViewModelFactory.cs" />
     <Compile Include="ViewModels\FileViewModel.cs" />
+    <Compile Include="ViewModels\IPreferedApplicationViewModel.cs" />
     <Compile Include="ViewModels\MainApplicationCollection.cs" />
     <Compile Include="ViewModels\MainApplicationListViewModel.cs" />
     <Compile Include="ViewModels\NameValueViewModel.cs" />
     <Compile Include="ViewModels\KeyViewModel.cs" />
     <Compile Include="Services\Positions\PositionMode.cs" />
     <Compile Include="ViewModels\Container.cs" />
+    <Compile Include="ViewModels\PreferedApplicationCollection.cs" />
     <Compile Include="ViewModels\StatisticsItemViewModel.cs" />
     <Compile Include="ViewModels\StatisticsViewModel.cs" />
     <Compile Include="ViewModels\VsVersionCollection.cs" />
