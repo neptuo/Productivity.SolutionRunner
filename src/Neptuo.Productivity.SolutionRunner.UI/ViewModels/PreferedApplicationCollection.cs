@@ -12,11 +12,16 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels
 {
     public class PreferedApplicationCollection : ObservableCollection<IPreferedApplicationViewModel>
     {
+        public PreferedApplicationCollection()
+        {
+            Add(new NoPreferedApplicationViewModel());
+        }
+
         public PreferedApplicationCollection AddCollectionChanged(ObservableCollection<MainApplicationListViewModel> collection)
         {
             Ensure.NotNull(collection, "collection");
             collection.CollectionChanged += OnApplicationsChanged;
-            AddRange(collection);
+            AddRange(collection.Where(a => a.IsEnabled));
             return this;
         }
 

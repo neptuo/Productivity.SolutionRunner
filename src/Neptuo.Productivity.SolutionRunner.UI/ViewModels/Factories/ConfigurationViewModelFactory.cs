@@ -67,7 +67,7 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels.Factories
                 .AddCollectionChanged(mainApplications);
 
             viewModel.PreferedApplications = preferedApplications;
-            viewModel.PreferedApplication = preferedApplications.FirstOrDefault(a => a.Path.Equals(settings.PreferedApplicationPath, StringComparison.InvariantCultureIgnoreCase));
+            viewModel.PreferedApplication = preferedApplications.FirstOrDefault(a => String.Equals(a.Path, settings.PreferedApplicationPath, StringComparison.InvariantCultureIgnoreCase));
 
             VsVersionCollection vsVersions = new VsVersionCollection();
             mainApplicationLoader.Add(vsVersions);

@@ -245,6 +245,7 @@
     <Compile Include="ViewModels\KeyViewModel.cs" />
     <Compile Include="Services\Positions\PositionMode.cs" />
     <Compile Include="ViewModels\Container.cs" />
+    <Compile Include="ViewModels\NoPreferedApplicationViewModel.cs" />
     <Compile Include="ViewModels\PreferedApplicationCollection.cs" />
     <Compile Include="ViewModels\StatisticsItemViewModel.cs" />
     <Compile Include="ViewModels\StatisticsViewModel.cs" />

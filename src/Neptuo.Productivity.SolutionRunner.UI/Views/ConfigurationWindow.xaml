@@ -86,6 +86,22 @@
             <Setter Property="Background" Value="Transparent" />
             <Setter Property="BorderThickness" Value="0" />
         </Style>
+
+        <Style x:Key="ApplicationComboBoxItemStyle" TargetType="ComboBoxItem">
+            <Setter Property="FontSize" Value="20" />
+            <Setter Property="BorderThickness" Value="0" />
+        </Style>
+        <Style x:Key="ApplicationComboBoxStyle" TargetType="ComboBox">
+            <Setter Property="FontSize" Value="20" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="ItemContainerStyle" Value="{StaticResource ApplicationComboBoxItemStyle}" />
+        </Style>
+
+        <Style x:Key="ApplicationNameTextBlockStyle" TargetType="TextBlock" BasedOn="{StaticResource DescriptionStyle}">
+            <Setter Property="FontSize" Value="20" />
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+        </Style>
     </Window.Resources>
     <DockPanel Style="{StaticResource RootPanelStyle}">
         <Grid DockPanel.Dock="Bottom">
@@ -199,7 +215,16 @@
                             <TextBlock Text="Full path to the prefered (preselected) application" HorizontalAlignment="Right" />
                         </Grid>
 
-                        <ComboBox x:Name="cobPreferedApplication" ItemsSource="{Binding Source={StaticResource PreferedApplications}}" SelectedItem="{Binding PreferedApplication}" DisplayMemberPath="Path" />
+                        <ComboBox x:Name="cobPreferedApplication" ItemsSource="{Binding Source={StaticResource PreferedApplications}}" SelectedItem="{Binding PreferedApplication}" Style="{StaticResource ApplicationComboBoxStyle}">
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image Source="{Binding Icon}" Width="24" Margin="0,0,5,0" />
+                                        <TextBlock Text="{Binding Name}" ToolTip="{Binding Path}" Style="{StaticResource ApplicationNameTextBlockStyle}" Foreground="Black" />
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
                     </StackPanel>
                     <StackPanel Style="{StaticResource EditorPanelStyle}">
                         <Grid>
@@ -213,7 +238,7 @@
                                         <Grid>
                                             <StackPanel Orientation="Horizontal">
                                                 <Image Source="{Binding Icon}" Width="24" Margin="0,0,5,0" />
-                                                <TextBlock Text="{Binding Name}" ToolTip="{Binding Path}" Style="{StaticResource DescriptionStyle}" Foreground="White" VerticalAlignment="Center" FontSize="20" />
+                                                <TextBlock Text="{Binding Name}" ToolTip="{Binding Path}" Style="{StaticResource ApplicationNameTextBlockStyle}" />
                                             </StackPanel>
 
                                             <ToggleButton IsChecked="{Binding IsEnabled}" Style="{StaticResource PlainToggleButtonStyle}" HorizontalAlignment="Right">
@@ -251,7 +276,7 @@
                                         <Grid>
                                             <StackPanel Orientation="Horizontal">
                                                 <Image Source="{Binding Icon}" Width="24" Margin="0,0,5,0" />
-                                                <TextBlock Text="{Binding Path}" Style="{StaticResource DescriptionStyle}" VerticalAlignment="Center" FontSize="20" />
+                                                <TextBlock Text="{Binding Name}" Style="{StaticResource ApplicationNameTextBlockStyle}" ToolTip="{Binding Path}" />
                                             </StackPanel>
                                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                                                 <Button ToolTip="Edit additional application" Style="{StaticResource AdditionalButtonStyle}"
@@ -271,7 +296,7 @@
                             </ItemsControl.ItemTemplate>
                         </ItemsControl>
                         <Border Style="{StaticResource AdditionalBorderStyle}" Visibility="{Binding AdditionalApplications.Count, Converter={StaticResource ZeroOrLowerToVisibleConverter}}">
-                            <TextBlock Text="No additional application. Use '+' to add some..." Style="{StaticResource DescriptionStyle}" VerticalAlignment="Center" FontSize="20" />
+                            <TextBlock Text="No additional application. Use '+' to add some..." Style="{StaticResource ApplicationNameTextBlockStyle}" />
                         </Border>
                     </StackPanel>
                 </StackPanel>
