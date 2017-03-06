@@ -12,7 +12,7 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels
     {
         public string Name { get; private set; }
         public string Path { get; private set; }
-        public int Count { get; private set; }
+        public int Count { get; set; }
         public Brush ColorBrush { get; private set; }
 
         public StatisticsItemViewModel(string path, int count, Color color)

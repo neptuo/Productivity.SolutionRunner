@@ -11,7 +11,9 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Statistics
     /// </summary>
     public interface ICountingReader
     {
-        IEnumerable<ApplicationCountModel> Applications();
-        IEnumerable<FileCountModel> Files();
+        IEnumerable<Month> Months();
+
+        IEnumerable<ApplicationCountModel> Applications(Month monthFrom, Month monthTo);
+        IEnumerable<FileCountModel> Files(Month monthFrom, Month monthTo);
     }
 }

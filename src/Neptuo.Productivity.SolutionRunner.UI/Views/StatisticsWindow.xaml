@@ -14,17 +14,6 @@
     <Window.Resources>
         <converters:PathConverter x:Key="PathConverter" />
 
-        <CollectionViewSource x:Key="ApplicationsSource" Source="{Binding Applications}">
-            <CollectionViewSource.SortDescriptions>
-                <cm:SortDescription PropertyName="Count" Direction="Descending" />
-            </CollectionViewSource.SortDescriptions>
-        </CollectionViewSource>
-        <CollectionViewSource x:Key="FilesSource" Source="{Binding Files}">
-            <CollectionViewSource.SortDescriptions>
-                <cm:SortDescription PropertyName="Count" Direction="Descending" />
-            </CollectionViewSource.SortDescriptions>
-        </CollectionViewSource>
-
         <Style TargetType="ItemsControl">
             <Setter Property="Margin" Value="10,0" />
             <Setter Property="ItemContainerStyle">
@@ -63,32 +52,42 @@
             <Setter Property="Padding" Value="0" />
         </Style>
     </Window.Resources>
-    <TabControl>
-        <TabItem Header="All">
-            <TabControl>
-                <TabItem Header="All">
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="220" />
-                        </Grid.RowDefinitions>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="*" />
-                        </Grid.ColumnDefinitions>
+    <TabControl ItemsSource="{Binding}" SelectedIndex="0">
+        <TabControl.ItemTemplate>
+            <DataTemplate>
+                <TextBlock Text="{Binding Title}" />
+            </DataTemplate>
+        </TabControl.ItemTemplate>
+        <TabControl.ContentTemplate>
+            <DataTemplate>
+                <TabControl ItemsSource="{Binding Data}" SelectedIndex="0">
+                    <TabControl.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Title}" />
+                        </DataTemplate>
+                    </TabControl.ItemTemplate>
+                    <TabControl.ContentTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="220" />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
 
-                        <ItemsControl ItemsSource="{Binding Source={StaticResource ApplicationsSource}}" Grid.Column="0" />
-                        <controls:PieChart ItemsSource="{Binding Applications}" Grid.Column="0" Grid.Row="1" />
+                                <ItemsControl ItemsSource="{Binding Data.Applications}" Grid.Column="0" />
+                                <controls:PieChart ItemsSource="{Binding Data.Applications}" Grid.Column="0" Grid.Row="1" />
 
-                        <ItemsControl ItemsSource="{Binding Source={StaticResource FilesSource}}" Grid.Column="1" />
-                        <controls:PieChart ItemsSource="{Binding Files}" Grid.Column="1" Grid.Row="1" />
-                    </Grid>
-                </TabItem>
-                <TabItem Header="January" />
-                <TabItem Header="February" />
-            </TabControl>
-        </TabItem>
-        <TabItem Header="2017" />
-        <TabItem Header="2016" />
+                                <ItemsControl ItemsSource="{Binding Data.Files}" Grid.Column="1" />
+                                <controls:PieChart ItemsSource="{Binding Data.Files}" Grid.Column="1" Grid.Row="1" />
+                            </Grid>
+                        </DataTemplate>
+                    </TabControl.ContentTemplate>
+                </TabControl>
+            </DataTemplate>
+        </TabControl.ContentTemplate>
     </TabControl>
 </Window>

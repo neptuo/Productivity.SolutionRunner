@@ -1,4 +1,5 @@
-﻿using Neptuo.Productivity.SolutionRunner.ViewModels;
+﻿using Neptuo.Observables.Collections;
+using Neptuo.Productivity.SolutionRunner.ViewModels;
 using Neptuo.Productivity.SolutionRunner.Views.Controls;
 using System;
 using System.Collections.Generic;
@@ -21,9 +22,9 @@ namespace Neptuo.Productivity.SolutionRunner.Views
     /// </summary>
     public partial class StatisticsWindow : Window
     {
-        public StatisticsViewModel ViewModel
+        public ContainerCollection<ContainerCollection<StatisticsViewModel>> ViewModel
         {
-            get { return (StatisticsViewModel)DataContext; }
+            get { return (ContainerCollection<ContainerCollection<StatisticsViewModel>>)DataContext; }
             set { DataContext = value; }
         }
 

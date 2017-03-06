@@ -69,12 +69,34 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Statistics
             }
         }
 
-        public IEnumerable<ApplicationCountModel> Applications()
+        public IEnumerable<Month> Months()
+        {
+            HashSet<Month> result = new HashSet<Month>();
+
+            foreach (string[] parts in ReadLines())
+            {
+                DateTime date;
+                if (DateTime.TryParse(parts[0], out date))
+                    result.Add(date);
+            }
+
+            return result;
+        }
+
+        public IEnumerable<ApplicationCountModel> Applications(Month monthFrom, Month monthTo)
         {
             Dictionary<string, int> result = new Dictionary<string, int>();
 
             foreach (string[] parts in ReadLines())
             {
+                DateTime date;
+                if (DateTime.TryParse(parts[0], out date))
+                {
+                    Month month = date;
+                    if (monthFrom > month || month > monthTo)
+                        continue;
+                }
+
                 string applicationPath = parts[1];
                 int value;
                 if (result.TryGetValue(applicationPath, out value))
@@ -86,7 +108,7 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Statistics
             return result.Select(item => new ApplicationCountModel(item.Key, item.Value));
         }
 
-        public IEnumerable<FileCountModel> Files()
+        public IEnumerable<FileCountModel> Files(Month monthFrom, Month monthTo)
         {
             Dictionary<string, int> result = new Dictionary<string, int>();
 
@@ -94,6 +116,14 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Statistics
             {
                 if (parts.Length > 2)
                 {
+                    DateTime date;
+                    if (DateTime.TryParse(parts[0], out date))
+                    {
+                        Month month = date;
+                        if (monthFrom > month || month > monthTo)
+                            continue;
+                    }
+
                     string filePath = parts[2];
                     if (parts.Length > 3)
                         filePath = parts[3];

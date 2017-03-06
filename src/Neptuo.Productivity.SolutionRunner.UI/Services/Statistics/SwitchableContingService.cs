@@ -45,18 +45,26 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Statistics
                 appender.File(applicationPath, argumentsTemplate, filePath);
         }
 
-        public IEnumerable<ApplicationCountModel> Applications()
+        public IEnumerable<Month> Months()
         {
             if (settings.IsStatisticsCounted)
-                return reader.Applications();
+                return reader.Months();
+
+            return Enumerable.Empty<Month>();
+        }
+
+        public IEnumerable<ApplicationCountModel> Applications(Month monthFrom, Month monthTo)
+        {
+            if (settings.IsStatisticsCounted)
+                return reader.Applications(monthFrom, monthTo);
 
             return Enumerable.Empty<ApplicationCountModel>();
         }
 
-        public IEnumerable<FileCountModel> Files()
+        public IEnumerable<FileCountModel> Files(Month monthFrom, Month monthTo)
         {
             if (settings.IsStatisticsCounted)
-                return reader.Files();
+                return reader.Files(monthFrom, monthTo);
 
             return Enumerable.Empty<FileCountModel>();
         }

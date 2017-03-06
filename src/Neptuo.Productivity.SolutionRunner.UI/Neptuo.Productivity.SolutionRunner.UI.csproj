@@ -215,6 +215,7 @@
     <Compile Include="Services\Statistics\FileCountModel.cs" />
     <Compile Include="Services\Statistics\ICountingAppender.cs" />
     <Compile Include="Services\Statistics\ICountingReader.cs" />
+    <Compile Include="Services\Statistics\Month.cs" />
     <Compile Include="Services\Statistics\SwitchableContingService.cs" />
     <Compile Include="Services\UserConfigurations\FileSearchCountGetter.cs" />
     <Compile Include="Services\UserConfigurations\FileSearchModeGetter.cs" />
@@ -231,6 +232,7 @@
     <Compile Include="ViewModels\Commands\SaveConfigurationCommand.cs" />
     <Compile Include="ViewModels\Commands\UnPinCommand.cs" />
     <Compile Include="ViewModels\ConfigurationViewModel.cs" />
+    <Compile Include="ViewModels\ContainerCollection.cs" />
     <Compile Include="ViewModels\EventManager.cs" />
     <Compile Include="ViewModels\Commands\Factories\SaveConfigurationCommandFactory.cs" />
     <Compile Include="ViewModels\Factories\ConfigurationViewModelFactory.cs" />
@@ -241,6 +243,7 @@
     <Compile Include="ViewModels\NameValueViewModel.cs" />
     <Compile Include="ViewModels\KeyViewModel.cs" />
     <Compile Include="Services\Positions\PositionMode.cs" />
+    <Compile Include="ViewModels\Container.cs" />
     <Compile Include="ViewModels\StatisticsItemViewModel.cs" />
     <Compile Include="ViewModels\StatisticsViewModel.cs" />
     <Compile Include="ViewModels\VsVersionCollection.cs" />

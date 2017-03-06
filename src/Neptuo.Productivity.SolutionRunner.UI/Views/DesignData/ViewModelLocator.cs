@@ -233,24 +233,52 @@ namespace Neptuo.Productivity.SolutionRunner.UI.DesignData
 
         #region Statistics
 
-        private static StatisticsViewModel statistics;
+        private static ContainerCollection<ContainerCollection<StatisticsViewModel>> statistics;
 
-        public static StatisticsViewModel Statistics
+        public static ContainerCollection<ContainerCollection<StatisticsViewModel>> Statistics
         {
             get
             {
                 if (statistics == null)
                 {
-                    statistics = new StatisticsViewModel(new RandomColorGenerator());
-                    statistics.AddApplication(@"C:\Windows\Notepad.exe", 15);
-                    statistics.AddApplication(@"C:\Windows\calc.exe", 22);
-                    statistics.AddApplication(@"C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\IDE\devenv.exe", 103);
-                    statistics.AddApplication(@"C:\Program Files (x86)\Microsoft Visual Studio 12.0\Common7\IDE\devenv.exe", 14);
+                    statistics = new ContainerCollection<ContainerCollection<StatisticsViewModel>>();
+                    statistics.Add(new Container<ContainerCollection<StatisticsViewModel>>()
+                    {
+                        Title = "2017",
+                        Data = new ContainerCollection<StatisticsViewModel>()
+                        {
+                            new Container<StatisticsViewModel>()
+                            {
+                                Title = "January",
+                                Data = new StatisticsViewModel(new RandomColorGenerator())
+                            },
+                            new Container<StatisticsViewModel>()
+                            {
+                                Title = "February",
+                                Data = new StatisticsViewModel(new RandomColorGenerator())
+                            },
+                            new Container<StatisticsViewModel>()
+                            {
+                                Title = "March",
+                                Data = new StatisticsViewModel(new RandomColorGenerator())
+                            }
+                        }
+                    });
+                    statistics.Add(new Container<ContainerCollection<StatisticsViewModel>>()
+                    {
+                        Title = "2016",
+                        Data = new ContainerCollection<StatisticsViewModel>()
+                    });
 
-                    statistics.AddFile(@"C:\Temp\Log.txt", 8);
-                    statistics.AddFile(@"C:\Development\Project1.sln", 34);
-                    statistics.AddFile(@"C:\Development\Project2.sln", 4);
-                    statistics.AddFile(@"C:\Development\Slider.sln", 18);
+                    statistics[0].Data[0].Data.AddApplication(@"C:\Windows\Notepad.exe", 15);
+                    statistics[0].Data[0].Data.AddApplication(@"C:\Windows\calc.exe", 22);
+                    statistics[0].Data[0].Data.AddApplication(@"C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\IDE\devenv.exe", 103);
+                    statistics[0].Data[0].Data.AddApplication(@"C:\Program Files (x86)\Microsoft Visual Studio 12.0\Common7\IDE\devenv.exe", 14);
+
+                    statistics[0].Data[0].Data.AddFile(@"C:\Temp\Log.txt", 8);
+                    statistics[0].Data[0].Data.AddFile(@"C:\Development\Project1.sln", 34);
+                    statistics[0].Data[0].Data.AddFile(@"C:\Development\Project2.sln", 4);
+                    statistics[0].Data[0].Data.AddFile(@"C:\Development\Slider.sln", 18);
                 }
 
                 return statistics;

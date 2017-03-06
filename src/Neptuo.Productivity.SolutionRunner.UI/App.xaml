@@ -119,6 +119,10 @@
                                 <Setter Property="TextElement.Foreground" TargetName="ContentSite" Value="White"/>
                                 <Setter Property="Background" TargetName="Border" Value="{StaticResource ActiveBrush}"/>
                             </Trigger>
+
+                            <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type TabControl}}, Path=Items.Count}" Value="1">
+                                <Setter Property="Visibility" TargetName="Border" Value="Collapsed"/>
+                            </DataTrigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
                 </Setter.Value>

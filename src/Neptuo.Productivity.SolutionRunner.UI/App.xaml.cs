@@ -1,4 +1,5 @@
-﻿using Neptuo.Activators;
+﻿using Neptuo;
+using Neptuo.Activators;
 using Neptuo.Converters;
 using Neptuo.Exceptions;
 using Neptuo.Exceptions.Handlers;
@@ -536,12 +537,58 @@ namespace Neptuo.Productivity.SolutionRunner
 
         public void OpenStatistics()
         {
-            StatisticsViewModel viewModel = new StatisticsViewModel(new RandomColorGenerator());
-            foreach (ApplicationCountModel application in countingService.Applications())
-                viewModel.AddApplication(application.Path, application.Count);
+            IFactory<IColorGenerator> colorGeneratorFactory = Factory.Default<RandomColorGenerator>();
 
-            foreach (FileCountModel file in countingService.Files())
-                viewModel.AddFile(file.Path, file.Count);
+            ContainerCollection<ContainerCollection<StatisticsViewModel>> viewModel = new ContainerCollection<ContainerCollection<StatisticsViewModel>>();
+            Stack<StatisticsViewModel> appendTo = new Stack<StatisticsViewModel>();
+
+            Container<ContainerCollection<StatisticsViewModel>> allViewModel = new Container<ContainerCollection<StatisticsViewModel>>();
+            allViewModel.Title = "All";
+            allViewModel.Data = new ContainerCollection<StatisticsViewModel>()
+            {
+                new Container<StatisticsViewModel>()
+                {
+                    Title = "All",
+                    Data = new StatisticsViewModel(colorGeneratorFactory.Create())
+                }
+            };
+            appendTo.Push(allViewModel.Data[0].Data);
+            viewModel.Add(allViewModel);
+
+            foreach (IGrouping<int, Month> year in countingService.Months().OrderByDescending(m => m.Year).GroupBy(m => m.Year))
+            {
+                Container<ContainerCollection<StatisticsViewModel>> yearViewModel = new Container<ContainerCollection<StatisticsViewModel>>();
+                yearViewModel.Title = year.Key.ToString();
+                yearViewModel.Data = new ContainerCollection<StatisticsViewModel>();
+
+                yearViewModel.Data.Add(new Container<StatisticsViewModel>()
+                {
+                    Title = "All",
+                    Data = new StatisticsViewModel(colorGeneratorFactory.Create())
+                });
+                appendTo.Push(yearViewModel.Data[0].Data);
+
+                foreach (Month month in year.OrderBy(m => m.Value))
+                {
+                    Container<StatisticsViewModel> monthViewModel = new Container<StatisticsViewModel>();
+                    monthViewModel.Title = month.ToShortString();
+                    monthViewModel.Data = new StatisticsViewModel(colorGeneratorFactory.Create());
+
+                    appendTo.Push(monthViewModel.Data);
+
+                    foreach (ApplicationCountModel application in countingService.Applications(month, month))
+                        appendTo.ForEach(vm => vm.AddApplication(application.Path, application.Count));
+
+                    foreach (FileCountModel file in countingService.Files(month, month))
+                        appendTo.ForEach(vm => vm.AddFile(file.Path, file.Count));
+
+                    appendTo.Pop();
+                    yearViewModel.Data.Add(monthViewModel);
+                }
+
+                appendTo.Pop();
+                viewModel.Add(yearViewModel);
+            }
 
             statisticsWindow = new StatisticsWindow();
             statisticsWindow.ViewModel = viewModel;
@@ -557,5 +604,15 @@ namespace Neptuo.Productivity.SolutionRunner
         }
 
         #endregion
+    }
+
+    public static class ForEachExtensions
+    {
+        public static void ForEach<T>(this IEnumerable<T> items, Action<T> handler)
+        {
+            Ensure.NotNull(items, "items");
+            foreach (T item in items)
+                handler(item);
+        }
     }
 }

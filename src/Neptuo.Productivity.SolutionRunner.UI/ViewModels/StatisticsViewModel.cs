@@ -31,14 +31,22 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels
 
         public void AddApplication(string path, int count)
         {
-            Color nextColor = generator.Next();
-            Applications.Add(new StatisticsItemViewModel(path, count, nextColor));
+            string safePath = path.ToLowerInvariant();
+            StatisticsItemViewModel item = Applications.FirstOrDefault(a => a.Path.ToLowerInvariant() == safePath);
+            if (item == null)
+                Applications.Add(new StatisticsItemViewModel(path, count, generator.Next()));
+            else
+                item.Count += count;
         }
 
         public void AddFile(string path, int count)
         {
-            Color nextColor = generator.Next();
-            Files.Add(new StatisticsItemViewModel(path, count, nextColor));
+            string safePath = path.ToLowerInvariant();
+            StatisticsItemViewModel item = Files.FirstOrDefault(a => a.Path.ToLowerInvariant() == safePath);
+            if (item == null)
+                Files.Add(new StatisticsItemViewModel(path, count, generator.Next()));
+            else
+                item.Count += count;
         }
     }
 }
