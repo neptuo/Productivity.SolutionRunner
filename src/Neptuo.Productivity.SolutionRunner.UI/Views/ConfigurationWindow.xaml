@@ -89,6 +89,7 @@
 
         <Style x:Key="ApplicationComboBoxItemStyle" TargetType="ComboBoxItem">
             <Setter Property="FontSize" Value="20" />
+            <Setter Property="Foreground" Value="White" />
             <Setter Property="BorderThickness" Value="0" />
         </Style>
         <Style x:Key="ApplicationComboBoxStyle" TargetType="ComboBox">
@@ -362,7 +363,7 @@
                         <TextBlock Text="{Binding Version}" VerticalAlignment="Center" FontSize="30" Foreground="White" />
                         <TextBlock Text="Neptuo" VerticalAlignment="Center" />
                         <TextBlock Text="Copyright © 2017" VerticalAlignment="Center" />
-                        <Button x:Name="btnAbout" Content="Documentation" ToolTip="www.neptuo.com/project/desktop/solutionrunner" Click="btnAbout_Click" Style="{StaticResource LinkButtonStyle}" Margin="0,0,5,0" />
+                        <Button x:Name="btnAbout" Content="Documentation" ToolTip="www.neptuo.com/project/desktop/solutionrunner" Click="btnAbout_Click" Style="{StaticResource LinkButtonStyle}" Margin="2,0,5,0" />
                     </StackPanel>
 
                     <StackPanel HorizontalAlignment="Right">
