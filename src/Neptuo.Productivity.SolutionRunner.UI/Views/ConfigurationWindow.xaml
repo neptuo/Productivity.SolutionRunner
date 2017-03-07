@@ -88,14 +88,20 @@
         </Style>
 
         <Style x:Key="ApplicationComboBoxItemStyle" TargetType="ComboBoxItem">
+            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
             <Setter Property="FontSize" Value="20" />
             <Setter Property="Foreground" Value="White" />
-            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="BorderThickness" Value="0,0,0,1" />
+            <Setter Property="BorderBrush" Value="{StaticResource TextBoxInactiveBrush}" />
         </Style>
         <Style x:Key="ApplicationComboBoxStyle" TargetType="ComboBox">
             <Setter Property="FontSize" Value="20" />
-            <Setter Property="BorderThickness" Value="0" />
             <Setter Property="ItemContainerStyle" Value="{StaticResource ApplicationComboBoxItemStyle}" />
+            <Style.Resources>
+                <SolidColorBrush x:Key="{x:Static SystemColors.WindowBrushKey}" Color="#3F3F46" />
+                <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="#3F3F46" />
+                <SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}" Color="#3F3F46" />
+            </Style.Resources>
         </Style>
 
         <Style x:Key="ApplicationNameTextBlockStyle" TargetType="TextBlock" BasedOn="{StaticResource DescriptionStyle}">
@@ -219,10 +225,15 @@
                         <ComboBox x:Name="cobPreferedApplication" ItemsSource="{Binding Source={StaticResource PreferedApplications}}" SelectedItem="{Binding PreferedApplication}" Style="{StaticResource ApplicationComboBoxStyle}">
                             <ComboBox.ItemTemplate>
                                 <DataTemplate>
-                                    <StackPanel Orientation="Horizontal">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
                                         <Image Source="{Binding Icon}" Width="24" Margin="0,0,5,0" />
-                                        <TextBlock Text="{Binding Name}" ToolTip="{Binding Path}" Style="{StaticResource ApplicationNameTextBlockStyle}" Foreground="Black" />
-                                    </StackPanel>
+                                        <TextBlock Text="{Binding Name}" ToolTip="{Binding Path}" Style="{StaticResource ApplicationNameTextBlockStyle}" 
+                                         Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=ComboBoxItem}}" Grid.Column="1" />
+                                    </Grid>
                                 </DataTemplate>
                             </ComboBox.ItemTemplate>
                         </ComboBox>
@@ -244,9 +255,9 @@
 
                                             <ToggleButton IsChecked="{Binding IsEnabled}" Style="{StaticResource PlainToggleButtonStyle}" HorizontalAlignment="Right">
                                                 <fa:ImageAwesome Style="{StaticResource ImageAwesome}"
-                                                     Icon="{Binding IsEnabled, Converter={StaticResource TrueToEyeConverter}}" 
-                                                     Opacity="{Binding IsEnabled, Converter={StaticResource TrueToOpacityConverter}}"
-                                                     ToolTip="{Binding IsEnabled, Converter={StaticResource TrueToDescriptionConverter}}"/>
+                                                 Icon="{Binding IsEnabled, Converter={StaticResource TrueToEyeConverter}}" 
+                                                 Opacity="{Binding IsEnabled, Converter={StaticResource TrueToOpacityConverter}}"
+                                                 ToolTip="{Binding IsEnabled, Converter={StaticResource TrueToDescriptionConverter}}"/>
                                             </ToggleButton>
                                         </Grid>
                                     </Border>
