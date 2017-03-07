@@ -10,8 +10,13 @@ using System.Windows.Media;
 
 namespace Neptuo.Productivity.SolutionRunner.ViewModels
 {
-    public class VsVersionCollection : ObservableCollection<Version>, IApplicationCollection
+    public class VsVersionCollection : ObservableCollection<VersionViewModel>, IApplicationCollection
     {
+        public VsVersionCollection()
+        {
+            Add(VersionViewModel.Empty());
+        }
+
         public IApplicationCollection Add(string name, string path, string arguments, ImageSource icon, Key hotKey, bool isMain)
         {
             return this;
@@ -20,7 +25,7 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels
         public IApplicationCollection Add(string name, Version version, string path, string arguments, ImageSource icon, Key hotKey, bool isMain)
         {
             if (isMain)
-                Add(version);
+                Add(new VersionViewModel(version));
 
             return this;
         }

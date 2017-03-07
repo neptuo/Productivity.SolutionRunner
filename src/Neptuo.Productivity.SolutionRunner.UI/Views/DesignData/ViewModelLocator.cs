@@ -132,10 +132,11 @@ namespace Neptuo.Productivity.SolutionRunner.UI.DesignData
                     );
                     configurationViewModel.PreferedApplications = preferedApplications;
                     configurationViewModel.PreferedApplication = preferedApplications.FirstOrDefault();
-                    configurationViewModel.VsVersions = new ObservableCollection<Version>()
+                    configurationViewModel.VsVersions = new ObservableCollection<VersionViewModel>()
                     {
-                        new Version(12, 0),
-                        new Version(14, 0)
+                        VersionViewModel.Empty(),
+                        new VersionViewModel(new Version(12, 0)),
+                        new VersionViewModel(new Version(14, 0))
                     };
                     configurationViewModel.RunKey = new KeyViewModel(Key.V, ModifierKeys.Control);
 

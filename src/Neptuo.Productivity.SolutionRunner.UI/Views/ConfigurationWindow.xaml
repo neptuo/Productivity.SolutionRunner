@@ -193,7 +193,7 @@
                                 <CheckBox Content="Select VsVersion from selected sln " IsChecked="{Binding IsAutoSelectApplicationVersion}" />
                                 <StackPanel Orientation="Horizontal" Visibility="{Binding IsAutoSelectApplicationVersion, Converter={StaticResource TrueToVisibleConverter}}">
                                     <Label Content="Minimal version" Margin="18,0,8,0" />
-                                    <ComboBox ItemsSource="{Binding VsVersions}" SelectedValue="{Binding AutoSelectApplicationMinimalVersion}" />
+                                    <ComboBox ItemsSource="{Binding VsVersions}" SelectedValue="{Binding AutoSelectApplicationMinimalVersion}" DisplayMemberPath="Name" />
                                 </StackPanel>
                                 <CheckBox Content="Remove file name from displayed path" IsChecked="{Binding IsFileNameRemovedFromDisplayedPath}" />
                                 <CheckBox Content="Trim displayed path to last folder name only" IsChecked="{Binding IsDisplayedPathTrimmedToLastFolderName}" IsEnabled="{Binding IsFileNameRemovedFromDisplayedPath}" />

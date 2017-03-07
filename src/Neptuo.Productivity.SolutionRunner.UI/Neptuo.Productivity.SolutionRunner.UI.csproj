@@ -249,6 +249,7 @@
     <Compile Include="ViewModels\PreferedApplicationCollection.cs" />
     <Compile Include="ViewModels\StatisticsItemViewModel.cs" />
     <Compile Include="ViewModels\StatisticsViewModel.cs" />
+    <Compile Include="ViewModels\VersionViewModel.cs" />
     <Compile Include="ViewModels\VsVersionCollection.cs" />
     <Compile Include="Views\AdditionalApplicationEditWindow.xaml.cs">
       <DependentUpon>AdditionalApplicationEditWindow.xaml</DependentUpon>

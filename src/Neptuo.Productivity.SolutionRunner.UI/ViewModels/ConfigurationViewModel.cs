@@ -146,8 +146,8 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels
             }
         }
 
-        private Version autoSelectApplicationMinimalVersion;
-        public Version AutoSelectApplicationMinimalVersion
+        private VersionViewModel autoSelectApplicationMinimalVersion;
+        public VersionViewModel AutoSelectApplicationMinimalVersion
         {
             get { return autoSelectApplicationMinimalVersion; }
             set
@@ -290,7 +290,7 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels
 
         public ObservableCollection<AdditionalApplicationListViewModel> AdditionalApplications { get; set; }
         public ObservableCollection<MainApplicationListViewModel> MainApplications { get; set; }
-        public ObservableCollection<Version> VsVersions { get; set; }
+        public ObservableCollection<VersionViewModel> VsVersions { get; set; }
 
         public string Version { get; private set; }
 
