@@ -24,7 +24,7 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels
 
         public IApplicationCollection Add(string name, Version version, string path, string arguments, ImageSource icon, Key hotKey, bool isMain)
         {
-            if (isMain)
+            if (isMain && !name.Contains("Code"))
                 Add(new VersionViewModel(version));
 
             return this;
