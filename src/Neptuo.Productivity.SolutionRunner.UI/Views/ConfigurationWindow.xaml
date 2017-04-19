@@ -47,10 +47,10 @@
         </Style>
         <Style x:Key="ImageAwesome" TargetType="fa:ImageAwesome">
             <Setter Property="Width" Value="16" />
-            <Setter Property="Foreground" Value="White" />
+            <Setter Property="Foreground" Value="{StaticResource ForegroundBrush}" />
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Foreground" Value="#BEE6FD" />
+                    <Setter Property="Foreground" Value="{StaticResource ActiveBrush}" />
                 </Trigger>
             </Style.Triggers>
         </Style>
@@ -59,7 +59,7 @@
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
-                        <TextBlock Text="{TemplateBinding Content}" Foreground="#4A9AD4" TextDecorations="Underline" Cursor="Hand" ToolTip="{TemplateBinding ToolTip}" Margin="0" Padding="0" />
+                        <TextBlock Text="{TemplateBinding Content}" Foreground="{StaticResource LinkForegroundBrush}" TextDecorations="Underline" Cursor="Hand" ToolTip="{TemplateBinding ToolTip}" Margin="0" Padding="0" />
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
@@ -72,7 +72,7 @@
                     <ControlTemplate TargetType="{x:Type ListBoxItem}">
                         <Border Name="theBorder" Background="Transparent">
                             <RadioButton Focusable="False" IsHitTestVisible="False" IsChecked="{TemplateBinding IsSelected}" Padding="2,-1,0,0">
-                                <TextBlock Text="{Binding Name}" Foreground="White" />
+                                <TextBlock Text="{Binding Name}" Foreground="{StaticResource ForegroundBrush}" />
                             </RadioButton>
                         </Border>
                     </ControlTemplate>
@@ -90,7 +90,7 @@
         <Style x:Key="ApplicationComboBoxItemStyle" TargetType="ComboBoxItem">
             <Setter Property="HorizontalContentAlignment" Value="Stretch" />
             <Setter Property="FontSize" Value="20" />
-            <Setter Property="Foreground" Value="White" />
+            <Setter Property="Foreground" Value="{StaticResource ForegroundBrush}" />
             <Setter Property="BorderThickness" Value="0,0,0,1" />
             <Setter Property="BorderBrush" Value="{StaticResource TextBoxInactiveBrush}" />
         </Style>
@@ -98,15 +98,15 @@
             <Setter Property="FontSize" Value="20" />
             <Setter Property="ItemContainerStyle" Value="{StaticResource ApplicationComboBoxItemStyle}" />
             <Style.Resources>
-                <SolidColorBrush x:Key="{x:Static SystemColors.WindowBrushKey}" Color="#3F3F46" />
-                <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="#3F3F46" />
-                <SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}" Color="#3F3F46" />
+                <SolidColorBrush x:Key="{x:Static SystemColors.WindowBrushKey}" Color="{StaticResource InactiveColor}" />
+                <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="{StaticResource InactiveColor}" />
+                <SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}" Color="{StaticResource InactiveColor}" />
             </Style.Resources>
         </Style>
 
         <Style x:Key="ApplicationNameTextBlockStyle" TargetType="TextBlock" BasedOn="{StaticResource DescriptionStyle}">
             <Setter Property="FontSize" Value="20" />
-            <Setter Property="Foreground" Value="White" />
+            <Setter Property="Foreground" Value="{StaticResource ForegroundBrush}" />
             <Setter Property="VerticalAlignment" Value="Center" />
         </Style>
     </Window.Resources>
@@ -377,7 +377,7 @@
             <TabItem Header="About">
                 <Grid>
                     <StackPanel VerticalAlignment="Bottom">
-                        <TextBlock Text="{Binding Version}" VerticalAlignment="Center" FontSize="30" Foreground="White" />
+                        <TextBlock Text="{Binding Version}" VerticalAlignment="Center" FontSize="30" Foreground="{StaticResource ForegroundBrush}" />
                         <TextBlock Text="Neptuo" VerticalAlignment="Center" />
                         <TextBlock Text="Copyright © 2017" VerticalAlignment="Center" />
                         <Button x:Name="btnAbout" Content="Documentation" ToolTip="www.neptuo.com/project/desktop/solutionrunner" Click="btnAbout_Click" Style="{StaticResource LinkButtonStyle}" Margin="2,0,5,0" />

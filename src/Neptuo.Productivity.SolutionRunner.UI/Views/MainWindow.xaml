@@ -53,7 +53,7 @@
         </Style>
         <Style x:Key="ListViewItemStyle" TargetType="ListViewItem">
             <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-            <Setter Property="Foreground" Value="White" />
+            <Setter Property="Foreground" Value="{StaticResource ForegroundBrush}" />
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="ListViewItem">
@@ -74,7 +74,7 @@
             </Style.Triggers>
         </Style>
         <Style x:Key="NoDataStyle" TargetType="TextBlock">
-            <Setter Property="Foreground" Value="White" />
+            <Setter Property="Foreground" Value="{StaticResource ForegroundBrush}" />
             <Setter Property="HorizontalAlignment" Value="Center" />
             <Setter Property="FontStyle" Value="Italic" />
             <Setter Property="Padding" Value="0,8" />
