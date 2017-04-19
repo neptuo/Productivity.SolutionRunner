@@ -12,7 +12,7 @@ using System.Windows.Media;
 namespace Neptuo.Productivity.SolutionRunner.Views.Themes
 {
     [MarkupExtensionReturnType(typeof(System.Windows.Media.Color))]
-    public class Color : MarkupExtension, IProvider
+    public class Color : MarkupExtension
     {
         private static List<Color> items = new List<Color>();
 
