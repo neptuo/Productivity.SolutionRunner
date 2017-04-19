@@ -13,6 +13,7 @@
         <SolidColorBrush x:Key="ActiveBrush">#3683D3</SolidColorBrush>
         <SolidColorBrush x:Key="HoverBrush">#663683D3</SolidColorBrush>
         <SolidColorBrush x:Key="TextBoxInactiveBrush">#ABADB3</SolidColorBrush>
+        <SolidColorBrush x:Key="GrayBrush">#777777</SolidColorBrush>
 
         <converters:CuttingConverter x:Key="ZeroOrLowerToVisibleConverter" EdgeValue="0" GreaterValue="Collapsed" LowerValue="Visible" EqualValue="Visible" />
         <converters:BoolConverter x:Key="ActiveBorderConverter" TrueValue="{StaticResource ActiveBrush}" FalseValue="{StaticResource InactiveBrush}" />
@@ -29,6 +30,7 @@
         </Style>
         <Style x:Key="GrayStyle" TargetType="TextBlock">
             <Setter Property="Foreground" Value="#777" />
+            <Setter Property="Foreground" Value="{StaticResource GrayBrush}" />
         </Style>
 
         <Style x:Key="WindowBorderStyle" TargetType="Border">
