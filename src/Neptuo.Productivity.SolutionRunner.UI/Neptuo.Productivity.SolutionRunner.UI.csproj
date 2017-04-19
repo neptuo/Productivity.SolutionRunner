@@ -217,6 +217,7 @@
     <Compile Include="Services\Statistics\ICountingReader.cs" />
     <Compile Include="Services\Statistics\Month.cs" />
     <Compile Include="Services\Statistics\SwitchableContingService.cs" />
+    <Compile Include="Services\Themes\ThemeMode.cs" />
     <Compile Include="Services\UserConfigurations\FileSearchCountGetter.cs" />
     <Compile Include="Services\UserConfigurations\FileSearchModeGetter.cs" />
     <Compile Include="Services\Applications\VsVersionLoader.cs" />

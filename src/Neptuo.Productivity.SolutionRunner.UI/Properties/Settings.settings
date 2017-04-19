@@ -68,5 +68,8 @@
     <Setting Name="AutoSelectApplicationMinimalVersion" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
+    <Setting Name="ThemeMode" Type="Neptuo.Productivity.SolutionRunner.Services.Themes.ThemeMode" Scope="User">
+      <Value Profile="(Default)">Dark</Value>
+    </Setting>
   </Settings>
 </SettingsFile>
