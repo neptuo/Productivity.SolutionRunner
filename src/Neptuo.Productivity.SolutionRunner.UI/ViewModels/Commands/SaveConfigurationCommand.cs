@@ -90,6 +90,8 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels.Commands
                 viewModel.MainApplications.Where(a => !a.IsEnabled).Select(a => a.Path)
             );
 
+            settings.ThemeMode = viewModel.ThemeMode;
+
             settings.Save();
             EventManager.RaiseConfigurationSaved(viewModel);
         }

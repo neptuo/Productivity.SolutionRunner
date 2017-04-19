@@ -78,6 +78,8 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels.Factories
             viewModel.PositionLeft = settings.PositionLeft;
             viewModel.PositionTop = settings.PositionTop;
 
+            viewModel.ThemeMode = settings.ThemeMode;
+
             return viewModel;
         }
 

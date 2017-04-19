@@ -283,6 +283,7 @@
     <Compile Include="Views\DataSources\FileSearchModes.cs" />
     <Compile Include="Views\DataSources\Boolean.cs" />
     <Compile Include="Views\DataSources\PositionModes.cs" />
+    <Compile Include="Views\DataSources\ThemeModes.cs" />
     <Compile Include="Views\DesignData\ViewModelLocator.cs" />
     <Compile Include="ViewModels\ApplicationViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />

@@ -13,6 +13,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using System.Collections.Specialized;
+using Neptuo.Productivity.SolutionRunner.Services.Themes;
 
 namespace Neptuo.Productivity.SolutionRunner.ViewModels
 {
@@ -267,6 +268,20 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels
                 if (positionTop != value)
                 {
                     positionTop = value;
+                    RaisePropertyChanged();
+                }
+            }
+        }
+
+        private ThemeMode themeMode;
+        public ThemeMode ThemeMode
+        {
+            get { return themeMode; }
+            set
+            {
+                if (themeMode != value)
+                {
+                    themeMode = value;
                     RaisePropertyChanged();
                 }
             }
