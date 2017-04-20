@@ -24,17 +24,28 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Logging
             this.formatter = formatter;
         }
 
-        private IsolatedStorageFile GetStorage()
+        private bool TryGetStorage(out IsolatedStorageFile file)
         {
-            return IsolatedStorageFile.GetUserStoreForApplication();
+            try
+            {
+                file = IsolatedStorageFile.GetUserStoreForApplication();
+                return true;
+            }
+            catch (Exception)
+            {
+                file = null;
+                return false;
+            }
         }
 
         private void Append(string line)
         {
-            IsolatedStorageFile storage = GetStorage();
-            using (IsolatedStorageFileStream stream = new IsolatedStorageFileStream(String.Format(FileNameFormat, DateTime.Now), FileMode.Append, storage))
-            using (StreamWriter writer = new StreamWriter(stream))
-                writer.WriteLine(line);
+            if (TryGetStorage(out IsolatedStorageFile storage))
+            {
+                using (IsolatedStorageFileStream stream = new IsolatedStorageFileStream(String.Format(FileNameFormat, DateTime.Now), FileMode.Append, storage))
+                using (StreamWriter writer = new StreamWriter(stream))
+                    writer.WriteLine(line);
+            }
         }
 
         public void Append(string scopeName, LogLevel level, object model)
@@ -50,15 +61,16 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Logging
 
         public IEnumerable<string> GetFileNames()
         {
-            IsolatedStorageFile storage = GetStorage();
-            return storage.GetFileNames("*.log");
+            if (TryGetStorage(out IsolatedStorageFile storage))
+                return storage.GetFileNames("*.log");
+
+            return Enumerable.Empty<string>();
         }
 
         public string FindFileContent(string fileName)
         {
             Ensure.NotNullOrEmpty(fileName, "fileName");
-            IsolatedStorageFile storage = GetStorage();
-            if (fileName.EndsWith(".log") && storage.FileExists(fileName))
+            if (TryGetStorage(out IsolatedStorageFile storage) && fileName.EndsWith(".log") && storage.FileExists(fileName))
             {
                 using (IsolatedStorageFileStream stream = storage.OpenFile(fileName, FileMode.Open))
                 using (StreamReader reader = new StreamReader(stream))
