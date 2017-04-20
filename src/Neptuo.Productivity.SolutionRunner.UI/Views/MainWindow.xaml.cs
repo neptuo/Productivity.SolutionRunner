@@ -384,7 +384,15 @@ namespace Neptuo.Productivity.SolutionRunner.Views
                     .ElementAtOrDefault(index);
 
                 if (application != null)
+                {
                     processService.Run(application, lvwFiles.SelectedItem as FileViewModel);
+                    e.Handled = true;
+
+                    if (isClosedAfterStartingProcess)
+                        Close();
+
+                    return;
+                }
             }
         }
 
