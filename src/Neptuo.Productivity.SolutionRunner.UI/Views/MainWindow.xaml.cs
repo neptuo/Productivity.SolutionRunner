@@ -258,8 +258,7 @@ namespace Neptuo.Productivity.SolutionRunner.Views
                 }
                 else if (e.Key == Key.S && Keyboard.IsKeyDown(Key.LeftCtrl))
                 {
-                    FileViewModel file = lvwFiles.SelectedItem as FileViewModel;
-                    if (file != null)
+                    if (lvwFiles.SelectedItem is FileViewModel file)
                     {
                         if (!file.IsPinned && file.PinCommand.CanExecute(null))
                             file.PinCommand.Execute(null);
@@ -315,14 +314,12 @@ namespace Neptuo.Productivity.SolutionRunner.Views
                 string text = null;
                 if (Keyboard.IsKeyDown(Key.LeftShift))
                 {
-                    ApplicationViewModel application = lvwApplications.SelectedItem as ApplicationViewModel;
-                    if (application != null)
+                    if (lvwApplications.SelectedItem is ApplicationViewModel application)
                         text = application.Path;
                 }
                 else
                 {
-                    FileViewModel file = lvwFiles.SelectedItem as FileViewModel;
-                    if (file != null)
+                    if (lvwFiles.SelectedItem is FileViewModel file)
                         text = file.Path;
                 }
 
@@ -356,8 +353,7 @@ namespace Neptuo.Productivity.SolutionRunner.Views
 
         private void OnAccessKeyPressed(object sender, AccessKeyPressedEventArgs e)
         {
-            Key pressed;
-            if (Enum.TryParse(e.Key, out pressed) && pressed != Key.None)
+            if (Enum.TryParse(e.Key, out Key pressed) && pressed != Key.None)
             {
                 foreach (ApplicationViewModel application in ViewModel.Applications)
                 {
@@ -374,8 +370,7 @@ namespace Neptuo.Productivity.SolutionRunner.Views
                 }
             }
 
-            int index;
-            if (Int32.TryParse(e.Key, out index))
+            if (Int32.TryParse(e.Key, out int index))
             {
                 index--;
 
@@ -426,17 +421,13 @@ namespace Neptuo.Productivity.SolutionRunner.Views
 
         private void cocApplication_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            ApplicationViewModel application = lvwApplications.SelectedItem as ApplicationViewModel;
-            if (application != null)
+            if (lvwApplications.SelectedItem is ApplicationViewModel application)
                 RunSolution(application, null);
         }
 
         private void cocFile_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            ApplicationViewModel application = lvwApplications.SelectedItem as ApplicationViewModel;
-            FileViewModel file = lvwFiles.SelectedItem as FileViewModel;
-
-            if (application != null && file != null)
+            if (lvwApplications.SelectedItem is ApplicationViewModel application && lvwFiles.SelectedItem is FileViewModel file)
                 RunSolution(application, file);
         }
 
@@ -456,8 +447,7 @@ namespace Neptuo.Productivity.SolutionRunner.Views
 
         public void TryAutoSelectApplicationVersion()
         {
-            FileViewModel file = lvwFiles.SelectedItem as FileViewModel;
-            if (file != null && file.Version != null)
+            if (lvwFiles.SelectedItem is FileViewModel file && file.Version != null)
             {
                 Version toSelect = file.Version;
                 Version minimal = settings.GetAutoSelectApplicationMinimalVersion();
