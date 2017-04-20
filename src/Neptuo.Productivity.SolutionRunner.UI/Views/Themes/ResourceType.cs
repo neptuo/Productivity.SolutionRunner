@@ -17,7 +17,10 @@ namespace Neptuo.Productivity.SolutionRunner.Views.Themes
         ActiveBrush,
         InactiveBrush,
         HoverBrush,
+
         TextBoxInactiveBrush,
+        TextBoxBackgroundBrush,
+
         GrayBrush,
         LinkForegroundBrush
     }

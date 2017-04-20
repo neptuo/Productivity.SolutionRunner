@@ -8,8 +8,9 @@
         xmlns:converters="clr-namespace:Neptuo.Productivity.SolutionRunner.Views.Converters"
         xmlns:controls="clr-namespace:Neptuo.Productivity.SolutionRunner.Views.Controls"
         xmlns:cm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
+        xmlns:themes="clr-namespace:Neptuo.Productivity.SolutionRunner.Views.Themes"
         Title="SolutionRunner - Statistics" Width="480" MinHeight="300" SizeToContent="Height" ShowInTaskbar="False" Icon="{StaticResource IconBitmapImage}"
-        Background="{StaticResource BackgroundBrush}" WindowStartupLocation="CenterOwner" ResizeMode="NoResize"
+        Background="{themes:Resource BackgroundBrush}" WindowStartupLocation="CenterOwner" ResizeMode="NoResize"
         PreviewKeyDown="OnPreviewKeyDown">
     <Window.Resources>
         <converters:PathConverter x:Key="PathConverter" />

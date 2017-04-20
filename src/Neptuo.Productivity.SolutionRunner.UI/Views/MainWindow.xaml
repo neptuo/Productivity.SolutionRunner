@@ -5,8 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" 
         xmlns:dd="clr-namespace:Neptuo.Productivity.SolutionRunner.UI.DesignData" d:DataContext="{x:Static dd:ViewModelLocator.MainViewModel}"
         xmlns:converters="clr-namespace:Neptuo.Productivity.SolutionRunner.Views.Converters"
+        xmlns:themes="clr-namespace:Neptuo.Productivity.SolutionRunner.Views.Themes"
         Title="SolutionRunner" MinWidth="525" SizeToContent="WidthAndHeight" Icon="{StaticResource IconBitmapImage}"
-        ResizeMode="CanMinimize" WindowStyle="None" Background="{StaticResource BackgroundBrush}"
+        ResizeMode="CanMinimize" WindowStyle="None" Background="{themes:Resource BackgroundBrush}"
         PreviewMouseDown="OnPreviewMouseDown" PreviewKeyDown="OnPreviewKeyDown" AccessKeyManager.AccessKeyPressed="OnAccessKeyPressed">
     <Window.Resources>
         <converters:BoolConverter x:Key="TrueToIntermediateConverter" TrueValue="Indeterminate" FalseValue="None" />
@@ -53,7 +54,7 @@
         </Style>
         <Style x:Key="ListViewItemStyle" TargetType="ListViewItem">
             <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-            <Setter Property="Foreground" Value="{StaticResource ForegroundBrush}" />
+            <Setter Property="Foreground" Value="{themes:Resource ForegroundBrush}" />
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="ListViewItem">
@@ -66,15 +67,15 @@
 
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Background" Value="{StaticResource HoverBrush}" />
+                    <Setter Property="Background" Value="{themes:Resource HoverBrush}" />
                 </Trigger>
                 <Trigger Property="IsSelected" Value="True">
-                    <Setter Property="Background" Value="{StaticResource ActiveBrush}" />
+                    <Setter Property="Background" Value="{themes:Resource ActiveBrush}" />
                 </Trigger>
             </Style.Triggers>
         </Style>
         <Style x:Key="NoDataStyle" TargetType="TextBlock">
-            <Setter Property="Foreground" Value="{StaticResource ForegroundBrush}" />
+            <Setter Property="Foreground" Value="{themes:Resource ForegroundBrush}" />
             <Setter Property="HorizontalAlignment" Value="Center" />
             <Setter Property="FontStyle" Value="Italic" />
             <Setter Property="Padding" Value="0,8" />

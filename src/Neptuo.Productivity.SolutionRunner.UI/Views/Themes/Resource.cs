@@ -1,10 +1,13 @@
 ﻿using Neptuo;
+using Neptuo.Productivity.SolutionRunner.Properties;
+using Neptuo.Productivity.SolutionRunner.Services.Themes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Markup;
+using System.Windows.Media;
 
 namespace Neptuo.Productivity.SolutionRunner.Views.Themes
 {
@@ -20,31 +23,87 @@ namespace Neptuo.Productivity.SolutionRunner.Views.Themes
 
         public override object ProvideValue(IServiceProvider serviceProvider)
         {
+            switch (Settings.Default.ThemeMode)
+            {
+                case ThemeMode.Dark:
+                    return ProvideDarkValue();
+                case ThemeMode.Light:
+                    return ProvideLightValue();
+                default:
+                    return null;
+            }
+        }
+
+        private object ProvideDarkValue()
+        {
             switch (Type)
             {
                 case ResourceType.BackgroundBrush:
-                    break;
+                    return GetBrushFromString("#1E1E1E");
                 case ResourceType.ForegroundBrush:
-                    break;
+                    return GetBrushFromString("#FFFFFF");
                 case ResourceType.ActiveColor:
-                    break;
-                case ResourceType.InactiveColor:
-                    return System.Windows.Media.Color.FromRgb(63, 63, 70);
+                    return GetColorFromString("#3683D3");
                 case ResourceType.ActiveBrush:
-                    break;
+                    return GetBrushFromString("#3683D3");
+                case ResourceType.InactiveColor:
+                    return GetColorFromString("#3F3F46");
                 case ResourceType.InactiveBrush:
-                    break;
+                    return GetBrushFromString("#3F3F46");
                 case ResourceType.HoverBrush:
-                    break;
+                    return GetBrushFromString("#663683D3");
                 case ResourceType.TextBoxInactiveBrush:
-                    break;
+                    return GetBrushFromString("#ABADB3");
+                case ResourceType.TextBoxBackgroundBrush:
+                    return GetBrushFromString("#3F3F46");
                 case ResourceType.GrayBrush:
-                    break;
+                    return GetBrushFromString("#777777");
                 case ResourceType.LinkForegroundBrush:
-                    break;
+                    return GetBrushFromString("#4A9AD4");
+                default:
+                    throw Ensure.Exception.NotSupported(Type);
             }
+        }
 
-            return null;
+        private object ProvideLightValue()
+        {
+            switch (Type)
+            {
+                case ResourceType.BackgroundBrush:
+                    return GetBrushFromString("#F5F5F5");
+                case ResourceType.ForegroundBrush:
+                    return GetBrushFromString("#1E1E1E");
+                case ResourceType.ActiveColor:
+                    return GetColorFromString("#569DE5");
+                case ResourceType.ActiveBrush:
+                    return GetBrushFromString("#569DE5");
+                case ResourceType.InactiveColor:
+                    return GetColorFromString("#FFFFFF");
+                case ResourceType.InactiveBrush:
+                    return GetBrushFromString("#FFFFFF");
+                case ResourceType.HoverBrush:
+                    return GetBrushFromString("#663683D3");
+                case ResourceType.TextBoxInactiveBrush:
+                    return GetBrushFromString("#ABADB3");
+                case ResourceType.TextBoxBackgroundBrush:
+                    return GetBrushFromString("#FFFFFF");
+                case ResourceType.GrayBrush:
+                    return GetBrushFromString("#777777");
+                case ResourceType.LinkForegroundBrush:
+                    return GetBrushFromString("#4A9AD4");
+                default:
+                    throw Ensure.Exception.NotSupported(Type);
+            }
+        }
+
+        private Color GetColorFromString(string value)
+        {
+            return (Color)ColorConverter.ConvertFromString(value);
+        }
+
+        private SolidColorBrush GetBrushFromString(string value)
+        {
+            return new SolidColorBrush(GetColorFromString(value));
         }
     }
 }
