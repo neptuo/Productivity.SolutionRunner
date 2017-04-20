@@ -9,14 +9,14 @@
         <BitmapImage x:Key="IconBitmapImage" UriSource="/Resources/SolutionRunner.png" />
 
         <SolidColorBrush x:Key="BackgroundBrush" Color="{themes:Color Dark=#1E1E1E, Light=#F5F5F5}" />
-        <!--<SolidColorBrush x:Key="BackgroundBrush">#F5F5F5</SolidColorBrush>-->
+        <SolidColorBrush x:Key="ForegroundBrush" Color="{themes:Color Dark=#FFFFFF, Light=#1E1E1E}" />
+        
         <SolidColorBrush x:Key="TextBoxBackgroundBrush" Color="{themes:Color Dark=#3F3F46, Light=#FFFFFF}" />
         <Color x:Key="InactiveColor">#3F3F46</Color>
         <SolidColorBrush x:Key="InactiveBrush" Color="{StaticResource InactiveColor}" />
         <SolidColorBrush x:Key="ActiveBrush" Color="{themes:Color Dark=#3683D3, Light=#569DE5}" />
         <SolidColorBrush x:Key="HoverBrush">#663683D3</SolidColorBrush>
         <SolidColorBrush x:Key="TextBoxInactiveBrush">#ABADB3</SolidColorBrush>
-        <SolidColorBrush x:Key="ForegroundBrush" Color="{themes:Color Dark=#FFFFFF, Light=#1E1E1E}" />
         <SolidColorBrush x:Key="GrayBrush">#777777</SolidColorBrush>
         <SolidColorBrush x:Key="LinkForegroundBrush">#4A9AD4</SolidColorBrush>
 

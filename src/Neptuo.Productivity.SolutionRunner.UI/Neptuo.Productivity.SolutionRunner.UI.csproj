@@ -291,6 +291,8 @@
       <DependentUpon>StatisticsWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Themes\Color.cs" />
+    <Compile Include="Views\Themes\Resource.cs" />
+    <Compile Include="Views\Themes\ResourceType.cs" />
     <Page Include="Views\AdditionalApplicationEditWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

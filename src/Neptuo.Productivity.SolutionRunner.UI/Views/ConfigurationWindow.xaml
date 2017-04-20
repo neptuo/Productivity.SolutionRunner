@@ -11,6 +11,7 @@
         xmlns:ui="clr-namespace:Neptuo.Productivity.SolutionRunner.Views.Controls"
         xmlns:ds="clr-namespace:Neptuo.Productivity.SolutionRunner.Views.DataSources"
         xmlns:converters="clr-namespace:Neptuo.Productivity.SolutionRunner.Views.Converters"
+        xmlns:themes="clr-namespace:Neptuo.Productivity.SolutionRunner.Views.Themes"
         Title="SolutionRunner - Configuration" Width="510" SizeToContent="Height" Icon="{StaticResource IconBitmapImage}"
         Background="{StaticResource BackgroundBrush}" WindowStartupLocation="CenterScreen"
         PreviewKeyDown="OnPreviewKeyDown" Closing="OnClosing">
@@ -98,9 +99,9 @@
             <Setter Property="FontSize" Value="20" />
             <Setter Property="ItemContainerStyle" Value="{StaticResource ApplicationComboBoxItemStyle}" />
             <Style.Resources>
-                <SolidColorBrush x:Key="{x:Static SystemColors.WindowBrushKey}" Color="{StaticResource InactiveColor}" />
-                <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="{StaticResource InactiveColor}" />
-                <SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}" Color="{StaticResource InactiveColor}" />
+                <SolidColorBrush x:Key="{x:Static SystemColors.WindowBrushKey}" Color="{themes:Resource InactiveColor}" />
+                <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="{themes:Resource InactiveColor}" />
+                <SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}" Color="{themes:Resource InactiveColor}" />
             </Style.Resources>
         </Style>
 
