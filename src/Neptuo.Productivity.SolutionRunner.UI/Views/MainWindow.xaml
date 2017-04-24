@@ -116,7 +116,7 @@
                         <ListView.ItemTemplate>
                             <DataTemplate>
                                 <ContentControl x:Name="cocApplication" MouseDoubleClick="cocApplication_MouseDoubleClick" ToolTip="{Binding Path}">
-                                    <Grid Width="100" Height="60">
+                                    <Grid Width="100" Height="60" Background="{themes:Resource BackgroundBrush}">
                                         <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
                                             <DockPanel>
                                                 <AccessText Text="{Binding Name}" DockPanel.Dock="Bottom" />
