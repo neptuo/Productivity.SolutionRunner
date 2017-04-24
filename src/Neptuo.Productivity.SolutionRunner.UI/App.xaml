@@ -11,6 +11,9 @@
         <converters:CuttingConverter x:Key="ZeroOrLowerToVisibleConverter" EdgeValue="0" GreaterValue="Collapsed" LowerValue="Visible" EqualValue="Visible" />
         <converters:BoolConverter x:Key="ActiveBorderConverter" TrueValue="{themes:Resource ActiveBrush}" FalseValue="{themes:Resource InactiveBrush}" />
 
+        <Style TargetType="TextBlock">
+            <Setter Property="Foreground" Value="{themes:Resource ForegroundBrush}" />
+        </Style>
         <Style TargetType="TextBox">
             <Setter Property="FontSize" Value="20" />
             <Setter Property="Background" Value="{themes:Resource TextBoxBackgroundBrush}" />

@@ -119,8 +119,7 @@
                                     <Grid Width="100" Height="60" Background="{themes:Resource BackgroundBrush}">
                                         <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
                                             <DockPanel>
-                                                <AccessText Text="{Binding Name}" DockPanel.Dock="Bottom" />
-                                                <!--<TextBlock Text="{Binding Name}" DockPanel.Dock="Bottom" />-->
+                                                <TextBlock Text="{Binding Name}" DockPanel.Dock="Bottom" />
                                                 <Image Source="{Binding Icon}" Width="32" />
                                             </DockPanel>
                                         </Grid>
