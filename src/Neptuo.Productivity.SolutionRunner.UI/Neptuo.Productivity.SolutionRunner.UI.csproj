@@ -268,6 +268,7 @@
       <DependentUpon>HelpPopup.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Controls\HotKeyTextBox.cs" />
+    <Compile Include="Views\Controls\KeyboardNavigation.cs" />
     <Compile Include="Views\Controls\PieChart.xaml.cs">
       <DependentUpon>PieChart.xaml</DependentUpon>
     </Compile>
@@ -277,6 +278,7 @@
     <Compile Include="Views\Converters\BoolConverter.cs" />
     <Compile Include="Views\Converters\CuttingConverter.cs" />
     <Compile Include="Views\Converters\HelpVisibilityMultiValueConverter.cs" />
+    <Compile Include="Views\Converters\KeyToStringConverter.cs" />
     <Compile Include="Views\Converters\NullConverter.cs" />
     <Compile Include="Views\Converters\PathConverter.cs" />
     <Compile Include="Views\Converters\PositionUserDefinedToVisibleConverter.cs" />

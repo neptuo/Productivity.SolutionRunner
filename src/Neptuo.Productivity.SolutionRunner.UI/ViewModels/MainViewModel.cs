@@ -180,7 +180,7 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels
         {
             if (task.IsCanceled || IsLoading)
                 return;
-            
+
             lastFileSearchToken = null;
             if (String.IsNullOrEmpty(SearchPattern))
                 Message = "No favourite solution files, start by typing...";
@@ -224,15 +224,27 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels
             get { return applications; }
         }
 
+        private Key EnsureHotKey(Key hotKey, bool isMain)
+        {
+            if (isMain && hotKey == Key.None)
+            {
+                int index = applications.Count(a => a.IsMain) + 1;
+                if (index < 10)
+                    hotKey = (Key)Enum.Parse(typeof(Key), $"D{index}");
+            }
+
+            return hotKey;
+        }
+
         public IApplicationCollection Add(string name, string path, string arguments, ImageSource icon, Key hotKey, bool isMain)
         {
-            applications.Add(new ApplicationViewModel(name, null, path, arguments, icon, hotKey, isMain));
+            applications.Add(new ApplicationViewModel(name, null, path, arguments, icon, EnsureHotKey(hotKey, isMain), isMain));
             return this;
         }
 
         public IApplicationCollection Add(string name, Version version, string path, string arguments, ImageSource icon, Key hotKey, bool isMain)
         {
-            applications.Add(new ApplicationViewModel(name, version, path, arguments, icon, hotKey, isMain));
+            applications.Add(new ApplicationViewModel(name, version, path, arguments, icon, EnsureHotKey(hotKey, isMain), isMain));
             return this;
         }
 

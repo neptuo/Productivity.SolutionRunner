@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" 
         xmlns:dd="clr-namespace:Neptuo.Productivity.SolutionRunner.UI.DesignData" d:DataContext="{x:Static dd:ViewModelLocator.MainViewModel}"
+        xmlns:controls="clr-namespace:Neptuo.Productivity.SolutionRunner.Views.Controls"
         xmlns:converters="clr-namespace:Neptuo.Productivity.SolutionRunner.Views.Converters"
         xmlns:themes="clr-namespace:Neptuo.Productivity.SolutionRunner.Views.Themes"
         Title="SolutionRunner" MinWidth="525" SizeToContent="WidthAndHeight" Icon="{StaticResource IconBitmapImage}"
@@ -15,6 +16,7 @@
         <converters:BoolConverter x:Key="TrueToVisibleConverter" TrueValue="Visible" FalseValue="Collapsed" />
         <converters:BoolConverter x:Key="TrueToFalseConverter" TrueValue="False" FalseValue="True" />
         <converters:PathConverter x:Key="PathConverter" />
+        <converters:KeyToStringConverter x:Key="KeyToStringConverter" />
 
         <BitmapImage x:Key="CloseImage" UriSource="Icons/Close.png" />
         <BitmapImage x:Key="SettingsImage" UriSource="Icons/Settings.png" />
@@ -54,7 +56,6 @@
         </Style>
         <Style x:Key="ListViewItemStyle" TargetType="ListViewItem">
             <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-            <Setter Property="Foreground" Value="{themes:Resource ForegroundBrush}" />
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="ListViewItem">
@@ -91,6 +92,23 @@
                 </Setter.Value>
             </Setter>
         </Style>
+        <Style x:Key="AccessBorderStyle" TargetType="Border">
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="BorderBrush" Value="{themes:Resource ActiveBrush}" />
+            <Setter Property="Background" Value="{themes:Resource BackgroundBrush}" />
+            <Setter Property="Padding" Value="4,1" />
+            <Setter Property="Margin" Value="0,0,0,4" />
+        </Style>
+        <Style x:Key="AccessStackPanelStyle" TargetType="StackPanel">
+            <Setter Property="HorizontalAlignment" Value="Right" />
+            <Setter Property="VerticalAlignment" Value="Top" />
+            <Setter Property="Visibility" Value="Collapsed" />
+            <Style.Triggers>
+                <Trigger Property="{x:Static controls:KeyboardNavigation.ShowKeyboardCuesProperty}" Value="True">
+                    <Setter Property="Visibility" Value="Visible" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
 
     </Window.Resources>
     <Window.TaskbarItemInfo>
@@ -123,6 +141,11 @@
                                                 <Image Source="{Binding Icon}" Width="32" />
                                             </DockPanel>
                                         </Grid>
+                                        <StackPanel Style="{StaticResource AccessStackPanelStyle}">
+                                            <Border Style="{StaticResource AccessBorderStyle}">
+                                                <TextBlock Text="{Binding HotKey, Converter={StaticResource KeyToStringConverter}}" FontSize="10" />
+                                            </Border>
+                                        </StackPanel>
                                     </Grid>
                                 </ContentControl>
                             </DataTemplate>
