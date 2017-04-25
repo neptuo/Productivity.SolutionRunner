@@ -211,6 +211,7 @@
                                     <CheckBox Content="Count statistics" IsChecked="{Binding IsStatisticsCounted}" />
                                     <Button x:Name="btnViewStatistics" Content="view" IsEnabled="{Binding IsStatisticsCounted}" Click="btnViewStatistics_Click" Style="{StaticResource LinkButtonStyle}" Margin="5,0,0,0" />
                                 </StackPanel>
+                                <CheckBox Content="Show number of projects in file" IsChecked="{Binding IsProjectCountEnabled}" />
 
                                 <Label Content="Behavior:" Margin="0,10,0,0" />
                                 <CheckBox Content="Dismiss after loosing focus" IsChecked="{Binding IsDismissedWhenLostFocus}" />

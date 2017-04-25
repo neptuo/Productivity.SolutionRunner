@@ -1,5 +1,4 @@
 ﻿using Neptuo.Observables;
-using Neptuo.Productivity.SolutionRunner.Services;
 using Neptuo.Productivity.SolutionRunner.Services.Execution;
 using Neptuo.Productivity.SolutionRunner.ViewModels.Commands;
 using System;
@@ -16,6 +15,7 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels
     public class FileViewModel : ObservableObject, IFile
     {
         private Version version;
+        private int? projectCount;
 
         public string Name { get; private set; }
         public string Path { get; private set; }
@@ -43,6 +43,19 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels
                     RaisePropertyChanged();
                     EventManager.RaiseFilePinned(this);
                 }
+            }
+        }
+
+        public int ProjectCount
+        {
+            get
+            {
+                if (projectCount == null)
+                {
+                    projectCount = TryToReadProjectCount();
+                }
+
+                return projectCount.Value;
             }
         }
 
@@ -122,6 +135,28 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels
             }
 
             return null;
+        }
+
+        private const string projectLinePrefix = "Project(\"{";
+
+        private int TryToReadProjectCount()
+        {
+            int projectCount = 0;
+            if (File.Exists(Path))
+            {
+                using (var fileReader = new StreamReader(Path))
+                {
+                    string line;
+                    while ((line = fileReader.ReadLine()) != null)
+                    {
+                        line = line.TrimStart();
+                        if (line.StartsWith(projectLinePrefix))
+                            projectCount++;
+                    }
+                }
+            }
+
+            return projectCount;
         }
     }
 }

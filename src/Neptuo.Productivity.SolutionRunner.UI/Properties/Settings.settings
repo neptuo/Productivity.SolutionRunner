@@ -71,5 +71,8 @@
     <Setting Name="ThemeMode" Type="Neptuo.Productivity.SolutionRunner.Services.Themes.ThemeMode" Scope="User">
       <Value Profile="(Default)">Dark</Value>
     </Setting>
+    <Setting Name="IsProjectCountEnabled" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

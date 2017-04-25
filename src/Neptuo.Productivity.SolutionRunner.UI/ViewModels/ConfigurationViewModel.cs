@@ -231,6 +231,20 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels
             }
         }
 
+        private bool isProjectCountEnabled;
+        public bool IsProjectCountEnabled
+        {
+            get { return isProjectCountEnabled; }
+            set
+            {
+                if (isProjectCountEnabled != value)
+                {
+                    isProjectCountEnabled = value;
+                    RaisePropertyChanged();
+                }
+            }
+        }
+
         private PositionMode positionMode;
         public PositionMode PositionMode
         {

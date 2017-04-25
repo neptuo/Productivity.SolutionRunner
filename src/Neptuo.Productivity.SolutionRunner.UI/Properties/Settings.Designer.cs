@@ -298,5 +298,17 @@ namespace Neptuo.Productivity.SolutionRunner.Properties {
                 this["ThemeMode"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool IsProjectCountEnabled {
+            get {
+                return ((bool)(this["IsProjectCountEnabled"]));
+            }
+            set {
+                this["IsProjectCountEnabled"] = value;
+            }
+        }
     }
 }

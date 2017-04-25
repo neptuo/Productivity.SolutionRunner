@@ -23,20 +23,25 @@ namespace Neptuo.Productivity.SolutionRunner.Views.Themes
 
         public override object ProvideValue(IServiceProvider serviceProvider)
         {
+            return ProvideValue(Type);
+        }
+
+        public static object ProvideValue(ResourceType type)
+        {
             switch (Settings.Default.ThemeMode)
             {
                 case ThemeMode.Dark:
-                    return ProvideDarkValue();
+                    return ProvideDarkValue(type);
                 case ThemeMode.Light:
-                    return ProvideLightValue();
+                    return ProvideLightValue(type);
                 default:
                     return null;
             }
         }
 
-        private object ProvideDarkValue()
+        private static object ProvideDarkValue(ResourceType type)
         {
-            switch (Type)
+            switch (type)
             {
                 case ResourceType.BackgroundBrush:
                     return GetBrushFromString("#1E1E1E");
@@ -61,13 +66,13 @@ namespace Neptuo.Productivity.SolutionRunner.Views.Themes
                 case ResourceType.LinkForegroundBrush:
                     return GetBrushFromString("#4A9AD4");
                 default:
-                    throw Ensure.Exception.NotSupported(Type);
+                    throw Ensure.Exception.NotSupported(type);
             }
         }
 
-        private object ProvideLightValue()
+        private static object ProvideLightValue(ResourceType type)
         {
-            switch (Type)
+            switch (type)
             {
                 case ResourceType.BackgroundBrush:
                     return GetBrushFromString("#F5F5F5");
@@ -92,16 +97,16 @@ namespace Neptuo.Productivity.SolutionRunner.Views.Themes
                 case ResourceType.LinkForegroundBrush:
                     return GetBrushFromString("#4A9AD4");
                 default:
-                    throw Ensure.Exception.NotSupported(Type);
+                    throw Ensure.Exception.NotSupported(type);
             }
         }
 
-        private Color GetColorFromString(string value)
+        private static Color GetColorFromString(string value)
         {
             return (Color)ColorConverter.ConvertFromString(value);
         }
 
-        private SolidColorBrush GetBrushFromString(string value)
+        private static SolidColorBrush GetBrushFromString(string value)
         {
             return new SolidColorBrush(GetColorFromString(value));
         }

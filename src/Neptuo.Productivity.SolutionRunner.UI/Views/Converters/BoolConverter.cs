@@ -19,13 +19,24 @@ namespace Neptuo.Productivity.SolutionRunner.Views.Converters
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             bool? boolValue = value as bool?;
-            if(boolValue == null)
+            if (boolValue == null)
                 boolValue = false;
 
+            object result = null;
             if (Test == boolValue.Value)
-                return TrueValue;
+                result = TrueValue;
+            else
+                result = FalseValue;
 
-            return FalseValue;
+            if (targetType != null && result != null)
+            {
+                Type resultType = result.GetType();
+                TypeConverter converter = TypeDescriptor.GetConverter(targetType);
+                if (converter != null && converter.CanConvertFrom(resultType))
+                    result = converter.ConvertFrom(result);
+            }
+
+            return result;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

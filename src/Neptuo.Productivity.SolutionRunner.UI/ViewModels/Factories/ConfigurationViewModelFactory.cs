@@ -52,6 +52,7 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels.Factories
             viewModel.IsAutoStartup = shortcutService.Exists(Environment.SpecialFolder.Startup);
             viewModel.IsTrayIcon = settings.IsTrayIcon;
             viewModel.IsStatisticsCounted = settings.IsStatisticsCounted;
+            viewModel.IsProjectCountEnabled = settings.IsProjectCountEnabled;
             viewModel.AdditionalApplications = new ObservableCollection<AdditionalApplicationListViewModel>(LoadAdditionalApplications());
 
             MainApplicationCollection mainApplications = new MainApplicationCollection();
