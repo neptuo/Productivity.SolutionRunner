@@ -258,6 +258,8 @@
     <Compile Include="Views\ConfigurationWindow.xaml.cs">
       <DependentUpon>ConfigurationWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Controls\AccessKey.cs" />
+    <Compile Include="Views\Controls\AccessKeyEventArgs.cs" />
     <Compile Include="Views\Controls\FileBrowser.xaml.cs">
       <DependentUpon>FileBrowser.xaml</DependentUpon>
     </Compile>
@@ -268,7 +270,6 @@
       <DependentUpon>HelpPopup.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Controls\HotKeyTextBox.cs" />
-    <Compile Include="Views\Controls\KeyboardNavigation.cs" />
     <Compile Include="Views\Controls\PieChart.xaml.cs">
       <DependentUpon>PieChart.xaml</DependentUpon>
     </Compile>

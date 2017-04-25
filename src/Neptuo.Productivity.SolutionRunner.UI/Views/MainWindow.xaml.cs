@@ -28,6 +28,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using EventManager = Neptuo.Productivity.SolutionRunner.ViewModels.EventManager;
+using AccessKeyEventArgs = Neptuo.Productivity.SolutionRunner.Views.Controls.AccessKeyEventArgs;
 
 namespace Neptuo.Productivity.SolutionRunner.Views
 {
@@ -103,6 +104,7 @@ namespace Neptuo.Productivity.SolutionRunner.Views
             this.isClosedAfterStartingProcess = isClosedAfterStartingProcess;
 
             InitializeComponent();
+            AccessKey.AddHandler(this, OnAccessKeyPressed);
             EventManager.FilePinned += OnFilePinned;
             DispatcherHelper = new DispatcherHelper(Dispatcher);
 
@@ -351,26 +353,19 @@ namespace Neptuo.Productivity.SolutionRunner.Views
             return false;
         }
 
-        private void OnAccessKeyPressed(object sender, AccessKeyPressedEventArgs e)
+        private void OnAccessKeyPressed(object sender, AccessKeyEventArgs e)
         {
-            string rawKey = e.Key;
-            if (Int32.TryParse(rawKey, out int index))
-                rawKey = $"D{index}";
-
-            if (Enum.TryParse(rawKey, out Key pressed) && pressed != Key.None)
+            Key pressed = e.Keys.First();
+            foreach (ApplicationViewModel application in ViewModel.Applications)
             {
-                foreach (ApplicationViewModel application in ViewModel.Applications)
+                if (application.HotKey == pressed)
                 {
-                    if (application.HotKey == pressed)
-                    {
-                        processService.Run(application, lvwFiles.SelectedItem as FileViewModel);
-                        e.Handled = true;
+                    processService.Run(application, lvwFiles.SelectedItem as FileViewModel);
 
-                        if (isClosedAfterStartingProcess)
-                            Close();
+                    if (isClosedAfterStartingProcess)
+                        Close();
 
-                        return;
-                    }
+                    return;
                 }
             }
         }
@@ -418,6 +413,7 @@ namespace Neptuo.Productivity.SolutionRunner.Views
         protected override void OnClosed(EventArgs e)
         {
             base.OnClosed(e);
+            AccessKey.RemoveHandler(this, OnAccessKeyPressed);
             EventManager.FilePinned -= OnFilePinned;
 
             if (ViewModel != null)
