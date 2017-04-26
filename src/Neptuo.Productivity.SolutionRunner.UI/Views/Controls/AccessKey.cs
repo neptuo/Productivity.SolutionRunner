@@ -65,6 +65,9 @@ namespace Neptuo.Productivity.SolutionRunner.Views.Controls
         /// <param name="handler">A handler to be raised.</param>
         public static void AddHandler(Window window, EventHandler<AccessKeyEventArgs> handler)
         {
+            Ensure.NotNull(window, "window");
+            Ensure.NotNull(handler, "handler");
+
             Instance instance = (Instance)window.GetValue(InstanceProperty);
             if (instance == null)
             {
@@ -85,6 +88,9 @@ namespace Neptuo.Productivity.SolutionRunner.Views.Controls
         /// <param name="handler">A handler to remove.</param>
         public static void RemoveHandler(Window window, EventHandler<AccessKeyEventArgs> handler)
         {
+            Ensure.NotNull(window, "window");
+            Ensure.NotNull(handler, "handler");
+
             Instance instance = (Instance)window.GetValue(InstanceProperty);
             if (instance != null)
             {
