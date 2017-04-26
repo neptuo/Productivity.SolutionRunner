@@ -18,7 +18,7 @@ namespace Neptuo.Productivity.SolutionRunner.Views.Controls
         private static DependencyProperty isKeyboardCuesProperty;
 
         /// <summary>
-        /// Gets a property indincating whether access key styles are visible.
+        /// Gets a property indicating whether access key styles are visible.
         /// </summary>
         public static DependencyProperty IsKeyboardCuesProperty
         {
@@ -26,13 +26,28 @@ namespace Neptuo.Productivity.SolutionRunner.Views.Controls
             {
                 if (isKeyboardCuesProperty == null)
                 {
-                    Type type = typeof(System.Windows.Input.KeyboardNavigation);
+                    Type type = typeof(KeyboardNavigation);
                     FieldInfo fieldInfo = type.GetField("ShowKeyboardCuesProperty", BindingFlags.Static | BindingFlags.NonPublic);
-                    isKeyboardCuesProperty = (DependencyProperty)fieldInfo.GetValue(null);
+                    isKeyboardCuesProperty = (DependencyProperty)fieldInfo?.GetValue(null);
+
+                    if (isKeyboardCuesProperty == null)
+                        throw Ensure.Exception.InvalidOperation("Missing framework property 'ShowKeyboardCuesProperty'.");
                 }
 
                 return isKeyboardCuesProperty;
             }
+        }
+
+        public static void SetIsKeyboardCues(DependencyObject targetObject, bool value)
+        {
+            Ensure.NotNull(targetObject, "targetObject");
+            targetObject.SetValue(IsKeyboardCuesProperty, value);
+        }
+
+        public static bool GetIsKeyboardCues(DependencyObject targetObject)
+        {
+            Ensure.NotNull(targetObject, "targetObject");
+            return (bool)targetObject.GetValue(IsKeyboardCuesProperty);
         }
 
         private static readonly DependencyProperty InstanceProperty = DependencyProperty.RegisterAttached(
@@ -96,13 +111,25 @@ namespace Neptuo.Productivity.SolutionRunner.Views.Controls
 
                 window.PreviewKeyDown += OnPreviewKeyDown;
                 window.PreviewKeyUp += OnPreviewKeyUp;
+                window.LostFocus += OnLostFocus;
+                window.Deactivated += OnDeactivated;
+            }
+
+            private void OnDeactivated(object sender, EventArgs e)
+            {
+                SetIsKeyboardCues(window, false);
+            }
+
+            private void OnLostFocus(object sender, RoutedEventArgs e)
+            {
+                SetIsKeyboardCues(window, false);
             }
 
             private void OnPreviewKeyDown(object sender, KeyEventArgs e)
             {
                 if (e.Key == Key.System && (Keyboard.IsKeyDown(Key.LeftAlt) || Keyboard.IsKeyDown(Key.RightAlt)))
                 {
-                    if ((bool)window.GetValue(IsKeyboardCuesProperty) == false)
+                    if (!GetIsKeyboardCues(window))
                         keys.Clear();
                 }
             }
@@ -124,7 +151,7 @@ namespace Neptuo.Productivity.SolutionRunner.Views.Controls
             {
                 if (!Keyboard.IsKeyDown(Key.LeftAlt) && !Keyboard.IsKeyDown(Key.RightAlt))
                 {
-                    window.SetValue(IsKeyboardCuesProperty, false);
+                    SetIsKeyboardCues(window, false);
                     e.Handled = true;
 
                     if (keys.Count > 0)
@@ -151,6 +178,8 @@ namespace Neptuo.Productivity.SolutionRunner.Views.Controls
                 {
                     window.PreviewKeyDown -= OnPreviewKeyDown;
                     window.PreviewKeyUp -= OnPreviewKeyUp;
+                    window.LostFocus -= OnLostFocus;
+                    window.Deactivated -= OnDeactivated;
                     return true;
                 }
 
