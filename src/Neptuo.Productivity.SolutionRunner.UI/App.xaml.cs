@@ -25,6 +25,7 @@ using Neptuo.Productivity.SolutionRunner.ViewModels;
 using Neptuo.Productivity.SolutionRunner.ViewModels.Commands.Factories;
 using Neptuo.Productivity.SolutionRunner.ViewModels.Factories;
 using Neptuo.Productivity.SolutionRunner.Views;
+using Neptuo.Productivity.SolutionRunner.Views.Controls;
 using Neptuo.Windows.Threading;
 using System;
 using System.Collections.Generic;
@@ -150,6 +151,8 @@ namespace Neptuo.Productivity.SolutionRunner
                 OnMainViewModelPropertyChanged
             );
 
+            SettingsExtension.Settings = Settings.Default;
+
             positionProvider = new PositionService(Settings.Default);
             InitializeCounting();
 
@@ -171,7 +174,7 @@ namespace Neptuo.Productivity.SolutionRunner
             ILogFactory logFactory = new DefaultLogFactory()
                 .AddSerializer(errorLog)
 #if DEBUG
-                .AddConsole();
+                .AddConsole()
 #endif
             ;
 
