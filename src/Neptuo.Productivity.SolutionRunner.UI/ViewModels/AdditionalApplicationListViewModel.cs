@@ -1,10 +1,13 @@
 ﻿using Neptuo.Observables;
+using Neptuo.Observables.Collections;
 using Neptuo.Productivity.SolutionRunner.Services.Applications;
+using Neptuo.Productivity.SolutionRunner.ViewModels.Commands;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using System.Windows.Media;
 
 namespace Neptuo.Productivity.SolutionRunner.ViewModels
@@ -46,6 +49,12 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels
             }
         }
 
+        public ObservableCollection<AdditionalApplicationListViewModel> Commands { get; private set; }
+
+        public ICommand RemoveAdditionalApplicationCommand { get; private set; }
+        public ICommand EditAdditionalApplicationCommand { get; private set; }
+        public ICommand CreateAdditionalApplicationCommand { get; private set; }
+
         public AdditionalApplicationListViewModel(AdditionalApplicationModel model)
         {
             UpdateModel(model);
@@ -57,6 +66,13 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels
             Icon = IconExtractor.Get(model.Path);
             Path = model.Path;
             Model = model;
+            Commands = new ObservableCollection<AdditionalApplicationListViewModel>(
+                model.Commands.Select(m => new AdditionalApplicationListViewModel(m))
+            );
+
+            EditAdditionalApplicationCommand = new EditAdditionalApplicationCommand(this, navigator);
+            RemoveAdditionalApplicationCommand = new RemoveAdditionalApplicationCommand(this);
+            CreateAdditionalApplicationCommand = new CreateAdditionalApplicationCommand(this, navigator);
         }
     }
 }
