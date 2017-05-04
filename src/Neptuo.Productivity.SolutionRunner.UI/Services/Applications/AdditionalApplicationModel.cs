@@ -13,13 +13,19 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Applications
         public string Path { get; private set; }
         public string Arguments { get; private set; }
         public Key HotKey { get; private set; }
+        public IReadOnlyList<AdditionalApplicationModel> Commands { get; private set; }
 
         public AdditionalApplicationModel(string name, string path, string arguments, Key hotKey)
+            : this(name, path, arguments, hotKey, new List<AdditionalApplicationModel>())
+        { }
+
+        public AdditionalApplicationModel(string name, string path, string arguments, Key hotKey, IReadOnlyList<AdditionalApplicationModel> commands)
         {
             Name = name;
             Path = path;
             Arguments = arguments;
             HotKey = hotKey;
+            Commands = commands;
         }
     }
 }

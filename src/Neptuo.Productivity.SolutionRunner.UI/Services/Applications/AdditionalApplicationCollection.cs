@@ -31,36 +31,77 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Applications
 
         public void Load(ICompositeStorage storage)
         {
-            items.Clear();
-            int count = storage.Get<int>("Count", 0);
+            List<AdditionalApplicationModel> items = LoadCollection(storage);
+            if (items != null)
+                this.items = items;
+            else
+                this.items.Clear();
+        }
+
+        private List<AdditionalApplicationModel> LoadCollection(ICompositeStorage storage)
+        {
+            List<AdditionalApplicationModel> result = new List<AdditionalApplicationModel>();
+
+            int count = storage.Get("Count", 0);
             for (int i = 0; i < count; i++)
             {
-                ICompositeStorage itemStorage;
-                if (storage.TryGet(i.ToString(), out itemStorage))
+                if (storage.TryGet(i.ToString(), out ICompositeStorage itemStorage))
                 {
-                    string name = itemStorage.Get<string>("Name");
-                    string path = itemStorage.Get<string>("Path");
-                    string arguments = itemStorage.Get<string>("Arguments", null);
-                    Key hotKey = itemStorage.Get("HotKey", Key.None);
-                    items.Add(new AdditionalApplicationModel(name, path, arguments, hotKey));
+                    AdditionalApplicationModel model = LoadItem(itemStorage);
+                    if (model != null)
+                        result.Add(model);
                 }
             }
+
+            if (result.Count == 0)
+                return null;
+
+            return result;
+        }
+
+        private AdditionalApplicationModel LoadItem(ICompositeStorage storage)
+        {
+            string name = storage.Get<string>("Name");
+            string path = storage.Get<string>("Path");
+            string arguments = storage.Get<string>("Arguments", null);
+            Key hotKey = storage.Get("HotKey", Key.None);
+
+            IReadOnlyList<AdditionalApplicationModel> commands = LoadCollection(storage);
+            if (commands == null)
+                return new AdditionalApplicationModel(name, path, arguments, hotKey);
+            else
+                return new AdditionalApplicationModel(name, path, arguments, hotKey, commands);
         }
 
         public void Save(ICompositeStorage storage)
         {
-            storage.Add("Count", items.Count);
-            for (int i = 0; i < items.Count; i++)
-            {
-                AdditionalApplicationModel item = items[i];
-                ICompositeStorage itemStorage = storage.Add(i.ToString());
-                itemStorage.Add("Name", item.Name);
-                itemStorage.Add("Path", item.Path);
-                itemStorage.Add("Arguments", item.Arguments);
+            SaveCollection(storage, items);
+        }
 
-                if (item.HotKey != Key.None)
-                    itemStorage.Add("HotKey", item.HotKey);
+        private void SaveCollection(ICompositeStorage storage, IReadOnlyList<AdditionalApplicationModel> models)
+        {
+            if (models == null || models.Count == 0)
+                return;
+
+            storage.Add("Count", models.Count);
+            for (int i = 0; i < models.Count; i++)
+            {
+                AdditionalApplicationModel model = models[i];
+                ICompositeStorage itemStorage = storage.Add(i.ToString());
+                SaveItem(itemStorage, model);
             }
+        }
+
+        private void SaveItem(ICompositeStorage storage, AdditionalApplicationModel model)
+        {
+            storage.Add("Name", model.Name);
+            storage.Add("Path", model.Path);
+            storage.Add("Arguments", model.Arguments);
+
+            if (model.HotKey != Key.None)
+                storage.Add("HotKey", model.HotKey);
+
+            SaveCollection(storage, model.Commands);
         }
 
         public IEnumerator<AdditionalApplicationModel> GetEnumerator()
