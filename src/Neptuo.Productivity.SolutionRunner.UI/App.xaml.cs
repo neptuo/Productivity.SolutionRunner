@@ -435,7 +435,7 @@ namespace Neptuo.Productivity.SolutionRunner
             sourceAdditionalApplicationModel = model;
             onAdditionalApplicationSaved = onSaved;
 
-            AdditionalApplicationEditViewModel viewModel = new AdditionalApplicationEditViewModel(model, OnAdditionalApplicationSaved);
+            AdditionalApplicationEditViewModel viewModel = new AdditionalApplicationEditViewModel(this, model, OnAdditionalApplicationSaved);
             additionalApplicationEditWindow = new AdditionalApplicationEditWindow(viewModel);
             additionalApplicationEditWindow.Owner = configurationWindow;
             additionalApplicationEditWindow.ShowDialog();

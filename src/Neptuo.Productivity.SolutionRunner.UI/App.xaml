@@ -171,6 +171,15 @@
             <Setter Property="HorizontalAlignment" Value="Right" />
             <Setter Property="Margin" Value="2,0,0,0" />
         </Style>
+        <Style x:Key="ImageAwesome" TargetType="fa:ImageAwesome">
+            <Setter Property="Width" Value="16" />
+            <Setter Property="Foreground" Value="{themes:Resource ForegroundBrush}" />
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Foreground" Value="{themes:Resource ActiveBrush}" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
         <Style x:Key="ApplicationNameTextBlockStyle" TargetType="TextBlock" BasedOn="{StaticResource DescriptionStyle}">
             <Setter Property="FontSize" Value="20" />
             <Setter Property="Foreground" Value="{themes:Resource ForegroundBrush}" />

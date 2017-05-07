@@ -224,7 +224,7 @@ namespace Neptuo.Productivity.SolutionRunner.UI.DesignData
             {
                 if (additionalApplication == null)
                 {
-                    additionalApplication = new AdditionalApplicationEditViewModel(null, m => { });
+                    additionalApplication = new AdditionalApplicationEditViewModel(new Navigator(), null, m => { });
                     additionalApplication.Path = @"C:\Windows\notepad.exe";
                     additionalApplication.Arguments = "browse {FilePath}";
                     additionalApplication.Icon = IconExtractor.Get(@"C:\Windows\notepad.exe");

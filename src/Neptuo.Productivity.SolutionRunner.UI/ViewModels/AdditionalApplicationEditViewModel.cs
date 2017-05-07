@@ -1,4 +1,6 @@
 ﻿using Neptuo.Observables;
+using Neptuo.Observables.Collections;
+using Neptuo.Productivity.SolutionRunner.Services;
 using Neptuo.Productivity.SolutionRunner.Services.Applications;
 using Neptuo.Productivity.SolutionRunner.ViewModels.Commands;
 using System;
@@ -11,8 +13,10 @@ using System.Windows.Media;
 
 namespace Neptuo.Productivity.SolutionRunner.ViewModels
 {
-    public class AdditionalApplicationEditViewModel : ObservableObject
+    public class AdditionalApplicationEditViewModel : ObservableObject, CreateAdditionalApplicationCommand.IContainer, EditAdditionalApplicationCommand.IContainer, RemoveAdditionalApplicationCommand.IContainer
     {
+        private readonly INavigator navigator;
+
         public bool IsNameChanged { get; set; }
 
         private string name;
@@ -109,8 +113,16 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels
             get { return saveCommand; }
         }
 
-        public AdditionalApplicationEditViewModel(AdditionalApplicationModel model, Action<AdditionalApplicationModel> onSaved)
+        public ObservableCollection<AdditionalApplicationListViewModel> Commands { get; private set; }
+
+        public ICommand RemoveAdditionalApplicationCommand { get; private set; }
+        public ICommand EditAdditionalApplicationCommand { get; private set; }
+        public ICommand CreateAdditionalApplicationCommand { get; private set; }
+
+        public AdditionalApplicationEditViewModel(INavigator navigator, AdditionalApplicationModel model, Action<AdditionalApplicationModel> onSaved)
         {
+            Commands = new ObservableCollection<AdditionalApplicationListViewModel>();
+
             if (model != null)
             {
                 IsNameChanged = true;
@@ -120,9 +132,37 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels
                 HotKey = model.HotKey == Key.None 
                     ? null 
                     : new KeyViewModel(model.HotKey, ModifierKeys.None);
+
+                Commands.AddRange(model.Commands.Select(m => new AdditionalApplicationListViewModel(m)));
             }
 
             saveCommand = new SaveApplicationCommand(this, model, onSaved);
+
+            EditAdditionalApplicationCommand = new EditAdditionalApplicationCommand(this, navigator);
+            RemoveAdditionalApplicationCommand = new RemoveAdditionalApplicationCommand(this);
+            CreateAdditionalApplicationCommand = new CreateAdditionalApplicationCommand(this, navigator);
         }
+
+        #region Additional Application Commands
+
+        void CreateAdditionalApplicationCommand.IContainer.Add(AdditionalApplicationListViewModel viewModel)
+        {
+            if (Commands != null)
+                Commands.Add(viewModel);
+        }
+
+        void EditAdditionalApplicationCommand.IContainer.Remove(AdditionalApplicationListViewModel viewModel)
+        {
+            if (Commands != null)
+                Commands.Remove(viewModel);
+        }
+
+        void RemoveAdditionalApplicationCommand.IContainer.Remove(AdditionalApplicationListViewModel viewModel)
+        {
+            if (Commands != null)
+                Commands.Remove(viewModel);
+        }
+
+        #endregion
     }
 }

@@ -9,14 +9,19 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels.Commands
 {
     public class EditAdditionalApplicationCommand : CommandBase<AdditionalApplicationListViewModel>
     {
-        private readonly ConfigurationViewModel viewModel;
+        public interface IContainer
+        {
+            void Remove(AdditionalApplicationListViewModel viewModel);
+        }
+
+        private readonly IContainer container;
         private readonly INavigator navigator;
 
-        public EditAdditionalApplicationCommand(ConfigurationViewModel viewModel, INavigator navigator)
+        public EditAdditionalApplicationCommand(IContainer container, INavigator navigator)
         {
-            Ensure.NotNull(viewModel, "viewModel");
+            Ensure.NotNull(container, "container");
             Ensure.NotNull(navigator, "navigator");
-            this.viewModel = viewModel;
+            this.container = container;
             this.navigator = navigator;
         }
 
@@ -31,8 +36,8 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels.Commands
             {
                 navigator.OpenAdditionalApplicationEdit(parameter.Model, m =>
                 {
-                    if (m == null && viewModel.AdditionalApplications != null)
-                        viewModel.AdditionalApplications.Remove(parameter);
+                    if (m == null)
+                        container.Remove(parameter);
                     else
                         parameter.UpdateModel(m);
                 });

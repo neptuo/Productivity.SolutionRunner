@@ -1,5 +1,7 @@
-﻿using Neptuo.Observables;
+﻿using Neptuo;
+using Neptuo.Observables;
 using Neptuo.Observables.Collections;
+using Neptuo.Productivity.SolutionRunner.Services;
 using Neptuo.Productivity.SolutionRunner.Services.Applications;
 using Neptuo.Productivity.SolutionRunner.ViewModels.Commands;
 using System;
@@ -49,14 +51,10 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels
             }
         }
 
-        public ObservableCollection<AdditionalApplicationListViewModel> Commands { get; private set; }
-
-        public ICommand RemoveAdditionalApplicationCommand { get; private set; }
-        public ICommand EditAdditionalApplicationCommand { get; private set; }
-        public ICommand CreateAdditionalApplicationCommand { get; private set; }
-
         public AdditionalApplicationListViewModel(AdditionalApplicationModel model)
         {
+            Ensure.NotNull(model, "model");
+
             UpdateModel(model);
         }
 
@@ -66,13 +64,6 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels
             Icon = IconExtractor.Get(model.Path);
             Path = model.Path;
             Model = model;
-            Commands = new ObservableCollection<AdditionalApplicationListViewModel>(
-                model.Commands.Select(m => new AdditionalApplicationListViewModel(m))
-            );
-
-            EditAdditionalApplicationCommand = new EditAdditionalApplicationCommand(this, navigator);
-            RemoveAdditionalApplicationCommand = new RemoveAdditionalApplicationCommand(this);
-            CreateAdditionalApplicationCommand = new CreateAdditionalApplicationCommand(this, navigator);
         }
     }
 }

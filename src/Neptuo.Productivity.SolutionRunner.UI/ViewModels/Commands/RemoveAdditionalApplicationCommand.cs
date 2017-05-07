@@ -8,12 +8,17 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels.Commands
 {
     public class RemoveAdditionalApplicationCommand : CommandBase<AdditionalApplicationListViewModel>
     {
-        private readonly ConfigurationViewModel viewModel;
-
-        public RemoveAdditionalApplicationCommand(ConfigurationViewModel viewModel)
+        public interface IContainer
         {
-            Ensure.NotNull(viewModel, "viewModel");
-            this.viewModel = viewModel;
+            void Remove(AdditionalApplicationListViewModel viewModel);
+        }
+
+        private readonly IContainer container;
+
+        public RemoveAdditionalApplicationCommand(IContainer container)
+        {
+            Ensure.NotNull(container, "container");
+            this.container = container;
         }
 
         protected override bool CanExecute(AdditionalApplicationListViewModel parameter)
@@ -23,12 +28,8 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels.Commands
 
         protected override void Execute(AdditionalApplicationListViewModel parameter)
         {
-            if (viewModel.AdditionalApplications != null && parameter != null)
-            {
-                viewModel.AdditionalApplications.Remove(parameter);
-                if (parameter.Path.Equals(viewModel.PreferedApplication?.Path, StringComparison.InvariantCultureIgnoreCase))
-                    viewModel.PreferedApplication = null;
-            }
+            if (parameter != null)
+                container.Remove(parameter);
         }
     }
 }
