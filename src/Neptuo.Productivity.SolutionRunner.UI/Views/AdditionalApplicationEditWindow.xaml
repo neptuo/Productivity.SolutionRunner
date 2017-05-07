@@ -12,7 +12,7 @@
         ShowInTaskbar="False" Background="{themes:Resource BackgroundBrush}" WindowStartupLocation="CenterScreen"
         PreviewKeyDown="OnPreviewKeyDown">
     <Window.Resources>
-        <converters:BoolConverter x:Key="TrueToHiddenConverter" TrueValue="Hidden" FalseValue="Visible"/>
+        <converters:NullConverter x:Key="NullToHiddenConverter" TrueValue="Hidden" FalseValue="Visible"/>
 
         <Style TargetType="TextBlock" BasedOn="{StaticResource DescriptionStyle}">
             <Setter Property="Padding" Value="2" />
@@ -67,7 +67,7 @@
                 </Grid>
                 <TextBox x:Name="tbxHotKey" Margin="0" ui:HotKeyTextBox.Key="{Binding HotKey, Mode=TwoWay}" ui:HotKeyTextBox.AllowedModifiers="" />
             </StackPanel>
-            <StackPanel Style="{StaticResource EditorPanelStyle}" Visibility="{Binding HotKey, Converter={StaticResource TrueToHiddenConverter}}">
+            <StackPanel Style="{StaticResource EditorPanelStyle}" Visibility="{Binding HotKey, Converter={StaticResource NullToHiddenConverter}}">
                 <Grid>
                     <Label Content="Additional Coomands:" Target="{Binding ElementName=tbxAdditionalApplications}" />
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
