@@ -6,9 +6,8 @@
         xmlns:dd="clr-namespace:Neptuo.Productivity.SolutionRunner.UI.DesignData" d:DataContext="{x:Static dd:ViewModelLocator.MainViewModel}"
         xmlns:controls="clr-namespace:Neptuo.Productivity.SolutionRunner.Views.Controls"
         xmlns:converters="clr-namespace:Neptuo.Productivity.SolutionRunner.Views.Converters"
-        xmlns:themes="clr-namespace:Neptuo.Productivity.SolutionRunner.Views.Themes"
         Title="SolutionRunner" MinWidth="525" SizeToContent="WidthAndHeight" Icon="{StaticResource IconBitmapImage}"
-        ResizeMode="CanMinimize" WindowStyle="None" Background="{themes:Resource BackgroundBrush}"
+        ResizeMode="CanMinimize" WindowStyle="None" Background="{StaticResource BackgroundBrush}"
         PreviewMouseDown="OnPreviewMouseDown" PreviewKeyDown="OnPreviewKeyDown">
     <Window.Resources>
         <converters:BoolConverter x:Key="TrueToIntermediateConverter" TrueValue="Indeterminate" FalseValue="None" />
@@ -17,7 +16,7 @@
         <converters:BoolConverter x:Key="TrueToFalseConverter" TrueValue="False" FalseValue="True" />
         <converters:PathConverter x:Key="PathConverter" />
         <converters:KeyToStringConverter x:Key="KeyToStringConverter" />
-        <converters:BoolConverter x:Key="ListViewBadgeForegroundConverter" TrueValue="{themes:Resource ForegroundBrush}" FalseValue="{themes:Resource ActiveBrush}" />
+        <converters:BoolConverter x:Key="ListViewBadgeForegroundConverter" TrueValue="{StaticResource ForegroundBrush}" FalseValue="{StaticResource ActiveBrush}" />
 
         <BitmapImage x:Key="CloseImage" UriSource="Icons/Close.png" />
         <BitmapImage x:Key="SettingsImage" UriSource="Icons/Settings.png" />
@@ -69,15 +68,15 @@
 
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Background" Value="{themes:Resource HoverBrush}" />
+                    <Setter Property="Background" Value="{StaticResource HoverBrush}" />
                 </Trigger>
                 <Trigger Property="IsSelected" Value="True">
-                    <Setter Property="Background" Value="{themes:Resource ActiveBrush}" />
+                    <Setter Property="Background" Value="{StaticResource ActiveBrush}" />
                 </Trigger>
             </Style.Triggers>
         </Style>
         <Style x:Key="NoDataStyle" TargetType="TextBlock">
-            <Setter Property="Foreground" Value="{themes:Resource ForegroundBrush}" />
+            <Setter Property="Foreground" Value="{StaticResource ForegroundBrush}" />
             <Setter Property="HorizontalAlignment" Value="Center" />
             <Setter Property="FontStyle" Value="Italic" />
             <Setter Property="Padding" Value="0,8" />
@@ -95,8 +94,8 @@
         </Style>
         <Style x:Key="AccessBorderStyle" TargetType="Border">
             <Setter Property="BorderThickness" Value="1" />
-            <Setter Property="BorderBrush" Value="{themes:Resource ActiveBrush}" />
-            <Setter Property="Background" Value="{themes:Resource BackgroundBrush}" />
+            <Setter Property="BorderBrush" Value="{StaticResource ActiveBrush}" />
+            <Setter Property="Background" Value="{StaticResource BackgroundBrush}" />
             <Setter Property="Padding" Value="4,1" />
             <Setter Property="Margin" Value="0,0,0,4" />
         </Style>
@@ -135,7 +134,7 @@
                         <ListView.ItemTemplate>
                             <DataTemplate>
                                 <ContentControl x:Name="cocApplication" MouseDoubleClick="cocApplication_MouseDoubleClick" ToolTip="{Binding Path}">
-                                    <Grid Width="100" Height="60" Background="{themes:Resource BackgroundBrush}">
+                                    <Grid Width="100" Height="60" Background="{StaticResource BackgroundBrush}">
                                         <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
                                             <DockPanel>
                                                 <TextBlock Text="{Binding Name}" DockPanel.Dock="Bottom" />

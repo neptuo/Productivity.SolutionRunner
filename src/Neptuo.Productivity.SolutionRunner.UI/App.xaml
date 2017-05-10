@@ -3,209 +3,213 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:converters="clr-namespace:Neptuo.Productivity.SolutionRunner.Views.Converters"
              xmlns:fa="http://schemas.fontawesome.io/icons/"
-             xmlns:themes="clr-namespace:Neptuo.Productivity.SolutionRunner.Views.Themes"
              xmlns:vm="clr-namespace:Neptuo.Productivity.SolutionRunner.ViewModels"
              DispatcherUnhandledException="OnDispatcherUnhandledException" ShutdownMode="OnExplicitShutdown">
     <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Views/Themes/Dark.xaml" />
+            </ResourceDictionary.MergedDictionaries>
 
-        <BitmapImage x:Key="IconBitmapImage" UriSource="/Resources/SolutionRunner.png" />
+            <BitmapImage x:Key="IconBitmapImage" UriSource="/Resources/SolutionRunner.png" />
 
-        <converters:CuttingConverter x:Key="ZeroOrLowerToVisibleConverter" EdgeValue="0" GreaterValue="Collapsed" LowerValue="Visible" EqualValue="Visible" />
-        <converters:BoolConverter x:Key="ActiveBorderConverter" TrueValue="{themes:Resource ActiveBrush}" FalseValue="{themes:Resource InactiveBrush}" />
+            <converters:CuttingConverter x:Key="ZeroOrLowerToVisibleConverter" EdgeValue="0" GreaterValue="Collapsed" LowerValue="Visible" EqualValue="Visible" />
+            <converters:BoolConverter x:Key="ActiveBorderConverter" TrueValue="{StaticResource ActiveBrush}" FalseValue="{StaticResource InactiveBrush}" />
 
-        <Style TargetType="TextBlock">
-            <Setter Property="Foreground" Value="{themes:Resource ForegroundBrush}" />
-        </Style>
-        <Style TargetType="ToolTip">
-            <Setter Property="Background" Value="{themes:Resource BackgroundBrush}" />
-        </Style>
-        
-        <Style TargetType="TextBox">
-            <Setter Property="FontSize" Value="20" />
-            <Setter Property="Background" Value="{themes:Resource TextBoxBackgroundBrush}" />
-            <Setter Property="BorderThickness" Value="0,0,0,1" />
-            <Setter Property="Foreground" Value="{themes:Resource ForegroundBrush}" />
-            <Setter Property="Margin" Value="0,10" />
-        </Style>
-        <Style TargetType="CheckBox">
-            <Setter Property="Foreground" Value="{themes:Resource ForegroundBrush}" />
-        </Style>
-        <Style x:Key="GrayStyle" TargetType="TextBlock">
-            <Setter Property="Foreground" Value="{themes:Resource GrayBrush}" />
-        </Style>
+            <Style TargetType="TextBlock">
+                <Setter Property="Foreground" Value="{StaticResource ForegroundBrush}" />
+            </Style>
+            <Style TargetType="ToolTip">
+                <Setter Property="Background" Value="{StaticResource BackgroundBrush}" />
+            </Style>
 
-        <Style x:Key="WindowBorderStyle" TargetType="Border">
-            <Setter Property="BorderBrush" Value="{Binding IsActive, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}, Converter={StaticResource ActiveBorderConverter}}" />
-            <Setter Property="BorderThickness" Value="1" />
-            <Setter Property="Padding" Value="0,10" />
-        </Style>
+            <Style TargetType="TextBox">
+                <Setter Property="FontSize" Value="20" />
+                <Setter Property="Background" Value="{StaticResource TextBoxBackgroundBrush}" />
+                <Setter Property="BorderThickness" Value="0,0,0,1" />
+                <Setter Property="Foreground" Value="{StaticResource ForegroundBrush}" />
+                <Setter Property="Margin" Value="0,10" />
+            </Style>
+            <Style TargetType="CheckBox">
+                <Setter Property="Foreground" Value="{StaticResource ForegroundBrush}" />
+            </Style>
+            <Style x:Key="GrayStyle" TargetType="TextBlock">
+                <Setter Property="Foreground" Value="{StaticResource GrayBrush}" />
+            </Style>
 
-        <!-- EditForm -->
-        <Style x:Key="RootPanelStyle" TargetType="DockPanel">
-            <Setter Property="Margin" Value="10" />
-        </Style>
-        <Style x:Key="EditorPanelStyle" TargetType="StackPanel">
-            <Setter Property="Margin" Value="0,0,0,10" />
-        </Style>
-        <Style TargetType="Label">
-            <Setter Property="Padding" Value="2" />
-            <Setter Property="Foreground" Value="{themes:Resource ForegroundBrush}" />
-        </Style>
-        <Style x:Key="DescriptionStyle" TargetType="TextBlock" BasedOn="{StaticResource GrayStyle}">
-            <Setter Property="Padding" Value="2" />
-        </Style>
-        <Style x:Key="ActionBarStyle" TargetType="StackPanel">
-            <Setter Property="Orientation" Value="Horizontal" />
-            <Setter Property="Margin" Value="0,15,0,0" />
-        </Style>
-        <Style TargetType="Button">
-            <Setter Property="Margin" Value="10,0,0,0" />
-            <Setter Property="Padding" Value="6,4" />
-            <Setter Property="Background" Value="{themes:Resource BackgroundBrush}" />
-            <Setter Property="BorderBrush" Value="{themes:Resource InactiveBrush}" />
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="Button">
-                        <Border Name="border" BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}" 
+            <Style x:Key="WindowBorderStyle" TargetType="Border">
+                <Setter Property="BorderBrush" Value="{Binding IsActive, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}, Converter={StaticResource ActiveBorderConverter}}" />
+                <Setter Property="BorderThickness" Value="1" />
+                <Setter Property="Padding" Value="0,10" />
+            </Style>
+
+            <!-- EditForm -->
+            <Style x:Key="RootPanelStyle" TargetType="DockPanel">
+                <Setter Property="Margin" Value="10" />
+            </Style>
+            <Style x:Key="EditorPanelStyle" TargetType="StackPanel">
+                <Setter Property="Margin" Value="0,0,0,10" />
+            </Style>
+            <Style TargetType="Label">
+                <Setter Property="Padding" Value="2" />
+                <Setter Property="Foreground" Value="{StaticResource ForegroundBrush}" />
+            </Style>
+            <Style x:Key="DescriptionStyle" TargetType="TextBlock" BasedOn="{StaticResource GrayStyle}">
+                <Setter Property="Padding" Value="2" />
+            </Style>
+            <Style x:Key="ActionBarStyle" TargetType="StackPanel">
+                <Setter Property="Orientation" Value="Horizontal" />
+                <Setter Property="Margin" Value="0,15,0,0" />
+            </Style>
+            <Style TargetType="Button">
+                <Setter Property="Margin" Value="10,0,0,0" />
+                <Setter Property="Padding" Value="6,4" />
+                <Setter Property="Background" Value="{StaticResource BackgroundBrush}" />
+                <Setter Property="BorderBrush" Value="{StaticResource InactiveBrush}" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="Button">
+                            <Border Name="border" BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}" 
                             Padding="{TemplateBinding Padding}" Background="{TemplateBinding Background}"
                             SnapsToDevicePixels="True">
-                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
-                        </Border>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-            <Style.Triggers>
-                <Trigger Property="IsFocused" Value="True">
-                    <Setter Property="BorderBrush" Value="{themes:Resource ActiveBrush}" />
-                </Trigger>
-                <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="BorderBrush" Value="{themes:Resource ActiveBrush}" />
-                </Trigger>
-                <Trigger Property="IsPressed" Value="True">
-                    <Setter Property="Background" Value="{themes:Resource ActiveBrush}" />
-                </Trigger>
-                <Trigger Property="IsEnabled" Value="False">
-                    <Setter Property="Background" Value="{themes:Resource InactiveBrush}" />
-                </Trigger>
-            </Style.Triggers>
-        </Style>
-        <Style x:Key="PlainButtonStyle" TargetType="Button">
-            <Setter Property="Cursor" Value="Hand" />
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="Button">
-                        <Border Padding="{TemplateBinding Padding}" Margin="{TemplateBinding Margin}">
-                            <ContentPresenter VerticalAlignment="Bottom" />
-                        </Border>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-        <Style x:Key="PlainToggleButtonStyle" TargetType="ToggleButton">
-            <Setter Property="Cursor" Value="Hand" />
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="ToggleButton">
-                        <Border Padding="{TemplateBinding Padding}" Margin="{TemplateBinding Margin}">
-                            <ContentPresenter VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
-                        </Border>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-        <Style TargetType="ComboBox">
-            <Setter Property="Background" Value="{themes:Resource TextBoxBackgroundBrush}" />
-        </Style>
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+                <Style.Triggers>
+                    <Trigger Property="IsFocused" Value="True">
+                        <Setter Property="BorderBrush" Value="{StaticResource ActiveBrush}" />
+                    </Trigger>
+                    <Trigger Property="IsMouseOver" Value="True">
+                        <Setter Property="BorderBrush" Value="{StaticResource ActiveBrush}" />
+                    </Trigger>
+                    <Trigger Property="IsPressed" Value="True">
+                        <Setter Property="Background" Value="{StaticResource ActiveBrush}" />
+                    </Trigger>
+                    <Trigger Property="IsEnabled" Value="False">
+                        <Setter Property="Background" Value="{StaticResource InactiveBrush}" />
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+            <Style x:Key="PlainButtonStyle" TargetType="Button">
+                <Setter Property="Cursor" Value="Hand" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="Button">
+                            <Border Padding="{TemplateBinding Padding}" Margin="{TemplateBinding Margin}">
+                                <ContentPresenter VerticalAlignment="Bottom" />
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            <Style x:Key="PlainToggleButtonStyle" TargetType="ToggleButton">
+                <Setter Property="Cursor" Value="Hand" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="ToggleButton">
+                            <Border Padding="{TemplateBinding Padding}" Margin="{TemplateBinding Margin}">
+                                <ContentPresenter VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            <Style TargetType="ComboBox">
+                <Setter Property="Background" Value="{StaticResource TextBoxBackgroundBrush}" />
+            </Style>
 
-        <Style TargetType="TabControl">
-            <Setter Property="Background" Value="Transparent" />
-            <Setter Property="BorderThickness" Value="0,1,0,0" />
-            <Setter Property="BorderBrush" Value="{themes:Resource ActiveBrush}" />
-            <Setter Property="Padding" Value="8" />
-        </Style>
-        <Style TargetType="TabItem">
-            <Setter Property="BorderThickness" Value="0" />
-            <Setter Property="BorderBrush" Value="Transparent" />
-            <Setter Property="Background" Value="Transparent" />
-            <Setter Property="Foreground" Value="{themes:Resource ForegroundBrush}" />
-            <Setter Property="Padding" Value="12,6" />
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="{x:Type TabItem}">
-                        <Border x:Name="Border" BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}" Padding="{TemplateBinding Padding}" Margin="{TemplateBinding Margin}">
-                            <Border.Style>
-                                <Style TargetType="Border">
-                                    <Style.Triggers>
-                                        <Trigger Property="IsMouseOver" Value="True">
-                                            <Setter Property="Background" Value="{themes:Resource TextBoxBackgroundBrush}"/>
-                                        </Trigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </Border.Style>
-                            <ContentPresenter x:Name="ContentSite" ContentSource="Header" />
-                        </Border>
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsSelected" Value="True">
-                                <Setter Property="TextElement.Foreground" TargetName="ContentSite" Value="{themes:Resource ForegroundBrush}"/>
-                                <Setter Property="Background" TargetName="Border" Value="{themes:Resource ActiveBrush}"/>
-                            </Trigger>
+            <Style TargetType="TabControl">
+                <Setter Property="Background" Value="Transparent" />
+                <Setter Property="BorderThickness" Value="0,1,0,0" />
+                <Setter Property="BorderBrush" Value="{StaticResource ActiveBrush}" />
+                <Setter Property="Padding" Value="8" />
+            </Style>
+            <Style TargetType="TabItem">
+                <Setter Property="BorderThickness" Value="0" />
+                <Setter Property="BorderBrush" Value="Transparent" />
+                <Setter Property="Background" Value="Transparent" />
+                <Setter Property="Foreground" Value="{StaticResource ForegroundBrush}" />
+                <Setter Property="Padding" Value="12,6" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type TabItem}">
+                            <Border x:Name="Border" BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}" Padding="{TemplateBinding Padding}" Margin="{TemplateBinding Margin}">
+                                <Border.Style>
+                                    <Style TargetType="Border">
+                                        <Style.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter Property="Background" Value="{StaticResource TextBoxBackgroundBrush}"/>
+                                            </Trigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Border.Style>
+                                <ContentPresenter x:Name="ContentSite" ContentSource="Header" />
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsSelected" Value="True">
+                                    <Setter Property="TextElement.Foreground" TargetName="ContentSite" Value="{StaticResource ForegroundBrush}"/>
+                                    <Setter Property="Background" TargetName="Border" Value="{StaticResource ActiveBrush}"/>
+                                </Trigger>
 
-                            <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type TabControl}}, Path=Items.Count}" Value="1">
-                                <Setter Property="Visibility" TargetName="Border" Value="Collapsed"/>
-                            </DataTrigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
+                                <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type TabControl}}, Path=Items.Count}" Value="1">
+                                    <Setter Property="Visibility" TargetName="Border" Value="Collapsed"/>
+                                </DataTrigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
 
-        <Style x:Key="AdditionalBorderStyle" TargetType="Border">
-            <Setter Property="Background" Value="{themes:Resource TextBoxBackgroundBrush}" />
-            <Setter Property="Padding" Value="4,0" />
-            <Setter Property="Margin" Value="0,0,0,2" />
-            <Setter Property="BorderThickness" Value="0,0,0,1" />
-            <Setter Property="BorderBrush" Value="{themes:Resource TextBoxInactiveBrush}" />
-        </Style>
-        <Style x:Key="AdditionalButtonStyle" TargetType="Button" BasedOn="{StaticResource PlainButtonStyle}">
-            <Setter Property="VerticalAlignment" Value="Center" />
-            <Setter Property="HorizontalAlignment" Value="Right" />
-            <Setter Property="Margin" Value="2,0,0,0" />
-        </Style>
-        <Style x:Key="ImageAwesome" TargetType="fa:ImageAwesome">
-            <Setter Property="Width" Value="16" />
-            <Setter Property="Foreground" Value="{themes:Resource ForegroundBrush}" />
-            <Style.Triggers>
-                <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Foreground" Value="{themes:Resource ActiveBrush}" />
-                </Trigger>
-            </Style.Triggers>
-        </Style>
-        <Style x:Key="ApplicationNameTextBlockStyle" TargetType="TextBlock" BasedOn="{StaticResource DescriptionStyle}">
-            <Setter Property="FontSize" Value="20" />
-            <Setter Property="Foreground" Value="{themes:Resource ForegroundBrush}" />
-            <Setter Property="VerticalAlignment" Value="Center" />
-        </Style>
-        <DataTemplate DataType="{x:Type vm:AdditionalApplicationListViewModel}">
-            <Border Style="{StaticResource AdditionalBorderStyle}">
-                <Grid>
-                    <StackPanel Orientation="Horizontal">
-                        <Image Source="{Binding Icon}" Width="24" Margin="0,0,5,0" />
-                        <TextBlock Text="{Binding Name}" Style="{StaticResource ApplicationNameTextBlockStyle}" ToolTip="{Binding Path}" />
-                    </StackPanel>
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                        <Button ToolTip="Edit additional application" Style="{StaticResource AdditionalButtonStyle}"
-                         Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ItemsControl}}, Path=DataContext.EditAdditionalApplicationCommand}"
-                         CommandParameter="{Binding}">
-                            <fa:ImageAwesome Icon="Edit" Style="{StaticResource ImageAwesome}" />
-                        </Button>
-                        <Button ToolTip="Remove additional application" Style="{StaticResource AdditionalButtonStyle}"
-                         Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ItemsControl}}, Path=DataContext.RemoveAdditionalApplicationCommand}"
-                         CommandParameter="{Binding}">
-                            <fa:ImageAwesome Icon="Remove" Style="{StaticResource ImageAwesome}" Width="14" />
-                        </Button>
-                    </StackPanel>
-                </Grid>
-            </Border>
-        </DataTemplate>
+            <Style x:Key="AdditionalBorderStyle" TargetType="Border">
+                <Setter Property="Background" Value="{StaticResource TextBoxBackgroundBrush}" />
+                <Setter Property="Padding" Value="4,0" />
+                <Setter Property="Margin" Value="0,0,0,2" />
+                <Setter Property="BorderThickness" Value="0,0,0,1" />
+                <Setter Property="BorderBrush" Value="{StaticResource TextBoxInactiveBrush}" />
+            </Style>
+            <Style x:Key="AdditionalButtonStyle" TargetType="Button" BasedOn="{StaticResource PlainButtonStyle}">
+                <Setter Property="VerticalAlignment" Value="Center" />
+                <Setter Property="HorizontalAlignment" Value="Right" />
+                <Setter Property="Margin" Value="2,0,0,0" />
+            </Style>
+            <Style x:Key="ImageAwesome" TargetType="fa:ImageAwesome">
+                <Setter Property="Width" Value="16" />
+                <Setter Property="Foreground" Value="{StaticResource ForegroundBrush}" />
+                <Style.Triggers>
+                    <Trigger Property="IsMouseOver" Value="True">
+                        <Setter Property="Foreground" Value="{StaticResource ActiveBrush}" />
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+            <Style x:Key="ApplicationNameTextBlockStyle" TargetType="TextBlock" BasedOn="{StaticResource DescriptionStyle}">
+                <Setter Property="FontSize" Value="20" />
+                <Setter Property="Foreground" Value="{StaticResource ForegroundBrush}" />
+                <Setter Property="VerticalAlignment" Value="Center" />
+            </Style>
+            <DataTemplate DataType="{x:Type vm:AdditionalApplicationListViewModel}">
+                <Border Style="{StaticResource AdditionalBorderStyle}">
+                    <Grid>
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="{Binding Icon}" Width="24" Margin="0,0,5,0" />
+                            <TextBlock Text="{Binding Name}" Style="{StaticResource ApplicationNameTextBlockStyle}" ToolTip="{Binding Path}" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                            <Button ToolTip="Edit additional application" Style="{StaticResource AdditionalButtonStyle}"
+                                     Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ItemsControl}}, Path=DataContext.EditAdditionalApplicationCommand}"
+                                     CommandParameter="{Binding}">
+                                <fa:ImageAwesome Icon="Edit" Style="{StaticResource ImageAwesome}" />
+                            </Button>
+                            <Button ToolTip="Remove additional application" Style="{StaticResource AdditionalButtonStyle}"
+                                     Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ItemsControl}}, Path=DataContext.RemoveAdditionalApplicationCommand}"
+                                     CommandParameter="{Binding}">
+                                <fa:ImageAwesome Icon="Remove" Style="{StaticResource ImageAwesome}" Width="14" />
+                            </Button>
+                        </StackPanel>
+                    </Grid>
+                </Border>
+            </DataTemplate>
+        </ResourceDictionary>
     </Application.Resources>
 </Application>

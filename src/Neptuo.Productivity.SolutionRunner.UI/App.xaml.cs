@@ -21,6 +21,7 @@ using Neptuo.Productivity.SolutionRunner.Services.Searching;
 using Neptuo.Productivity.SolutionRunner.Services.StartupFlags;
 using Neptuo.Productivity.SolutionRunner.Services.StartupShortcuts;
 using Neptuo.Productivity.SolutionRunner.Services.Statistics;
+using Neptuo.Productivity.SolutionRunner.Services.Themes;
 using Neptuo.Productivity.SolutionRunner.ViewModels;
 using Neptuo.Productivity.SolutionRunner.ViewModels.Commands.Factories;
 using Neptuo.Productivity.SolutionRunner.ViewModels.Factories;
@@ -86,6 +87,9 @@ namespace Neptuo.Productivity.SolutionRunner
 
         protected override void OnStartup(StartupEventArgs e)
         {
+            if (Settings.Default.ThemeMode == ThemeMode.Light)
+                Resources.MergedDictionaries[0].Source = new Uri("/Views/Themes/Light.xaml", UriKind.Relative);
+
             TaskScheduler.UnobservedTaskException += OnTaskSchedulerUnobservedException;
 
             //#if DEBUG

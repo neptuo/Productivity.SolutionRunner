@@ -11,9 +11,8 @@
         xmlns:ui="clr-namespace:Neptuo.Productivity.SolutionRunner.Views.Controls"
         xmlns:ds="clr-namespace:Neptuo.Productivity.SolutionRunner.Views.DataSources"
         xmlns:converters="clr-namespace:Neptuo.Productivity.SolutionRunner.Views.Converters"
-        xmlns:themes="clr-namespace:Neptuo.Productivity.SolutionRunner.Views.Themes"
         Title="SolutionRunner - Configuration" Width="510" SizeToContent="Height" Icon="{StaticResource IconBitmapImage}"
-        Background="{themes:Resource BackgroundBrush}" WindowStartupLocation="CenterScreen"
+        Background="{StaticResource BackgroundBrush}" WindowStartupLocation="CenterScreen"
         PreviewKeyDown="OnPreviewKeyDown" Closing="OnClosing">
     <Window.Resources>
         <converters:NullConverter x:Key="NullToTrueConverter" TrueValue="{x:Static ds:Boolean.True}" FalseValue="{x:Static ds:Boolean.False}" />
@@ -41,7 +40,7 @@
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
-                        <TextBlock x:Name="content" Text="{TemplateBinding Content}" Foreground="{themes:Resource LinkForegroundBrush}" TextDecorations="Underline" Cursor="Hand" ToolTip="{TemplateBinding ToolTip}" Margin="0" Padding="0" />
+                        <TextBlock x:Name="content" Text="{TemplateBinding Content}" Foreground="{StaticResource LinkForegroundBrush}" TextDecorations="Underline" Cursor="Hand" ToolTip="{TemplateBinding ToolTip}" Margin="0" Padding="0" />
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsFocused" Value="True">
                                 <Setter TargetName="content" Property="Foreground" Value="Red" />
@@ -62,7 +61,7 @@
                     <ControlTemplate TargetType="{x:Type ListBoxItem}">
                         <Border Name="theBorder" Background="Transparent">
                             <RadioButton Focusable="False" IsHitTestVisible="False" IsChecked="{TemplateBinding IsSelected}" Padding="2,-1,0,0">
-                                <TextBlock Text="{Binding Name}" Foreground="{themes:Resource ForegroundBrush}" />
+                                <TextBlock Text="{Binding Name}" Foreground="{StaticResource ForegroundBrush}" />
                             </RadioButton>
                         </Border>
                     </ControlTemplate>
@@ -80,17 +79,17 @@
         <Style x:Key="ApplicationComboBoxItemStyle" TargetType="ComboBoxItem">
             <Setter Property="HorizontalContentAlignment" Value="Stretch" />
             <Setter Property="FontSize" Value="20" />
-            <Setter Property="Foreground" Value="{themes:Resource ForegroundBrush}" />
+            <Setter Property="Foreground" Value="{StaticResource ForegroundBrush}" />
             <Setter Property="BorderThickness" Value="0,0,0,1" />
-            <Setter Property="BorderBrush" Value="{themes:Resource TextBoxInactiveBrush}" />
+            <Setter Property="BorderBrush" Value="{StaticResource TextBoxInactiveBrush}" />
         </Style>
         <Style x:Key="ApplicationComboBoxStyle" TargetType="ComboBox">
             <Setter Property="FontSize" Value="20" />
             <Setter Property="ItemContainerStyle" Value="{StaticResource ApplicationComboBoxItemStyle}" />
             <Style.Resources>
-                <SolidColorBrush x:Key="{x:Static SystemColors.WindowBrushKey}" Color="{themes:Resource InactiveColor}" />
-                <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="{themes:Resource InactiveColor}" />
-                <SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}" Color="{themes:Resource InactiveColor}" />
+                <SolidColorBrush x:Key="{x:Static SystemColors.WindowBrushKey}" Color="{StaticResource InactiveColor}" />
+                <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="{StaticResource InactiveColor}" />
+                <SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}" Color="{StaticResource InactiveColor}" />
             </Style.Resources>
         </Style>
 
@@ -342,7 +341,7 @@
             <TabItem Header="About">
                 <Grid>
                     <StackPanel VerticalAlignment="Bottom">
-                        <TextBlock Text="{Binding Version}" VerticalAlignment="Center" FontSize="30" Foreground="{themes:Resource ForegroundBrush}" />
+                        <TextBlock Text="{Binding Version}" VerticalAlignment="Center" FontSize="30" Foreground="{StaticResource ForegroundBrush}" />
                         <TextBlock Text="Neptuo" VerticalAlignment="Center" />
                         <TextBlock Text="Copyright © 2017" VerticalAlignment="Center" />
                         <Button x:Name="btnAbout" Content="Documentation" ToolTip="www.neptuo.com/project/desktop/solutionrunner" Click="btnAbout_Click" Style="{StaticResource LinkButtonStyle}" Margin="2,0,5,0" />

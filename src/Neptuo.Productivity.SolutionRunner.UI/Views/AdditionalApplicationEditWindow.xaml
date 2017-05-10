@@ -7,9 +7,8 @@
         xmlns:converters="clr-namespace:Neptuo.Productivity.SolutionRunner.Views.Converters"
         xmlns:fa="http://schemas.fontawesome.io/icons/"
         xmlns:ui="clr-namespace:Neptuo.Productivity.SolutionRunner.Views.Controls"
-        xmlns:themes="clr-namespace:Neptuo.Productivity.SolutionRunner.Views.Themes"
         Title="SolutionRunner - Additional Application" Width="450" SizeToContent="Height" ResizeMode="NoResize" Icon="{StaticResource IconBitmapImage}" 
-        ShowInTaskbar="False" Background="{themes:Resource BackgroundBrush}" WindowStartupLocation="CenterScreen"
+        ShowInTaskbar="False" Background="{StaticResource BackgroundBrush}" WindowStartupLocation="CenterScreen"
         PreviewKeyDown="OnPreviewKeyDown">
     <Window.Resources>
         <converters:NullConverter x:Key="NullToHiddenConverter" TrueValue="Hidden" FalseValue="Visible"/>
