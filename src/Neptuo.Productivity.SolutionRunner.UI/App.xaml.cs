@@ -87,8 +87,7 @@ namespace Neptuo.Productivity.SolutionRunner
 
         protected override void OnStartup(StartupEventArgs e)
         {
-            if (Settings.Default.ThemeMode == ThemeMode.Light)
-                Resources.MergedDictionaries[0].Source = new Uri("/Views/Themes/Light.xaml", UriKind.Relative);
+            ReloadThemeResources();
 
             TaskScheduler.UnobservedTaskException += OnTaskSchedulerUnobservedException;
 
@@ -225,6 +224,27 @@ namespace Neptuo.Productivity.SolutionRunner
                 TryCreateTrayIcon();
             else
                 TryDestroyTrayIcon();
+
+            ReloadThemeResources();
+        }
+
+        private void ReloadThemeResources()
+        {
+            Uri uri = null;
+            switch (Settings.Default.ThemeMode)
+            {
+                case ThemeMode.Dark:
+                    uri = new Uri("/Views/Themes/Dark.xaml", UriKind.Relative);
+                    break;
+                case ThemeMode.Light:
+                    uri = new Uri("/Views/Themes/Light.xaml", UriKind.Relative);
+                    break;
+                default:
+                    throw Ensure.Exception.NotSupported(Settings.Default.ThemeMode);
+            }
+
+            if (Resources.MergedDictionaries[0].Source != uri)
+                Resources.MergedDictionaries[0].Source = uri;
         }
 
         private bool TryCreateTrayIcon()
