@@ -37,7 +37,7 @@ namespace Neptuo.Productivity.SolutionRunner.Views
         protected override void OnActivated(EventArgs e)
         {
             base.OnActivated(e);
-            fbrPath.Focus();
+            ApplicationEdit.Focus();
         }
 
         private void OnPreviewKeyDown(object sender, KeyEventArgs e)
@@ -54,9 +54,10 @@ namespace Neptuo.Productivity.SolutionRunner.Views
             Close();
         }
 
-        private void tbxName_KeyUp(object sender, KeyEventArgs e)
+        private void ApplicationEdit_DisplayNameChanged(object sender, RoutedEventArgs e)
         {
             ViewModel.IsNameChanged = true;
+            ApplicationEdit.DisplayNameChanged -= ApplicationEdit_DisplayNameChanged;
         }
     }
 }

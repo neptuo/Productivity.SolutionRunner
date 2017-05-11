@@ -260,6 +260,9 @@
     </Compile>
     <Compile Include="Views\Controls\AccessKey.cs" />
     <Compile Include="Views\Controls\AccessKeyEventArgs.cs" />
+    <Compile Include="Views\Controls\ApplicationEdit.xaml.cs">
+      <DependentUpon>ApplicationEdit.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Controls\FileBrowser.xaml.cs">
       <DependentUpon>FileBrowser.xaml</DependentUpon>
     </Compile>
@@ -299,6 +302,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\ConfigurationWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Controls\ApplicationEdit.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

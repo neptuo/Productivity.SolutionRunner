@@ -1,0 +1,51 @@
+﻿<UserControl x:Class="Neptuo.Productivity.SolutionRunner.Views.Controls.ApplicationEdit"
+             x:Name="this"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:ui="clr-namespace:Neptuo.Productivity.SolutionRunner.Views.Controls"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="500">
+    <UserControl.Resources>
+        <Style TargetType="TextBlock" BasedOn="{StaticResource DescriptionStyle}">
+            <Setter Property="Padding" Value="2" />
+        </Style>
+    </UserControl.Resources>
+    <StackPanel>
+        <DockPanel>
+            <Image Source="{Binding Icon}" Width="32" Margin="5,0,15,0" DockPanel.Dock="Left" />
+            <StackPanel Style="{StaticResource EditorPanelStyle}">
+                <Grid>
+                    <Label Content="Name:" Target="{Binding ElementName=tbxName}" />
+                    <TextBlock Text="If not set, automatically taken from the path" HorizontalAlignment="Right" />
+                </Grid>
+                <TextBox x:Name="tbxName" Text="{Binding DisplayName, ElementName=this, UpdateSourceTrigger=PropertyChanged}" Margin="0" KeyUp="tbxName_KeyUp" />
+            </StackPanel>
+        </DockPanel>
+        <StackPanel Style="{StaticResource EditorPanelStyle}">
+            <Grid>
+                <Label Content="Path:" Target="{Binding ElementName=fbrPath}" />
+                <TextBlock Text="Full path to additional application" HorizontalAlignment="Right" />
+            </Grid>
+            <ui:FileBrowser x:Name="fbrPath" Path="{Binding FilePath, ElementName=this, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Margin="0" />
+        </StackPanel>
+        <StackPanel Style="{StaticResource EditorPanelStyle}">
+            <Grid>
+                <Label Content="Arguments:" Target="{Binding ElementName=tbxArguments}" />
+                <TextBlock Text="If not set, {FilePath} is used" HorizontalAlignment="Right" />
+            </Grid>
+            <TextBox x:Name="tbxArguments" Text="{Binding FileArguments, ElementName=this, UpdateSourceTrigger=PropertyChanged}" Margin="0" />
+            <TextBlock TextWrapping="Wrap">
+             Here you can define additional application arguments. By default the only passed argument is a path to the selected file.
+             Value can contain dynamic blocks that are replaced by values from selected file.
+            </TextBlock>
+            <TextBlock TextWrapping="Wrap">
+             {FilePath} is replaced with a full path to the selected file.
+            </TextBlock>
+            <TextBlock TextWrapping="Wrap">
+             {DirectoryPath} is replaced with a full path to the directory of the selected file.
+            </TextBlock>
+        </StackPanel>
+    </StackPanel>
+</UserControl>
