@@ -2,6 +2,7 @@
 using Neptuo.Productivity.SolutionRunner.Properties;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Configuration;
 using System.Diagnostics;
 using System.Linq;
@@ -49,7 +50,6 @@ namespace Neptuo.Productivity.SolutionRunner.Views.Controls
         public SettingsExtension(string key)
         {
             Ensure.NotNullOrEmpty(key, "key");
-            EnsureSettings();
             EnsureKey(key);
             Key = key;
         }
@@ -59,6 +59,8 @@ namespace Neptuo.Productivity.SolutionRunner.Views.Controls
             IProvideValueTarget provideValueTarget = (IProvideValueTarget)serviceProvider.GetService(typeof(IProvideValueTarget));
             DependencyProperty property = provideValueTarget.TargetProperty as DependencyProperty;
 
+            EnsureDesignTimeSettings(provideValueTarget);
+            EnsureSettings();
             object value = Settings[Key];
             if (Converter != null)
                 value = Converter.Convert(value, property?.PropertyType ?? typeof(object), ConverterParameter, Thread.CurrentThread.CurrentUICulture);
@@ -70,6 +72,14 @@ namespace Neptuo.Productivity.SolutionRunner.Views.Controls
         {
             if (Settings == null)
                 throw Ensure.Exception.InvalidOperation($"Missing '{nameof(SettingsExtension)}.{nameof(Settings)}' which is null.");
+        }
+
+        [Conditional("DEBUG")]
+        private void EnsureDesignTimeSettings(IProvideValueTarget provideValueTarget)
+        {
+            DependencyObject target = provideValueTarget.TargetObject as DependencyObject;
+            if (DesignerProperties.GetIsInDesignMode(target))
+                Settings = new Settings();
         }
 
         [Conditional("DEBUG")]
