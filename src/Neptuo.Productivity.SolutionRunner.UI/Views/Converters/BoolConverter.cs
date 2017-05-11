@@ -33,7 +33,7 @@ namespace Neptuo.Productivity.SolutionRunner.Views.Converters
                 Type resultType = result.GetType();
                 TypeConverter converter = TypeDescriptor.GetConverter(targetType);
                 if (converter != null && converter.CanConvertFrom(resultType))
-                    result = converter.ConvertFrom(result);
+                    result = converter.ConvertFrom(null, CultureInfo.InvariantCulture, result);
             }
 
             return result;

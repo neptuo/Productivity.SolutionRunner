@@ -291,8 +291,8 @@
                         </Grid>
                         <TextBox x:Name="tbxRunHotKey" Margin="0" ui:HotKeyTextBox.Key="{Binding RunKey, Mode=TwoWay}" />
                         <TextBlock TextWrapping="Wrap">
-                        When the hot key is not set, the application exits when the main window is closed. 
-                        Otherwise the application is hidden and it is triggered to the front by pressing the hot key.
+                         When the hot key is not set, the application exits when the main window is closed. 
+                         Otherwise the application is hidden and it is triggered to the front by pressing the hot key.
                         </TextBlock>
                     </StackPanel>
 
