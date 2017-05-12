@@ -1,5 +1,4 @@
 ﻿using Neptuo.Observables;
-using Neptuo.Observables.Collections;
 using Neptuo.Productivity.SolutionRunner.Services;
 using Neptuo.Productivity.SolutionRunner.Services.Applications;
 using Neptuo.Productivity.SolutionRunner.ViewModels.Commands;
@@ -13,8 +12,10 @@ using System.Windows.Media;
 
 namespace Neptuo.Productivity.SolutionRunner.ViewModels
 {
-    public class AdditionalApplicationEditViewModel : ObservableObject, IApplicationViewModel
+    public class AdditionalCommandEditViewModel : ObservableObject, IApplicationViewModel
     {
+        private readonly INavigator navigator;
+
         public bool IsNameChanged { get; set; }
 
         private string name;
@@ -111,34 +112,20 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels
             get { return saveCommand; }
         }
 
-        public ObservableCollection<AdditionalApplicationListViewModel> Commands { get; private set; }
-
-        public ICommand RemoveAdditionalApplicationCommand { get; private set; }
-        public ICommand EditAdditionalApplicationCommand { get; private set; }
-        public ICommand CreateCommand { get; private set; }
-
-        public AdditionalApplicationEditViewModel(INavigator navigator, AdditionalApplicationModel model, Action<AdditionalApplicationModel> onSaved)
+        public AdditionalCommandEditViewModel(INavigator navigator, AdditionalApplicationModel model, Action<AdditionalApplicationModel> onSaved)
         {
-            Commands = new ObservableCollection<AdditionalApplicationListViewModel>();
-
             if (model != null)
             {
                 IsNameChanged = true;
                 Name = model.Name;
                 Path = model.Path;
                 Arguments = model.Arguments;
-                HotKey = model.HotKey == Key.None 
-                    ? null 
+                HotKey = model.HotKey == Key.None
+                    ? null
                     : new KeyViewModel(model.HotKey, ModifierKeys.None);
-
-                Commands.AddRange(model.Commands.Select(m => new AdditionalApplicationListViewModel(m)));
             }
 
             saveCommand = new SaveApplicationCommand(this, model, onSaved);
-
-            EditAdditionalApplicationCommand = new EditAdditionalCommandCommand(this, navigator);
-            RemoveAdditionalApplicationCommand = new RemoveAdditionalCommandCommand(this);
-            CreateCommand = new CreateAdditionalCommandCommand(this, navigator);
         }
 
         public AdditionalApplicationModel ToModel()
@@ -147,10 +134,7 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels
                 Name,
                 Path,
                 Arguments,
-                HotKey.GetKey(),
-                Commands
-                    .Select(vm => vm.Model)
-                    .ToList()
+                HotKey.GetKey()
             );
         }
     }

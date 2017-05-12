@@ -18,9 +18,6 @@ using System.Windows.Shapes;
 
 namespace Neptuo.Productivity.SolutionRunner.Views.Controls
 {
-    /// <summary>
-    /// Interaction logic for HelpPopup.xaml
-    /// </summary>
     [ContentProperty("Body")]
     public partial class HelpPopup : Popup
     {

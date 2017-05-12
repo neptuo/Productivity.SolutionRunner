@@ -224,10 +224,14 @@
     <Compile Include="ThrottlingHelper.cs" />
     <Compile Include="ViewModels\AdditionalApplicationEditViewModel.cs" />
     <Compile Include="ViewModels\AdditionalApplicationListViewModel.cs" />
+    <Compile Include="ViewModels\AdditionalCommandEditViewModel.cs" />
     <Compile Include="ViewModels\Commands\CommandBase.cs" />
     <Compile Include="ViewModels\Commands\CreateAdditionalApplicationCommand.cs" />
+    <Compile Include="ViewModels\Commands\CreateAdditionalCommandCommand.cs" />
+    <Compile Include="ViewModels\Commands\EditAdditionalCommandCommand.cs" />
     <Compile Include="ViewModels\Commands\PinCommand.cs" />
     <Compile Include="ViewModels\Commands\EditAdditionalApplicationCommand.cs" />
+    <Compile Include="ViewModels\Commands\RemoveAdditionalCommandCommand.cs" />
     <Compile Include="ViewModels\Commands\RemoveAdditionalApplicationCommand.cs" />
     <Compile Include="ViewModels\Commands\SaveApplicationCommand.cs" />
     <Compile Include="ViewModels\Commands\SaveConfigurationCommand.cs" />
@@ -239,6 +243,7 @@
     <Compile Include="ViewModels\Factories\ConfigurationViewModelFactory.cs" />
     <Compile Include="ViewModels\Factories\MainViewModelFactory.cs" />
     <Compile Include="ViewModels\FileViewModel.cs" />
+    <Compile Include="ViewModels\IApplicationViewModel.cs" />
     <Compile Include="ViewModels\IPreferedApplicationViewModel.cs" />
     <Compile Include="ViewModels\MainApplicationCollection.cs" />
     <Compile Include="ViewModels\MainApplicationListViewModel.cs" />
@@ -252,8 +257,12 @@
     <Compile Include="ViewModels\StatisticsViewModel.cs" />
     <Compile Include="ViewModels\VersionViewModel.cs" />
     <Compile Include="ViewModels\VsVersionCollection.cs" />
+    <Compile Include="ViewModels\_KeyViewModelExtensions.cs" />
     <Compile Include="Views\AdditionalApplicationEditWindow.xaml.cs">
       <DependentUpon>AdditionalApplicationEditWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\AdditionalCommandEditWindow.xaml.cs">
+      <DependentUpon>AdditionalCommandEditWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ConfigurationWindow.xaml.cs">
       <DependentUpon>ConfigurationWindow.xaml</DependentUpon>
@@ -301,6 +310,10 @@
       <DependentUpon>StatisticsWindow.xaml</DependentUpon>
     </Compile>
     <Page Include="Views\AdditionalApplicationEditWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\AdditionalCommandEditWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

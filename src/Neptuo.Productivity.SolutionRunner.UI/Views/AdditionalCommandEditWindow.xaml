@@ -1,12 +1,12 @@
-﻿<Window x:Class="Neptuo.Productivity.SolutionRunner.Views.AdditionalApplicationEditWindow"
+﻿<Window x:Class="Neptuo.Productivity.SolutionRunner.Views.AdditionalCommandEditWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" 
-        xmlns:dd="clr-namespace:Neptuo.Productivity.SolutionRunner.UI.DesignData" d:DataContext="{x:Static dd:ViewModelLocator.AdditionalApplication}"
+        xmlns:dd="clr-namespace:Neptuo.Productivity.SolutionRunner.UI.DesignData" d:DataContext="{x:Static dd:ViewModelLocator.AdditionalCommand}"
         xmlns:converters="clr-namespace:Neptuo.Productivity.SolutionRunner.Views.Converters"
         xmlns:ui="clr-namespace:Neptuo.Productivity.SolutionRunner.Views.Controls"
-        Title="SolutionRunner - Additional Application" Width="450" SizeToContent="Height" ResizeMode="NoResize" Icon="{StaticResource IconBitmapImage}" 
+        Title="SolutionRunner - Additional Application Command" Width="400" SizeToContent="Height" ResizeMode="NoResize" Icon="{StaticResource IconBitmapImage}" 
         ShowInTaskbar="False" Background="{StaticResource BackgroundBrush}" WindowStartupLocation="CenterScreen"
         PreviewKeyDown="OnPreviewKeyDown">
     <Window.Resources>
@@ -33,16 +33,8 @@
                     <Label Content="HotKey:" Target="{Binding ElementName=tbxHotKey}" />
                     <TextBlock Text="Alt + key to activate without selecting" HorizontalAlignment="Right" />
                 </Grid>
-                <TextBox x:Name="tbxHotKey" Margin="0" ui:HotKeyTextBox.Key="{Binding HotKey, Mode=TwoWay}" ui:HotKeyTextBox.AllowedModifiers="" />
+                <TextBox x:Name="tbxHotKey" Margin="0" ui:HotKeyTextBox.Key="{Binding HotKey}" ui:HotKeyTextBox.AllowedModifiers="" />
             </StackPanel>
-            <ui:ListView ItemsSource="{Binding Commands}" 
-             Label="Additional Commands:" LabelDetail="..."
-             CreateCommand="{Binding CreateCommand}" CreateCommandToolTip="Create new additional application"
-             Visibility="{Binding HotKey, Converter={StaticResource NullToHiddenConverter}}">
-                <ui:ListView.NoData>
-                    <TextBlock Text="No additional command. Use '+' to add some..." Style="{StaticResource ApplicationNameTextBlockStyle}" />
-                </ui:ListView.NoData>
-            </ui:ListView>
         </StackPanel>
     </DockPanel>
 </Window>

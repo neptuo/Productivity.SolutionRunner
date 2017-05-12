@@ -26,7 +26,11 @@ namespace Neptuo.Productivity.SolutionRunner.Views.Controls
             "Key", 
             typeof(KeyViewModel), 
             typeof(HotKeyTextBox), 
-            new PropertyMetadata(new KeyViewModel(Key.Tab, ModifierKeys.Shift), OnKeyChanged)
+            new FrameworkPropertyMetadata(
+                new KeyViewModel(Key.Tab, ModifierKeys.Shift), 
+                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, 
+                OnKeyChanged
+            )
         );
 
         private static void OnKeyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)

@@ -17,9 +17,6 @@ using UserControl = System.Windows.Controls.UserControl;
 
 namespace Neptuo.Productivity.SolutionRunner.Views.Controls
 {
-    /// <summary>
-    /// Interaction logic for DirectoryBrowser.xaml
-    /// </summary>
     public partial class DirectoryBrowser : UserControl
     {
         public string Path

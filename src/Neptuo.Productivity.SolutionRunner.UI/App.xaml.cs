@@ -46,9 +46,6 @@ using NotifyIcon = System.Windows.Forms.NotifyIcon;
 
 namespace Neptuo.Productivity.SolutionRunner
 {
-    /// <summary>
-    /// Interaction logic for App.xaml
-    /// </summary>
     public partial class App : Application, INavigator, INavigatorState, IPinStateService
     {
         private StartupModel startup;
@@ -471,6 +468,29 @@ namespace Neptuo.Productivity.SolutionRunner
 
             if (onAdditionalApplicationSaved != null)
                 onAdditionalApplicationSaved(model);
+        }
+
+        private AdditionalApplicationModel sourceAdditionalCommandModel;
+        private AdditionalCommandEditWindow additionalCommandEditWindow;
+        private Action<AdditionalApplicationModel> onAdditionalCommandSaved;
+
+        public void OpenAdditionalCommandEdit(AdditionalApplicationModel model, Action<AdditionalApplicationModel> onSaved)
+        {
+            sourceAdditionalCommandModel = model;
+            onAdditionalCommandSaved = onSaved;
+
+            AdditionalCommandEditViewModel viewModel = new AdditionalCommandEditViewModel(this, model, OnAdditionalCommandSaved);
+            additionalCommandEditWindow = new AdditionalCommandEditWindow(viewModel);
+            additionalCommandEditWindow.Owner = configurationWindow;
+            additionalCommandEditWindow.ShowDialog();
+        }
+
+        private void OnAdditionalCommandSaved(AdditionalApplicationModel model)
+        {
+            additionalCommandEditWindow.Close();
+
+            if (onAdditionalCommandSaved != null)
+                onAdditionalCommandSaved(model);
         }
 
         public void OpenMain()

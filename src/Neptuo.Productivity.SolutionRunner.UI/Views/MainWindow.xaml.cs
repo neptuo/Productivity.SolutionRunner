@@ -32,9 +32,6 @@ using AccessKeyEventArgs = Neptuo.Productivity.SolutionRunner.Views.Controls.Acc
 
 namespace Neptuo.Productivity.SolutionRunner.Views
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window, IPositionTarget
     {
         private readonly INavigator navigator;

@@ -7,12 +7,12 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Productivity.SolutionRunner.ViewModels.Commands
 {
-    public class EditAdditionalApplicationCommand : CommandBase<AdditionalApplicationListViewModel>
+    public class EditAdditionalCommandCommand : CommandBase<AdditionalApplicationListViewModel>
     {
-        private readonly ConfigurationViewModel viewModel;
+        private readonly AdditionalApplicationEditViewModel viewModel;
         private readonly INavigator navigator;
 
-        public EditAdditionalApplicationCommand(ConfigurationViewModel viewModel, INavigator navigator)
+        public EditAdditionalCommandCommand(AdditionalApplicationEditViewModel viewModel, INavigator navigator)
         {
             Ensure.NotNull(viewModel, "viewModel");
             Ensure.NotNull(navigator, "navigator");
@@ -29,7 +29,7 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels.Commands
         {
             if (parameter != null)
             {
-                navigator.OpenAdditionalApplicationEdit(parameter.Model, m =>
+                navigator.OpenAdditionalCommandEdit(parameter.Model, m =>
                 {
                     if (m != null)
                         parameter.UpdateModel(m);

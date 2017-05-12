@@ -64,6 +64,7 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels
             Icon = IconExtractor.Get(model.Path);
             Path = model.Path;
             Model = model;
+            RaisePropertyChanged(nameof(Name));
         }
     }
 }

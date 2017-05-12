@@ -16,9 +16,6 @@ using System.Windows.Shapes;
 
 namespace Neptuo.Productivity.SolutionRunner.Views.Controls
 {
-    /// <summary>
-    /// Interaction logic for PieChart.xaml
-    /// </summary>
     public partial class PieChartItem : UserControl
     {
         public double Thickness

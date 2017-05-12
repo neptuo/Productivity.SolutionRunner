@@ -196,6 +196,11 @@ namespace Neptuo.Productivity.SolutionRunner.UI.DesignData
                 throw new NotImplementedException();
             }
 
+            public void OpenAdditionalCommandEdit(AdditionalApplicationModel model, Action<AdditionalApplicationModel> onSaved)
+            {
+                throw new NotImplementedException();
+            }
+
             public void OpenConfiguration()
             {
                 throw new NotImplementedException();
@@ -232,6 +237,29 @@ namespace Neptuo.Productivity.SolutionRunner.UI.DesignData
                 }
 
                 return additionalApplication;
+            }
+        }
+
+        #endregion
+
+        #region AdditionalCommandEditViewModel
+
+        private static AdditionalCommandEditViewModel additionalCommand;
+
+        public static AdditionalCommandEditViewModel AdditionalCommand
+        {
+            get
+            {
+                if(additionalCommand == null)
+                {
+                    additionalCommand = new AdditionalCommandEditViewModel(new Navigator(), null, m => { });
+                    additionalApplication.Path = @"C:\Windows\notepad.exe";
+                    additionalApplication.Arguments = "browse {FilePath}";
+                    additionalApplication.Icon = IconExtractor.Get(@"C:\Windows\notepad.exe");
+                    additionalApplication.HotKey = new KeyViewModel(Key.N, ModifierKeys.None);
+                }
+
+                return additionalCommand;
             }
         }
 

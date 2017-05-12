@@ -1,8 +1,6 @@
 ﻿using Neptuo.Productivity.SolutionRunner.ViewModels;
-using Neptuo.Productivity.SolutionRunner.Views.Controls;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,24 +15,23 @@ using System.Windows.Shapes;
 
 namespace Neptuo.Productivity.SolutionRunner.Views
 {
-    public partial class AdditionalApplicationEditWindow : Window
+    public partial class AdditionalCommandEditWindow : Window
     {
-        public AdditionalApplicationEditViewModel ViewModel
+        public AdditionalCommandEditViewModel ViewModel
         {
-            get { return (AdditionalApplicationEditViewModel)DataContext; }
+            get { return (AdditionalCommandEditViewModel)DataContext; }
             set { DataContext = value; }
         }
 
-        public AdditionalApplicationEditWindow(AdditionalApplicationEditViewModel viewModel)
+        public AdditionalCommandEditWindow(AdditionalCommandEditViewModel viewModel)
         {
             InitializeComponent();
             ViewModel = viewModel;
         }
 
-        protected override void OnActivated(EventArgs e)
+        public AdditionalCommandEditWindow()
         {
-            base.OnActivated(e);
-            ApplicationEdit.Focus();
+            InitializeComponent();
         }
 
         private void OnPreviewKeyDown(object sender, KeyEventArgs e)
@@ -45,7 +42,7 @@ namespace Neptuo.Productivity.SolutionRunner.Views
                 e.Handled = true;
             }
         }
-        
+
         private void btnCancel_Click(object sender, RoutedEventArgs e)
         {
             Close();

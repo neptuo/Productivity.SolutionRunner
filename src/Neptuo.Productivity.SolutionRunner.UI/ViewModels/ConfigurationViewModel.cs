@@ -17,7 +17,7 @@ using Neptuo.Productivity.SolutionRunner.Services.Themes;
 
 namespace Neptuo.Productivity.SolutionRunner.ViewModels
 {
-    public class ConfigurationViewModel : ObservableObject, CreateAdditionalApplicationCommand.IContainer, EditAdditionalApplicationCommand.IContainer, RemoveAdditionalApplicationCommand.IContainer
+    public class ConfigurationViewModel : ObservableObject, CreateAdditionalApplicationCommand.IContainer, RemoveAdditionalApplicationCommand.IContainer
     {
         private string sourceDirectoryPath;
         public string SourceDirectoryPath
@@ -353,13 +353,7 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels
 
             AdditionalApplications.Add(viewModel);
         }
-
-        void EditAdditionalApplicationCommand.IContainer.Remove(AdditionalApplicationListViewModel viewModel)
-        {
-            if (AdditionalApplications != null)
-                AdditionalApplications.Remove(viewModel);
-        }
-
+        
         void RemoveAdditionalApplicationCommand.IContainer.Remove(AdditionalApplicationListViewModel viewModel)
         {
             if (AdditionalApplications != null)

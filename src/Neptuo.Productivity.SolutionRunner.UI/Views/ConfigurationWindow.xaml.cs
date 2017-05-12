@@ -22,9 +22,6 @@ using EventManager = Neptuo.Productivity.SolutionRunner.ViewModels.EventManager;
 
 namespace Neptuo.Productivity.SolutionRunner.Views
 {
-    /// <summary>
-    /// Interaction logic for ConfigurationWindow.xaml
-    /// </summary>
     public partial class ConfigurationWindow : Window
     {
         private readonly INavigator navigator;
