@@ -231,33 +231,31 @@
                             </ComboBox.ItemTemplate>
                         </ComboBox>
                     </StackPanel>
-                    <StackPanel Style="{StaticResource EditorPanelStyle}">
-                        <Grid>
-                            <Label Content="Main:" Target="{Binding ElementName=tbxAdditionalApplications}" />
-                            <TextBlock Text="Visual Studio versions" HorizontalAlignment="Right" />
-                        </Grid>
-                        <ItemsControl ItemsSource="{Binding MainApplications}">
-                            <ItemsControl.ItemTemplate>
-                                <DataTemplate>
-                                    <Border Style="{StaticResource AdditionalBorderStyle}">
-                                        <Grid>
-                                            <StackPanel Orientation="Horizontal">
-                                                <Image Source="{Binding Icon}" Width="24" Margin="0,0,5,0" />
-                                                <TextBlock Text="{Binding Name}" ToolTip="{Binding Path}" Style="{StaticResource ApplicationNameTextBlockStyle}" />
-                                            </StackPanel>
+                    <ui:ListView ItemsSource="{Binding MainApplications}"
+                     Label="Main:" LabelDetail="Visual Studio versions">
+                        <ui:ListView.ItemTemplate>
+                            <DataTemplate>
+                                <Border Style="{StaticResource AdditionalBorderStyle}">
+                                    <Grid>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Image Source="{Binding Icon}" Width="24" Margin="0,0,5,0" />
+                                            <TextBlock Text="{Binding Name}" ToolTip="{Binding Path}" Style="{StaticResource ApplicationNameTextBlockStyle}" />
+                                        </StackPanel>
 
-                                            <ToggleButton IsChecked="{Binding IsEnabled}" Style="{StaticResource PlainToggleButtonStyle}" HorizontalAlignment="Right">
-                                                <fa:ImageAwesome Style="{StaticResource ImageAwesome}"
-                                                 Icon="{Binding IsEnabled, Converter={StaticResource TrueToEyeConverter}}" 
-                                                 Opacity="{Binding IsEnabled, Converter={StaticResource TrueToOpacityConverter}}"
-                                                 ToolTip="{Binding IsEnabled, Converter={StaticResource TrueToDescriptionConverter}}"/>
-                                            </ToggleButton>
-                                        </Grid>
-                                    </Border>
-                                </DataTemplate>
-                            </ItemsControl.ItemTemplate>
-                        </ItemsControl>
-                    </StackPanel>
+                                        <ToggleButton IsChecked="{Binding IsEnabled}" Style="{StaticResource PlainToggleButtonStyle}" HorizontalAlignment="Right">
+                                            <fa:ImageAwesome Style="{StaticResource ImageAwesome}"
+                                             Icon="{Binding IsEnabled, Converter={StaticResource TrueToEyeConverter}}" 
+                                             Opacity="{Binding IsEnabled, Converter={StaticResource TrueToOpacityConverter}}"
+                                             ToolTip="{Binding IsEnabled, Converter={StaticResource TrueToDescriptionConverter}}"/>
+                                        </ToggleButton>
+                                    </Grid>
+                                </Border>
+                            </DataTemplate>
+                        </ui:ListView.ItemTemplate>
+                        <ui:ListView.NoData>
+                            <TextBlock Text="No installed Visual Studio found." Style="{StaticResource ApplicationNameTextBlockStyle}" />
+                        </ui:ListView.NoData>
+                    </ui:ListView>
                     <ui:ListView ItemsSource="{Binding AdditionalApplications}" 
                      Label="Additional:" LabelDetail="Shown right after the visual studio versions"
                      CreateCommand="{Binding CreateAdditionalApplicationCommand}" CreateCommandToolTip="Create new additional application">
