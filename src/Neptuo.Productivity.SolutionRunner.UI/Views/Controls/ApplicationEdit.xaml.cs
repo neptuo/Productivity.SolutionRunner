@@ -30,7 +30,7 @@ namespace Neptuo.Productivity.SolutionRunner.Views.Controls
             "DisplayName", 
             typeof(string), 
             typeof(ApplicationEdit), 
-            new PropertyMetadata(null)
+            new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault)
         );
 
         public event RoutedEventHandler DisplayNameChanged
@@ -57,7 +57,7 @@ namespace Neptuo.Productivity.SolutionRunner.Views.Controls
             "FilePath", 
             typeof(string), 
             typeof(ApplicationEdit), 
-            new PropertyMetadata(null)
+            new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault)
         );
 
 
@@ -71,7 +71,7 @@ namespace Neptuo.Productivity.SolutionRunner.Views.Controls
             "FileArguments", 
             typeof(string), 
             typeof(ApplicationEdit), 
-            new PropertyMetadata(null)
+            new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault)
         );
 
         public ApplicationEdit()
