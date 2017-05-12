@@ -15,9 +15,6 @@ using System.Windows.Shapes;
 
 namespace Neptuo.Productivity.SolutionRunner.Views.Controls
 {
-    /// <summary>
-    /// Interaction logic for ApplicationEdit.xaml
-    /// </summary>
     public partial class ApplicationEdit : UserControl
     {
         public string DisplayName

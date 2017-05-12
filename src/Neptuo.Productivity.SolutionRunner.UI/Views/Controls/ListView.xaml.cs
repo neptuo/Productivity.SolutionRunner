@@ -16,9 +16,6 @@ using System.Windows.Shapes;
 
 namespace Neptuo.Productivity.SolutionRunner.Views.Controls
 {
-    /// <summary>
-    /// Interaction logic for ListView.xaml
-    /// </summary>
     public partial class ListView : UserControl
     {
         public string Label
