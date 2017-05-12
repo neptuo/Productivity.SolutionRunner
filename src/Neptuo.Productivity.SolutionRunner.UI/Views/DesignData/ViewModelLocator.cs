@@ -228,6 +228,7 @@ namespace Neptuo.Productivity.SolutionRunner.UI.DesignData
                     additionalApplication.Path = @"C:\Windows\notepad.exe";
                     additionalApplication.Arguments = "browse {FilePath}";
                     additionalApplication.Icon = IconExtractor.Get(@"C:\Windows\notepad.exe");
+                    additionalApplication.HotKey = new KeyViewModel(Key.N, ModifierKeys.None);
                 }
 
                 return additionalApplication;

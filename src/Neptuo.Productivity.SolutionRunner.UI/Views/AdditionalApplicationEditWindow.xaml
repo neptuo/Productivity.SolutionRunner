@@ -36,28 +36,14 @@
                 </Grid>
                 <TextBox x:Name="tbxHotKey" Margin="0" ui:HotKeyTextBox.Key="{Binding HotKey, Mode=TwoWay}" ui:HotKeyTextBox.AllowedModifiers="" />
             </StackPanel>
-            <StackPanel Style="{StaticResource EditorPanelStyle}" Visibility="{Binding HotKey, Converter={StaticResource NullToHiddenConverter}}">
-                <Grid>
-                    <Label Content="Additional Coomands:" Target="{Binding ElementName=tbxAdditionalApplications}" />
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                        <TextBlock Text="..." Margin="0 0 3 0" />
-                        <Button x:Name="btnAddApplication" ToolTip="Create new additional application" Style="{StaticResource PlainButtonStyle}" 
-                         Command="{Binding CreateAdditionalApplicationCommand}">
-                            <fa:ImageAwesome Icon="Plus" Style="{StaticResource ImageAwesome}" Margin="0 0 3 0" />
-                        </Button>
-                    </StackPanel>
-                </Grid>
-                <ItemsControl ItemsSource="{Binding AdditionalApplications}">
-                    <ItemsControl.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <StackPanel />
-                        </ItemsPanelTemplate>
-                    </ItemsControl.ItemsPanel>
-                </ItemsControl>
-                <Border Style="{StaticResource AdditionalBorderStyle}" Visibility="{Binding AdditionalApplications.Count, Converter={StaticResource ZeroOrLowerToVisibleConverter}}">
+            <ui:ListView ItemsSource="{Binding Commands}" 
+             Label="Additional Commands:" LabelDetail="..."
+             CreateCommand="{Binding CreateCommand}" CreateCommandToolTip="Create new additional application"
+             Visibility="{Binding HotKey, Converter={StaticResource NullToHiddenConverter}}">
+                <ui:ListView.NoData>
                     <TextBlock Text="No additional command. Use '+' to add some..." Style="{StaticResource ApplicationNameTextBlockStyle}" />
-                </Border>
-            </StackPanel>
+                </ui:ListView.NoData>
+            </ui:ListView>
         </StackPanel>
     </DockPanel>
 </Window>

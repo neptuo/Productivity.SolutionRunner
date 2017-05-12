@@ -258,28 +258,13 @@
                             </ItemsControl.ItemTemplate>
                         </ItemsControl>
                     </StackPanel>
-                    <StackPanel Style="{StaticResource EditorPanelStyle}">
-                        <Grid>
-                            <Label Content="Additional:" Target="{Binding ElementName=tbxAdditionalApplications}" />
-                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                                <TextBlock Text="Shown right after the visual studio versions" Margin="0 0 3 0" />
-                                <Button x:Name="btnAddApplication" ToolTip="Create new additional application" Style="{StaticResource PlainButtonStyle}" 
-                                     Command="{Binding CreateAdditionalApplicationCommand}">
-                                    <fa:ImageAwesome Icon="Plus" Style="{StaticResource ImageAwesome}" Margin="0 0 3 0" />
-                                </Button>
-                            </StackPanel>
-                        </Grid>
-                        <ItemsControl ItemsSource="{Binding AdditionalApplications}">
-                            <ItemsControl.ItemsPanel>
-                                <ItemsPanelTemplate>
-                                    <StackPanel />
-                                </ItemsPanelTemplate>
-                            </ItemsControl.ItemsPanel>
-                        </ItemsControl>
-                        <Border Style="{StaticResource AdditionalBorderStyle}" Visibility="{Binding AdditionalApplications.Count, Converter={StaticResource ZeroOrLowerToVisibleConverter}}">
+                    <ui:ListView ItemsSource="{Binding AdditionalApplications}" 
+                     Label="Additional:" LabelDetail="Shown right after the visual studio versions"
+                     CreateCommand="{Binding CreateAdditionalApplicationCommand}" CreateCommandToolTip="Create new additional application">
+                        <ui:ListView.NoData>
                             <TextBlock Text="No additional application. Use '+' to add some..." Style="{StaticResource ApplicationNameTextBlockStyle}" />
-                        </Border>
-                    </StackPanel>
+                        </ui:ListView.NoData>
+                    </ui:ListView>
                 </StackPanel>
             </TabItem>
             <TabItem Header="Keyboard">

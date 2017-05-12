@@ -273,6 +273,9 @@
       <DependentUpon>HelpPopup.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Controls\HotKeyTextBox.cs" />
+    <Compile Include="Views\Controls\ListView.xaml.cs">
+      <DependentUpon>ListView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Controls\PieChart.xaml.cs">
       <DependentUpon>PieChart.xaml</DependentUpon>
     </Compile>
@@ -318,6 +321,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Controls\HelpPopup.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Controls\ListView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

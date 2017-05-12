@@ -117,7 +117,7 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels
 
         public ICommand RemoveAdditionalApplicationCommand { get; private set; }
         public ICommand EditAdditionalApplicationCommand { get; private set; }
-        public ICommand CreateAdditionalApplicationCommand { get; private set; }
+        public ICommand CreateCommand { get; private set; }
 
         public AdditionalApplicationEditViewModel(INavigator navigator, AdditionalApplicationModel model, Action<AdditionalApplicationModel> onSaved)
         {
@@ -140,7 +140,7 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels
 
             EditAdditionalApplicationCommand = new EditAdditionalApplicationCommand(this, navigator);
             RemoveAdditionalApplicationCommand = new RemoveAdditionalApplicationCommand(this);
-            CreateAdditionalApplicationCommand = new CreateAdditionalApplicationCommand(this, navigator);
+            CreateCommand = new CreateAdditionalApplicationCommand(this, navigator);
         }
 
         #region Additional Application Commands
