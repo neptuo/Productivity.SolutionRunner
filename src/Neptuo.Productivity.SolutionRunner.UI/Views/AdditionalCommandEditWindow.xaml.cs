@@ -28,10 +28,11 @@ namespace Neptuo.Productivity.SolutionRunner.Views
             InitializeComponent();
             ViewModel = viewModel;
         }
-
-        public AdditionalCommandEditWindow()
+        
+        protected override void OnActivated(EventArgs e)
         {
-            InitializeComponent();
+            base.OnActivated(e);
+            ApplicationEdit.Focus();
         }
 
         private void OnPreviewKeyDown(object sender, KeyEventArgs e)
