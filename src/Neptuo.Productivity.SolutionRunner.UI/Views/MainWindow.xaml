@@ -145,13 +145,16 @@
                                             <Border Style="{StaticResource AccessBorderStyle}">
                                                 <TextBlock Text="{Binding HotKey, Converter={StaticResource KeyToStringConverter}}" FontSize="10" />
                                             </Border>
-                                            
-                                            <Border Style="{StaticResource AccessBorderStyle}">
-                                                <TextBlock Text="C" FontSize="10" ToolTip="Commit" />
-                                            </Border>
-                                            <Border Style="{StaticResource AccessBorderStyle}">
-                                                <TextBlock Text="D" FontSize="10" ToolTip="Diff" />
-                                            </Border>
+
+                                            <ItemsControl ItemsSource="{Binding Commands}">
+                                                <ItemsControl.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <Border Style="{StaticResource AccessBorderStyle}">
+                                                            <TextBlock Text="{Binding HotKey, Converter={StaticResource KeyToStringConverter}}" FontSize="10" ToolTip="{Binding Name}" />
+                                                        </Border>
+                                                    </DataTemplate>
+                                                </ItemsControl.ItemTemplate>
+                                            </ItemsControl>
                                         </StackPanel>
                                     </Grid>
                                 </ContentControl>

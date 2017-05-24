@@ -17,17 +17,17 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels
             Add(VersionViewModel.Empty());
         }
 
-        public IApplicationCollection Add(string name, string path, string arguments, ImageSource icon, Key hotKey, bool isMain)
+        public IApplicationBuilder Add(string name, string path, string arguments, ImageSource icon, Key hotKey, bool isMain)
         {
-            return this;
+            return new EmptyAplicationBuilder();
         }
 
-        public IApplicationCollection Add(string name, Version version, string path, string arguments, ImageSource icon, Key hotKey, bool isMain)
+        public IApplicationBuilder Add(string name, Version version, string path, string arguments, ImageSource icon, Key hotKey, bool isMain)
         {
             if (isMain && !name.Contains("Code"))
                 Add(new VersionViewModel(version));
 
-            return this;
+            return new EmptyAplicationBuilder();
         }
     }
 }

@@ -172,6 +172,8 @@
     <Compile Include="Services\Applications\AdditionalApplicationCollection.cs" />
     <Compile Include="Services\Applications\AdditionalApplicationModel.cs" />
     <Compile Include="Services\Applications\ApplicationLoaderCollection.cs" />
+    <Compile Include="Services\Applications\EmptyAplicationBuilder.cs" />
+    <Compile Include="Services\Applications\IApplicationBuilder.cs" />
     <Compile Include="Services\Applications\IApplicationLoader.cs" />
     <Compile Include="Services\Applications\IconExtractor.cs" />
     <Compile Include="Services\Applications\ApplicationFilteredCollection.cs" />
@@ -225,6 +227,7 @@
     <Compile Include="ViewModels\AdditionalApplicationEditViewModel.cs" />
     <Compile Include="ViewModels\AdditionalApplicationListViewModel.cs" />
     <Compile Include="ViewModels\AdditionalCommandEditViewModel.cs" />
+    <Compile Include="ViewModels\ApplicationCommandViewModel.cs" />
     <Compile Include="ViewModels\Commands\CommandBase.cs" />
     <Compile Include="ViewModels\Commands\CreateAdditionalApplicationCommand.cs" />
     <Compile Include="ViewModels\Commands\CreateAdditionalCommandCommand.cs" />

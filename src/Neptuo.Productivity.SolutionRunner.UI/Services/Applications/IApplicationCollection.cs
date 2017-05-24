@@ -10,7 +10,7 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Applications
 {
     public interface IApplicationCollection
     {
-        IApplicationCollection Add(string name, string path, string arguments, ImageSource icon, Key hotKey, bool isMain);
-        IApplicationCollection Add(string name, Version version, string path, string arguments, ImageSource icon, Key hotKey, bool isMain);
+        IApplicationBuilder Add(string name, string path, string arguments, ImageSource icon, Key hotKey, bool isMain);
+        IApplicationBuilder Add(string name, Version version, string path, string arguments, ImageSource icon, Key hotKey, bool isMain);
     }
 }

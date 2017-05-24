@@ -6,10 +6,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media;
+using System.Windows.Input;
 
 namespace Neptuo.Productivity.SolutionRunner.ViewModels
 {
-    public class MainApplicationListViewModel : ObservableObject, IPreferedApplicationViewModel
+    public class MainApplicationListViewModel : ObservableObject, IPreferedApplicationViewModel, IApplicationBuilder
     {
         private ImageSource icon;
         public ImageSource Icon
@@ -66,5 +67,11 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels
                 }
             }
         }
+
+        public IApplicationBuilder AddCommand(string name, string path, string arguments, Key hotKey)
+        {
+            return this;
+        }
+
     }
 }

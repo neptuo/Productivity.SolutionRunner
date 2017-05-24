@@ -237,16 +237,18 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels
             return hotKey;
         }
 
-        public IApplicationCollection Add(string name, string path, string arguments, ImageSource icon, Key hotKey, bool isMain)
+        public IApplicationBuilder Add(string name, string path, string arguments, ImageSource icon, Key hotKey, bool isMain)
         {
-            applications.Add(new ApplicationViewModel(name, null, path, arguments, icon, EnsureHotKey(hotKey, isMain), isMain));
-            return this;
+            ApplicationViewModel viewModel = new ApplicationViewModel(name, null, path, arguments, icon, EnsureHotKey(hotKey, isMain), isMain);
+            applications.Add(viewModel);
+            return viewModel;
         }
 
-        public IApplicationCollection Add(string name, Version version, string path, string arguments, ImageSource icon, Key hotKey, bool isMain)
+        public IApplicationBuilder Add(string name, Version version, string path, string arguments, ImageSource icon, Key hotKey, bool isMain)
         {
-            applications.Add(new ApplicationViewModel(name, version, path, arguments, icon, EnsureHotKey(hotKey, isMain), isMain));
-            return this;
+            ApplicationViewModel viewModel = new ApplicationViewModel(name, version, path, arguments, icon, EnsureHotKey(hotKey, isMain), isMain);
+            applications.Add(viewModel);
+            return viewModel;
         }
 
         #endregion

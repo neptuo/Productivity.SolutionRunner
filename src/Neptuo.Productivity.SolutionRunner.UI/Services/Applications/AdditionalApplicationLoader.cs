@@ -1,6 +1,4 @@
-﻿using Neptuo.Activators;
-using Neptuo.Formatters;
-using Neptuo.Productivity.SolutionRunner.Properties;
+﻿using Neptuo.Productivity.SolutionRunner.Properties;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -22,7 +20,11 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Applications
                     .To<string, AdditionalApplicationCollection>(rawValue);
 
                 foreach (AdditionalApplicationModel model in collection.Items)
-                    applications.Add(model.Name, model.Path, model.Arguments, IconExtractor.Get(model.Path), model.HotKey, false);
+                {
+                    IApplicationBuilder builder = applications.Add(model.Name, model.Path, model.Arguments, IconExtractor.Get(model.Path), model.HotKey, false);
+                    foreach (AdditionalApplicationModel commandModel in model.Commands)
+                        builder.AddCommand(commandModel.Name, commandModel.Path, commandModel.Arguments, commandModel.HotKey);
+                }
             }
         }
     }

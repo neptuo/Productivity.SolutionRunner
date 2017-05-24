@@ -12,28 +12,30 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels
 {
     public class MainApplicationCollection : ObservableCollection<MainApplicationListViewModel>, IApplicationCollection
     {
-        public IApplicationCollection Add(string name, string path, string arguments, ImageSource icon, Key hotKey, bool isMain)
+        public IApplicationBuilder Add(string name, string path, string arguments, ImageSource icon, Key hotKey, bool isMain)
         {
-            Add(new MainApplicationListViewModel()
+            MainApplicationListViewModel viewModel = new MainApplicationListViewModel()
             {
                 Name = name,
                 Path = path,
                 Icon = icon,
                 IsEnabled = true
-            });
-            return this;
+            };
+            Add(viewModel);
+            return viewModel;
         }
 
-        public IApplicationCollection Add(string name, Version version, string path, string arguments, ImageSource icon, Key hotKey, bool isMain)
+        public IApplicationBuilder Add(string name, Version version, string path, string arguments, ImageSource icon, Key hotKey, bool isMain)
         {
-            Add(new MainApplicationListViewModel()
+            MainApplicationListViewModel viewModel = new MainApplicationListViewModel()
             {
                 Name = name,
                 Path = path,
                 Icon = icon,
                 IsEnabled = true
-            });
-            return this;
+            };
+            Add(viewModel);
+            return viewModel;
         }
     }
 }
