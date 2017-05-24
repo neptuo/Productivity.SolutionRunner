@@ -224,6 +224,7 @@
     <Compile Include="Services\UserConfigurations\FileSearchModeGetter.cs" />
     <Compile Include="Services\Applications\VsVersionLoader.cs" />
     <Compile Include="ThrottlingHelper.cs" />
+    <Compile Include="ViewModels\_ApplicationViewModelCollectionExtensions.cs" />
     <Compile Include="ViewModels\AdditionalApplicationEditViewModel.cs" />
     <Compile Include="ViewModels\AdditionalApplicationListViewModel.cs" />
     <Compile Include="ViewModels\AdditionalCommandEditViewModel.cs" />

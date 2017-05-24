@@ -352,18 +352,13 @@ namespace Neptuo.Productivity.SolutionRunner.Views
 
         private void OnAccessKeyPressed(object sender, AccessKeyEventArgs e)
         {
-            Key pressed = e.Keys.First();
-            foreach (ApplicationViewModel application in ViewModel.Applications)
+            IApplication application = ViewModel.Applications.Find(e);
+            if (application != null)
             {
-                if (application.HotKey == pressed)
-                {
-                    processService.Run(application, lvwFiles.SelectedItem as FileViewModel);
+                processService.Run(application, lvwFiles.SelectedItem as FileViewModel);
 
-                    if (isClosedAfterStartingProcess)
-                        Close();
-
-                    return;
-                }
+                if (isClosedAfterStartingProcess)
+                    Close();
             }
         }
 
