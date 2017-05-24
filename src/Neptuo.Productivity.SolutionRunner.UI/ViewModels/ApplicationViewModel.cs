@@ -22,6 +22,20 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels
         public bool IsMain { get; private set; }
         public Key HotKey { get; private set; }
 
+        private bool isHotKeyActive;
+        public bool IsHotKeyActive
+        {
+            get { return isHotKeyActive; }
+            set
+            {
+                if (isHotKeyActive != value)
+                {
+                    isHotKeyActive = value;
+                    RaisePropertyChanged();
+                }
+            }
+        }
+        
         public ObservableCollection<ApplicationCommandViewModel> Commands { get; private set; }
 
         public ApplicationViewModel(string name, Version version, string path, string arguments, ImageSource icon, Key hotKey, bool isMain)

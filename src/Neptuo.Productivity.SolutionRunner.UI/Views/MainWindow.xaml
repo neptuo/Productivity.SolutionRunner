@@ -17,6 +17,7 @@
         <converters:PathConverter x:Key="PathConverter" />
         <converters:KeyToStringConverter x:Key="KeyToStringConverter" />
         <converters:BoolConverter x:Key="ListViewBadgeForegroundConverter" TrueValue="{StaticResource ForegroundBrush}" FalseValue="{StaticResource ActiveBrush}" />
+        <converters:BoolConverter x:Key="TrueToActiveBrushConverter" TrueValue="{StaticResource ActiveBrush}" FalseValue="{StaticResource BackgroundBrush}" />
 
         <BitmapImage x:Key="CloseImage" UriSource="Icons/Close.png" />
         <BitmapImage x:Key="SettingsImage" UriSource="Icons/Settings.png" />
@@ -142,14 +143,14 @@
                                             </DockPanel>
                                         </Grid>
                                         <StackPanel Style="{StaticResource AccessStackPanelStyle}">
-                                            <Border Style="{StaticResource AccessBorderStyle}">
+                                            <Border Style="{StaticResource AccessBorderStyle}" Background="{Binding IsHotKeyActive, Converter={StaticResource TrueToActiveBrushConverter}}">
                                                 <TextBlock Text="{Binding HotKey, Converter={StaticResource KeyToStringConverter}}" FontSize="10" />
                                             </Border>
 
                                             <ItemsControl ItemsSource="{Binding Commands}">
                                                 <ItemsControl.ItemTemplate>
                                                     <DataTemplate>
-                                                        <Border Style="{StaticResource AccessBorderStyle}">
+                                                        <Border Style="{StaticResource AccessBorderStyle}" Background="{Binding IsHotKeyActive, Converter={StaticResource TrueToActiveBrushConverter}}">
                                                             <TextBlock Text="{Binding HotKey, Converter={StaticResource KeyToStringConverter}}" FontSize="10" ToolTip="{Binding Name}" />
                                                         </Border>
                                                     </DataTemplate>

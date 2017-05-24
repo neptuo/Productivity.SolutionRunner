@@ -101,7 +101,8 @@ namespace Neptuo.Productivity.SolutionRunner.Views
             this.isClosedAfterStartingProcess = isClosedAfterStartingProcess;
 
             InitializeComponent();
-            AccessKey.AddHandler(this, OnAccessKeyPressed);
+            AccessKey.AddPressedHandler(this, OnAccessKeyPressed);
+            AccessKey.AddPressingHandler(this, OnAccessKeyPressing);
             EventManager.FilePinned += OnFilePinned;
             DispatcherHelper = new DispatcherHelper(Dispatcher);
 
@@ -360,6 +361,31 @@ namespace Neptuo.Productivity.SolutionRunner.Views
                 if (isClosedAfterStartingProcess)
                     Close();
             }
+
+            foreach (ApplicationViewModel app in ViewModel.Applications)
+            {
+                app.IsHotKeyActive = false;
+                foreach (ApplicationCommandViewModel command in app.Commands)
+                    command.IsHotKeyActive = false;
+            }
+        }
+
+        private void OnAccessKeyPressing(object sender, AccessKeyEventArgs e)
+        {
+            IApplication model = ViewModel.Applications.Find(e);
+            ApplicationViewModel application = model as ApplicationViewModel;
+            if (application != null)
+            {
+                application.IsHotKeyActive = true;
+                return;
+            }
+
+            ApplicationCommandViewModel command = model as ApplicationCommandViewModel;
+            if (command != null)
+            {
+                command.IsHotKeyActive = true;
+                return;
+            }
         }
 
         private void OnPreviewMouseDown(object sender, MouseButtonEventArgs e)
@@ -405,7 +431,8 @@ namespace Neptuo.Productivity.SolutionRunner.Views
         protected override void OnClosed(EventArgs e)
         {
             base.OnClosed(e);
-            AccessKey.RemoveHandler(this, OnAccessKeyPressed);
+            AccessKey.RemovePressedHandler(this, OnAccessKeyPressed);
+            AccessKey.RemovePressingHandler(this, OnAccessKeyPressing);
             EventManager.FilePinned -= OnFilePinned;
 
             if (ViewModel != null)
