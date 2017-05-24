@@ -196,7 +196,7 @@
     <Compile Include="Services\Positions\IPositionTarget.cs" />
     <Compile Include="Services\Positions\PositionService.cs" />
     <Compile Include="Services\Searching\DelayedFileSearchService.cs" />
-    <Compile Include="Services\IApplicationCollection.cs" />
+    <Compile Include="Services\Applications\IApplicationCollection.cs" />
     <Compile Include="Services\IFileCollection.cs" />
     <Compile Include="Services\Searching\FileModel.cs" />
     <Compile Include="Services\Searching\FileSearchMode.cs" />

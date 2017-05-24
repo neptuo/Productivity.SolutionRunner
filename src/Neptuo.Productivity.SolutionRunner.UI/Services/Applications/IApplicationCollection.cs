@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using System.Windows.Media;
 
-namespace Neptuo.Productivity.SolutionRunner.Services
+namespace Neptuo.Productivity.SolutionRunner.Services.Applications
 {
     public interface IApplicationCollection
     {
