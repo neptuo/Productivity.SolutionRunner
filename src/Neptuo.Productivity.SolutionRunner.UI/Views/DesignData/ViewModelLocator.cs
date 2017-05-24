@@ -250,13 +250,13 @@ namespace Neptuo.Productivity.SolutionRunner.UI.DesignData
         {
             get
             {
-                if(additionalCommand == null)
+                if (additionalCommand == null)
                 {
                     additionalCommand = new AdditionalCommandEditViewModel(new Navigator(), null, m => { });
-                    additionalApplication.Path = @"C:\Windows\notepad.exe";
-                    additionalApplication.Arguments = "browse {FilePath}";
-                    additionalApplication.Icon = IconExtractor.Get(@"C:\Windows\notepad.exe");
-                    additionalApplication.HotKey = new KeyViewModel(Key.N, ModifierKeys.None);
+                    additionalCommand.Path = @"C:\Windows\notepad.exe";
+                    additionalCommand.Arguments = "browse {FilePath}";
+                    additionalCommand.Icon = IconExtractor.Get(@"C:\Windows\notepad.exe");
+                    additionalCommand.HotKey = new KeyViewModel(Key.N, ModifierKeys.None);
                 }
 
                 return additionalCommand;

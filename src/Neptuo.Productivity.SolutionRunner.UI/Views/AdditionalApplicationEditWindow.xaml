@@ -36,13 +36,19 @@
                 <TextBox x:Name="tbxHotKey" Margin="0" ui:HotKeyTextBox.Key="{Binding HotKey, Mode=TwoWay}" ui:HotKeyTextBox.AllowedModifiers="" />
             </StackPanel>
             <ui:ListView ItemsSource="{Binding Commands}" 
-             Label="Additional Commands:" LabelDetail="..."
+             Label="Additional Commands:"
              CreateCommand="{Binding CreateCommand}" CreateCommandToolTip="Create new additional application"
              Visibility="{Binding HotKey, Converter={StaticResource NullToHiddenConverter}}">
                 <ui:ListView.NoData>
                     <TextBlock Text="No additional command. Use '+' to add some..." Style="{StaticResource ApplicationNameTextBlockStyle}" />
                 </ui:ListView.NoData>
             </ui:ListView>
+            <StackPanel Style="{StaticResource EditorPanelStyle}">
+                <TextBlock TextWrapping="Wrap">
+                    These commands can only be run by access key, by combining a key for this additional application and a key for the command.
+                    You can see them when you press an Alt key in the main window.
+                </TextBlock>
+            </StackPanel>
         </StackPanel>
     </DockPanel>
 </Window>

@@ -14,19 +14,27 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels.Commands
         private readonly IApplicationViewModel viewModel;
         private readonly AdditionalApplicationModel sourceModel;
         private readonly Action<AdditionalApplicationModel> onSaved;
+        private readonly bool isHotKeyRequired;
 
-        public SaveApplicationCommand(IApplicationViewModel viewModel, AdditionalApplicationModel sourceModel, Action<AdditionalApplicationModel> onSaved)
+        public SaveApplicationCommand(IApplicationViewModel viewModel, AdditionalApplicationModel sourceModel, Action<AdditionalApplicationModel> onSaved, bool isHotKeyRequired = false)
         {
             Ensure.NotNull(viewModel, "viewModel");
             Ensure.NotNull(onSaved, "onSaved");
             this.viewModel = viewModel;
             this.sourceModel = sourceModel;
             this.onSaved = onSaved;
+            this.isHotKeyRequired = isHotKeyRequired;
         }
 
         protected override bool CanExecute()
         {
-            return !String.IsNullOrEmpty(viewModel.Path) && File.Exists(viewModel.Path);
+            if (String.IsNullOrEmpty(viewModel.Path) || !File.Exists(viewModel.Path))
+                return false;
+
+            if (isHotKeyRequired && viewModel.HotKey == null)
+                return false;
+
+            return true;
         }
 
         protected override void Execute()
