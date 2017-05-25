@@ -31,7 +31,7 @@
             <StackPanel Style="{StaticResource EditorPanelStyle}">
                 <Grid>
                     <Label Content="HotKey:" Target="{Binding ElementName=tbxHotKey}" />
-                    <TextBlock Text="Alt + key to activate without selecting" HorizontalAlignment="Right" />
+                    <TextBlock Text="Alt + (application hotkey) + key to run a command" HorizontalAlignment="Right" />
                 </Grid>
                 <TextBox x:Name="tbxHotKey" Margin="0" ui:HotKeyTextBox.Key="{Binding HotKey}" ui:HotKeyTextBox.AllowedModifiers="" />
             </StackPanel>
