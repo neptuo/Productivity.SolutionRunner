@@ -1,9 +1,11 @@
 ﻿using Neptuo.Productivity.SolutionRunner.Services;
+using Neptuo.Productivity.SolutionRunner.Services.Applications;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace Neptuo.Productivity.SolutionRunner.ViewModels.Commands
 {
@@ -27,7 +29,10 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels.Commands
 
         protected override void Execute()
         {
-            navigator.OpenAdditionalCommandEdit(null, m => viewModel.Commands.Add(new AdditionalApplicationListViewModel(m)));
+            navigator.OpenAdditionalCommandEdit(
+                new AdditionalApplicationModel(null, viewModel.Path, null, Key.None), 
+                m => viewModel.Commands.Add(new AdditionalApplicationListViewModel(m))
+            );
         }
     }
 }
