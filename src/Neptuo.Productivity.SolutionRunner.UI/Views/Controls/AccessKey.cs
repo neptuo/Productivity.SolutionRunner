@@ -77,7 +77,7 @@ namespace Neptuo.Productivity.SolutionRunner.Views.Controls
         /// </summary>
         /// <param name="window">A window to bind access key handling for.</param>
         /// <param name="handler">A handler to be raised.</param>
-        public static void AddPressedHandler(Window window, EventHandler<AccessKeyEventArgs> handler)
+        public static void AddPressedHandler(Window window, EventHandler<AccessKeyPressedEventArgs> handler)
         {
             Ensure.NotNull(handler, "handler");
 
@@ -91,7 +91,7 @@ namespace Neptuo.Productivity.SolutionRunner.Views.Controls
         /// </summary>
         /// <param name="window">A window to remove handling from.</param>
         /// <param name="handler">A handler to remove.</param>
-        public static void RemovePressedHandler(Window window, EventHandler<AccessKeyEventArgs> handler)
+        public static void RemovePressedHandler(Window window, EventHandler<AccessKeyPressedEventArgs> handler)
         {
             Ensure.NotNull(window, "window");
             Ensure.NotNull(handler, "handler");
@@ -110,7 +110,7 @@ namespace Neptuo.Productivity.SolutionRunner.Views.Controls
         /// </summary>
         /// <param name="window">A window to bind access key handling for.</param>
         /// <param name="handler">A handler to be raised.</param>
-        public static void AddPressingHandler(Window window, EventHandler<AccessKeyEventArgs> handler)
+        public static void AddPressingHandler(Window window, EventHandler<AccessKeyPressingEventArgs> handler)
         {
             Ensure.NotNull(handler, "handler");
 
@@ -124,7 +124,7 @@ namespace Neptuo.Productivity.SolutionRunner.Views.Controls
         /// </summary>
         /// <param name="window">A window to remove handling from.</param>
         /// <param name="handler">A handler to remove.</param>
-        public static void RemovePressingHandler(Window window, EventHandler<AccessKeyEventArgs> handler)
+        public static void RemovePressingHandler(Window window, EventHandler<AccessKeyPressingEventArgs> handler)
         {
             Ensure.NotNull(window, "window");
             Ensure.NotNull(handler, "handler");
@@ -140,8 +140,8 @@ namespace Neptuo.Productivity.SolutionRunner.Views.Controls
         private class Instance
         {
             private readonly Window window;
-            private EventHandler<AccessKeyEventArgs> pressedHandler;
-            private EventHandler<AccessKeyEventArgs> pressingHandler;
+            private EventHandler<AccessKeyPressedEventArgs> pressedHandler;
+            private EventHandler<AccessKeyPressingEventArgs> pressingHandler;
 
             private List<Key> keys = new List<Key>();
 
@@ -177,7 +177,7 @@ namespace Neptuo.Productivity.SolutionRunner.Views.Controls
                 }
             }
 
-            private void OnAccessKeyPressed(object sender, AccessKeyPressedEventArgs e)
+            private void OnAccessKeyPressed(object sender, System.Windows.Input.AccessKeyPressedEventArgs e)
             {
                 string rawKey = e.Key;
                 if (Int32.TryParse(rawKey, out int index))
@@ -185,10 +185,12 @@ namespace Neptuo.Productivity.SolutionRunner.Views.Controls
 
                 if (Enum.TryParse(rawKey, out Key pressed) && pressed != Key.None)
                 {
-                    keys.Add(pressed);
-
+                    AccessKeyPressingEventArgs args = new AccessKeyPressingEventArgs(keys, pressed);
                     if (pressingHandler != null)
-                        pressingHandler(window, new AccessKeyEventArgs(keys));
+                        pressingHandler(window, args);
+
+                    if (!args.IsCancelled)
+                        keys.Add(pressed);
 
                     e.Handled = true;
                 }
@@ -204,7 +206,7 @@ namespace Neptuo.Productivity.SolutionRunner.Views.Controls
                     if (keys.Count > 0)
                     {
                         if (pressedHandler != null)
-                            pressedHandler(window, new AccessKeyEventArgs(keys));
+                            pressedHandler(window, new AccessKeyPressedEventArgs(keys));
 
                         keys.Clear();
                     }
@@ -213,26 +215,26 @@ namespace Neptuo.Productivity.SolutionRunner.Views.Controls
                 }
             }
 
-            internal void AddPressedHandler(EventHandler<AccessKeyEventArgs> handler)
+            internal void AddPressedHandler(EventHandler<AccessKeyPressedEventArgs> handler)
             {
                 Ensure.NotNull(handler, "handler");
                 pressedHandler += handler;
             }
 
-            internal bool RemovePressedHandler(EventHandler<AccessKeyEventArgs> handler)
+            internal bool RemovePressedHandler(EventHandler<AccessKeyPressedEventArgs> handler)
             {
                 Ensure.NotNull(handler, "handler");
                 pressedHandler -= handler;
                 return TryDetachEvents();
             }
 
-            internal void AddPressingHandler(EventHandler<AccessKeyEventArgs> handler)
+            internal void AddPressingHandler(EventHandler<AccessKeyPressingEventArgs> handler)
             {
                 Ensure.NotNull(handler, "handler");
                 pressingHandler += handler;
             }
 
-            internal bool RemovePressingHandler(EventHandler<AccessKeyEventArgs> handler)
+            internal bool RemovePressingHandler(EventHandler<AccessKeyPressingEventArgs> handler)
             {
                 Ensure.NotNull(handler, "handler");
                 pressingHandler -= handler;

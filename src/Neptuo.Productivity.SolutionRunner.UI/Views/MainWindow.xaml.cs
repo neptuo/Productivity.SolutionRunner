@@ -28,7 +28,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using EventManager = Neptuo.Productivity.SolutionRunner.ViewModels.EventManager;
-using AccessKeyEventArgs = Neptuo.Productivity.SolutionRunner.Views.Controls.AccessKeyEventArgs;
+using AccessKeyPressedEventArgs = Neptuo.Productivity.SolutionRunner.Views.Controls.AccessKeyPressedEventArgs;
 
 namespace Neptuo.Productivity.SolutionRunner.Views
 {
@@ -351,9 +351,9 @@ namespace Neptuo.Productivity.SolutionRunner.Views
             return false;
         }
 
-        private void OnAccessKeyPressed(object sender, AccessKeyEventArgs e)
+        private void OnAccessKeyPressed(object sender, AccessKeyPressedEventArgs e)
         {
-            IApplication application = ViewModel.Applications.Find(e);
+            IApplication application = ViewModel.Applications.Find(e.Keys);
             if (application != null)
             {
                 processService.Run(application, lvwFiles.SelectedItem as FileViewModel);
@@ -370,9 +370,12 @@ namespace Neptuo.Productivity.SolutionRunner.Views
             }
         }
 
-        private void OnAccessKeyPressing(object sender, AccessKeyEventArgs e)
+        private void OnAccessKeyPressing(object sender, AccessKeyPressingEventArgs e)
         {
-            IApplication model = ViewModel.Applications.Find(e);
+            List<Key> keys = new List<Key>(e.PreviousKeys);
+            keys.Add(e.LastKey);
+
+            IApplication model = ViewModel.Applications.Find(keys);
             ApplicationViewModel application = model as ApplicationViewModel;
             if (application != null)
             {
@@ -386,6 +389,8 @@ namespace Neptuo.Productivity.SolutionRunner.Views
                 command.IsHotKeyActive = true;
                 return;
             }
+
+            e.IsCancelled = true;
         }
 
         private void OnPreviewMouseDown(object sender, MouseButtonEventArgs e)

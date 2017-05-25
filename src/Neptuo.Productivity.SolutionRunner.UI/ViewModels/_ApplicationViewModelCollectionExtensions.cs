@@ -10,12 +10,12 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels
 {
     public static class _ApplicationViewModelCollectionExtensions
     {
-        public static IApplication Find(this IEnumerable<ApplicationViewModel> applications, Views.Controls.AccessKeyEventArgs e)
+        public static IApplication Find(this IEnumerable<ApplicationViewModel> applications, IEnumerable<Key> keys)
         {
             ApplicationViewModel application = null;
             ApplicationCommandViewModel command = null;
             int index = 0;
-            foreach (Key pressed in e.Keys)
+            foreach (Key pressed in keys)
             {
                 if (index == 0)
                 {

@@ -8,11 +8,11 @@ using System.Windows.Input;
 
 namespace Neptuo.Productivity.SolutionRunner.Views.Controls
 {
-    public class AccessKeyEventArgs : EventArgs
+    public class AccessKeyPressedEventArgs : EventArgs
     {
         public IReadOnlyList<Key> Keys { get; private set; }
 
-        public AccessKeyEventArgs(IReadOnlyList<Key> keys)
+        public AccessKeyPressedEventArgs(IReadOnlyList<Key> keys)
         {
             Ensure.NotNull(keys, "keys");
             Keys = keys;

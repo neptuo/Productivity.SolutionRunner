@@ -272,7 +272,8 @@
       <DependentUpon>ConfigurationWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Controls\AccessKey.cs" />
-    <Compile Include="Views\Controls\AccessKeyEventArgs.cs" />
+    <Compile Include="Views\Controls\AccessKeyPressedEventArgs.cs" />
+    <Compile Include="Views\Controls\AccessKeyPressingEventArgs.cs" />
     <Compile Include="Views\Controls\ApplicationEdit.xaml.cs">
       <DependentUpon>ApplicationEdit.xaml</DependentUpon>
     </Compile>
