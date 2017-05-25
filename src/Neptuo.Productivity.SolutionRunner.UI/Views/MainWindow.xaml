@@ -6,6 +6,7 @@
         xmlns:dd="clr-namespace:Neptuo.Productivity.SolutionRunner.UI.DesignData" d:DataContext="{x:Static dd:ViewModelLocator.MainViewModel}"
         xmlns:controls="clr-namespace:Neptuo.Productivity.SolutionRunner.Views.Controls"
         xmlns:converters="clr-namespace:Neptuo.Productivity.SolutionRunner.Views.Converters"
+        xmlns:ds="clr-namespace:Neptuo.Productivity.SolutionRunner.Views.DataSources"
         Title="SolutionRunner" MinWidth="525" SizeToContent="WidthAndHeight" Icon="{StaticResource IconBitmapImage}"
         ResizeMode="CanMinimize" WindowStyle="None" Background="{StaticResource BackgroundBrush}"
         PreviewMouseDown="OnPreviewMouseDown" PreviewKeyDown="OnPreviewKeyDown">
@@ -105,7 +106,7 @@
             <Setter Property="VerticalAlignment" Value="Top" />
             <Setter Property="Visibility" Value="Collapsed" />
             <Style.Triggers>
-                <Trigger Property="{x:Static controls:AccessKey.IsKeyboardCuesProperty}" Value="True">
+                <Trigger Property="{x:Static controls:AccessKey.IsKeyboardCuesProperty}" Value="{x:Static ds:Boolean.True}">
                     <Setter Property="Visibility" Value="Visible" />
                 </Trigger>
             </Style.Triggers>
