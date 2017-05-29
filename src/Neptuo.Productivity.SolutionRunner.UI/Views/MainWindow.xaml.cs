@@ -204,6 +204,7 @@ namespace Neptuo.Productivity.SolutionRunner.Views
         protected override void OnActivated(EventArgs e)
         {
             base.OnActivated(e);
+            ClearAccessKeyActiveFlags();
             FocusTextBox();
         }
 
@@ -362,10 +363,15 @@ namespace Neptuo.Productivity.SolutionRunner.Views
                     Close();
             }
 
-            foreach (ApplicationViewModel app in ViewModel.Applications)
+            ClearAccessKeyActiveFlags();
+        }
+
+        private void ClearAccessKeyActiveFlags()
+        {
+            foreach (ApplicationViewModel application in ViewModel.Applications)
             {
-                app.IsHotKeyActive = false;
-                foreach (ApplicationCommandViewModel command in app.Commands)
+                application.IsHotKeyActive = false;
+                foreach (ApplicationCommandViewModel command in application.Commands)
                     command.IsHotKeyActive = false;
             }
         }
