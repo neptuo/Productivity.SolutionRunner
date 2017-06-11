@@ -247,12 +247,12 @@ namespace Neptuo.Productivity.SolutionRunner.Views
                     lvwFiles.SelectedIndex = newIndex;
                     e.Handled = true;
                 }
-                else if (e.Key == Key.Home && !IsModifierKeyPressed())
+                else if (e.Key == Key.PageUp && !IsModifierKeyPressed())
                 {
                     lvwFiles.SelectedIndex = 0;
                     e.Handled = true;
                 }
-                else if (e.Key == Key.End && !IsModifierKeyPressed())
+                else if (e.Key == Key.PageDown && !IsModifierKeyPressed())
                 {
                     lvwFiles.SelectedIndex = lvwFiles.Items.Count - 1;
                     e.Handled = true;

@@ -291,7 +291,7 @@
                         </Grid>
                         <Grid>
                             <TextBlock Text="Switch file" />
-                            <TextBlock Text="ArrowDown, ArrowUp, Home, End" HorizontalAlignment="Right" />
+                            <TextBlock Text="ArrowDown, ArrowUp, PageUp, PageDown" HorizontalAlignment="Right" />
                         </Grid>
                         <Grid>
                             <TextBlock Text="Pin/unpin file" />
