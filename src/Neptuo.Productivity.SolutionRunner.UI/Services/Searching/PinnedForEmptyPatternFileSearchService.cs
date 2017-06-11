@@ -33,7 +33,7 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Searching
             if (String.IsNullOrEmpty(searchPattern))
             {
                 files.Clear();
-                foreach (string filePath in pinStateService.GetList())
+                foreach (string filePath in pinStateService.Enumerate())
                     files.Add(Path.GetFileNameWithoutExtension(filePath), filePath, true);
 
                 if (lastCancellation != null)

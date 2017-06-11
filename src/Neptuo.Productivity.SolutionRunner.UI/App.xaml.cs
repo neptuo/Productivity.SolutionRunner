@@ -394,7 +394,7 @@ namespace Neptuo.Productivity.SolutionRunner
             Settings.Default.Save();
         }
 
-        public IEnumerable<string> GetList()
+        public IEnumerable<string> Enumerate()
         {
             return GetPinnedFiles();
         }

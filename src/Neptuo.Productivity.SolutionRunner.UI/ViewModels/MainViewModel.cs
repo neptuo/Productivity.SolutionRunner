@@ -124,8 +124,6 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels
                 return;
             }
 
-            ((IFileCollection)this).Clear();
-
             if (lastFileSearchToken != null)
                 lastFileSearchToken.Cancel();
 

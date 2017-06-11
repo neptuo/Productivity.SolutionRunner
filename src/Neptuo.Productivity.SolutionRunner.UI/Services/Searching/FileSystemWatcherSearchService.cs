@@ -154,19 +154,35 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Searching
             }
         }
 
-        public Task SearchAsync(string searchPattern, FileSearchMode mode, int count, IFileCollection files, CancellationToken cancellationToken)
+        public async Task SearchAsync(string searchPattern, FileSearchMode mode, int count, IFileCollection files, CancellationToken cancellationToken)
         {
             if (cancellationToken.IsCancellationRequested)
-                return Async.CompletedTask;
+                return;
+
+            HashSet<FileModel> result = new HashSet<FileModel>();
+
+            await Task.Factory.StartNew(() =>
+            {
+                Func<FileModel, bool> filter = matcherFactory.Create(searchPattern, mode);
+
+                IEnumerable<FileModel> models = Enumerable.Concat(
+                    pinStateService.Enumerate().Select(f => new FileModel(f)).OrderBy(f => f.Name),
+                    storage.OrderBy(f => f.Name)
+                );
+
+                foreach (FileModel model in models.Where(f => filter(f)))
+                {
+                    if (result.Add(model) && result.Count == count)
+                        return;
+                }
+            });
+
+            if (cancellationToken.IsCancellationRequested)
+                return;
 
             files.Clear();
-
-            Func<FileModel, bool> filter = matcherFactory.Create(searchPattern, mode);
-
-            foreach (FileModel model in storage.Where(f => filter(f)).Take(count))
+            foreach (FileModel model in result)
                 files.Add(model.Name, model.Path, pinStateService.IsPinned(model.Path));
-
-            return Async.CompletedTask;
         }
 
         protected override void DisposeManagedResources()

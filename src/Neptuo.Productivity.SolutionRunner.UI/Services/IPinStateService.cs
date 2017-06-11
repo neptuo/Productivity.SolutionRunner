@@ -8,7 +8,7 @@ namespace Neptuo.Productivity.SolutionRunner.Services
 {
     public interface IPinStateService
     {
-        IEnumerable<string> GetList();
+        IEnumerable<string> Enumerate();
         bool IsPinned(string path);
     }
 }
