@@ -10,7 +10,7 @@
         ShowInTaskbar="False" Background="{StaticResource BackgroundBrush}" WindowStartupLocation="CenterScreen"
         PreviewKeyDown="OnPreviewKeyDown">
     <Window.Resources>
-        <converters:NullConverter x:Key="NullToHiddenConverter" TrueValue="Hidden" FalseValue="Visible"/>
+        <converters:NullConverter x:Key="NullToCollapsedConverter" TrueValue="Collapsed" FalseValue="Visible"/>
 
         <Style TargetType="TextBlock" BasedOn="{StaticResource DescriptionStyle}">
             <Setter Property="Padding" Value="2" />
@@ -38,12 +38,13 @@
             <ui:ListView ItemsSource="{Binding Commands}" 
              Label="Additional Commands:"
              CreateCommand="{Binding CreateCommand}" CreateCommandToolTip="Create new additional application"
-             Visibility="{Binding HotKey, Converter={StaticResource NullToHiddenConverter}}">
+             Visibility="{Binding HotKey, Converter={StaticResource NullToCollapsedConverter}}">
                 <ui:ListView.NoData>
                     <TextBlock Text="No additional command. Use '+' to add some..." Style="{StaticResource ApplicationNameTextBlockStyle}" />
                 </ui:ListView.NoData>
             </ui:ListView>
-            <StackPanel Style="{StaticResource EditorPanelStyle}">
+            <StackPanel Style="{StaticResource EditorPanelStyle}"
+             Visibility="{Binding HotKey, Converter={StaticResource NullToCollapsedConverter}}">
                 <TextBlock TextWrapping="Wrap">
                     These commands can only be run by access key, by combining a key for this additional application and a key for the command.
                     You can see them when you press an Alt key in the main window.
