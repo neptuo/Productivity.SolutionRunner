@@ -10,5 +10,6 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Execution
     {
         string Path { get; }
         string Arguments { get; }
+        bool IsAdministratorRequired { get; }
     }
 }

@@ -48,8 +48,8 @@ namespace Neptuo.Productivity.SolutionRunner.UI.DesignData
                     VsVersionLoader loader = new VsVersionLoader();
                     loader.Add(mainViewModel);
 
-                    mainViewModel.Add("File Explorer", @"C:\Windows\explorer.exe", null, IconExtractor.Get(@"C:\Windows\explorer.exe"), Key.E, false);
-                    mainViewModel.Add("Notepad", @"C:\Windows\notepad.exe", null, IconExtractor.Get(@"C:\Windows\notepad.exe"), Key.N, false);
+                    mainViewModel.Add("File Explorer", @"C:\Windows\explorer.exe", null, false, IconExtractor.Get(@"C:\Windows\explorer.exe"), Key.E, false);
+                    mainViewModel.Add("Notepad", @"C:\Windows\notepad.exe", null, true, IconExtractor.Get(@"C:\Windows\notepad.exe"), Key.N, false);
                 }
 
                 return mainViewModel;

@@ -17,12 +17,12 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels
             Add(VersionViewModel.Empty());
         }
 
-        public IApplicationBuilder Add(string name, string path, string arguments, ImageSource icon, Key hotKey, bool isMain)
+        public IApplicationBuilder Add(string name, string path, string arguments, bool isAdministratorRequired, ImageSource icon, Key hotKey, bool isMain)
         {
             return new EmptyAplicationBuilder();
         }
 
-        public IApplicationBuilder Add(string name, Version version, string path, string arguments, ImageSource icon, Key hotKey, bool isMain)
+        public IApplicationBuilder Add(string name, Version version, string path, string arguments, bool isAdministratorRequired, ImageSource icon, Key hotKey, bool isMain)
         {
             if (isMain && !name.Contains("Code"))
                 Add(new VersionViewModel(version));

@@ -18,6 +18,7 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels
         public string Path { get; private set; }
         public Version Version { get; private set; }
         public string Arguments { get; private set; }
+        public bool IsAdministratorRequired { get; private set; }
         public ImageSource Icon { get; private set; }
         public bool IsMain { get; private set; }
         public Key HotKey { get; private set; }
@@ -38,7 +39,7 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels
         
         public ObservableCollection<ApplicationCommandViewModel> Commands { get; private set; }
 
-        public ApplicationViewModel(string name, Version version, string path, string arguments, ImageSource icon, Key hotKey, bool isMain)
+        public ApplicationViewModel(string name, Version version, string path, string arguments, bool isAdministratorRequired, ImageSource icon, Key hotKey, bool isMain)
         {
             Ensure.NotNullOrEmpty(name, "name");
             Ensure.NotNull(path, "path");
@@ -47,15 +48,16 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels
             Version = version;
             Path = path;
             Arguments = arguments;
+            IsAdministratorRequired = isAdministratorRequired;
             Icon = icon;
             IsMain = isMain;
             HotKey = hotKey;
             Commands = new ObservableCollection<ApplicationCommandViewModel>();
         }
         
-        public IApplicationBuilder AddCommand(string name, string path, string arguments, Key hotKey)
+        public IApplicationBuilder AddCommand(string name, string path, string arguments, bool isAdministratorRequired, Key hotKey)
         {
-            Commands.Add(new ApplicationCommandViewModel(name, path, arguments, hotKey));
+            Commands.Add(new ApplicationCommandViewModel(name, path, arguments, isAdministratorRequired, hotKey));
             return this;
         }
     }

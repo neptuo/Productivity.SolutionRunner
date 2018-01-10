@@ -14,6 +14,7 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels
         public string Name { get; private set; }
         public string Path { get; private set; }
         public string Arguments { get; private set; }
+        public bool IsAdministratorRequired { get; private set; }
         public Key HotKey { get; private set; }
 
         private bool isHotKeyActive;
@@ -30,13 +31,14 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels
             }
         }
 
-        public ApplicationCommandViewModel(string name, string path, string arguments, Key hotKey)
+        public ApplicationCommandViewModel(string name, string path, string arguments, bool isAdministratorRequired, Key hotKey)
         {
             Ensure.NotNullOrEmpty(name, "name");
             Ensure.NotNull(path, "path");
             Name = name;
             Path = path;
             Arguments = arguments;
+            IsAdministratorRequired = isAdministratorRequired;
             HotKey = hotKey;
         }
     }

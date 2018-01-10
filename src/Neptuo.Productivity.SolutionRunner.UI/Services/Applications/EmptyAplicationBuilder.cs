@@ -9,8 +9,7 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Applications
 {
     public class EmptyAplicationBuilder : IApplicationBuilder
     {
-
-        public IApplicationBuilder AddCommand(string name, string path, string arguments, Key hotKey)
+        public IApplicationBuilder AddCommand(string name, string path, string arguments, bool isAdministratorRequired, Key hotKey)
         {
             return this;
         }

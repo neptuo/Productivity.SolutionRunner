@@ -26,20 +26,20 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Applications
             this.applications = applications;
         }
 
-        public IApplicationBuilder Add(string name, string path, string arguments, ImageSource icon, Key hotKey, bool isMain)
+        public IApplicationBuilder Add(string name, string path, string arguments, bool isAdministratorRequired, ImageSource icon, Key hotKey, bool isMain)
         {
             if (isMain && settings.GetHiddenMainApplications().Contains(path))
                 return new EmptyAplicationBuilder();
 
-            return applications.Add(name, path, arguments, icon, hotKey, isMain);
+            return applications.Add(name, path, arguments, isAdministratorRequired, icon, hotKey, isMain);
         }
 
-        public IApplicationBuilder Add(string name, Version version, string path, string arguments, ImageSource icon, Key hotKey, bool isMain)
+        public IApplicationBuilder Add(string name, Version version, string path, string arguments, bool isAdministratorRequired, ImageSource icon, Key hotKey, bool isMain)
         {
             if (isMain && settings.GetHiddenMainApplications().Contains(path))
                 return new EmptyAplicationBuilder();
 
-            return applications.Add(name, version, path, arguments, icon, hotKey, isMain);
+            return applications.Add(name, version, path, arguments, isAdministratorRequired, icon, hotKey, isMain);
         }
     }
 }

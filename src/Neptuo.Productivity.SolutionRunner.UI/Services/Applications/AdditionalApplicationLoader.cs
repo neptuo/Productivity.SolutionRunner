@@ -21,9 +21,9 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Applications
 
                 foreach (AdditionalApplicationModel model in collection.Items)
                 {
-                    IApplicationBuilder builder = applications.Add(model.Name, model.Path, model.Arguments, IconExtractor.Get(model.Path), model.HotKey, false);
+                    IApplicationBuilder builder = applications.Add(model.Name, model.Path, model.Arguments, false, IconExtractor.Get(model.Path), model.HotKey, false);
                     foreach (AdditionalApplicationModel commandModel in model.Commands)
-                        builder.AddCommand(commandModel.Name, commandModel.Path, commandModel.Arguments, commandModel.HotKey);
+                        builder.AddCommand(commandModel.Name, commandModel.Path, commandModel.Arguments, false, commandModel.HotKey);
                 }
             }
         }

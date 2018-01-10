@@ -5,6 +5,7 @@ using Neptuo.Productivity.SolutionRunner.ViewModels;
 using Neptuo.Text.Tokens;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
@@ -47,8 +48,20 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Execution
                     countingAppender.File(application.Path, file.Path);
                 }
 
-                Process.Start(new ProcessStartInfo(application.Path, arguments));
-                EventManager.RaiseProcessStarted(application, file);
+                ProcessStartInfo info = new ProcessStartInfo(application.Path, arguments);
+                if (application.IsAdministratorRequired)
+                    info.Verb = "runas";
+                try
+                {
+                    Process.Start(info);
+                    EventManager.RaiseProcessStarted(application, file);
+                }
+                catch (Win32Exception e)
+                {
+                    // "The operation was canceled by the user".
+                    if (e.NativeErrorCode != 1223)
+                        throw;
+                }
             }
         }
     }

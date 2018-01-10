@@ -40,14 +40,23 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Applications
             string filePath = file.WithAbsolutePath().AbsolutePath;
             FileVersionInfo version = FileVersionInfo.GetVersionInfo(filePath);
 
-            applications.Add(
+            IApplicationBuilder builder = applications.Add(
                 String.Format("VS Code {0}.{1}.{2}", version.FileMajorPart, version.FileMinorPart, version.FileBuildPart),
                 new Version(version.FileMajorPart, version.FileMinorPart),
                 filePath,
                 "{DirectoryPath}",
+                false,
                 IconExtractor.Get(filePath),
                 Key.None,
                 true
+            );
+
+            builder.AddCommand(
+                "Run as Administrator",
+                filePath,
+                null,
+                true,
+                Key.A
             );
         }
     }
