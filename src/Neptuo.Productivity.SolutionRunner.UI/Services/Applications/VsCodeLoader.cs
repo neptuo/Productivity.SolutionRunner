@@ -16,48 +16,79 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Applications
     {
         public void Add(IApplicationCollection applications)
         {
-            IDirectoryNameSearch search = new LocalSearchProvider(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86));
+            List<(string suffix, IFile file)> files = new List<(string suffix, IFile file)>();
+            foreach (var search in EnumerateProgramFolders())
+            {
+                IDirectory directory = search
+                    .directory
+                    .FindDirectories(TextSearch.CreateMatched("Microsoft VS Code"))
+                    .FirstOrDefault();
 
-            IDirectory directory = search
-                .FindDirectories(TextSearch.CreateMatched("Microsoft VS Code"))
-                .FirstOrDefault();
+                if (directory == null)
+                    continue;
 
-            if (directory == null)
+                IFile file = directory
+                    .WithFileEnumerator()
+                    .FirstOrDefault(f => f.Name == "Code" && f.Extension == "exe");
+
+                if (file == null)
+                    continue;
+
+                files.Add((search.suffix, file));
+            }
+
+            if (files.Count == 0)
                 return;
 
-            //IFile file = directory
-            //    .WithFileNameSearch()
-            //    .FindFiles(TextSearch.CreateMatched("Code", false), TextSearch.CreateMatched(".exe"))
-            //    .FirstOrDefault();
+            foreach (var search in files)
+            {
+                //IFile file = directory
+                //    .WithFileNameSearch()
+                //    .FindFiles(TextSearch.CreateMatched("Code", false), TextSearch.CreateMatched(".exe"))
+                //    .FirstOrDefault();
 
-            IFile file = directory
-                .WithFileEnumerator()
-                .FirstOrDefault(f => f.Name == "Code" && f.Extension == "exe");
+                string filePath = search.file.WithAbsolutePath().AbsolutePath;
+                FileVersionInfo version = FileVersionInfo.GetVersionInfo(filePath);
 
-            if (file == null)
-                return;
+                IApplicationBuilder builder = applications.Add(
+                    String.Format(
+                        "VS Code{0} {1}.{2}.{3}",
+                        files.Count == 1
+                            ? String.Empty
+                            : " " + search.suffix,
+                        version.FileMajorPart,
+                        version.FileMinorPart,
+                        version.FileBuildPart
+                    ),
+                    new Version(version.FileMajorPart, version.FileMinorPart),
+                    filePath,
+                    "{DirectoryPath}",
+                    false,
+                    IconExtractor.Get(filePath),
+                    Key.None,
+                    true
+                );
 
-            string filePath = file.WithAbsolutePath().AbsolutePath;
-            FileVersionInfo version = FileVersionInfo.GetVersionInfo(filePath);
+                builder.AddCommand(
+                    "Run as Administrator",
+                    filePath,
+                    null,
+                    true,
+                    Key.A
+                );
+            }
+        }
 
-            IApplicationBuilder builder = applications.Add(
-                String.Format("VS Code {0}.{1}.{2}", version.FileMajorPart, version.FileMinorPart, version.FileBuildPart),
-                new Version(version.FileMajorPart, version.FileMinorPart),
-                filePath,
-                "{DirectoryPath}",
-                false,
-                IconExtractor.Get(filePath),
-                Key.None,
-                true
-            );
+        private IEnumerable<(string suffix, IDirectoryNameSearch directory)> EnumerateProgramFolders()
+        {
+            string x86 = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86);
+            string x64 = x86.Replace(" (x86)", String.Empty);
 
-            builder.AddCommand(
-                "Run as Administrator",
-                filePath,
-                null,
-                true,
-                Key.A
-            );
+            if (Directory.Exists(x86))
+                yield return ("x86", new LocalSearchProvider(x86));
+
+            if (x64 != x86 && Directory.Exists(x64))
+                yield return ("x64", new LocalSearchProvider(x64));
         }
     }
 }
