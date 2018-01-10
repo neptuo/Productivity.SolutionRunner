@@ -152,6 +152,7 @@ namespace Neptuo.Productivity.SolutionRunner.Views
             {
                 filesView.SortDescriptions.Add(new SortDescription(nameof(FileViewModel.IsPinned), ListSortDirection.Descending));
                 filesView.SortDescriptions.Add(new SortDescription(nameof(FileViewModel.Name), ListSortDirection.Ascending));
+                filesView.SortDescriptions.Add(new SortDescription(nameof(FileViewModel.Path), ListSortDirection.Ascending));
                 filesView.CollectionChanged += OnFilesViewCollectionChanged;
                 filesView.Refresh();
 
@@ -163,6 +164,7 @@ namespace Neptuo.Productivity.SolutionRunner.Views
             {
                 applicationsView.SortDescriptions.Add(new SortDescription(nameof(ApplicationViewModel.IsMain), ListSortDirection.Descending));
                 applicationsView.SortDescriptions.Add(new SortDescription(nameof(ApplicationViewModel.Name), ListSortDirection.Ascending));
+                applicationsView.SortDescriptions.Add(new SortDescription(nameof(ApplicationViewModel.Path), ListSortDirection.Ascending));
                 applicationsView.CollectionChanged += OnApplicationsViewCollectionChanged;
                 filesView.Refresh();
 
