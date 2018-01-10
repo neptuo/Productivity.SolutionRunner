@@ -161,11 +161,13 @@ namespace Neptuo.Productivity.SolutionRunner.Views.Controls
             private void OnDeactivated(object sender, EventArgs e)
             {
                 SetIsKeyboardCues(window, false);
+                keys.Clear();
             }
 
             private void OnLostFocus(object sender, RoutedEventArgs e)
             {
                 SetIsKeyboardCues(window, false);
+                keys.Clear();
             }
 
             private void OnPreviewKeyDown(object sender, KeyEventArgs e)
