@@ -12,18 +12,20 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Applications
         public string Name { get; private set; }
         public string Path { get; private set; }
         public string Arguments { get; private set; }
+        public bool IsAdministratorRequired { get; private set; }
         public Key HotKey { get; private set; }
         public IReadOnlyList<AdditionalApplicationModel> Commands { get; private set; }
 
-        public AdditionalApplicationModel(string name, string path, string arguments, Key hotKey)
-            : this(name, path, arguments, hotKey, new List<AdditionalApplicationModel>())
+        public AdditionalApplicationModel(string name, string path, string arguments, bool isAdministratorRequired, Key hotKey)
+            : this(name, path, arguments, isAdministratorRequired, hotKey, new List<AdditionalApplicationModel>())
         { }
 
-        public AdditionalApplicationModel(string name, string path, string arguments, Key hotKey, IReadOnlyList<AdditionalApplicationModel> commands)
+        public AdditionalApplicationModel(string name, string path, string arguments, bool isAdministratorRequired, Key hotKey, IReadOnlyList<AdditionalApplicationModel> commands)
         {
             Name = name;
             Path = path;
             Arguments = arguments;
+            IsAdministratorRequired = isAdministratorRequired;
             HotKey = hotKey;
             Commands = commands;
         }
@@ -37,6 +39,7 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Applications
                 hash += 13 * Name.GetHashCode();
                 hash += 13 * Path.GetHashCode();
                 hash += 13 * Arguments.GetHashCode();
+                hash += 13 * IsAdministratorRequired.GetHashCode();
                 hash += 13 * HotKey.GetHashCode();
 
                 if (Commands != null)
@@ -64,6 +67,9 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Applications
                 return false;
 
             if (other.Arguments != Arguments)
+                return false;
+
+            if (other.IsAdministratorRequired != IsAdministratorRequired)
                 return false;
 
             if (other.HotKey != HotKey)

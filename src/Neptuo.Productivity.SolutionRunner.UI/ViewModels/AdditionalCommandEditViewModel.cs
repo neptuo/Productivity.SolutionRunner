@@ -78,6 +78,20 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels
             }
         }
 
+        private bool isAdministratorRequired;
+        public bool IsAdministratorRequired
+        {
+            get { return isAdministratorRequired; }
+            set
+            {
+                if (isAdministratorRequired != value)
+                {
+                    isAdministratorRequired = value;
+                    RaisePropertyChanged();
+                }
+            }
+        }
+
         private ImageSource icon;
         public ImageSource Icon
         {
@@ -123,6 +137,7 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels
                 Name = model.Name;
                 Path = model.Path;
                 Arguments = model.Arguments;
+                IsAdministratorRequired = model.IsAdministratorRequired;
                 HotKey = model.HotKey == Key.None
                     ? null
                     : new KeyViewModel(model.HotKey, ModifierKeys.None);
@@ -137,6 +152,7 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels
                 Name,
                 Path,
                 Arguments,
+                IsAdministratorRequired,
                 HotKey.GetKey()
             );
         }

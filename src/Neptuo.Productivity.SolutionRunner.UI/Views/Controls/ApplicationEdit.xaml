@@ -47,5 +47,8 @@
              {DirectoryPath} is replaced with a full path to the directory of the selected file.
             </TextBlock>
         </StackPanel>
+        <StackPanel Style="{StaticResource EditorPanelStyle}">
+            <CheckBox Content="Run as Administrator" IsChecked="{Binding IsAdministratorRequired}" />
+        </StackPanel>
     </StackPanel>
 </UserControl>

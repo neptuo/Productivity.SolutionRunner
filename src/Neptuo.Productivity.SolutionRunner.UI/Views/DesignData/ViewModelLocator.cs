@@ -109,8 +109,8 @@ namespace Neptuo.Productivity.SolutionRunner.UI.DesignData
                     configurationViewModel.AdditionalApplications = new ObservableCollection<AdditionalApplicationListViewModel>();
                     preferedApplications.AddCollectionChanged(configurationViewModel.AdditionalApplications);
                     configurationViewModel.AdditionalApplications.AddRange(
-                        new AdditionalApplicationListViewModel(new AdditionalApplicationModel("Notepad", @"C:\Windows\notepad.exe", "", Key.N)),
-                        new AdditionalApplicationListViewModel(new AdditionalApplicationModel("GitExtensions", @"C:\Program Files (x86)\GitExtensions\GitExtensions.exe", "", Key.G))
+                        new AdditionalApplicationListViewModel(new AdditionalApplicationModel("Notepad", @"C:\Windows\notepad.exe", "", false, Key.N)),
+                        new AdditionalApplicationListViewModel(new AdditionalApplicationModel("GitExtensions", @"C:\Program Files (x86)\GitExtensions\GitExtensions.exe", "", false, Key.G))
                     );
                     configurationViewModel.MainApplications = new ObservableCollection<MainApplicationListViewModel>();
                     preferedApplications.AddCollectionChanged(configurationViewModel.MainApplications);
