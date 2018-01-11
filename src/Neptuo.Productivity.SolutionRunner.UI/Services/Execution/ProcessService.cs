@@ -23,7 +23,7 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Execution
             this.countingAppender = countingAppender;
         }
 
-        public void Run(IApplication application, IFile file)
+        public void Run(IApplication application, IFile file, bool isAdministratorRequired = false)
         {
             if (file == null)
             {
@@ -49,7 +49,7 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Execution
                 }
 
                 ProcessStartInfo info = new ProcessStartInfo(application.Path, arguments);
-                if (application.IsAdministratorRequired)
+                if (isAdministratorRequired || application.IsAdministratorRequired)
                     info.Verb = "runas";
                 try
                 {

@@ -130,7 +130,7 @@ namespace Neptuo.Productivity.SolutionRunner.Views
                     TrySelectPreferedApplication();
                 }
 
-                processService.Run(application, file);
+                processService.Run(application, file, IsShiftPressed());
 
                 if (isClosedAfterStartingProcess)
                     Close();
@@ -351,15 +351,23 @@ namespace Neptuo.Productivity.SolutionRunner.Views
             }
         }
 
-        private bool IsModifierKeyPressed()
+        private bool IsShiftPressed()
         {
-            if (Keyboard.IsKeyDown(Key.LeftAlt) || Keyboard.IsKeyDown(Key.RightAlt))
+            if (Keyboard.IsKeyDown(Key.LeftShift) || Keyboard.IsKeyDown(Key.RightShift))
                 return true;
 
+            return false;
+        }
+
+        private bool IsModifierKeyPressed()
+        {
             if (Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl))
                 return true;
 
-            if (Keyboard.IsKeyDown(Key.LeftShift) || Keyboard.IsKeyDown(Key.RightShift))
+            if (Keyboard.IsKeyDown(Key.LeftAlt) || Keyboard.IsKeyDown(Key.RightAlt))
+                return true;
+
+            if (IsShiftPressed())
                 return true;
 
             return false;

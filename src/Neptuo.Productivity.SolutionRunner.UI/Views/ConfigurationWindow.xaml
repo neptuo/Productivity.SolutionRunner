@@ -311,7 +311,7 @@
                         </Grid>
                         <Grid>
                             <TextBlock Text="Open file in application" />
-                            <TextBlock Text="Enter, DoubleClick on file" HorizontalAlignment="Right" />
+                            <TextBlock Text="Enter ( + Shift to run as Administrator), DoubleClick on file" HorizontalAlignment="Right" />
                         </Grid>
                         <Grid>
                             <TextBlock Text="Close/hide" />
