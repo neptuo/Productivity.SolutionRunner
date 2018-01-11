@@ -16,5 +16,17 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Positions
         /// </summary>
         /// <param name="target">A target component to apply position to.</param>
         void Apply(IPositionTarget target);
+
+        /// <summary>
+        /// Applies position to <paramref name="target"/> in horizontal axe.
+        /// </summary>
+        /// <param name="target">A target component to apply position to.</param>
+        void ApplyHorizontal(IPositionTarget target);
+
+        /// <summary>
+        /// Applies position to <paramref name="target"/> in vertical axe.
+        /// </summary>
+        /// <param name="target">A target component to apply position to.</param>
+        void ApplyVertical(IPositionTarget target);
     }
 }

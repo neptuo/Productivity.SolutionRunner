@@ -35,6 +35,7 @@ namespace Neptuo.Productivity.SolutionRunner.Views
     public partial class MainWindow : Window, IPositionTarget
     {
         private readonly INavigator navigator;
+        private readonly IPositionProvider positionProvider;
         private readonly Settings settings;
         private readonly ProcessService processService;
         private readonly bool isClosedAfterStartingProcess;
@@ -90,12 +91,14 @@ namespace Neptuo.Productivity.SolutionRunner.Views
 
         #endregion
 
-        internal MainWindow(INavigator navigator, Settings settings, ProcessService processService, bool isClosedAfterStartingProcess)
+        internal MainWindow(INavigator navigator, IPositionProvider positionProvider, Settings settings, ProcessService processService, bool isClosedAfterStartingProcess)
         {
             Ensure.NotNull(navigator, "navigator");
+            Ensure.NotNull(positionProvider, "positionProvider");
             Ensure.NotNull(settings, "settings");
             Ensure.NotNull(processService, "processService");
             this.navigator = navigator;
+            this.positionProvider = positionProvider;
             this.settings = settings;
             this.processService = processService;
             this.isClosedAfterStartingProcess = isClosedAfterStartingProcess;
@@ -196,6 +199,7 @@ namespace Neptuo.Productivity.SolutionRunner.Views
         private void UpdateFileWidth()
         {
             FileWidth = Math.Max(lvwApplications.ActualWidth, FileWidthDefaultValue) - 20;
+            positionProvider.ApplyHorizontal(this);
         }
 
         private void OnFilesViewCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)

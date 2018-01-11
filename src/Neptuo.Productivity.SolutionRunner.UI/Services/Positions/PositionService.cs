@@ -29,6 +29,12 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Positions
 
         public void Apply(IPositionTarget target)
         {
+            ApplyHorizontal(target);
+            ApplyVertical(target);
+        }
+
+        public void ApplyHorizontal(IPositionTarget target)
+        {
             Ensure.NotNull(target, "target");
 
             switch (settings.PositionMode)
@@ -36,10 +42,24 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Positions
                 case PositionMode.CenterPrimaryScreen:
                     Screen screen = Screen.PrimaryScreen;
                     target.Left = (screen.WorkingArea.Width - target.ActualWidth) / 2 + screen.WorkingArea.Left;
-                    target.Top = (screen.WorkingArea.Height - target.ActualHeight) / 2 + screen.WorkingArea.Top;
                     break;
                 case PositionMode.UserDefined:
                     target.Left = settings.PositionLeft;
+                    break;
+            }
+        }
+
+        public void ApplyVertical(IPositionTarget target)
+        {
+            Ensure.NotNull(target, "target");
+
+            switch (settings.PositionMode)
+            {
+                case PositionMode.CenterPrimaryScreen:
+                    Screen screen = Screen.PrimaryScreen;
+                    target.Top = (screen.WorkingArea.Height - target.ActualHeight) / 2 + screen.WorkingArea.Top;
+                    break;
+                case PositionMode.UserDefined:
                     target.Top = settings.PositionTop;
                     break;
             }

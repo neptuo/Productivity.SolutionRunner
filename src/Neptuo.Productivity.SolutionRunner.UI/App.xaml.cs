@@ -498,7 +498,7 @@ namespace Neptuo.Productivity.SolutionRunner
         {
             if (mainWindow == null)
             {
-                mainWindow = new MainWindow(this, Settings.Default, new ProcessService(countingService), runHotKey.IsSet);
+                mainWindow = new MainWindow(this, positionProvider, Settings.Default, new ProcessService(countingService), runHotKey.IsSet);
                 mainWindow.Closing += OnMainWindowClosing;
                 mainWindow.Closed += OnMainWindowClosed;
             }
