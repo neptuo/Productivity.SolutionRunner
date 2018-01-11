@@ -47,6 +47,9 @@
             <Label Content="{Binding Label, ElementName=this}" Target="{Binding ElementName=tbxAdditionalApplications}" />
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                 <TextBlock Text="{Binding LabelDetail, ElementName=this}" Margin="0 0 3 0" />
+                <Button x:Name="btnReload" Click="btnReload_Click" ToolTip="Reload" Style="{StaticResource PlainButtonStyle}" Margin="0 0 3 0" Visibility="Collapsed">
+                    <fa:ImageAwesome Icon="Refresh" Style="{StaticResource ImageAwesome}" Margin="0 0 3 0" />
+                </Button>
                 <Button x:Name="btnAdd" ToolTip="{Binding CreateCommandToolTip, ElementName=this}" Style="{StaticResource PlainButtonStyle}" 
                  Command="{Binding CreateCommand, ElementName=this}"
                  Visibility="{Binding CreateCommand, ElementName=this, Converter={StaticResource NullToCollapsedConverter}}">

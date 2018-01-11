@@ -25,9 +25,9 @@ namespace Neptuo.Productivity.SolutionRunner.Views.Controls
         }
 
         public static readonly DependencyProperty LabelProperty = DependencyProperty.Register(
-            "Label", 
-            typeof(string), 
-            typeof(ListView), 
+            "Label",
+            typeof(string),
+            typeof(ListView),
             new PropertyMetadata(null)
         );
 
@@ -39,9 +39,9 @@ namespace Neptuo.Productivity.SolutionRunner.Views.Controls
         }
 
         public static readonly DependencyProperty LabelDetailProperty = DependencyProperty.Register(
-            "LabelDetail", 
-            typeof(string), 
-            typeof(ListView), 
+            "LabelDetail",
+            typeof(string),
+            typeof(ListView),
             new PropertyMetadata(null)
         );
 
@@ -53,9 +53,9 @@ namespace Neptuo.Productivity.SolutionRunner.Views.Controls
         }
 
         public static readonly DependencyProperty ItemsSourceProperty = DependencyProperty.Register(
-            "ItemsSource", 
-            typeof(IEnumerable), 
-            typeof(ListView), 
+            "ItemsSource",
+            typeof(IEnumerable),
+            typeof(ListView),
             new PropertyMetadata(null)
         );
 
@@ -67,9 +67,9 @@ namespace Neptuo.Productivity.SolutionRunner.Views.Controls
         }
 
         public static readonly DependencyProperty CreateCommandProperty = DependencyProperty.Register(
-            "CreateCommand", 
-            typeof(ICommand), 
-            typeof(ListView), 
+            "CreateCommand",
+            typeof(ICommand),
+            typeof(ListView),
             new PropertyMetadata(null)
         );
 
@@ -81,9 +81,9 @@ namespace Neptuo.Productivity.SolutionRunner.Views.Controls
         }
 
         public static readonly DependencyProperty CreateCommandToolTipProperty = DependencyProperty.Register(
-            "CreateCommandToolTip", 
-            typeof(string), 
-            typeof(ListView), 
+            "CreateCommandToolTip",
+            typeof(string),
+            typeof(ListView),
             new PropertyMetadata(null)
         );
 
@@ -95,9 +95,9 @@ namespace Neptuo.Productivity.SolutionRunner.Views.Controls
         }
 
         public static readonly DependencyProperty ItemTemplateProperty = DependencyProperty.Register(
-            "ItemTemplate", 
-            typeof(DataTemplate), 
-            typeof(ListView), 
+            "ItemTemplate",
+            typeof(DataTemplate),
+            typeof(ListView),
             new PropertyMetadata(null)
         );
 
@@ -109,16 +109,38 @@ namespace Neptuo.Productivity.SolutionRunner.Views.Controls
         }
 
         public static readonly DependencyProperty NoDataProperty = DependencyProperty.Register(
-            "NoData", 
-            typeof(object), 
-            typeof(ListView), 
+            "NoData",
+            typeof(object),
+            typeof(ListView),
             new PropertyMetadata("No data to display. Add some using '+' button...")
         );
+
+
+        private event Action reload;
+        public event Action Reload
+        {
+            add
+            {
+                reload += value;
+                btnReload.Visibility = reload != null ? Visibility.Visible : Visibility.Collapsed;
+            }
+            remove
+            {
+                reload -= value;
+                btnReload.Visibility = reload != null ? Visibility.Visible : Visibility.Collapsed;
+            }
+        }
 
 
         public ListView()
         {
             InitializeComponent();
+        }
+
+        private void btnReload_Click(object sender, RoutedEventArgs e)
+        {
+            if (reload != null)
+                reload();
         }
     }
 }
