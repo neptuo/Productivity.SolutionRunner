@@ -184,7 +184,6 @@
     <Compile Include="Services\Colors\RandomColorGenerator.cs" />
     <Compile Include="Services\Converters\AdditionalApplicationCollectionConverter.cs" />
     <Compile Include="Services\Converters\KeyViewModelConverter.cs" />
-    <Compile Include="Services\Exceptions\LogExceptionHandler.cs" />
     <Compile Include="Services\Exceptions\MessageBoxExceptionHandler.cs" />
     <Compile Include="Services\Exceptions\UnauthorizedAccessExceptionHandler.cs" />
     <Compile Include="Services\Execution\IApplication.cs" />
