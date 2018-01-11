@@ -126,7 +126,7 @@
     </Window.TaskbarItemInfo>
     <Border Style="{StaticResource WindowBorderStyle}" Padding="0">
         <Grid>
-            <Grid x:Name="grdMain" Style="{StaticResource MainGridStyle}" IsEnabled="{Binding IsLoading, Converter={StaticResource TrueToFalseConverter}}">
+            <Grid Style="{StaticResource MainGridStyle}" IsEnabled="{Binding IsLoading, Converter={StaticResource TrueToFalseConverter}}">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
@@ -135,7 +135,7 @@
                 </Grid.RowDefinitions>
 
                 <Grid Margin="0,0,0,10" Grid.Row="0">
-                    <ListView x:Name="lvwApplications" ItemsSource="{Binding Applications}" ItemContainerStyle="{StaticResource ApplicationListViewItemStyle}" Margin="10,0">
+                    <ListView x:Name="lvwApplications" ItemsSource="{Binding Applications}" ItemContainerStyle="{StaticResource ApplicationListViewItemStyle}" Margin="10,0" HorizontalAlignment="Center">
                         <ListView.ItemsPanel>
                             <ItemsPanelTemplate>
                                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" />

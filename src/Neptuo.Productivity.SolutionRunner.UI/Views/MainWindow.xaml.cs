@@ -183,12 +183,19 @@ namespace Neptuo.Productivity.SolutionRunner.Views
 
         private void InitializeWidth()
         {
+            lvwApplications.SizeChanged += (e, sender) => UpdateFileWidth();
+
             FileWidth = FileWidthDefaultValue;
             Task.Factory.StartNew(() =>
             {
                 Thread.Sleep(10);
-                DispatcherHelper.Run(() => FileWidth = Math.Max(grdMain.ActualWidth, FileWidthDefaultValue) - 40);
+                DispatcherHelper.Run(UpdateFileWidth);
             });
+        }
+
+        private void UpdateFileWidth()
+        {
+            FileWidth = Math.Max(lvwApplications.ActualWidth, FileWidthDefaultValue) - 20;
         }
 
         private void OnFilesViewCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
