@@ -232,7 +232,7 @@
                         </ComboBox>
                     </StackPanel>
                     <ui:ListView ItemsSource="{Binding MainApplications}"
-                     Label="Main:" LabelDetail="Visual Studio versions">
+                     Label="Main:" LabelDetail="Visual Studio and Code versions">
                         <ui:ListView.ItemTemplate>
                             <DataTemplate>
                                 <Border Style="{StaticResource AdditionalBorderStyle}">
