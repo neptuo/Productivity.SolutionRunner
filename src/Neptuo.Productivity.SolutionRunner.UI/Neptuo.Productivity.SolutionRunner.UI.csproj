@@ -90,13 +90,15 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.VisualBasic" />
-    <Reference Include="Neptuo, Version=5.3.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Neptuo.5.3.0\lib\net45\Neptuo.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Microsoft.VisualStudio.Setup.Configuration.Interop, Version=1.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.VisualStudio.Setup.Configuration.Interop.1.15.103\lib\net35\Microsoft.VisualStudio.Setup.Configuration.Interop.dll</HintPath>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
-    <Reference Include="Neptuo.Exceptions, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Neptuo.Exceptions.1.1.0\lib\net45\Neptuo.Exceptions.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Neptuo, Version=5.5.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Neptuo.5.5.0\lib\net45\Neptuo.dll</HintPath>
+    </Reference>
+    <Reference Include="Neptuo.Exceptions, Version=1.2.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Neptuo.Exceptions.1.2.0\lib\net45\Neptuo.Exceptions.dll</HintPath>
     </Reference>
     <Reference Include="Neptuo.FileSystems, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Neptuo.FileSystems.1.1.0\lib\net45\Neptuo.FileSystems.dll</HintPath>
@@ -110,13 +112,11 @@
       <HintPath>..\..\packages\Neptuo.Formatters.2.0.0\lib\net45\Neptuo.Formatters.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Neptuo.Formatters.Composite, Version=2.1.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Neptuo.Formatters.Composite.2.1.1\lib\net45\Neptuo.Formatters.Composite.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Neptuo.Formatters.Composite, Version=2.2.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Neptuo.Formatters.Composite.2.2.0\lib\net45\Neptuo.Formatters.Composite.dll</HintPath>
     </Reference>
-    <Reference Include="Neptuo.Formatters.Composite.Json, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Neptuo.Formatters.Composite.Json.2.1.0\lib\net45\Neptuo.Formatters.Composite.Json.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Neptuo.Formatters.Composite.Json, Version=2.2.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Neptuo.Formatters.Composite.Json.2.2.0\lib\net45\Neptuo.Formatters.Composite.Json.dll</HintPath>
     </Reference>
     <Reference Include="Neptuo.Formatters.Composite.Metadata, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Neptuo.Formatters.Composite.Metadata.1.0.1\lib\net45\Neptuo.Formatters.Composite.Metadata.dll</HintPath>
@@ -126,9 +126,8 @@
       <HintPath>..\..\packages\Neptuo.Models.Features.1.0.0\lib\net45\Neptuo.Models.Features.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Neptuo.Observables, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Neptuo.Observables.1.1.0\lib\net45\Neptuo.Observables.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Neptuo.Observables, Version=1.2.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Neptuo.Observables.1.2.1\lib\net45\Neptuo.Observables.dll</HintPath>
     </Reference>
     <Reference Include="Neptuo.Windows.HotKeys, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Neptuo.Windows.HotKeys.1.0.0\lib\net45\Neptuo.Windows.HotKeys.dll</HintPath>
@@ -138,9 +137,8 @@
       <HintPath>..\..\packages\Neptuo.Windows.Threading.1.0.1\lib\net45\Neptuo.Windows.Threading.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Newtonsoft.Json.9.0.2-beta2\lib\net45\Newtonsoft.Json.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
