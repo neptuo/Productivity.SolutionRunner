@@ -113,6 +113,7 @@ namespace Neptuo.Productivity.SolutionRunner
 
             mainApplicationLoader = new ApplicationLoaderCollection()
                 .Add(new VsVersionLoader())
+                .Add(new Vs2017VersionLoader())
                 .Add(new VsCodeLoader());
 
             // Bind global hotkey.

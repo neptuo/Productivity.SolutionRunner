@@ -45,7 +45,13 @@ namespace Neptuo.Productivity.SolutionRunner.UI.DesignData
                     mainViewModel.IsLoading = false;
                     mainViewModel.SearchPattern = "Neptuo.sln";
 
-                    VsVersionLoader loader = new VsVersionLoader();
+                    IApplicationLoader loader = new VsVersionLoader();
+                    loader.Add(mainViewModel);
+
+                    loader = new Vs2017VersionLoader();
+                    loader.Add(mainViewModel);
+
+                    loader = new VsCodeLoader();
                     loader.Add(mainViewModel);
 
                     mainViewModel.Add("File Explorer", @"C:\Windows\explorer.exe", null, false, IconExtractor.Get(@"C:\Windows\explorer.exe"), Key.E, false);

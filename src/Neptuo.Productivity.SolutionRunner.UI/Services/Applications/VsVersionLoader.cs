@@ -23,7 +23,7 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Applications
         {
             IDirectoryNameSearch search = new LocalSearchProvider(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86));
             Add2015AndOlder(search, applications);
-            Add2017AndNewer(search, applications);
+            //Add2017AndNewer(search, applications);
         }
 
         private void Add2017AndNewer(IDirectoryNameSearch search, IApplicationCollection applications)
@@ -66,8 +66,8 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Applications
                 FileVersionInfo version = FileVersionInfo.GetVersionInfo(filePath);
 
                 IApplicationBuilder builder = applications.Add(
-                    String.Format("Visual Studio {0}.{1}", version.FileMajorPart, version.FileMinorPart),
-                    new Version(version.FileMajorPart, version.FileMinorPart),
+                    String.Format("Visual Studio {0}", VersionFormatter.Format(version)),
+                    new Version(version.FileMajorPart, version.FileMinorPart, version.FileBuildPart),
                     filePath,
                     null,
                     false,

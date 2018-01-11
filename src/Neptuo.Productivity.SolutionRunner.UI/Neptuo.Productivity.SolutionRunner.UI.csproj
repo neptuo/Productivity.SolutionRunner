@@ -178,6 +178,8 @@
     <Compile Include="Services\Applications\IApplicationLoader.cs" />
     <Compile Include="Services\Applications\IconExtractor.cs" />
     <Compile Include="Services\Applications\ApplicationFilteredCollection.cs" />
+    <Compile Include="Services\Applications\VersionFormatter.cs" />
+    <Compile Include="Services\Applications\Vs2017VersionLoader.cs" />
     <Compile Include="Services\Applications\VsCodeLoader.cs" />
     <Compile Include="Services\Colors\IColorGenerator.cs" />
     <Compile Include="Services\Colors\NamedColorGenerator.cs" />

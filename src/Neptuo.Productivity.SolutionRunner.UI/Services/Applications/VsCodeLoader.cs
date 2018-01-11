@@ -52,13 +52,11 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Applications
 
                 IApplicationBuilder builder = applications.Add(
                     String.Format(
-                        "VS Code{0} {1}.{2}.{3}",
+                        "VS Code{0} {1}",
                         files.Count == 1
                             ? String.Empty
                             : " " + search.suffix,
-                        version.FileMajorPart,
-                        version.FileMinorPart,
-                        version.FileBuildPart
+                        VersionFormatter.Format(version)
                     ),
                     new Version(version.FileMajorPart, version.FileMinorPart),
                     filePath,
