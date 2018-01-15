@@ -1,6 +1,5 @@
-﻿using Neptuo;
-using Neptuo.Exceptions.Handlers;
-using Neptuo.Productivity.SolutionRunner.Properties;
+﻿using Neptuo.Exceptions.Handlers;
+using Neptuo.Productivity.SolutionRunner.Services.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,11 +11,11 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Exceptions
 {
     public class UnauthorizedAccessExceptionHandler : IExceptionHandler<UnauthorizedAccessException>
     {
-        private readonly Settings settings;
+        private readonly ISettings settings;
         private readonly INavigator navigator;
         private readonly Action mainWindowCloser;
 
-        internal UnauthorizedAccessExceptionHandler(Settings settings, INavigator navigator, Action mainWindowCloser)
+        internal UnauthorizedAccessExceptionHandler(ISettings settings, INavigator navigator, Action mainWindowCloser)
         {
             Ensure.NotNull(settings, "settings");
             Ensure.NotNull(navigator, "navigator");

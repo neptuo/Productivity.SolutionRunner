@@ -7,26 +7,24 @@ using Neptuo.Formatters.Converters;
 using Neptuo.Logging;
 using Neptuo.Logging.Serialization.Converters;
 using Neptuo.Logging.Serialization.Formatters;
-using Neptuo.Observables.Collections;
-using Neptuo.Productivity.SolutionRunner.Properties;
 using Neptuo.Productivity.SolutionRunner.Services;
 using Neptuo.Productivity.SolutionRunner.Services.Applications;
 using Neptuo.Productivity.SolutionRunner.Services.Colors;
+using Neptuo.Productivity.SolutionRunner.Services.Configuration;
 using Neptuo.Productivity.SolutionRunner.Services.Converters;
 using Neptuo.Productivity.SolutionRunner.Services.Exceptions;
 using Neptuo.Productivity.SolutionRunner.Services.Execution;
 using Neptuo.Productivity.SolutionRunner.Services.Logging;
 using Neptuo.Productivity.SolutionRunner.Services.Positions;
-using Neptuo.Productivity.SolutionRunner.Services.Searching;
 using Neptuo.Productivity.SolutionRunner.Services.StartupFlags;
 using Neptuo.Productivity.SolutionRunner.Services.StartupShortcuts;
 using Neptuo.Productivity.SolutionRunner.Services.Statistics;
 using Neptuo.Productivity.SolutionRunner.Services.Themes;
 using Neptuo.Productivity.SolutionRunner.ViewModels;
-using Neptuo.Productivity.SolutionRunner.ViewModels.Commands.Factories;
 using Neptuo.Productivity.SolutionRunner.ViewModels.Factories;
 using Neptuo.Productivity.SolutionRunner.Views;
 using Neptuo.Productivity.SolutionRunner.Views.Controls;
+using Neptuo.Productivity.SolutionRunner.Views.Converters;
 using Neptuo.Windows.Threading;
 using System;
 using System.Collections.Generic;
@@ -48,6 +46,8 @@ namespace Neptuo.Productivity.SolutionRunner
 {
     public partial class App : Application, INavigator, INavigatorState, IPinStateService
     {
+        private ISettingsService settingsService;
+        private ISettings settings;
         private StartupModel startup;
         private IApplicationLoader mainApplicationLoader;
         private DefaultRunHotKeyService runHotKey;
@@ -55,6 +55,8 @@ namespace Neptuo.Productivity.SolutionRunner
         private IPositionProvider positionProvider;
         private ILog log;
         private ErrorLog errorLog;
+
+        internal static ISettings Settings => ((App)App.Current).settings;
 
         private IExceptionHandler exceptionHandler;
 
@@ -79,11 +81,14 @@ namespace Neptuo.Productivity.SolutionRunner
             startup.IsStartup = true;
 
             if (!startup.IsHidden)
-                startup.IsHidden = Settings.Default.IsHiddentOnStartup;
+                startup.IsHidden = settings.IsHiddentOnStartup;
         }
 
         protected override void OnStartup(StartupEventArgs e)
         {
+            settingsService = new DefaultSettingsService();
+            settings = settingsService.LoadAsync().GetAwaiter().GetResult();
+
             ReloadThemeResources();
 
             TaskScheduler.UnobservedTaskException += OnTaskSchedulerUnobservedException;
@@ -119,7 +124,7 @@ namespace Neptuo.Productivity.SolutionRunner
             // Bind global hotkey.
             runHotKey = new DefaultRunHotKeyService(this, this);
             KeyViewModel runKey;
-            if (Converts.Try(Settings.Default.RunKey, out runKey) && runKey != null)
+            if (Converts.Try(settings.RunKey, out runKey) && runKey != null)
             {
                 try
                 {
@@ -128,8 +133,8 @@ namespace Neptuo.Productivity.SolutionRunner
                 catch (Win32Exception)
                 {
                     runHotKey.UnBind();
-                    Settings.Default.RunKey = null;
-                    Settings.Default.Save();
+                    settings.RunKey = null;
+                    settingsService.SaveAsync(settings);
                 }
             }
 
@@ -140,28 +145,30 @@ namespace Neptuo.Productivity.SolutionRunner
                 mainApplicationLoader,
                 shortcutService,
                 runHotKey,
-                Settings.Default,
+                settingsService,
+                settings,
                 this
             );
 
             mainFactory = new MainViewModelFactory(
                 this,
-                Settings.Default,
+                settings,
                 mainApplicationLoader,
                 GetPinnedFiles,
                 OnMainViewModelPropertyChanged
             );
 
-            SettingsExtension.Settings = Settings.Default;
+            SettingsExtension.Settings = settingsService.LoadRawAsync().GetAwaiter().GetResult();
+            PathConverter.Settings = settings;
 
-            positionProvider = new PositionService(Settings.Default);
+            positionProvider = new PositionService(settings);
             InitializeCounting();
 
-            if (Settings.Default.IsTrayIcon)
+            if (settings.IsTrayIcon)
                 TryCreateTrayIcon();
 
             // Open window.
-            if (String.IsNullOrEmpty(Settings.Default.SourceDirectoryPath))
+            if (String.IsNullOrEmpty(settings.SourceDirectoryPath))
                 OpenConfiguration();
             else
                 OpenMain();
@@ -184,7 +191,7 @@ namespace Neptuo.Productivity.SolutionRunner
             ExceptionHandlerBuilder builder = new ExceptionHandlerBuilder();
             builder
                 .Filter<UnauthorizedAccessException>()
-                .Handler(new UnauthorizedAccessExceptionHandler(Settings.Default, this, () => { mainWindow?.Close(); mainFactory.ClearService(); }));
+                .Handler(new UnauthorizedAccessExceptionHandler(settings, this, () => { mainWindow?.Close(); mainFactory.ClearService(); }));
 
             builder
                 .Filter(e => !(e is UnauthorizedAccessException))
@@ -201,17 +208,17 @@ namespace Neptuo.Productivity.SolutionRunner
 
         private void TrySaveLastSearchPattern()
         {
-            if (Settings.Default.IsFileSearchPatternSaved)
+            if (settings.IsFileSearchPatternSaved)
             {
-                Settings.Default.FileSearchPattern = mainWindow.ViewModel.SearchPattern;
-                Settings.Default.Save();
+                settings.FileSearchPattern = mainWindow.ViewModel.SearchPattern;
+                settingsService.SaveAsync(settings);
             }
         }
 
         private void InitializeCounting()
         {
             CountingService inner = new CountingService();
-            countingService = new SwitchableContingService(Settings.Default, inner, inner);
+            countingService = new SwitchableContingService(settings, inner, inner);
         }
 
         private NotifyIcon trayIcon;
@@ -229,7 +236,7 @@ namespace Neptuo.Productivity.SolutionRunner
         private void ReloadThemeResources()
         {
             Uri uri = null;
-            switch (Settings.Default.ThemeMode)
+            switch (settings.ThemeMode)
             {
                 case ThemeMode.Dark:
                     uri = new Uri("/Views/Themes/Dark.xaml", UriKind.Relative);
@@ -238,7 +245,7 @@ namespace Neptuo.Productivity.SolutionRunner
                     uri = new Uri("/Views/Themes/Light.xaml", UriKind.Relative);
                     break;
                 default:
-                    throw Ensure.Exception.NotSupported(Settings.Default.ThemeMode);
+                    throw Ensure.Exception.NotSupported(settings.ThemeMode);
             }
 
             if (Resources.MergedDictionaries[0].Source != uri)
@@ -369,7 +376,7 @@ namespace Neptuo.Productivity.SolutionRunner
             {
                 pinnedFiles = new HashSet<string>();
 
-                string rawValue = Settings.Default.PinnedFiles;
+                string rawValue = settings.PinnedFiles;
                 if (!String.IsNullOrEmpty(rawValue))
                 {
                     foreach (string filePath in rawValue.Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries))
@@ -391,8 +398,8 @@ namespace Neptuo.Productivity.SolutionRunner
             else
                 pinnedFiles.Remove(viewModel.Path);
 
-            Settings.Default.PinnedFiles = String.Join(";", pinnedFiles);
-            Settings.Default.Save();
+            settings.PinnedFiles = String.Join(";", pinnedFiles);
+            settingsService.SaveAsync(settings);
         }
 
         public IEnumerable<string> Enumerate()
@@ -430,7 +437,7 @@ namespace Neptuo.Productivity.SolutionRunner
             {
                 isMainWindowViewModelReloadRequired = true;
 
-                configurationWindow = new ConfigurationWindow(configurationFactory.Create(), this, errorLog, String.IsNullOrEmpty(Settings.Default.SourceDirectoryPath));
+                configurationWindow = new ConfigurationWindow(configurationFactory.Create(), this, errorLog, String.IsNullOrEmpty(settings.SourceDirectoryPath));
                 configurationWindow.ShowInTaskbar = !runHotKey.IsSet;
                 configurationWindow.ResizeMode = !runHotKey.IsSet ? ResizeMode.CanMinimize : ResizeMode.NoResize;
                 configurationWindow.Closed += OnConfigurationWindowClosed;
@@ -498,7 +505,7 @@ namespace Neptuo.Productivity.SolutionRunner
         {
             if (mainWindow == null)
             {
-                mainWindow = new MainWindow(this, positionProvider, Settings.Default, new ProcessService(countingService), runHotKey.IsSet);
+                mainWindow = new MainWindow(this, positionProvider, settingsService, settings, new ProcessService(countingService), runHotKey.IsSet);
                 mainWindow.Closing += OnMainWindowClosing;
                 mainWindow.Closed += OnMainWindowClosed;
             }
@@ -508,13 +515,13 @@ namespace Neptuo.Productivity.SolutionRunner
                 isMainWindowViewModelReloadRequired = false;
 
                 mainWindow.ShowInTaskbar = !runHotKey.IsSet;
-                mainWindow.IsAutoSelectApplicationVersion = Settings.Default.IsAutoSelectApplicationVersion;
+                mainWindow.IsAutoSelectApplicationVersion = settings.IsAutoSelectApplicationVersion;
 
                 mainWindow.ViewModel = mainFactory.Create();
                 mainWindow.TrySelectPreferedApplication();
             }
 
-            mainWindow.IsAutoSelectApplicationVersion = Settings.Default.IsAutoSelectApplicationVersion;
+            mainWindow.IsAutoSelectApplicationVersion = settings.IsAutoSelectApplicationVersion;
             ResetLastSearchPattern();
             mainWindow.Deactivated += OnMainWindowDeactivated;
 
@@ -536,19 +543,19 @@ namespace Neptuo.Productivity.SolutionRunner
 
         private void ResetLastSearchPattern()
         {
-            if (Settings.Default.IsFileSearchPatternSaved)
-                mainWindow.ViewModel.SearchPattern = Settings.Default.FileSearchPattern;
+            if (settings.IsFileSearchPatternSaved)
+                mainWindow.ViewModel.SearchPattern = settings.FileSearchPattern;
             else if (!String.IsNullOrEmpty(mainWindow.ViewModel.SearchPattern))
                 mainWindow.ViewModel.SearchPattern = String.Empty;
         }
 
         private void OnMainWindowDeactivated(object sender, EventArgs e)
         {
-            if (Settings.Default.IsDismissedWhenLostFocus && mainWindow != null)
+            if (settings.IsDismissedWhenLostFocus && mainWindow != null)
             {
                 DispatcherHelper.Run(() =>
                 {
-                    if (Settings.Default.IsDismissedWhenLostFocus && mainWindow != null && !mainWindow.IsActive)
+                    if (settings.IsDismissedWhenLostFocus && mainWindow != null && !mainWindow.IsActive)
                         mainWindow.Close();
                 }, 500);
             }

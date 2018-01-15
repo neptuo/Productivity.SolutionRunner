@@ -1,4 +1,4 @@
-﻿using Neptuo.Productivity.SolutionRunner.Properties;
+﻿using Neptuo.Productivity.SolutionRunner.Services.Configuration;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -11,9 +11,17 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Applications
 {
     public class AdditionalApplicationLoader
     {
+        private readonly ISettings settings;
+
+        public AdditionalApplicationLoader(ISettings settings)
+        {
+            Ensure.NotNull(settings, "settings");
+            this.settings = settings;
+        }
+
         public void Add(IApplicationCollection applications)
         {
-            string rawValue = Settings.Default.AdditionalApplications;
+            string rawValue = settings.AdditionalApplications;
             if (!String.IsNullOrEmpty(rawValue))
             {
                 AdditionalApplicationCollection collection = Converts

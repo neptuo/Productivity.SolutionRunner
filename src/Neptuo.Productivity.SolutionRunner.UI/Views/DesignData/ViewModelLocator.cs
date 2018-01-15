@@ -1,11 +1,10 @@
-﻿using Neptuo;
-using Neptuo.Activators;
+﻿using Neptuo.Activators;
 using Neptuo.Converters;
 using Neptuo.Observables.Collections;
-using Neptuo.Productivity.SolutionRunner.Properties;
 using Neptuo.Productivity.SolutionRunner.Services;
 using Neptuo.Productivity.SolutionRunner.Services.Applications;
 using Neptuo.Productivity.SolutionRunner.Services.Colors;
+using Neptuo.Productivity.SolutionRunner.Services.Configuration;
 using Neptuo.Productivity.SolutionRunner.Services.Converters;
 using Neptuo.Productivity.SolutionRunner.Services.Positions;
 using Neptuo.Productivity.SolutionRunner.Services.Searching;
@@ -28,6 +27,23 @@ namespace Neptuo.Productivity.SolutionRunner.Views.DesignData
 {
     internal class ViewModelLocator
     {
+        private static ISettings settings;
+
+        public static ISettings Settings
+        {
+            get
+            {
+                if (settings == null)
+                    settings = SettingsService.LoadAsync().GetAwaiter().GetResult();
+
+                return settings;
+            }
+        }
+
+        private static ISettingsService settingsService;
+
+        public static ISettingsService SettingsService => settingsService ?? (settingsService = new DesignSettingsService());
+
         #region Main
 
         private static MainViewModel mainViewModel;
@@ -38,8 +54,8 @@ namespace Neptuo.Productivity.SolutionRunner.Views.DesignData
             {
                 if (mainViewModel == null)
                 {
-                    Settings.Default.IsFileNameRemovedFromDisplayedPath = true;
-                    //Settings.Default.IsDisplayedPathTrimmedToLastFolderName = true;
+                    Settings.IsFileNameRemovedFromDisplayedPath = true;
+                    //Settings.IsDisplayedPathTrimmedToLastFolderName = true;
 
                     mainViewModel = new MainViewModel(new FileSearchService(true), () => FileSearchMode.StartsWith, () => 20);
                     mainViewModel.IsLoading = false;
@@ -161,7 +177,8 @@ namespace Neptuo.Productivity.SolutionRunner.Views.DesignData
             {
                 return new SaveConfigurationCommand(
                     viewModel,
-                    Settings.Default,
+                    SettingsService,
+                    Settings,
                     new RunHotKeyService(),
                     new ShortcutService(
                         "Neptuo",

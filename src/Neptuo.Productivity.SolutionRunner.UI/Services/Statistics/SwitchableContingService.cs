@@ -1,5 +1,4 @@
-﻿using Neptuo;
-using Neptuo.Productivity.SolutionRunner.Properties;
+﻿using Neptuo.Productivity.SolutionRunner.Services.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,11 +12,11 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Statistics
     /// </summary>
     public class SwitchableContingService : ICountingAppender, ICountingReader
     {
-        private readonly Settings settings;
+        private readonly ISettings settings;
         private readonly ICountingAppender appender;
         private readonly ICountingReader reader;
 
-        internal SwitchableContingService(Settings settings, ICountingAppender appender, ICountingReader reader)
+        internal SwitchableContingService(ISettings settings, ICountingAppender appender, ICountingReader reader)
         {
             Ensure.NotNull(settings, "settings");
             Ensure.NotNull(appender, "appender");

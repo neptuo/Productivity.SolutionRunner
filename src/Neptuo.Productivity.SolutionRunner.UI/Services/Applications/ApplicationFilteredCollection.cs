@@ -1,5 +1,4 @@
-﻿using Neptuo;
-using Neptuo.Productivity.SolutionRunner.Properties;
+﻿using Neptuo.Productivity.SolutionRunner.Services.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,10 +14,10 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Applications
     /// </summary>
     internal class ApplicationFilteredCollection : IApplicationCollection
     {
-        private readonly Settings settings;
+        private readonly ISettings settings;
         private readonly IApplicationCollection applications;
 
-        public ApplicationFilteredCollection(Settings settings, IApplicationCollection applications)
+        public ApplicationFilteredCollection(ISettings settings, IApplicationCollection applications)
         {
             Ensure.NotNull(settings, "settings");
             Ensure.NotNull(applications, "applications");

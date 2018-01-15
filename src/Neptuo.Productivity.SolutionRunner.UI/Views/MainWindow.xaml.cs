@@ -1,13 +1,9 @@
-﻿using Neptuo;
-using Neptuo.Collections.Specialized;
-using Neptuo.Linq.Expressions;
-using Neptuo.Productivity.SolutionRunner.Properties;
-using Neptuo.Productivity.SolutionRunner.Services;
+﻿using Neptuo.Productivity.SolutionRunner.Services;
+using Neptuo.Productivity.SolutionRunner.Services.Configuration;
 using Neptuo.Productivity.SolutionRunner.Services.Execution;
 using Neptuo.Productivity.SolutionRunner.Services.Positions;
 using Neptuo.Productivity.SolutionRunner.ViewModels;
 using Neptuo.Productivity.SolutionRunner.Views.Controls;
-using Neptuo.Text.Tokens;
 using Neptuo.Windows.Threading;
 using System;
 using System.Collections.Generic;
@@ -36,7 +32,8 @@ namespace Neptuo.Productivity.SolutionRunner.Views
     {
         private readonly INavigator navigator;
         private readonly IPositionProvider positionProvider;
-        private readonly Settings settings;
+        private readonly ISettingsService settingsService;
+        private readonly ISettings settings;
         private readonly ProcessService processService;
         private readonly bool isClosedAfterStartingProcess;
 
@@ -91,14 +88,16 @@ namespace Neptuo.Productivity.SolutionRunner.Views
 
         #endregion
 
-        internal MainWindow(INavigator navigator, IPositionProvider positionProvider, Settings settings, ProcessService processService, bool isClosedAfterStartingProcess)
+        internal MainWindow(INavigator navigator, IPositionProvider positionProvider, ISettingsService settingsService, ISettings settings, ProcessService processService, bool isClosedAfterStartingProcess)
         {
             Ensure.NotNull(navigator, "navigator");
             Ensure.NotNull(positionProvider, "positionProvider");
+            Ensure.NotNull(settingsService, "settingsService");
             Ensure.NotNull(settings, "settings");
             Ensure.NotNull(processService, "processService");
             this.navigator = navigator;
             this.positionProvider = positionProvider;
+            this.settingsService = settingsService;
             this.settings = settings;
             this.processService = processService;
             this.isClosedAfterStartingProcess = isClosedAfterStartingProcess;
@@ -122,7 +121,7 @@ namespace Neptuo.Productivity.SolutionRunner.Views
                     if (application.Path != settings.PreferedApplicationPath)
                     {
                         settings.PreferedApplicationPath = application.Path;
-                        settings.Save();
+                        settingsService.SaveAsync(settings);
                     }
                 }
                 else

@@ -1,5 +1,4 @@
-﻿using Neptuo;
-using Neptuo.Productivity.SolutionRunner.Properties;
+﻿using Neptuo.Productivity.SolutionRunner.Services.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,13 +14,13 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Positions
     /// </summary>
     public class PositionService : IPositionProvider
     {
-        private readonly Settings settings;
+        private readonly ISettings settings;
 
         /// <summary>
         /// Creates a new instance.
         /// </summary>
         /// <param name="settings">User settings.</param>
-        internal PositionService(Settings settings)
+        internal PositionService(ISettings settings)
         {
             Ensure.NotNull(settings, "settings");
             this.settings = settings;

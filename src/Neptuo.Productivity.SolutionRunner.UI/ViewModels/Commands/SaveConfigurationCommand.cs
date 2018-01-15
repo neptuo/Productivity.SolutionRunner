@@ -1,9 +1,6 @@
-﻿using Neptuo;
-using Neptuo.Activators;
-using Neptuo.Formatters;
-using Neptuo.Productivity.SolutionRunner.Properties;
-using Neptuo.Productivity.SolutionRunner.Services;
+﻿using Neptuo.Productivity.SolutionRunner.Services;
 using Neptuo.Productivity.SolutionRunner.Services.Applications;
+using Neptuo.Productivity.SolutionRunner.Services.Configuration;
 using Neptuo.Productivity.SolutionRunner.Services.Searching;
 using Neptuo.Productivity.SolutionRunner.Services.StartupShortcuts;
 using System;
@@ -18,17 +15,20 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels.Commands
     public class SaveConfigurationCommand : CommandBase
     {
         private readonly ConfigurationViewModel viewModel;
-        private readonly Settings settings;
+        private readonly ISettingsService settingsService;
+        private readonly ISettings settings;
         private readonly IRunHotKeyService runHotKey;
         private readonly ShortcutService shortcutService;
 
-        internal SaveConfigurationCommand(ConfigurationViewModel viewModel, Settings settings, IRunHotKeyService runHotKey, ShortcutService shortcutService)
+        internal SaveConfigurationCommand(ConfigurationViewModel viewModel, ISettingsService settingsService, ISettings settings, IRunHotKeyService runHotKey, ShortcutService shortcutService)
         {
             Ensure.NotNull(viewModel, "viewModel");
+            Ensure.NotNull(settingsService, "settingsService");
             Ensure.NotNull(settings, "settings");
             Ensure.NotNull(runHotKey, "runHotKey");
             Ensure.NotNull(shortcutService, "shortcutService");
             this.viewModel = viewModel;
+            this.settingsService = settingsService;
             this.settings = settings;
             this.runHotKey = runHotKey;
             this.shortcutService = shortcutService;
@@ -93,7 +93,7 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels.Commands
 
             settings.ThemeMode = viewModel.ThemeMode;
 
-            settings.Save();
+            settingsService.SaveAsync(settings);
             EventManager.RaiseConfigurationSaved(viewModel);
         }
     }

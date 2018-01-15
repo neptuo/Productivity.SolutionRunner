@@ -1,4 +1,5 @@
-﻿using Neptuo.Productivity.SolutionRunner.Services.Searching;
+﻿using Neptuo.Productivity.SolutionRunner.Services.Configuration;
+using Neptuo.Productivity.SolutionRunner.Services.Searching;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -10,7 +11,7 @@ using System.Windows;
 
 namespace Neptuo.Productivity.SolutionRunner.Properties
 {
-    partial class Settings
+    partial class Settings : ISettings
     {
         public FileSearchMode GetFileSearchMode()
         {

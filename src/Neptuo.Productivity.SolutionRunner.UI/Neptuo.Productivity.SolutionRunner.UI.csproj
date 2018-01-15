@@ -184,6 +184,10 @@
     <Compile Include="Services\Colors\IColorGenerator.cs" />
     <Compile Include="Services\Colors\NamedColorGenerator.cs" />
     <Compile Include="Services\Colors\RandomColorGenerator.cs" />
+    <Compile Include="Services\Configuration\DefaultKeyValueCollection.cs" />
+    <Compile Include="Services\Configuration\DefaultSettingsService.cs" />
+    <Compile Include="Services\Configuration\ISettings.cs" />
+    <Compile Include="Services\Configuration\ISettingsService.cs" />
     <Compile Include="Services\Converters\AdditionalApplicationCollectionConverter.cs" />
     <Compile Include="Services\Converters\KeyViewModelConverter.cs" />
     <Compile Include="Services\Exceptions\MessageBoxExceptionHandler.cs" />
@@ -310,6 +314,7 @@
     <Compile Include="Views\DataSources\Boolean.cs" />
     <Compile Include="Views\DataSources\PositionModes.cs" />
     <Compile Include="Views\DataSources\ThemeModes.cs" />
+    <Compile Include="Views\DesignData\DesignSettingsService.cs" />
     <Compile Include="Views\DesignData\ViewModelLocator.cs" />
     <Compile Include="ViewModels\ApplicationViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />

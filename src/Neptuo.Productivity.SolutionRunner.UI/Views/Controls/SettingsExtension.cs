@@ -1,5 +1,6 @@
 ﻿using Neptuo;
-using Neptuo.Productivity.SolutionRunner.Properties;
+using Neptuo.Collections.Specialized;
+using Neptuo.Productivity.SolutionRunner.Views.DesignData;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -16,7 +17,7 @@ using System.Windows.Markup;
 namespace Neptuo.Productivity.SolutionRunner.Views.Controls
 {
     /// <summary>
-    /// Provides value from <see cref="SettingsBase"/> class.
+    /// Provides value from <see cref="IKeyValueCollection"/> class.
     /// </summary>
     /// <remarks>
     /// To use it a <see cref="Settings"/> must be set before.
@@ -26,7 +27,7 @@ namespace Neptuo.Productivity.SolutionRunner.Views.Controls
         /// <summary>
         /// Gets or sets a collection of settings to use.
         /// </summary>
-        public static SettingsBase Settings { get; set; }
+        public static IKeyValueCollection Settings { get; set; }
 
         /// <summary>
         /// Gets a key to read from the <see cref="Settings"/>.
@@ -61,7 +62,8 @@ namespace Neptuo.Productivity.SolutionRunner.Views.Controls
 
             EnsureDesignTimeSettings(provideValueTarget);
             EnsureSettings();
-            object value = Settings[Key];
+
+            Settings.TryGet(Key, out object value);
             if (Converter != null)
                 value = Converter.Convert(value, property?.PropertyType ?? typeof(object), ConverterParameter, Thread.CurrentThread.CurrentUICulture);
             
@@ -79,14 +81,14 @@ namespace Neptuo.Productivity.SolutionRunner.Views.Controls
         {
             DependencyObject target = provideValueTarget.TargetObject as DependencyObject;
             if (DesignerProperties.GetIsInDesignMode(target))
-                Settings = new Settings();
+                Settings = ViewModelLocator.SettingsService.LoadRawAsync().GetAwaiter().GetResult();
         }
 
         [Conditional("DEBUG")]
         private static void EnsureKey(string key)
         {
             Debug.Assert(
-                typeof(Settings).GetProperty(key) != null, 
+                Settings.TryGet(key, out object value), 
                 $"Missing settings property '{key}'."
             );
         }

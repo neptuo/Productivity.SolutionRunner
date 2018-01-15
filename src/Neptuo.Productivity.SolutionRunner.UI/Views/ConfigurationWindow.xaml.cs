@@ -1,5 +1,6 @@
 ﻿using Neptuo;
 using Neptuo.Productivity.SolutionRunner.Services;
+using Neptuo.Productivity.SolutionRunner.Services.Configuration;
 using Neptuo.Productivity.SolutionRunner.Services.Logging;
 using Neptuo.Productivity.SolutionRunner.ViewModels;
 using Neptuo.Productivity.SolutionRunner.Views.Controls;

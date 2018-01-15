@@ -1,8 +1,7 @@
-﻿using Neptuo;
-using Neptuo.Activators;
-using Neptuo.Productivity.SolutionRunner.Properties;
+﻿using Neptuo.Activators;
 using Neptuo.Productivity.SolutionRunner.Services;
 using Neptuo.Productivity.SolutionRunner.Services.Applications;
+using Neptuo.Productivity.SolutionRunner.Services.Configuration;
 using Neptuo.Productivity.SolutionRunner.Services.Searching;
 using System;
 using System.Collections.Generic;
@@ -17,12 +16,12 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels.Factories
     public class MainViewModelFactory : IFactory<MainViewModel>
     {
         private readonly IPinStateService pinStateService;
-        private readonly Settings settings;
+        private readonly ISettings settings;
         private readonly IApplicationLoader mainApplicationLoader;
         private readonly Func<HashSet<string>> pinnedFilesGetter;
         private readonly PropertyChangedEventHandler propertyChangedHandler;
 
-        internal MainViewModelFactory(IPinStateService pinStateService, Settings settings, IApplicationLoader mainApplicationLoader, Func<HashSet<string>> pinnedFilesGetter, PropertyChangedEventHandler propertyChangedHandler)
+        internal MainViewModelFactory(IPinStateService pinStateService, ISettings settings, IApplicationLoader mainApplicationLoader, Func<HashSet<string>> pinnedFilesGetter, PropertyChangedEventHandler propertyChangedHandler)
         {
             Ensure.NotNull(pinStateService, "pinStateService");
             Ensure.NotNull(settings, "settings");
@@ -47,17 +46,17 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels.Factories
                     CreateFileSearchService(),
                     pinStateService
                 ),
-                Settings.Default.GetFileSearchMode,
-                Settings.Default.GetFileSearchCount
+                settings.GetFileSearchMode,
+                settings.GetFileSearchCount
             );
 
             if (propertyChangedHandler != null)
                 viewModel.PropertyChanged += propertyChangedHandler;
 
-            ApplicationFilteredCollection applications = new ApplicationFilteredCollection(Settings.Default, viewModel);
+            ApplicationFilteredCollection applications = new ApplicationFilteredCollection(settings, viewModel);
             mainApplicationLoader.Add(applications);
 
-            AdditionalApplicationLoader additionalLoader = new AdditionalApplicationLoader();
+            AdditionalApplicationLoader additionalLoader = new AdditionalApplicationLoader(settings);
             additionalLoader.Add(viewModel);
 
             IFileCollection files = viewModel;
@@ -72,9 +71,9 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels.Factories
 
         private IFileSearchService CreateFileSearchService()
         {
-            if (fileSearchService == null || directoryPath != Settings.Default.SourceDirectoryPath)
+            if (fileSearchService == null || directoryPath != settings.SourceDirectoryPath)
             {
-                directoryPath = Settings.Default.SourceDirectoryPath;
+                directoryPath = settings.SourceDirectoryPath;
                 fileSearchService = new FileSystemWatcherSearchService(directoryPath, pinStateService);
             }
 
