@@ -121,25 +121,7 @@ namespace Neptuo.Productivity.SolutionRunner
                 .Add(new Vs2017VersionLoader())
                 .Add(new VsCodeLoader());
 
-            // Bind global hotkey.
-            runHotKey = new DefaultRunHotKeyService(this, this);
-            KeyViewModel runKey;
-            if (Converts.Try(settings.RunKey, out runKey) && runKey != null)
-            {
-                try
-                {
-                    runHotKey.Bind(runKey.Key, runKey.Modifier);
-                }
-                catch (Win32Exception)
-                {
-                    runHotKey.UnBind();
-                    settings.RunKey = null;
-                    await settingsService.SaveAsync(settings);
-                }
-            }
-
-            if (!runHotKey.IsSet)
-                startup.IsHidden = false;
+            await BindHotKeyAsync();
 
             configurationFactory = new ConfigurationViewModelFactory(
                 mainApplicationLoader,
@@ -176,6 +158,27 @@ namespace Neptuo.Productivity.SolutionRunner
             startup.IsStartup = false;
         }
 
+        private async Task BindHotKeyAsync()
+        {
+            runHotKey = new DefaultRunHotKeyService(this, this);
+            KeyViewModel runKey;
+            if (Converts.Try(settings.RunKey, out runKey) && runKey != null)
+            {
+                try
+                {
+                    runHotKey.Bind(runKey.Key, runKey.Modifier);
+                }
+                catch (Win32Exception)
+                {
+                    runHotKey.UnBind();
+                    settings.RunKey = null;
+                    await settingsService.SaveAsync(settings);
+                }
+            }
+
+            if (!runHotKey.IsSet)
+                startup.IsHidden = false;
+        }
 
         private void BuildErrorHandler()
         {
