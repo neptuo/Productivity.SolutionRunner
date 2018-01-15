@@ -50,7 +50,7 @@ namespace Neptuo.Productivity.SolutionRunner.Properties
             }
         }
 
-        string[] ISettings.HiddenMainApplications
+        IReadOnlyList<string> ISettings.HiddenMainApplications
         {
             get
             {

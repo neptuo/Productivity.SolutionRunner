@@ -33,7 +33,7 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Configuration
         ThemeMode ThemeMode { get; set; }
 
         AdditionalApplicationCollection AdditionalApplications { get; set; }
-        string[] HiddenMainApplications { get; set; }
+        IReadOnlyList<string> HiddenMainApplications { get; set; }
         int FileSearchCount { get; set; }
         FileSearchMode FileSearchMode { get; set; }
         Version AutoSelectApplicationMinimalVersion { get; set; }
