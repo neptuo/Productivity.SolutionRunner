@@ -1,4 +1,5 @@
 ﻿using Neptuo.Productivity.SolutionRunner.Services;
+using Neptuo.Productivity.SolutionRunner.Views;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -15,11 +16,11 @@ namespace Neptuo.Productivity.SolutionRunner
     {
         private readonly App app;
         private readonly INavigator navigator;
-        private readonly IAppWindowManager windows;
+        private readonly IWindowManager windows;
 
         private NotifyIcon trayIcon;
 
-        public AppTrayIcon(App app, INavigator navigator, IAppWindowManager windows)
+        public AppTrayIcon(App app, INavigator navigator, IWindowManager windows)
         {
             Ensure.NotNull(app, "app");
             Ensure.NotNull(navigator, "navigator");

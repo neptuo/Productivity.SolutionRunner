@@ -39,7 +39,7 @@ using EventManager = Neptuo.Productivity.SolutionRunner.ViewModels.EventManager;
 
 namespace Neptuo.Productivity.SolutionRunner
 {
-    public partial class App : Application, INavigator, INavigatorState, IAppWindowManager
+    public partial class App : Application, INavigator, INavigatorState, IWindowManager
     {
         private ISettingsService settingsService;
         private ISettings settings;
@@ -313,17 +313,17 @@ namespace Neptuo.Productivity.SolutionRunner
         
         #region INavigator & INavigatorState & IAppWindowManager
 
-        MainWindow IAppWindowManager.Main
+        MainWindow IWindowManager.Main
         {
             get => mainWindow;
         }
 
-        ConfigurationWindow IAppWindowManager.Configuration
+        ConfigurationWindow IWindowManager.Configuration
         {
             get => configurationWindow;
         }
 
-        StatisticsWindow IAppWindowManager.Statistics
+        StatisticsWindow IWindowManager.Statistics
         {
             get => statisticsWindow;
         }
