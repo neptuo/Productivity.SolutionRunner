@@ -84,10 +84,10 @@ namespace Neptuo.Productivity.SolutionRunner
                 startup.IsHidden = settings.IsHiddentOnStartup;
         }
 
-        protected override void OnStartup(StartupEventArgs e)
+        protected async override void OnStartup(StartupEventArgs e)
         {
             settingsService = new DefaultSettingsService();
-            settings = settingsService.LoadAsync().GetAwaiter().GetResult();
+            settings = await settingsService.LoadAsync();
 
             ReloadThemeResources();
 
@@ -134,7 +134,7 @@ namespace Neptuo.Productivity.SolutionRunner
                 {
                     runHotKey.UnBind();
                     settings.RunKey = null;
-                    settingsService.SaveAsync(settings);
+                    await settingsService.SaveAsync(settings);
                 }
             }
 
@@ -158,7 +158,7 @@ namespace Neptuo.Productivity.SolutionRunner
                 OnMainViewModelPropertyChanged
             );
 
-            SettingsExtension.Settings = settingsService.LoadRawAsync().GetAwaiter().GetResult();
+            SettingsExtension.Settings = await settingsService.LoadRawAsync();
             PathConverter.Settings = settings;
 
             positionProvider = new PositionService(settings);
