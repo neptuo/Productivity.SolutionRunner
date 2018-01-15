@@ -167,6 +167,8 @@
     </ApplicationDefinition>
     <Compile Include="AppEntryPoint.cs" />
     <Compile Include="AppEntryPointManager.cs" />
+    <Compile Include="AppTrayIcon.cs" />
+    <Compile Include="IAppWindowManager.cs" />
     <Compile Include="Properties\Settings.Partial.cs" />
     <Compile Include="Properties\VersionInfo.cs" />
     <Compile Include="Services\Applications\AdditionalApplicationLoader.cs" />

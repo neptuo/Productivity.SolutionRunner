@@ -1,5 +1,4 @@
-﻿using Neptuo;
-using Neptuo.Activators;
+﻿using Neptuo.Activators;
 using Neptuo.Converters;
 using Neptuo.Exceptions;
 using Neptuo.Exceptions.Handlers;
@@ -30,21 +29,17 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
-using System.Diagnostics;
-using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
 using EventManager = Neptuo.Productivity.SolutionRunner.ViewModels.EventManager;
-using NotifyIcon = System.Windows.Forms.NotifyIcon;
 
 namespace Neptuo.Productivity.SolutionRunner
 {
-    public partial class App : Application, INavigator, INavigatorState, IPinStateService
+    public partial class App : Application, INavigator, INavigatorState, IPinStateService, IAppWindowManager
     {
         private ISettingsService settingsService;
         private ISettings settings;
@@ -69,6 +64,8 @@ namespace Neptuo.Productivity.SolutionRunner
             suiteName: "Productivity",
             productName: "Productivity.SolutionRunner"
         );
+
+        private AppTrayIcon trayIcon;
 
         protected DispatcherHelper DispatcherHelper { get; private set; }
 
@@ -99,6 +96,8 @@ namespace Neptuo.Productivity.SolutionRunner
 
             PrepareStartup(e);
             base.OnStartup(e);
+
+            trayIcon = new AppTrayIcon(this, this, this);
 
             BuildErrorHandler();
 
@@ -165,7 +164,7 @@ namespace Neptuo.Productivity.SolutionRunner
             InitializeCounting();
 
             if (settings.IsTrayIcon)
-                TryCreateTrayIcon();
+                trayIcon.TryCreate();
 
             // Open window.
             if (String.IsNullOrEmpty(settings.SourceDirectoryPath))
@@ -221,14 +220,12 @@ namespace Neptuo.Productivity.SolutionRunner
             countingService = new SwitchableContingService(settings, inner, inner);
         }
 
-        private NotifyIcon trayIcon;
-
         private void OnConfigurationSaved(ConfigurationViewModel viewModel)
         {
             if (viewModel.IsTrayIcon)
-                TryCreateTrayIcon();
+                trayIcon.TryCreate();
             else
-                TryDestroyTrayIcon();
+                trayIcon.TryDestroy();
 
             ReloadThemeResources();
         }
@@ -250,63 +247,6 @@ namespace Neptuo.Productivity.SolutionRunner
 
             if (Resources.MergedDictionaries[0].Source != uri)
                 Resources.MergedDictionaries[0].Source = uri;
-        }
-
-        private bool TryCreateTrayIcon()
-        {
-            if (trayIcon == null)
-            {
-                trayIcon = new NotifyIcon();
-                trayIcon.Icon = Icon.ExtractAssociatedIcon(Process.GetCurrentProcess().MainModule.FileName);
-                trayIcon.Text = "SolutionRunner";
-                trayIcon.MouseClick += OnTrayIconClick;
-                trayIcon.Visible = true;
-
-                trayIcon.ContextMenu = new System.Windows.Forms.ContextMenu();
-                trayIcon.ContextMenu.MenuItems.Add("Open", (sender, e) => { OpenMain(); configurationWindow?.Close(); statisticsWindow?.Close(); });
-                trayIcon.ContextMenu.MenuItems.Add("Configuration", (sender, e) => { OpenConfiguration(); mainWindow?.Close(); statisticsWindow?.Close(); });
-                trayIcon.ContextMenu.MenuItems.Add("Statistics", (sender, e) => OpenStatistics());
-                trayIcon.ContextMenu.MenuItems.Add("Exit", (sender, e) => Shutdown());
-                return true;
-            }
-
-            return false;
-        }
-
-        private bool TryDestroyTrayIcon()
-        {
-            if (trayIcon != null)
-            {
-                trayIcon.MouseClick -= OnTrayIconClick;
-                trayIcon.Dispose();
-                trayIcon = null;
-                return true;
-            }
-
-            return false;
-        }
-
-        private bool TryUpdateTrayIcon()
-        {
-            if (trayIcon != null && mainWindow != null)
-            {
-                string resourceName = null;
-                if (mainWindow.ViewModel.IsLoading)
-                    resourceName = "Neptuo.Productivity.SolutionRunner.Resources.Loading.ico";
-                else
-                    resourceName = "Neptuo.Productivity.SolutionRunner.Resources.SolutionRunner.ico";
-
-                trayIcon.Icon = new Icon(Assembly.GetExecutingAssembly().GetManifestResourceStream(resourceName));
-                return true;
-            }
-
-            return false;
-        }
-
-        private void OnTrayIconClick(object sender, System.Windows.Forms.MouseEventArgs e)
-        {
-            if (e.Button != System.Windows.Forms.MouseButtons.Right)
-                Activate();
         }
 
         public void Activate()
@@ -362,7 +302,7 @@ namespace Neptuo.Productivity.SolutionRunner
         protected override void OnExit(ExitEventArgs e)
         {
             runHotKey.Dispose();
-            TryDestroyTrayIcon();
+            trayIcon.TryDestroy();
             base.OnExit(e);
         }
 
@@ -415,7 +355,22 @@ namespace Neptuo.Productivity.SolutionRunner
 
         #endregion
 
-        #region INavigator & INavigatorState
+        #region INavigator & INavigatorState & IAppWindowManager
+
+        MainWindow IAppWindowManager.Main
+        {
+            get => mainWindow;
+        }
+
+        ConfigurationWindow IAppWindowManager.Configuration
+        {
+            get => configurationWindow;
+        }
+
+        StatisticsWindow IAppWindowManager.Statistics
+        {
+            get => statisticsWindow;
+        }
 
         private MainWindow mainWindow;
         private ConfigurationWindow configurationWindow;
@@ -525,7 +480,7 @@ namespace Neptuo.Productivity.SolutionRunner
             ResetLastSearchPattern();
             mainWindow.Deactivated += OnMainWindowDeactivated;
 
-            TryUpdateTrayIcon();
+            trayIcon.TryUpdate();
 
             if (!startup.IsStartup || !startup.IsHidden)
             {
@@ -538,7 +493,7 @@ namespace Neptuo.Productivity.SolutionRunner
         private void OnMainViewModelPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName == nameof(MainViewModel.IsLoading))
-                TryUpdateTrayIcon();
+                trayIcon.TryUpdate();
         }
 
         private void ResetLastSearchPattern()
