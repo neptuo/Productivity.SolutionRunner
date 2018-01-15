@@ -91,18 +91,44 @@ namespace Neptuo.Productivity.SolutionRunner
 
             TaskScheduler.UnobservedTaskException += OnTaskSchedulerUnobservedException;
 
-            //#if DEBUG
-            //            Settings.Default.Reset();
-            //#endif
-
             PrepareStartup(e);
             base.OnStartup(e);
 
-            trayIcon = new AppTrayIcon(this, this, this);
+            trayIcon = new AppTrayIcon(this, settings, this, this);
             pinStateService = new AppPinStateService(settingsService, settings);
+            positionProvider = new PositionService(settings);
 
-            BuildErrorHandler();
+            InitializeErrorHandler();
+            InitializeConverters();
+            InitializeEventManager();
 
+            mainApplicationLoader = new ApplicationLoaderCollection()
+                .Add(new VsVersionLoader())
+                .Add(new Vs2017VersionLoader())
+                .Add(new VsCodeLoader());
+
+            await BindHotKeyAsync();
+
+            InitializeViewModelFactories();
+
+            SettingsExtension.Settings = await settingsService.LoadRawAsync();
+            PathConverter.Settings = settings;
+
+            InitializeCounting();
+
+            trayIcon.TryCreate();
+
+            // Open window.
+            if (String.IsNullOrEmpty(settings.SourceDirectoryPath))
+                OpenConfiguration();
+            else
+                OpenMain();
+
+            startup.IsStartup = false;
+        }
+
+        private void InitializeConverters()
+        {
             Converts.Repository
                 .AddJsonPrimitivesSearchHandler()
                 .AddJsonObjectSearchHandler()
@@ -112,50 +138,12 @@ namespace Neptuo.Productivity.SolutionRunner
                 .Add(new AdditionalApplicationCollectionConverter())
                 .Add(new KeyViewModelConverter())
                 .Add(new ExceptionModelConverter());
+        }
 
+        private void InitializeEventManager()
+        {
             EventManager.ConfigurationSaved += OnConfigurationSaved;
             EventManager.ProcessStarted += OnProcessStarted;
-
-            mainApplicationLoader = new ApplicationLoaderCollection()
-                .Add(new VsVersionLoader())
-                .Add(new Vs2017VersionLoader())
-                .Add(new VsCodeLoader());
-
-            await BindHotKeyAsync();
-
-            configurationFactory = new ConfigurationViewModelFactory(
-                mainApplicationLoader,
-                shortcutService,
-                runHotKey,
-                settingsService,
-                settings,
-                this
-            );
-
-            mainFactory = new MainViewModelFactory(
-                pinStateService,
-                settings,
-                mainApplicationLoader,
-                pinStateService.GetPinnedFiles,
-                OnMainViewModelPropertyChanged
-            );
-
-            SettingsExtension.Settings = await settingsService.LoadRawAsync();
-            PathConverter.Settings = settings;
-
-            positionProvider = new PositionService(settings);
-            InitializeCounting();
-
-            if (settings.IsTrayIcon)
-                trayIcon.TryCreate();
-
-            // Open window.
-            if (String.IsNullOrEmpty(settings.SourceDirectoryPath))
-                OpenConfiguration();
-            else
-                OpenMain();
-
-            startup.IsStartup = false;
         }
 
         private async Task BindHotKeyAsync()
@@ -180,7 +168,7 @@ namespace Neptuo.Productivity.SolutionRunner
                 startup.IsHidden = false;
         }
 
-        private void BuildErrorHandler()
+        private void InitializeErrorHandler()
         {
             errorLog = new ErrorLog(new DefaultLogFormatter());
             ILogFactory logFactory = new DefaultLogFactory()
@@ -203,6 +191,26 @@ namespace Neptuo.Productivity.SolutionRunner
                 .Handler(new MessageBoxExceptionHandler(this));
 
             exceptionHandler = builder;
+        }
+
+        private void InitializeViewModelFactories()
+        {
+            configurationFactory = new ConfigurationViewModelFactory(
+                mainApplicationLoader,
+                shortcutService,
+                runHotKey,
+                settingsService,
+                settings,
+                this
+            );
+
+            mainFactory = new MainViewModelFactory(
+                pinStateService,
+                settings,
+                mainApplicationLoader,
+                pinStateService.GetPinnedFiles,
+                OnMainViewModelPropertyChanged
+            );
         }
 
         private void OnProcessStarted(IApplication application, IFile file)

@@ -1,4 +1,6 @@
-﻿using Neptuo.Productivity.SolutionRunner.Services;
+﻿using Neptuo;
+using Neptuo.Productivity.SolutionRunner.Services;
+using Neptuo.Productivity.SolutionRunner.Services.Configuration;
 using Neptuo.Productivity.SolutionRunner.Views;
 using System;
 using System.Collections.Generic;
@@ -15,24 +17,27 @@ namespace Neptuo.Productivity.SolutionRunner
     internal partial class AppTrayIcon
     {
         private readonly App app;
+        private readonly ISettings settings;
         private readonly INavigator navigator;
         private readonly IWindowManager windows;
 
         private NotifyIcon trayIcon;
 
-        public AppTrayIcon(App app, INavigator navigator, IWindowManager windows)
+        public AppTrayIcon(App app, ISettings settings, INavigator navigator, IWindowManager windows)
         {
             Ensure.NotNull(app, "app");
+            Ensure.NotNull(settings, "settings");
             Ensure.NotNull(navigator, "navigator");
             Ensure.NotNull(windows, "windows");
             this.app = app;
+            this.settings = settings;
             this.navigator = navigator;
             this.windows = windows;
         }
 
         public bool TryCreate()
         {
-            if (trayIcon == null)
+            if (settings.IsTrayIcon && trayIcon == null)
             {
                 trayIcon = new NotifyIcon();
                 trayIcon.Icon = Icon.ExtractAssociatedIcon(Process.GetCurrentProcess().MainModule.FileName);
