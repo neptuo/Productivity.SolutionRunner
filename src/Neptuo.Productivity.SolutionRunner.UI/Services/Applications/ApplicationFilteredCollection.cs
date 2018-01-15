@@ -27,7 +27,7 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Applications
 
         public IApplicationBuilder Add(string name, string path, string arguments, bool isAdministratorRequired, ImageSource icon, Key hotKey, bool isMain)
         {
-            if (isMain && settings.GetHiddenMainApplications().Contains(path))
+            if (isMain && settings.HiddenMainApplications.Contains(path))
                 return new EmptyAplicationBuilder();
 
             return applications.Add(name, path, arguments, isAdministratorRequired, icon, hotKey, isMain);
@@ -35,7 +35,7 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Applications
 
         public IApplicationBuilder Add(string name, Version version, string path, string arguments, bool isAdministratorRequired, ImageSource icon, Key hotKey, bool isMain)
         {
-            if (isMain && settings.GetHiddenMainApplications().Contains(path))
+            if (isMain && settings.HiddenMainApplications.Contains(path))
                 return new EmptyAplicationBuilder();
 
             return applications.Add(name, version, path, arguments, isAdministratorRequired, icon, hotKey, isMain);

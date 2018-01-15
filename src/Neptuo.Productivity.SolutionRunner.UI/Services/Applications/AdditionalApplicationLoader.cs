@@ -21,34 +21,27 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Applications
 
         public void Add(IApplicationCollection applications)
         {
-            string rawValue = settings.AdditionalApplications;
-            if (!String.IsNullOrEmpty(rawValue))
+            foreach (AdditionalApplicationModel model in settings.AdditionalApplications)
             {
-                AdditionalApplicationCollection collection = Converts
-                    .To<string, AdditionalApplicationCollection>(rawValue);
+                IApplicationBuilder builder = applications.Add(
+                    model.Name,
+                    model.Path,
+                    model.Arguments,
+                    model.IsAdministratorRequired,
+                    IconExtractor.Get(model.Path),
+                    model.HotKey,
+                    false
+                );
 
-                foreach (AdditionalApplicationModel model in collection.Items)
+                foreach (AdditionalApplicationModel commandModel in model.Commands)
                 {
-                    IApplicationBuilder builder = applications.Add(
-                        model.Name, 
-                        model.Path, 
-                        model.Arguments, 
-                        model.IsAdministratorRequired, 
-                        IconExtractor.Get(model.Path), 
-                        model.HotKey, 
-                        false
+                    builder.AddCommand(
+                        commandModel.Name,
+                        commandModel.Path,
+                        commandModel.Arguments,
+                        commandModel.IsAdministratorRequired,
+                        commandModel.HotKey
                     );
-
-                    foreach (AdditionalApplicationModel commandModel in model.Commands)
-                    {
-                        builder.AddCommand(
-                            commandModel.Name, 
-                            commandModel.Path, 
-                            commandModel.Arguments, 
-                            commandModel.IsAdministratorRequired, 
-                            commandModel.HotKey
-                        );
-                    }
                 }
             }
         }

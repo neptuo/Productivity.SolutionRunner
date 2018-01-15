@@ -42,8 +42,8 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels.Factories
         {
             ConfigurationViewModel viewModel = new ConfigurationViewModel(new SaveConfigurationCommandFactory(settingsService, settings, runHotKey, shortcutService), navigator);
             viewModel.SourceDirectoryPath = settings.SourceDirectoryPath;
-            viewModel.FileSearchMode = settings.GetFileSearchMode();
-            viewModel.FileSearchCount = settings.GetFileSearchCount();
+            viewModel.FileSearchMode = settings.FileSearchMode;
+            viewModel.FileSearchCount = settings.FileSearchCount;
             viewModel.IsFileSearchPatternSaved = settings.IsFileSearchPatternSaved;
             viewModel.IsLastUsedApplicationSavedAsPrefered = settings.IsLastUsedApplicationSavedAsPrefered;
             viewModel.IsDismissedWhenLostFocus = settings.IsDismissedWhenLostFocus;
@@ -55,14 +55,14 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels.Factories
             viewModel.IsTrayIcon = settings.IsTrayIcon;
             viewModel.IsStatisticsCounted = settings.IsStatisticsCounted;
             viewModel.IsProjectCountEnabled = settings.IsProjectCountEnabled;
-            viewModel.AdditionalApplications = new ObservableCollection<AdditionalApplicationListViewModel>(LoadAdditionalApplications());
+            viewModel.AdditionalApplications = new ObservableCollection<AdditionalApplicationListViewModel>(settings.AdditionalApplications.Select(a => new AdditionalApplicationListViewModel(a)));
 
             MainApplicationCollection mainApplications = new MainApplicationCollection();
             mainApplicationLoader.Add(mainApplications);
             viewModel.MainApplications = mainApplications;
 
             foreach (MainApplicationListViewModel application in mainApplications)
-                application.IsEnabled = !settings.GetHiddenMainApplications().Contains(application.Path);
+                application.IsEnabled = !settings.HiddenMainApplications.Contains(application.Path);
 
             PreferedApplicationCollection preferedApplications = new PreferedApplicationCollection()
                 .AddCollectionChanged(viewModel.AdditionalApplications)
@@ -74,7 +74,7 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels.Factories
             VsVersionCollection vsVersions = new VsVersionCollection();
             mainApplicationLoader.Add(vsVersions);
             viewModel.VsVersions = vsVersions;
-            viewModel.AutoSelectApplicationMinimalVersion = vsVersions.FirstOrDefault(vm => vm.Model == settings.GetAutoSelectApplicationMinimalVersion());
+            viewModel.AutoSelectApplicationMinimalVersion = vsVersions.FirstOrDefault(vm => vm.Model == settings.AutoSelectApplicationMinimalVersion);
 
             viewModel.RunKey = runHotKey.FindKeyViewModel();
             viewModel.PositionMode = settings.PositionMode;
@@ -84,17 +84,6 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels.Factories
             viewModel.ThemeMode = settings.ThemeMode;
 
             return viewModel;
-        }
-
-        private IEnumerable<AdditionalApplicationListViewModel> LoadAdditionalApplications()
-        {
-            string rawValue = settings.AdditionalApplications;
-            if (String.IsNullOrEmpty(rawValue))
-                return Enumerable.Empty<AdditionalApplicationListViewModel>();
-
-            return Converts
-                .To<string, AdditionalApplicationCollection>(settings.AdditionalApplications)
-                .Select(a => new AdditionalApplicationListViewModel(a));
         }
     }
 }

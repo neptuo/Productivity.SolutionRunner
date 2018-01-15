@@ -1,4 +1,5 @@
-﻿using Neptuo.Productivity.SolutionRunner.Services.Positions;
+﻿using Neptuo.Productivity.SolutionRunner.Services.Applications;
+using Neptuo.Productivity.SolutionRunner.Services.Positions;
 using Neptuo.Productivity.SolutionRunner.Services.Searching;
 using Neptuo.Productivity.SolutionRunner.Services.Themes;
 using System;
@@ -11,12 +12,7 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Configuration
 {
     public interface ISettings
     {
-        string AdditionalApplications { get; set; }
-        string AutoSelectApplicationMinimalVersion { get; set; }
-        int FileSearchCount { get; set; }
-        string FileSearchMode { get; set; }
         string FileSearchPattern { get; set; }
-        string HiddenMainApplications { get; set; }
         bool IsAutoSelectApplicationVersion { get; set; }
         bool IsDismissedWhenLostFocus { get; set; }
         bool IsDisplayedPathTrimmedToLastFolderName { get; set; }
@@ -36,10 +32,10 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Configuration
         string SourceDirectoryPath { get; set; }
         ThemeMode ThemeMode { get; set; }
 
-        Version GetAutoSelectApplicationMinimalVersion();
-        int GetFileSearchCount();
-        FileSearchMode GetFileSearchMode();
-        string[] GetHiddenMainApplications();
-        void SetAutoSelectApplicationMinimalVersion(Version version);
+        AdditionalApplicationCollection AdditionalApplications { get; set; }
+        string[] HiddenMainApplications { get; set; }
+        int FileSearchCount { get; set; }
+        FileSearchMode FileSearchMode { get; set; }
+        Version AutoSelectApplicationMinimalVersion { get; set; }
     }
 }

@@ -46,8 +46,8 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels.Factories
                     CreateFileSearchService(),
                     pinStateService
                 ),
-                settings.GetFileSearchMode,
-                settings.GetFileSearchCount
+                () => settings.FileSearchMode,
+                () => settings.FileSearchCount
             );
 
             if (propertyChangedHandler != null)

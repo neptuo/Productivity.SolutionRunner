@@ -480,7 +480,7 @@ namespace Neptuo.Productivity.SolutionRunner.Views
             if (lvwFiles.SelectedItem is FileViewModel file && file.Version != null)
             {
                 Version toSelect = file.Version;
-                Version minimal = settings.GetAutoSelectApplicationMinimalVersion();
+                Version minimal = settings.AutoSelectApplicationMinimalVersion;
                 if (minimal != null && minimal > file.Version)
                     toSelect = minimal;
 

@@ -52,21 +52,20 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels.Commands
         {
             settings.SourceDirectoryPath = viewModel.SourceDirectoryPath;
             settings.PreferedApplicationPath = viewModel.PreferedApplication?.Path;
-            settings.FileSearchMode = Converts.To<FileSearchMode, string>(viewModel.FileSearchMode);
+            settings.FileSearchMode = viewModel.FileSearchMode;
             settings.FileSearchCount = viewModel.FileSearchCount;
             settings.IsFileSearchPatternSaved = viewModel.IsFileSearchPatternSaved;
             settings.IsLastUsedApplicationSavedAsPrefered = viewModel.IsLastUsedApplicationSavedAsPrefered;
             settings.IsDismissedWhenLostFocus = viewModel.IsDismissedWhenLostFocus;
             settings.IsHiddentOnStartup = viewModel.IsHiddentOnStartup;
             settings.IsAutoSelectApplicationVersion = viewModel.IsAutoSelectApplicationVersion;
-            settings.SetAutoSelectApplicationMinimalVersion(viewModel.AutoSelectApplicationMinimalVersion.Model);
+            settings.AutoSelectApplicationMinimalVersion = viewModel.AutoSelectApplicationMinimalVersion.Model;
             settings.IsFileNameRemovedFromDisplayedPath = viewModel.IsFileNameRemovedFromDisplayedPath;
             settings.IsDisplayedPathTrimmedToLastFolderName = viewModel.IsDisplayedPathTrimmedToLastFolderName;
             settings.IsTrayIcon = viewModel.IsTrayIcon;
             settings.IsStatisticsCounted = viewModel.IsStatisticsCounted;
             settings.IsProjectCountEnabled = viewModel.IsProjectCountEnabled;
-            settings.AdditionalApplications = Converts
-                .To<AdditionalApplicationCollection, string>(new AdditionalApplicationCollection(viewModel.AdditionalApplications.Select(a => a.Model)));
+            settings.AdditionalApplications = new AdditionalApplicationCollection(viewModel.AdditionalApplications.Select(a => a.Model));
 
             if (viewModel.IsAutoStartup)
                 shortcutService.Create(Environment.SpecialFolder.Startup);
@@ -86,10 +85,7 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels.Commands
             settings.PositionLeft = viewModel.PositionLeft ?? 0;
             settings.PositionTop = viewModel.PositionTop ?? 0;
 
-            settings.HiddenMainApplications = String.Join(
-                Path.PathSeparator.ToString(), 
-                viewModel.MainApplications.Where(a => !a.IsEnabled).Select(a => a.Path)
-            );
+            settings.HiddenMainApplications = viewModel.MainApplications.Where(a => !a.IsEnabled).Select(a => a.Path).ToArray();
 
             settings.ThemeMode = viewModel.ThemeMode;
 
