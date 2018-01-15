@@ -167,6 +167,7 @@
     </ApplicationDefinition>
     <Compile Include="AppEntryPoint.cs" />
     <Compile Include="AppEntryPointManager.cs" />
+    <Compile Include="AppPinStateService.cs" />
     <Compile Include="AppTrayIcon.cs" />
     <Compile Include="IAppWindowManager.cs" />
     <Compile Include="Properties\Settings.Partial.cs" />

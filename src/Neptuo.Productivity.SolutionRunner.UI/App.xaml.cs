@@ -39,7 +39,7 @@ using EventManager = Neptuo.Productivity.SolutionRunner.ViewModels.EventManager;
 
 namespace Neptuo.Productivity.SolutionRunner
 {
-    public partial class App : Application, INavigator, INavigatorState, IPinStateService, IAppWindowManager
+    public partial class App : Application, INavigator, INavigatorState, IAppWindowManager
     {
         private ISettingsService settingsService;
         private ISettings settings;
@@ -66,6 +66,7 @@ namespace Neptuo.Productivity.SolutionRunner
         );
 
         private AppTrayIcon trayIcon;
+        private AppPinStateService pinStateService;
 
         protected DispatcherHelper DispatcherHelper { get; private set; }
 
@@ -98,6 +99,7 @@ namespace Neptuo.Productivity.SolutionRunner
             base.OnStartup(e);
 
             trayIcon = new AppTrayIcon(this, this, this);
+            pinStateService = new AppPinStateService(settingsService, settings);
 
             BuildErrorHandler();
 
@@ -111,7 +113,6 @@ namespace Neptuo.Productivity.SolutionRunner
                 .Add(new KeyViewModelConverter())
                 .Add(new ExceptionModelConverter());
 
-            EventManager.FilePinned += OnFilePinned;
             EventManager.ConfigurationSaved += OnConfigurationSaved;
             EventManager.ProcessStarted += OnProcessStarted;
 
@@ -150,10 +151,10 @@ namespace Neptuo.Productivity.SolutionRunner
             );
 
             mainFactory = new MainViewModelFactory(
-                this,
+                pinStateService,
                 settings,
                 mainApplicationLoader,
-                GetPinnedFiles,
+                pinStateService.GetPinnedFiles,
                 OnMainViewModelPropertyChanged
             );
 
@@ -174,6 +175,7 @@ namespace Neptuo.Productivity.SolutionRunner
 
             startup.IsStartup = false;
         }
+
 
         private void BuildErrorHandler()
         {
@@ -307,51 +309,6 @@ namespace Neptuo.Productivity.SolutionRunner
         }
 
         #region IPinStateService
-
-        private HashSet<string> pinnedFiles;
-
-        private HashSet<string> GetPinnedFiles()
-        {
-            if (pinnedFiles == null)
-            {
-                pinnedFiles = new HashSet<string>();
-
-                string rawValue = settings.PinnedFiles;
-                if (!String.IsNullOrEmpty(rawValue))
-                {
-                    foreach (string filePath in rawValue.Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries))
-                    {
-                        if (File.Exists(filePath))
-                            pinnedFiles.Add(filePath);
-                    }
-                }
-            }
-
-            return pinnedFiles;
-        }
-
-        private void OnFilePinned(FileViewModel viewModel)
-        {
-            HashSet<string> pinnedFiles = GetPinnedFiles();
-            if (viewModel.IsPinned)
-                pinnedFiles.Add(viewModel.Path);
-            else
-                pinnedFiles.Remove(viewModel.Path);
-
-            settings.PinnedFiles = String.Join(";", pinnedFiles);
-            settingsService.SaveAsync(settings);
-        }
-
-        public IEnumerable<string> Enumerate()
-        {
-            return GetPinnedFiles();
-        }
-
-        public bool IsPinned(string path)
-        {
-            Ensure.NotNullOrEmpty(path, "path");
-            return GetPinnedFiles().Contains(path);
-        }
 
         #endregion
 
