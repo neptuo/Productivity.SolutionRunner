@@ -310,11 +310,7 @@ namespace Neptuo.Productivity.SolutionRunner
             trayIcon.TryDestroy();
             base.OnExit(e);
         }
-
-        #region IPinStateService
-
-        #endregion
-
+        
         #region INavigator & INavigatorState & IAppWindowManager
 
         MainWindow IAppWindowManager.Main
