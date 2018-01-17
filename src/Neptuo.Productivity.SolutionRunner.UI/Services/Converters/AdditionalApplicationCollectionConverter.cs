@@ -12,15 +12,15 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Converters
 {
     public class AdditionalApplicationCollectionConverter : TwoWayConverter<AdditionalApplicationCollection, string>
     {
+        private static readonly CompositeModelFormatter formatter = new CompositeModelFormatter(
+            type => Activator.CreateInstance(type),
+            Factory.Getter(() => new JsonCompositeStorage())
+        );
+
         public override bool TryConvertFromOneToTwo(AdditionalApplicationCollection sourceValue, out string targetValue)
         {
             if (sourceValue != null && sourceValue.Any())
             {
-                CompositeModelFormatter formatter = new CompositeModelFormatter(
-                    type => Activator.CreateInstance(type),
-                    Factory.Getter(() => new JsonCompositeStorage())
-                );
-
                 targetValue = formatter.Serialize(sourceValue);
                 return true;
             }
@@ -36,11 +36,6 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Converters
                 targetValue = new AdditionalApplicationCollection();
                 return true;
             }
-
-            CompositeModelFormatter formatter = new CompositeModelFormatter(
-                type => Activator.CreateInstance(type),
-                Factory.Getter(() => new JsonCompositeStorage())
-            );
 
             targetValue = formatter.Deserialize<AdditionalApplicationCollection>(sourceValue);
             return true;

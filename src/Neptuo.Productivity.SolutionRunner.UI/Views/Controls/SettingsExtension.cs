@@ -88,7 +88,7 @@ namespace Neptuo.Productivity.SolutionRunner.Views.Controls
         private static void EnsureKey(string key)
         {
             Debug.Assert(
-                Settings.TryGet(key, out object value), 
+                Settings.Keys.Contains(key), 
                 $"Missing settings property '{key}'."
             );
         }

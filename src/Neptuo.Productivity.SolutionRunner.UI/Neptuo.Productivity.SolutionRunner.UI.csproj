@@ -129,6 +129,9 @@
     <Reference Include="Neptuo.Observables, Version=1.2.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Neptuo.Observables.1.2.1\lib\net45\Neptuo.Observables.dll</HintPath>
     </Reference>
+    <Reference Include="Neptuo.PresentationModels, Version=7.2.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Neptuo.PresentationModels.7.2.0\lib\net45\Neptuo.PresentationModels.dll</HintPath>
+    </Reference>
     <Reference Include="Neptuo.Windows.HotKeys, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Neptuo.Windows.HotKeys.1.0.0\lib\net45\Neptuo.Windows.HotKeys.dll</HintPath>
       <Private>True</Private>
@@ -169,6 +172,9 @@
     <Compile Include="AppEntryPointManager.cs" />
     <Compile Include="AppPinStateService.cs" />
     <Compile Include="AppTrayIcon.cs" />
+    <Compile Include="Services\Configuration\JsonSettings.cs" />
+    <Compile Include="Services\Configuration\JsonSettingsService.cs" />
+    <Compile Include="Services\Configuration\ModelValueCollection.cs" />
     <Compile Include="Views\IWindowManager.cs" />
     <Compile Include="Properties\Settings.Partial.cs" />
     <Compile Include="Properties\VersionInfo.cs" />
