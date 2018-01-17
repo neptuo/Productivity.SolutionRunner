@@ -14,7 +14,6 @@ namespace Neptuo.Productivity.SolutionRunner
     {
         private readonly ISettingsService settingsService;
         private readonly ISettings settings;
-        private HashSet<string> pinnedFiles;
 
         public AppPinStateService(ISettingsService settingsService, ISettings settings)
         {
@@ -26,47 +25,24 @@ namespace Neptuo.Productivity.SolutionRunner
             EventManager.FilePinned += OnPinned;
         }
 
-        public HashSet<string> GetPinnedFiles()
-        {
-            if (pinnedFiles == null)
-            {
-                pinnedFiles = new HashSet<string>();
-
-                string rawValue = settings.PinnedFiles;
-                if (!String.IsNullOrEmpty(rawValue))
-                {
-                    foreach (string filePath in rawValue.Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries))
-                    {
-                        if (File.Exists(filePath))
-                            pinnedFiles.Add(filePath);
-                    }
-                }
-            }
-
-            return pinnedFiles;
-        }
-
         private void OnPinned(FileViewModel viewModel)
         {
-            HashSet<string> pinnedFiles = GetPinnedFiles();
+            List<string> pinnedFiles = settings.PinnedFiles.ToList();
             if (viewModel.IsPinned)
                 pinnedFiles.Add(viewModel.Path);
             else
                 pinnedFiles.Remove(viewModel.Path);
 
-            settings.PinnedFiles = String.Join(";", pinnedFiles);
+            settings.PinnedFiles = pinnedFiles;
             settingsService.SaveAsync(settings);
         }
 
-        public IEnumerable<string> Enumerate()
-        {
-            return GetPinnedFiles();
-        }
+        public IEnumerable<string> Enumerate() => settings.PinnedFiles;
 
         public bool IsPinned(string path)
         {
             Ensure.NotNullOrEmpty(path, "path");
-            return GetPinnedFiles().Contains(path);
+            return Enumerate().Contains(path);
         }
     }
 }

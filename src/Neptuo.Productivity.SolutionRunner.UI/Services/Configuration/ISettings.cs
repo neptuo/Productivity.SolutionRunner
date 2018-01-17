@@ -23,7 +23,7 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Configuration
         bool IsProjectCountEnabled { get; set; }
         bool IsStatisticsCounted { get; set; }
         bool IsTrayIcon { get; set; }
-        string PinnedFiles { get; set; }
+        IReadOnlyList<string> PinnedFiles { get; set; }
         double PositionLeft { get; set; }
         PositionMode PositionMode { get; set; }
         double PositionTop { get; set; }

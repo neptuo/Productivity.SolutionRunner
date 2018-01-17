@@ -18,19 +18,16 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels.Factories
         private readonly IPinStateService pinStateService;
         private readonly ISettings settings;
         private readonly IApplicationLoader mainApplicationLoader;
-        private readonly Func<HashSet<string>> pinnedFilesGetter;
         private readonly PropertyChangedEventHandler propertyChangedHandler;
 
-        internal MainViewModelFactory(IPinStateService pinStateService, ISettings settings, IApplicationLoader mainApplicationLoader, Func<HashSet<string>> pinnedFilesGetter, PropertyChangedEventHandler propertyChangedHandler)
+        internal MainViewModelFactory(IPinStateService pinStateService, ISettings settings, IApplicationLoader mainApplicationLoader, PropertyChangedEventHandler propertyChangedHandler)
         {
             Ensure.NotNull(pinStateService, "pinStateService");
             Ensure.NotNull(settings, "settings");
             Ensure.NotNull(mainApplicationLoader, "mainApplicationLoader");
-            Ensure.NotNull(pinnedFilesGetter, "pinnedFilesGetter");
             this.pinStateService = pinStateService;
             this.settings = settings;
             this.mainApplicationLoader = mainApplicationLoader;
-            this.pinnedFilesGetter = pinnedFilesGetter;
             this.propertyChangedHandler = propertyChangedHandler;
         }
 
@@ -60,7 +57,7 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels.Factories
             additionalLoader.Add(viewModel);
 
             IFileCollection files = viewModel;
-            foreach (string filePath in pinnedFilesGetter())
+            foreach (string filePath in pinStateService.Enumerate())
                 files.Add(Path.GetFileNameWithoutExtension(filePath), filePath, true);
 
             return viewModel;

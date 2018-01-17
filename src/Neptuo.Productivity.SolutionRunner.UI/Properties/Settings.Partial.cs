@@ -89,5 +89,23 @@ namespace Neptuo.Productivity.SolutionRunner.Properties
                     AutoSelectApplicationMinimalVersion = value.ToString(2);
             }
         }
+
+        IReadOnlyList<string> ISettings.PinnedFiles
+        {
+            get
+            {
+                if (String.IsNullOrEmpty(PinnedFiles))
+                    return new string[0];
+
+                return PinnedFiles.Split(Path.PathSeparator);
+            }
+            set
+            {
+                if (value == null)
+                    PinnedFiles = null;
+                else
+                    PinnedFiles = String.Join(Path.PathSeparator.ToString(), value);
+            }
+        }
     }
 }

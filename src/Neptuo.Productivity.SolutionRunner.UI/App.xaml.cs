@@ -208,7 +208,6 @@ namespace Neptuo.Productivity.SolutionRunner
                 pinStateService,
                 settings,
                 mainApplicationLoader,
-                pinStateService.GetPinnedFiles,
                 OnMainViewModelPropertyChanged
             );
         }
