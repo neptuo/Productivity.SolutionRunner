@@ -41,6 +41,42 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Configuration
 
         public void Load(ICompositeStorage storage)
         {
+            int fileVersion = storage.Get("FileVersion", 1);
+
+            FileSearchPattern = storage.Get<string>("FileSearchPattern");
+            IsAutoSelectApplicationVersion = storage.Get<bool>("IsAutoSelectApplicationVersion");
+            IsDismissedWhenLostFocus = storage.Get<bool>("IsDismissedWhenLostFocus");
+            IsDisplayedPathTrimmedToLastFolderName = storage.Get<bool>("IsDisplayedPathTrimmedToLastFolderName");
+            IsFileNameRemovedFromDisplayedPath = storage.Get<bool>("IsFileNameRemovedFromDisplayedPath");
+            IsFileSearchPatternSaved = storage.Get<bool>("IsFileSearchPatternSaved");
+            IsHiddentOnStartup = storage.Get<bool>("IsHiddentOnStartup");
+            IsLastUsedApplicationSavedAsPrefered = storage.Get<bool>("IsLastUsedApplicationSavedAsPrefered");
+            IsProjectCountEnabled = storage.Get<bool>("IsProjectCountEnabled");
+            IsStatisticsCounted = storage.Get<bool>("IsStatisticsCounted");
+            IsTrayIcon = storage.Get<bool>("IsTrayIcon");
+            PinnedFiles = storage.Get<IReadOnlyList<string>>("PinnedFiles");
+            PositionTop = storage.Get<int>("PositionTop");
+            PositionLeft = storage.Get<int>("PositionLeft");
+            PositionMode = storage.Get<PositionMode>("PositionMode");
+            PreferedApplicationPath = storage.Get<string>("PreferedApplicationPath");
+            RunKey = storage.Get<string>("RunKey");
+            SourceDirectoryPath = storage.Get<string>("SourceDirectoryPath");
+            ThemeMode = storage.Get<ThemeMode>("ThemeMode");
+
+            AdditionalApplications = new AdditionalApplicationCollection();
+            if (storage.TryGet("AdditionalApplications", out var additionalApplications))
+                AdditionalApplications.Load(additionalApplications);
+
+            HiddenMainApplications = storage.Get<IReadOnlyList<string>>("HiddenMainApplications");
+            FileSearchCount = storage.Get<int>("FileSearchCount");
+            FileSearchMode = storage.Get<FileSearchMode>("FileSearchMode");
+            AutoSelectApplicationMinimalVersion = storage.Get<Version>("AutoSelectApplicationMinimalVersion");
+        }
+
+        public void Save(ICompositeStorage storage)
+        {
+            storage.Add("FileVersion", 1);
+
             storage.Add("FileSearchPattern", FileSearchPattern);
             storage.Add("IsAutoSelectApplicationVersion", IsAutoSelectApplicationVersion);
             storage.Add("IsDismissedWhenLostFocus", IsDismissedWhenLostFocus);
@@ -65,39 +101,6 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Configuration
             storage.Add("FileSearchCount", FileSearchCount);
             storage.Add("FileSearchMode", FileSearchMode);
             storage.Add("AutoSelectApplicationMinimalVersion", AutoSelectApplicationMinimalVersion);
-        }
-
-        public void Save(ICompositeStorage storage)
-        {
-            FileSearchPattern = storage.Get<string>("FileSearchPattern");
-            IsAutoSelectApplicationVersion = storage.Get<bool>("IsAutoSelectApplicationVersion");
-            IsDismissedWhenLostFocus = storage.Get<bool>("IsDismissedWhenLostFocus");
-            IsDisplayedPathTrimmedToLastFolderName = storage.Get<bool>("IsDisplayedPathTrimmedToLastFolderName");
-            IsFileNameRemovedFromDisplayedPath = storage.Get<bool>("IsFileNameRemovedFromDisplayedPath");
-            IsFileSearchPatternSaved = storage.Get<bool>("IsFileSearchPatternSaved");
-            IsHiddentOnStartup = storage.Get<bool>("IsHiddentOnStartup");
-            IsLastUsedApplicationSavedAsPrefered = storage.Get<bool>("IsLastUsedApplicationSavedAsPrefered");
-            IsProjectCountEnabled = storage.Get<bool>("IsProjectCountEnabled");
-            IsStatisticsCounted = storage.Get<bool>("IsStatisticsCounted");
-            IsTrayIcon = storage.Get<bool>("IsTrayIcon");
-            PinnedFiles = storage.Get<IReadOnlyList<string>>("PinnedFiles");
-            PositionTop = storage.Get<int>("PositionTop");
-            PositionLeft = storage.Get<int>("PositionLeft");
-            PositionMode = storage.Get<PositionMode>("PositionMode");
-            PreferedApplicationPath = storage.Get<string>("PreferedApplicationPath");
-            RunKey = storage.Get<string>("RunKey");
-            SourceDirectoryPath = storage.Get<string>("SourceDirectoryPath");
-            ThemeMode = storage.Get<ThemeMode>("ThemeMode");
-
-            if (storage.TryGet("AdditionalApplications", out var additionalApplications)) {
-                AdditionalApplications = new AdditionalApplicationCollection();
-                AdditionalApplications.Load(additionalApplications);
-            }
-
-            HiddenMainApplications = storage.Get<IReadOnlyList<string>>("HiddenMainApplications");
-            FileSearchCount = storage.Get<int>("FileSearchCount");
-            FileSearchMode = storage.Get<FileSearchMode>("FileSearchMode");
-            AutoSelectApplicationMinimalVersion = storage.Get<Version>("AutoSelectApplicationMinimalVersion");
         }
     }
 }
