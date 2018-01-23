@@ -30,5 +30,13 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Configuration
 
             return Async.CompletedTask;
         }
+
+        public Task SaveRawAsync(IKeyValueCollection settings)
+        {
+            DefaultKeyValueCollection target = (DefaultKeyValueCollection)settings;
+            target.Save();
+
+            return Async.CompletedTask;
+        }
     }
 }

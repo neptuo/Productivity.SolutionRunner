@@ -1,6 +1,7 @@
 ﻿using Neptuo.Collections.Specialized;
 using Neptuo.Converters;
 using Neptuo.PresentationModels;
+using Neptuo.PresentationModels.TypeModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,37 +12,37 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Configuration
 {
     public class ModelValueCollection : IKeyValueCollection
     {
-        private readonly IModelValueProvider valueProvider;
         private readonly IModelDefinition modelDefinition;
         private readonly IConverterRepository converters;
 
-        public ModelValueCollection(IModelValueProvider valueProvider, IModelDefinition modelDefinition)
+        public ReflectionModelValueProvider<ISettings> ValueProvider { get; }
+        public IEnumerable<string> Keys { get; }
+
+        public ModelValueCollection(ReflectionModelValueProvider<ISettings> valueProvider, IModelDefinition modelDefinition)
             : this(valueProvider, modelDefinition, Converts.Repository)
         { }
 
-        public ModelValueCollection(IModelValueProvider valueProvider, IModelDefinition modelDefinition, IConverterRepository converters)
+        public ModelValueCollection(ReflectionModelValueProvider<ISettings> valueProvider, IModelDefinition modelDefinition, IConverterRepository converters)
         {
             Ensure.NotNull(valueProvider, "valueProvider");
             Ensure.NotNull(modelDefinition, "modelDefinition");
             Ensure.NotNull(converters, "converters");
-            this.valueProvider = valueProvider;
             this.modelDefinition = modelDefinition;
             this.converters = converters;
 
+            ValueProvider = valueProvider;
             Keys = modelDefinition.Fields.Select(f => f.Identifier);
         }
 
-        public IEnumerable<string> Keys { get; }
-
         public IKeyValueCollection Add(string key, object value)
         {
-            valueProvider.TrySetValue(key, value);
+            ValueProvider.TrySetValue(key, value);
             return this;
         }
 
         public bool TryGet<T>(string key, out T value)
         {
-            if (valueProvider.TryGetValue(key, out object rawValue))
+            if (ValueProvider.TryGetValue(key, out object rawValue))
             {
                 if (rawValue == null)
                 {

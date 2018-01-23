@@ -84,6 +84,8 @@ namespace Neptuo.Productivity.SolutionRunner
 
         protected async override void OnStartup(StartupEventArgs e)
         {
+            InitializeConverters();
+
             settingsService = new DefaultSettingsService();
             settings = await settingsService.LoadAsync();
 
@@ -99,7 +101,6 @@ namespace Neptuo.Productivity.SolutionRunner
             positionProvider = new PositionService(settings);
 
             InitializeErrorHandler();
-            InitializeConverters();
             InitializeEventManager();
 
             mainApplicationLoader = new ApplicationLoaderCollection()
@@ -135,6 +136,8 @@ namespace Neptuo.Productivity.SolutionRunner
                 .AddJsonEnumSearchHandler()
                 .AddEnumSearchHandler(false)
                 .AddToStringSearchHandler()
+                .Add(new JsonReadOnlyListConverter())
+                .Add(new JsonVersionConverter())
                 .Add(new AdditionalApplicationCollectionConverter())
                 .Add(new KeyViewModelConverter())
                 .Add(new ExceptionModelConverter());

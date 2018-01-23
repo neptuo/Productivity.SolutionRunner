@@ -27,5 +27,10 @@ namespace Neptuo.Productivity.SolutionRunner.Views.DesignData
         {
             return Async.CompletedTask;
         }
+
+        public Task SaveRawAsync(IKeyValueCollection settings)
+        {
+            return Async.CompletedTask;
+        }
     }
 }

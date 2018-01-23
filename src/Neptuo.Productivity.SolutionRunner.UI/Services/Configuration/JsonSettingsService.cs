@@ -19,7 +19,7 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Configuration
             Factory.Getter(() => new JsonCompositeStorage())
         );
 
-        private static readonly IModelDefinition modelDefinition = new TypeModelDefinitionCollection().Get<JsonSettings>();
+        private static readonly IModelDefinition modelDefinition = new TypeModelDefinitionCollection().AddReflectionSearchHandler(new AttributeMetadataReaderCollection()).Get<JsonSettings>();
 
         private readonly Func<string> filePathGetter;
 
@@ -55,16 +55,27 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Configuration
         public async Task<IKeyValueCollection> LoadRawAsync()
         {
             JsonSettings settings = await LoadInternalAsync();
-            ReflectionModelValueProvider<JsonSettings> valueProvider = new ReflectionModelValueProvider<JsonSettings>(settings);
+            ReflectionModelValueProvider<ISettings> valueProvider = new ReflectionModelValueProvider<ISettings>(settings);
             return new ModelValueCollection(valueProvider, modelDefinition);
         }
 
-        public async Task SaveAsync(ISettings settings)
+        private async Task SaveInternalAsync(JsonSettings settings)
+        {
+            string filePath = filePathGetter();
+            string fileContent = await formatter.SerializeAsync(input: settings);
+            File.WriteAllText(filePath, fileContent);
+        }
+
+        public Task SaveAsync(ISettings settings)
         {
             JsonSettings target = (JsonSettings)settings;
-            string filePath = filePathGetter();
-            string fileContent = await formatter.SerializeAsync(target);
-            File.WriteAllText(filePath, fileContent);
+            return SaveInternalAsync(target);
+        }
+
+        public Task SaveRawAsync(IKeyValueCollection settings)
+        {
+            ModelValueCollection target = (ModelValueCollection)settings;
+            return SaveAsync(target.ValueProvider.Model);
         }
     }
 }

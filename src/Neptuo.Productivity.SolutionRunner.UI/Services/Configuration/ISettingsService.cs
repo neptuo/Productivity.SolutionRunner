@@ -12,5 +12,6 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Configuration
         Task<ISettings> LoadAsync();
         Task<IKeyValueCollection> LoadRawAsync();
         Task SaveAsync(ISettings settings);
+        Task SaveRawAsync(IKeyValueCollection settings);
     }
 }

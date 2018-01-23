@@ -175,6 +175,8 @@
     <Compile Include="Services\Configuration\JsonSettings.cs" />
     <Compile Include="Services\Configuration\JsonSettingsService.cs" />
     <Compile Include="Services\Configuration\ModelValueCollection.cs" />
+    <Compile Include="Services\Converters\JsonReadOnlyListConverter.cs" />
+    <Compile Include="Services\Converters\JsonVersionConverter.cs" />
     <Compile Include="Views\IWindowManager.cs" />
     <Compile Include="Properties\Settings.Partial.cs" />
     <Compile Include="Properties\VersionInfo.cs" />

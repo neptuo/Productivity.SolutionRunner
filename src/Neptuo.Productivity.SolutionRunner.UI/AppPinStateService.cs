@@ -27,14 +27,18 @@ namespace Neptuo.Productivity.SolutionRunner
 
         private void OnPinned(FileViewModel viewModel)
         {
-            List<string> pinnedFiles = settings.PinnedFiles.ToList();
+            bool isChanged = false;
+            HashSet<string> pinnedFiles = new HashSet<string>(settings.PinnedFiles);
             if (viewModel.IsPinned)
-                pinnedFiles.Add(viewModel.Path);
+                isChanged = pinnedFiles.Add(viewModel.Path);
             else
-                pinnedFiles.Remove(viewModel.Path);
+                isChanged = pinnedFiles.Remove(viewModel.Path);
 
-            settings.PinnedFiles = pinnedFiles;
-            settingsService.SaveAsync(settings);
+            if (isChanged)
+            {
+                settings.PinnedFiles = pinnedFiles.ToList();
+                settingsService.SaveAsync(settings);
+            }
         }
 
         public IEnumerable<string> Enumerate() => settings.PinnedFiles;

@@ -49,5 +49,10 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Configuration
 
             return false;
         }
+
+        public void Save()
+        {
+            settings.Save();
+        }
     }
 }

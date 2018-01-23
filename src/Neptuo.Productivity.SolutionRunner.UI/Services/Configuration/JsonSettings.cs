@@ -41,7 +41,7 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Configuration
 
         public void Load(ICompositeStorage storage)
         {
-            int fileVersion = storage.Get("FileVersion", 1);
+            int configurationVersion = storage.Get("ConfigurationVersion", 1);
 
             FileSearchPattern = storage.Get<string>("FileSearchPattern");
             IsAutoSelectApplicationVersion = storage.Get<bool>("IsAutoSelectApplicationVersion");
@@ -75,7 +75,7 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Configuration
 
         public void Save(ICompositeStorage storage)
         {
-            storage.Add("FileVersion", 1);
+            storage.Add("ConfigurationVersion", 1);
 
             storage.Add("FileSearchPattern", FileSearchPattern);
             storage.Add("IsAutoSelectApplicationVersion", IsAutoSelectApplicationVersion);
