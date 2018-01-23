@@ -6,6 +6,7 @@ using Neptuo.Formatters.Converters;
 using Neptuo.Logging;
 using Neptuo.Logging.Serialization.Converters;
 using Neptuo.Logging.Serialization.Formatters;
+using Neptuo.Productivity.SolutionRunner.Properties;
 using Neptuo.Productivity.SolutionRunner.Services;
 using Neptuo.Productivity.SolutionRunner.Services.Applications;
 using Neptuo.Productivity.SolutionRunner.Services.Colors;
@@ -51,8 +52,6 @@ namespace Neptuo.Productivity.SolutionRunner
         private ILog log;
         private ErrorLog errorLog;
 
-        internal static ISettings Settings => ((App)App.Current).settings;
-
         private IExceptionHandler exceptionHandler;
 
         private IFactory<ConfigurationViewModel> configurationFactory;
@@ -85,9 +84,7 @@ namespace Neptuo.Productivity.SolutionRunner
         protected async override void OnStartup(StartupEventArgs e)
         {
             InitializeConverters();
-
-            settingsService = new DefaultSettingsService();
-            settings = await settingsService.LoadAsync();
+            await InitializeSettingsAsync();
 
             ReloadThemeResources();
 
@@ -126,6 +123,53 @@ namespace Neptuo.Productivity.SolutionRunner
                 OpenMain();
 
             startup.IsStartup = false;
+        }
+
+        private async Task InitializeSettingsAsync()
+        {
+            string configurationPath = Configuration.Default.Path;
+            if (String.IsNullOrEmpty(configurationPath))
+            {
+
+            }
+
+            //settingsService = new DefaultSettingsService();
+            settingsService = new JsonSettingsService(() => @"C:\Temp\SolutionRunner.json");
+            settings = await settingsService.LoadAsync();
+            //await CopySettingsAsync(settingsService, new JsonSettingsService(() => @"C:\Temp\SolutionRunner.json"));
+        }
+
+        private async Task CopySettingsAsync(ISettingsService service1, ISettingsService service2)
+        {
+            var settings1 = await service1.LoadAsync();
+            var settings2 = await service2.LoadAsync();
+
+            settings2.FileSearchPattern = settings1.FileSearchPattern;
+            settings2.IsAutoSelectApplicationVersion = settings1.IsAutoSelectApplicationVersion;
+            settings2.IsDismissedWhenLostFocus = settings1.IsDismissedWhenLostFocus;
+            settings2.IsDisplayedPathTrimmedToLastFolderName = settings1.IsDisplayedPathTrimmedToLastFolderName;
+            settings2.IsFileNameRemovedFromDisplayedPath = settings1.IsFileNameRemovedFromDisplayedPath;
+            settings2.IsFileSearchPatternSaved = settings1.IsFileSearchPatternSaved;
+            settings2.IsHiddentOnStartup = settings1.IsHiddentOnStartup;
+            settings2.IsLastUsedApplicationSavedAsPrefered = settings1.IsLastUsedApplicationSavedAsPrefered;
+            settings2.IsProjectCountEnabled = settings1.IsProjectCountEnabled;
+            settings2.IsStatisticsCounted = settings1.IsStatisticsCounted;
+            settings2.IsTrayIcon = settings1.IsTrayIcon;
+            settings2.PinnedFiles = settings1.PinnedFiles;
+            settings2.PositionLeft = settings1.PositionLeft;
+            settings2.PositionMode = settings1.PositionMode;
+            settings2.PositionTop = settings1.PositionTop;
+            settings2.PreferedApplicationPath = settings1.PreferedApplicationPath;
+            settings2.RunKey = settings1.RunKey;
+            settings2.SourceDirectoryPath = settings1.SourceDirectoryPath;
+            settings2.ThemeMode = settings1.ThemeMode;
+            settings2.AdditionalApplications = settings1.AdditionalApplications;
+            settings2.HiddenMainApplications = settings1.HiddenMainApplications;
+            settings2.FileSearchCount = settings1.FileSearchCount;
+            settings2.FileSearchMode = settings1.FileSearchMode;
+            settings2.AutoSelectApplicationMinimalVersion = settings1.AutoSelectApplicationMinimalVersion;
+
+            await service2.SaveAsync(settings2);
         }
 
         private void InitializeConverters()
@@ -320,7 +364,7 @@ namespace Neptuo.Productivity.SolutionRunner
             trayIcon.TryDestroy();
             base.OnExit(e);
         }
-        
+
         #region INavigator & INavigatorState & IAppWindowManager
 
         MainWindow IWindowManager.Main

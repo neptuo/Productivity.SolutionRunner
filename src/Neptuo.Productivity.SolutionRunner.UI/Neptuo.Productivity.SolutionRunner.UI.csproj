@@ -172,6 +172,11 @@
     <Compile Include="AppEntryPointManager.cs" />
     <Compile Include="AppPinStateService.cs" />
     <Compile Include="AppTrayIcon.cs" />
+    <Compile Include="Properties\Configuration.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Configuration.settings</DependentUpon>
+    </Compile>
     <Compile Include="Services\Configuration\JsonSettings.cs" />
     <Compile Include="Services\Configuration\JsonSettingsService.cs" />
     <Compile Include="Services\Configuration\ModelValueCollection.cs" />
@@ -409,6 +414,10 @@
     </Compile>
     <None Include="packages.config" />
     <None Include="Properties\app.manifest" />
+    <None Include="Properties\Configuration.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Configuration.Designer.cs</LastGenOutput>
+    </None>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
