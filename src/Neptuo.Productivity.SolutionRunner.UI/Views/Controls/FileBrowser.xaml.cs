@@ -33,7 +33,34 @@ namespace Neptuo.Productivity.SolutionRunner.Views.Controls
             typeof(string), 
             typeof(FileBrowser)
         );
-        
+
+
+        public string Filter
+        {
+            get { return (string)GetValue(FilterProperty); }
+            set { SetValue(FilterProperty, value); }
+        }
+
+        public static readonly DependencyProperty FilterProperty = DependencyProperty.Register(
+            "Filter", 
+            typeof(string), 
+            typeof(FileBrowser), 
+            new PropertyMetadata("Executables (*.exe)|*.exe|Command List (*.cmd)|*.cmd|Batch (*.bat)|*.bat")
+        );
+
+
+        public bool IsExistingOnly
+        {
+            get { return (bool)GetValue(IsExistingOnlyProperty); }
+            set { SetValue(IsExistingOnlyProperty, value); }
+        }
+
+        public static readonly DependencyProperty IsExistingOnlyProperty = DependencyProperty.Register(
+            "IsExistingOnly", 
+            typeof(bool), 
+            typeof(FileBrowser), 
+            new PropertyMetadata(true)
+        );
 
 
         public FileBrowser()
@@ -56,6 +83,7 @@ namespace Neptuo.Productivity.SolutionRunner.Views.Controls
         {
             OpenFileDialog dialog = new OpenFileDialog();
             dialog.AddExtension = true;
+            dialog.CheckFileExists = IsExistingOnly;
 
             string path = Path;
             if (String.IsNullOrEmpty(path))
@@ -67,7 +95,7 @@ namespace Neptuo.Productivity.SolutionRunner.Views.Controls
                 dialog.FileName = System.IO.Path.GetFileNameWithoutExtension(Path);
                 dialog.DefaultExt = System.IO.Path.GetExtension(Path);
                 dialog.InitialDirectory = System.IO.Path.GetDirectoryName(Path);
-                dialog.Filter = "Executables (*.exe)|*.exe|Command List (*.cmd)|*.cmd|Batch (*.bat)|*.bat";
+                dialog.Filter = Filter;
             }
 
             if (dialog.ShowDialog() == DialogResult.OK)

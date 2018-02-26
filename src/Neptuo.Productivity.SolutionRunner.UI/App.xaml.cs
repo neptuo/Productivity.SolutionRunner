@@ -43,6 +43,7 @@ namespace Neptuo.Productivity.SolutionRunner
     public partial class App : Application, INavigator, INavigatorState, IWindowManager
     {
         private ISettingsService settingsService;
+        private ISettingsMapper settingsMapper;
         private ISettings settings;
         private StartupModel startup;
         private IApplicationLoader mainApplicationLoader;
@@ -127,49 +128,43 @@ namespace Neptuo.Productivity.SolutionRunner
 
         private async Task InitializeSettingsAsync()
         {
-            string configurationPath = Configuration.Default.Path;
-            if (String.IsNullOrEmpty(configurationPath))
-            {
+            settingsMapper = new ManualSettingsMapper();
 
+            if (String.IsNullOrEmpty(Configuration.Default.Path) || !File.Exists(Configuration.Default.Path))
+            {
+                Configuration.Default.Path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "SolutionRunner.json");
+
+                MessageBox.Show(
+                    "Unfortunately, we have lost your configuration file (or, if you see this message for the first time, we are going to upgrade from previous version)."
+                    + Environment.NewLine
+                    + "More information can be found in configuration -> Import and Export.", 
+                    "SolutionRunner"
+                );
+
+                if (!File.Exists(Configuration.Default.Path))
+                {
+                    await CopySettingsAsync(
+                        settingsMapper,
+                        new DefaultSettingsService(),
+                        new JsonSettingsService(() => Configuration.Default.Path)
+                    );
+                }
+
+                Configuration.Default.Save();
             }
 
-            //settingsService = new DefaultSettingsService();
-            settingsService = new JsonSettingsService(() => @"C:\Temp\SolutionRunner.json");
+            settingsService = new JsonSettingsService(() => Configuration.Default.Path);
             settings = await settingsService.LoadAsync();
-            //await CopySettingsAsync(settingsService, new JsonSettingsService(() => @"C:\Temp\SolutionRunner.json"));
         }
 
-        private async Task CopySettingsAsync(ISettingsService service1, ISettingsService service2)
+        private async Task CopySettingsAsync(ISettingsMapper mapper, ISettingsService source, ISettingsService target)
         {
-            var settings1 = await service1.LoadAsync();
-            var settings2 = await service2.LoadAsync();
+            var sourceSettings = await source.LoadAsync();
+            var targetSettings = await target.LoadAsync();
 
-            settings2.FileSearchPattern = settings1.FileSearchPattern;
-            settings2.IsAutoSelectApplicationVersion = settings1.IsAutoSelectApplicationVersion;
-            settings2.IsDismissedWhenLostFocus = settings1.IsDismissedWhenLostFocus;
-            settings2.IsDisplayedPathTrimmedToLastFolderName = settings1.IsDisplayedPathTrimmedToLastFolderName;
-            settings2.IsFileNameRemovedFromDisplayedPath = settings1.IsFileNameRemovedFromDisplayedPath;
-            settings2.IsFileSearchPatternSaved = settings1.IsFileSearchPatternSaved;
-            settings2.IsHiddentOnStartup = settings1.IsHiddentOnStartup;
-            settings2.IsLastUsedApplicationSavedAsPrefered = settings1.IsLastUsedApplicationSavedAsPrefered;
-            settings2.IsProjectCountEnabled = settings1.IsProjectCountEnabled;
-            settings2.IsStatisticsCounted = settings1.IsStatisticsCounted;
-            settings2.IsTrayIcon = settings1.IsTrayIcon;
-            settings2.PinnedFiles = settings1.PinnedFiles;
-            settings2.PositionLeft = settings1.PositionLeft;
-            settings2.PositionMode = settings1.PositionMode;
-            settings2.PositionTop = settings1.PositionTop;
-            settings2.PreferedApplicationPath = settings1.PreferedApplicationPath;
-            settings2.RunKey = settings1.RunKey;
-            settings2.SourceDirectoryPath = settings1.SourceDirectoryPath;
-            settings2.ThemeMode = settings1.ThemeMode;
-            settings2.AdditionalApplications = settings1.AdditionalApplications;
-            settings2.HiddenMainApplications = settings1.HiddenMainApplications;
-            settings2.FileSearchCount = settings1.FileSearchCount;
-            settings2.FileSearchMode = settings1.FileSearchMode;
-            settings2.AutoSelectApplicationMinimalVersion = settings1.AutoSelectApplicationMinimalVersion;
+            mapper.Map(sourceSettings, targetSettings);
 
-            await service2.SaveAsync(settings2);
+            await target.SaveAsync(targetSettings);
         }
 
         private void InitializeConverters()
@@ -407,6 +402,7 @@ namespace Neptuo.Productivity.SolutionRunner
                 configurationWindow.ResizeMode = !runHotKey.IsSet ? ResizeMode.CanMinimize : ResizeMode.NoResize;
                 configurationWindow.Closed += OnConfigurationWindowClosed;
             }
+
             configurationWindow.Show();
             configurationWindow.Activate();
         }

@@ -93,6 +93,11 @@
             </Style.Resources>
         </Style>
 
+        <Style x:Key="ConfigurationFileBrowser" TargetType="ui:FileBrowser">
+            <Setter Property="Filter" Value="Configuration File (*.json)|*.json" />
+            <Setter Property="IsExistingOnly" Value="False" />
+        </Style>
+
     </Window.Resources>
     <DockPanel Style="{StaticResource RootPanelStyle}">
         <Grid DockPanel.Dock="Bottom">
@@ -317,6 +322,17 @@
                             <TextBlock Text="Close/hide" />
                             <TextBlock Text="Escape" HorizontalAlignment="Right" />
                         </Grid>
+                    </StackPanel>
+                </StackPanel>
+            </TabItem>
+            <TabItem Header="Import and Export">
+                <StackPanel>
+                    <StackPanel Style="{StaticResource EditorPanelStyle}">
+                        <Grid>
+                            <Label Content="Path:" Target="{Binding ElementName=fbrConfigurationPath}" />
+                            <TextBlock Text="Full path to configuration file" HorizontalAlignment="Right" />
+                        </Grid>
+                        <ui:FileBrowser x:Name="fbrConfigurationPath" Path="{Binding ConfigurationPath, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Style="{StaticResource ConfigurationFileBrowser}"  Margin="0" />
                     </StackPanel>
                 </StackPanel>
             </TabItem>

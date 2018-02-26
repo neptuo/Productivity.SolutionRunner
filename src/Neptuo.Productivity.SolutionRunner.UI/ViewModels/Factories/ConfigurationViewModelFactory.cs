@@ -41,6 +41,9 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels.Factories
         public ConfigurationViewModel Create()
         {
             ConfigurationViewModel viewModel = new ConfigurationViewModel(new SaveConfigurationCommandFactory(settingsService, settings, runHotKey, shortcutService), navigator);
+
+            viewModel.ConfigurationPath = Properties.Configuration.Default.Path;
+
             viewModel.SourceDirectoryPath = settings.SourceDirectoryPath;
             viewModel.FileSearchMode = settings.FileSearchMode;
             viewModel.FileSearchCount = settings.FileSearchCount;

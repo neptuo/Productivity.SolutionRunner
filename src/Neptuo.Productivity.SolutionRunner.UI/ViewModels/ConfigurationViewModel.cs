@@ -321,6 +321,20 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels
         public ObservableCollection<MainApplicationListViewModel> MainApplications { get; set; }
         public ObservableCollection<VersionViewModel> VsVersions { get; set; }
 
+        private string configurationPath;
+        public string ConfigurationPath
+        {
+            get { return configurationPath; }
+            set
+            {
+                if (configurationPath != value)
+                {
+                    configurationPath = value;
+                    RaisePropertyChanged();
+                }
+            }
+        }
+
         public string Version { get; private set; }
 
         private SaveConfigurationCommand saveCommand;

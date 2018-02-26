@@ -19,7 +19,9 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Configuration
             Factory.Getter(() => new JsonCompositeStorage())
         );
 
-        private static readonly IModelDefinition modelDefinition = new TypeModelDefinitionCollection().AddReflectionSearchHandler(new AttributeMetadataReaderCollection()).Get<JsonSettings>();
+        private static readonly IModelDefinition modelDefinition = new TypeModelDefinitionCollection()
+            .AddReflectionSearchHandler(new AttributeMetadataReaderCollection())
+            .Get<JsonSettings>();
 
         private readonly Func<string> filePathGetter;
 

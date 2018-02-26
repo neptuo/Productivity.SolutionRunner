@@ -177,8 +177,12 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Configuration.settings</DependentUpon>
     </Compile>
+    <Compile Include="Services\Configuration\ISettingsFactory.cs" />
+    <Compile Include="Services\Configuration\ISettingsMapper.cs" />
     <Compile Include="Services\Configuration\JsonSettings.cs" />
+    <Compile Include="Services\Configuration\JsonSettingsFactory.cs" />
     <Compile Include="Services\Configuration\JsonSettingsService.cs" />
+    <Compile Include="Services\Configuration\ManualSettingsMapper.cs" />
     <Compile Include="Services\Configuration\ModelValueCollection.cs" />
     <Compile Include="Services\Converters\JsonReadOnlyListConverter.cs" />
     <Compile Include="Services\Converters\JsonVersionConverter.cs" />
