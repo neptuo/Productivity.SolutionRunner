@@ -3,7 +3,6 @@ using Neptuo.Productivity.SolutionRunner.Services;
 using Neptuo.Productivity.SolutionRunner.Services.Configuration;
 using Neptuo.Productivity.SolutionRunner.Services.Logging;
 using Neptuo.Productivity.SolutionRunner.ViewModels;
-using Neptuo.Productivity.SolutionRunner.Views.Controls;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -12,13 +11,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using EventManager = Neptuo.Productivity.SolutionRunner.ViewModels.EventManager;
 
 namespace Neptuo.Productivity.SolutionRunner.Views
@@ -27,6 +20,8 @@ namespace Neptuo.Productivity.SolutionRunner.Views
     {
         private readonly INavigator navigator;
         private readonly ILogProvider logProvider;
+        private readonly ISettingsFactory settingsFactory;
+        private readonly ISettingsMapper settingsMapper;
 
         public bool IsSaveRequired { get; private set; }
 
@@ -36,15 +31,19 @@ namespace Neptuo.Productivity.SolutionRunner.Views
             set { DataContext = value; }
         }
 
-        public ConfigurationWindow(ConfigurationViewModel viewModel, INavigator navigator, ILogProvider logProvider, bool isSaveRequired)
+        public ConfigurationWindow(ConfigurationViewModel viewModel, INavigator navigator, ILogProvider logProvider, ISettingsFactory settingsFactory, ISettingsMapper settingsMapper, bool isSaveRequired)
         {
             Ensure.NotNull(viewModel, "viewModel");
             Ensure.NotNull(navigator, "navigator");
             Ensure.NotNull(logProvider, "logProvider");
+            Ensure.NotNull(settingsFactory, "settingsFactory");
+            Ensure.NotNull(settingsMapper, "settingsMapper");
             ViewModel = viewModel;
             IsSaveRequired = isSaveRequired;
             this.navigator = navigator;
             this.logProvider = logProvider;
+            this.settingsFactory = settingsFactory;
+            this.settingsMapper = settingsMapper;
 
             InitializeComponent();
             EventManager.ConfigurationSaved += OnConfigurationSaved;
@@ -134,6 +133,43 @@ namespace Neptuo.Productivity.SolutionRunner.Views
                 log = log.Substring(0, 800);
 
             MessageBox.Show(log);
+        }
+
+        private async void btnImportConfiguration_Click(object sender, RoutedEventArgs e)
+        {
+            var dialog = new System.Windows.Forms.OpenFileDialog
+            {
+                AddExtension = true,
+                CheckFileExists = true
+            };
+
+            string path = ViewModel.ConfigurationPath;
+            if (String.IsNullOrEmpty(path))
+            {
+                dialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86);
+            }
+            else
+            {
+                dialog.FileName = System.IO.Path.GetFileNameWithoutExtension(path);
+                dialog.DefaultExt = System.IO.Path.GetExtension(path);
+                dialog.InitialDirectory = System.IO.Path.GetDirectoryName(path);
+                dialog.Filter = "Configuration File (*.json)|*.json";
+            }
+
+            if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                path = dialog.FileName;
+
+                ISettingsService target = settingsFactory.CreateForFile(path);
+                await target.LoadAsync();
+
+                settingsMapper.Map()
+            }
+        }
+
+        private void btnTodayBackup_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }
