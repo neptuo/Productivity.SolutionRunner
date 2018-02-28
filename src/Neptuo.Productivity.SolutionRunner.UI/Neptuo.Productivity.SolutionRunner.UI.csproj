@@ -186,6 +186,8 @@
     <Compile Include="Services\Configuration\ModelValueCollection.cs" />
     <Compile Include="Services\Converters\JsonReadOnlyListConverter.cs" />
     <Compile Include="Services\Converters\JsonVersionConverter.cs" />
+    <Compile Include="Services\Searching\FileCache.cs" />
+    <Compile Include="Services\Searching\FileStorage.cs" />
     <Compile Include="ViewModels\Commands\ImportConfigurationCommand.cs" />
     <Compile Include="ViewModels\Commands\SaveAsConfigurationCommand.cs" />
     <Compile Include="ViewModels\IConfigurationViewModelMapper.cs" />

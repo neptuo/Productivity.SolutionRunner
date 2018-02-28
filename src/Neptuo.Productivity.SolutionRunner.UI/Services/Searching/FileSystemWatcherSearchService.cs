@@ -16,8 +16,9 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Searching
         private readonly List<FileSystemWatcher> watchers;
         private readonly IPinStateService pinStateService;
         private readonly PatternMatcherFactory matcherFactory = new PatternMatcherFactory();
+        private readonly FileCache fileCache;
 
-        private readonly List<FileModel> storage = new List<FileModel>();
+        private readonly FileStorage storage = new FileStorage();
 
         public FileSystemWatcherSearchService(string directoryPath, IPinStateService pinStateService)
         {
@@ -26,6 +27,7 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Searching
             this.directoryPath = directoryPath;
             this.pinStateService = pinStateService;
             this.watchers = new List<FileSystemWatcher>();
+            this.fileCache = new FileCache();
         }
 
         private IEnumerable<FileModel> EnumerateDirectory(string directoryPath)
@@ -39,12 +41,17 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Searching
         {
             if (watchers.Count == 0)
             {
+                Task.Factory.StartNew(() =>
+                {
+                    storage.AddRange(EnumerateDirectory(directoryPath), false);
+                    storage.IsCacheUsed = false;
+                });
+
                 return Task.Factory.StartNew(() =>
                 {
                     if (watchers.Count == 0)
                     {
                         InitializeWatchers(directoryPath);
-                        storage.AddRange(EnumerateDirectory(directoryPath));
                     }
                 });
             }
