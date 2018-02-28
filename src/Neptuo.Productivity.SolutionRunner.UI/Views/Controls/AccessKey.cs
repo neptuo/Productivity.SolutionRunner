@@ -1,6 +1,6 @@
-﻿using Neptuo;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -155,7 +155,17 @@ namespace Neptuo.Productivity.SolutionRunner.Views.Controls
                 window.PreviewKeyDown += OnPreviewKeyDown;
                 window.PreviewKeyUp += OnPreviewKeyUp;
                 window.LostFocus += OnLostFocus;
+                window.Activated += OnActivated;
                 window.Deactivated += OnDeactivated;
+
+                if (!IsAccessKeyDown())
+                    SetIsKeyboardCues(window, false);
+            }
+
+            private void OnActivated(object sender, EventArgs e)
+            {
+                if (!IsAccessKeyDown())
+                    SetIsKeyboardCues(window, false);
             }
 
             private void OnDeactivated(object sender, EventArgs e)
@@ -172,7 +182,7 @@ namespace Neptuo.Productivity.SolutionRunner.Views.Controls
 
             private void OnPreviewKeyDown(object sender, KeyEventArgs e)
             {
-                if (e.Key == Key.System && (Keyboard.IsKeyDown(Key.LeftAlt) || Keyboard.IsKeyDown(Key.RightAlt)))
+                if (e.Key == Key.System && IsAccessKeyDown())
                 {
                     if (!GetIsKeyboardCues(window))
                         keys.Clear();
@@ -200,7 +210,7 @@ namespace Neptuo.Productivity.SolutionRunner.Views.Controls
 
             private void OnPreviewKeyUp(object sender, KeyEventArgs e)
             {
-                if (!Keyboard.IsKeyDown(Key.LeftAlt) && !Keyboard.IsKeyDown(Key.RightAlt))
+                if (!IsAccessKeyDown())
                 {
                     SetIsKeyboardCues(window, false);
                     e.Handled = true;
@@ -256,6 +266,9 @@ namespace Neptuo.Productivity.SolutionRunner.Views.Controls
 
                 return false;
             }
+
+            private bool IsAccessKeyDown() 
+                => Keyboard.IsKeyDown(Key.LeftAlt) || Keyboard.IsKeyDown(Key.RightAlt);
         }
     }
 }
