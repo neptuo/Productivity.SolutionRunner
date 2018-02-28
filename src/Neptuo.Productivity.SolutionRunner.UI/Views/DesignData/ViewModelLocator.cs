@@ -11,6 +11,7 @@ using Neptuo.Productivity.SolutionRunner.Services.Searching;
 using Neptuo.Productivity.SolutionRunner.Services.StartupShortcuts;
 using Neptuo.Productivity.SolutionRunner.ViewModels;
 using Neptuo.Productivity.SolutionRunner.ViewModels.Commands;
+using Neptuo.Productivity.SolutionRunner.ViewModels.Factories;
 using Neptuo.Threading.Tasks;
 using System;
 using System.Collections.Generic;
@@ -121,7 +122,7 @@ namespace Neptuo.Productivity.SolutionRunner.Views.DesignData
                     Converts.Repository
                         .Add(new KeyViewModelConverter());
 
-                    configurationViewModel = new ConfigurationViewModel(new SaveConfigurationCommandFactory(), new Navigator());
+                    configurationViewModel = new ConfigurationViewModel(new SaveConfigurationCommandFactory(), new JsonSettingsFactory(), new DesignConfigurationViewModelMapper(), new Navigator());
                     configurationViewModel.SourceDirectoryPath = @"D:\Development";
                     configurationViewModel.FileSearchMode = FileSearchMode.Contains;
                     configurationViewModel.FileSearchCount = 10;
@@ -177,14 +178,9 @@ namespace Neptuo.Productivity.SolutionRunner.Views.DesignData
             {
                 return new SaveConfigurationCommand(
                     viewModel,
+                    new DesignConfigurationViewModelMapper(),
                     SettingsService,
-                    Settings,
-                    new RunHotKeyService(),
-                    new ShortcutService(
-                        "Neptuo",
-                        "Productivity",
-                        "SolutionRunner"
-                    )
+                    Settings
                 );
             }
         }

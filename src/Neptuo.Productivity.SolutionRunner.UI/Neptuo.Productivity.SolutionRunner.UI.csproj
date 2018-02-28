@@ -186,6 +186,10 @@
     <Compile Include="Services\Configuration\ModelValueCollection.cs" />
     <Compile Include="Services\Converters\JsonReadOnlyListConverter.cs" />
     <Compile Include="Services\Converters\JsonVersionConverter.cs" />
+    <Compile Include="ViewModels\Commands\ImportConfigurationCommand.cs" />
+    <Compile Include="ViewModels\Commands\SaveAsConfigurationCommand.cs" />
+    <Compile Include="ViewModels\IConfigurationViewModelMapper.cs" />
+    <Compile Include="Views\DesignData\DesignConfigurationViewModelMapper.cs" />
     <Compile Include="Views\IWindowManager.cs" />
     <Compile Include="Properties\Settings.Partial.cs" />
     <Compile Include="Properties\VersionInfo.cs" />

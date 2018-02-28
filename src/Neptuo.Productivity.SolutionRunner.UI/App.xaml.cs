@@ -243,6 +243,7 @@ namespace Neptuo.Productivity.SolutionRunner
                 runHotKey,
                 settingsService,
                 settings,
+                new JsonSettingsFactory(),
                 this
             );
 

@@ -335,8 +335,8 @@
                         <ui:FileBrowser x:Name="fbrConfigurationPath" Path="{Binding ConfigurationPath, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Style="{StaticResource ConfigurationFileBrowser}"  Margin="0" />
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                        <Button x:Name="btnImportConfiguration" Content="Import from another location..." Click="btnImportConfiguration_Click" />
-                        <Button x:Name="btnTodayBackup" Content="Create today backup" ToolTip="Create a file in the same location with today's timestamp" Click="btnTodayBackup_Click" />
+                        <Button x:Name="btnImport" Content="Import..." Command="{Binding Import}" />
+                        <Button x:Name="btnSaveAs" Content="Save as..." Command="{Binding SaveAs}" />
                     </StackPanel>
                 </StackPanel>
             </TabItem>

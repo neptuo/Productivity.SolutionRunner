@@ -1,7 +1,5 @@
 ﻿using Neptuo.Activators;
-using Neptuo.Productivity.SolutionRunner.Services;
 using Neptuo.Productivity.SolutionRunner.Services.Configuration;
-using Neptuo.Productivity.SolutionRunner.Services.StartupShortcuts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,26 +10,23 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels.Commands.Factories
 {
     public class SaveConfigurationCommandFactory : IFactory<SaveConfigurationCommand, ConfigurationViewModel>
     {
+        private readonly IConfigurationViewModelMapper mapper;
         private readonly ISettingsService settingsService;
         private readonly ISettings settings;
-        private readonly DefaultRunHotKeyService runHotKey;
-        private readonly ShortcutService shortcutService;
 
-        internal SaveConfigurationCommandFactory(ISettingsService settingsService, ISettings settings, DefaultRunHotKeyService runHotKey, ShortcutService shortcutService)
+        internal SaveConfigurationCommandFactory(IConfigurationViewModelMapper mapper, ISettingsService settingsService, ISettings settings)
         {
+            Ensure.NotNull(mapper, "mapper");
             Ensure.NotNull(settingsService, "settingsService");
             Ensure.NotNull(settings, "settings");
-            Ensure.NotNull(runHotKey, "runHotKey");
-            Ensure.NotNull(shortcutService, "shortcutService");
+            this.mapper = mapper;
             this.settingsService = settingsService;
             this.settings = settings;
-            this.runHotKey = runHotKey;
-            this.shortcutService = shortcutService;
         }
 
         public SaveConfigurationCommand Create(ConfigurationViewModel viewModel)
         {
-            return new SaveConfigurationCommand(viewModel, settingsService, settings, runHotKey, shortcutService);
+            return new SaveConfigurationCommand(viewModel, mapper, settingsService, settings);
         }
     }
 }

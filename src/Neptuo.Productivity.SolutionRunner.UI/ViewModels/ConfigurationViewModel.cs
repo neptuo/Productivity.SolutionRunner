@@ -14,6 +14,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using System.Collections.Specialized;
 using Neptuo.Productivity.SolutionRunner.Services.Themes;
+using Neptuo.Productivity.SolutionRunner.Services.Configuration;
 
 namespace Neptuo.Productivity.SolutionRunner.ViewModels
 {
@@ -301,7 +302,19 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels
             }
         }
 
-        public ObservableCollection<IPreferedApplicationViewModel> PreferedApplications { get; set; }
+        private ObservableCollection<IPreferedApplicationViewModel> preferedApplications;
+        public ObservableCollection<IPreferedApplicationViewModel> PreferedApplications
+        {
+            get { return preferedApplications; }
+            set
+            {
+                if (preferedApplications != value)
+                {
+                    preferedApplications = value;
+                    RaisePropertyChanged();
+                }
+            }
+        }
 
         private IPreferedApplicationViewModel preferedApplication;
         public IPreferedApplicationViewModel PreferedApplication
@@ -317,9 +330,48 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels
             }
         }
 
-        public ObservableCollection<AdditionalApplicationListViewModel> AdditionalApplications { get; set; }
-        public ObservableCollection<MainApplicationListViewModel> MainApplications { get; set; }
-        public ObservableCollection<VersionViewModel> VsVersions { get; set; }
+        private ObservableCollection<AdditionalApplicationListViewModel> additionalApplications;
+        public ObservableCollection<AdditionalApplicationListViewModel> AdditionalApplications
+        {
+            get { return additionalApplications; }
+            set
+            {
+                if (additionalApplications != value)
+                {
+                    additionalApplications = value;
+                    RaisePropertyChanged();
+                }
+            }
+        }
+
+        private ObservableCollection<MainApplicationListViewModel> mainApplications;
+        public ObservableCollection<MainApplicationListViewModel> MainApplications
+        {
+            get { return mainApplications; }
+            set
+            {
+                if (mainApplications != value)
+                {
+                    mainApplications = value;
+                    RaisePropertyChanged();
+                }
+            }
+        }
+
+        private ObservableCollection<VersionViewModel> vsVersions;
+        public ObservableCollection<VersionViewModel> VsVersions
+        {
+            get { return vsVersions; }
+            set
+            {
+                if (vsVersions != value)
+                {
+                    vsVersions = value;
+                    RaisePropertyChanged();
+                }
+            }
+        }
+
 
         private string configurationPath;
         public string ConfigurationPath
@@ -347,15 +399,21 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels
         public ICommand EditAdditionalApplicationCommand { get; private set; }
         public ICommand CreateAdditionalApplicationCommand { get; private set; }
 
-        public ConfigurationViewModel(IFactory<SaveConfigurationCommand, ConfigurationViewModel> commandFactory, INavigator navigator)
+        public ICommand Import { get; private set; }
+        public ICommand SaveAs { get; private set; }
+
+        public ConfigurationViewModel(IFactory<SaveConfigurationCommand, ConfigurationViewModel> saveCommandFactory, ISettingsFactory settingsFactory, IConfigurationViewModelMapper mapper, INavigator navigator)
         {
             string version = Assembly.GetExecutingAssembly().GetCustomAttribute<AssemblyInformationalVersionAttribute>().InformationalVersion;
             Version = String.Format("v{0}", version);
 
-            saveCommand = commandFactory.Create(this);
+            saveCommand = saveCommandFactory.Create(this);
             EditAdditionalApplicationCommand = new EditAdditionalApplicationCommand(this, navigator);
             RemoveAdditionalApplicationCommand = new RemoveAdditionalApplicationCommand(this);
             CreateAdditionalApplicationCommand = new CreateAdditionalApplicationCommand(this, navigator);
+
+            Import = new ImportConfigurationCommand(this, settingsFactory, mapper);
+            SaveAs = new SaveAsConfigurationCommand(this, settingsFactory, mapper);
         }
 
         #region Additional Application Commands

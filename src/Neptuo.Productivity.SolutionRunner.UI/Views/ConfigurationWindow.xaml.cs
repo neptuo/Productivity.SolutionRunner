@@ -20,8 +20,6 @@ namespace Neptuo.Productivity.SolutionRunner.Views
     {
         private readonly INavigator navigator;
         private readonly ILogProvider logProvider;
-        private readonly ISettingsFactory settingsFactory;
-        private readonly ISettingsMapper settingsMapper;
 
         public bool IsSaveRequired { get; private set; }
 
@@ -31,19 +29,15 @@ namespace Neptuo.Productivity.SolutionRunner.Views
             set { DataContext = value; }
         }
 
-        public ConfigurationWindow(ConfigurationViewModel viewModel, INavigator navigator, ILogProvider logProvider, ISettingsFactory settingsFactory, ISettingsMapper settingsMapper, bool isSaveRequired)
+        public ConfigurationWindow(ConfigurationViewModel viewModel, INavigator navigator, ILogProvider logProvider, bool isSaveRequired)
         {
             Ensure.NotNull(viewModel, "viewModel");
             Ensure.NotNull(navigator, "navigator");
             Ensure.NotNull(logProvider, "logProvider");
-            Ensure.NotNull(settingsFactory, "settingsFactory");
-            Ensure.NotNull(settingsMapper, "settingsMapper");
             ViewModel = viewModel;
             IsSaveRequired = isSaveRequired;
             this.navigator = navigator;
             this.logProvider = logProvider;
-            this.settingsFactory = settingsFactory;
-            this.settingsMapper = settingsMapper;
 
             InitializeComponent();
             EventManager.ConfigurationSaved += OnConfigurationSaved;
@@ -133,38 +127,6 @@ namespace Neptuo.Productivity.SolutionRunner.Views
                 log = log.Substring(0, 800);
 
             MessageBox.Show(log);
-        }
-
-        private async void btnImportConfiguration_Click(object sender, RoutedEventArgs e)
-        {
-            var dialog = new System.Windows.Forms.OpenFileDialog
-            {
-                AddExtension = true,
-                CheckFileExists = true
-            };
-
-            string path = ViewModel.ConfigurationPath;
-            if (String.IsNullOrEmpty(path))
-            {
-                dialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86);
-            }
-            else
-            {
-                dialog.FileName = System.IO.Path.GetFileNameWithoutExtension(path);
-                dialog.DefaultExt = System.IO.Path.GetExtension(path);
-                dialog.InitialDirectory = System.IO.Path.GetDirectoryName(path);
-                dialog.Filter = "Configuration File (*.json)|*.json";
-            }
-
-            if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-            {
-                path = dialog.FileName;
-
-                ISettingsService target = settingsFactory.CreateForFile(path);
-                await target.LoadAsync();
-
-                settingsMapper.Map()
-            }
         }
 
         private void btnTodayBackup_Click(object sender, RoutedEventArgs e)

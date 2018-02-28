@@ -1,4 +1,5 @@
-﻿using Neptuo.Activators;
+﻿using Neptuo;
+using Neptuo.Activators;
 using Neptuo.Observables.Collections;
 using Neptuo.Productivity.SolutionRunner.Services;
 using Neptuo.Productivity.SolutionRunner.Services.Applications;
@@ -13,37 +14,51 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Productivity.SolutionRunner.ViewModels.Factories
 {
-    public class ConfigurationViewModelFactory : IFactory<ConfigurationViewModel>
+    public class ConfigurationViewModelFactory : IFactory<ConfigurationViewModel>, IConfigurationViewModelMapper
     {
         private readonly IApplicationLoader mainApplicationLoader;
         private readonly ShortcutService shortcutService;
         private readonly DefaultRunHotKeyService runHotKey;
         private readonly ISettingsService settingsService;
         private readonly ISettings settings;
+        private readonly ISettingsFactory settingsFactory;
         private readonly INavigator navigator;
 
-        internal ConfigurationViewModelFactory(IApplicationLoader mainApplicationLoader, ShortcutService shortcutService, DefaultRunHotKeyService runHotKey, ISettingsService settingsService, ISettings settings, INavigator navigator)
+        internal ConfigurationViewModelFactory(IApplicationLoader mainApplicationLoader, ShortcutService shortcutService, DefaultRunHotKeyService runHotKey, ISettingsService settingsService, ISettings settings, ISettingsFactory settingsFactory, INavigator navigator)
         {
             Ensure.NotNull(mainApplicationLoader, "mainApplicationLoader");
             Ensure.NotNull(shortcutService, "shortcutService");
             Ensure.NotNull(runHotKey, "runHotKey");
             Ensure.NotNull(settingsService, "settingsService");
             Ensure.NotNull(settings, "settings");
+            Ensure.NotNull(settingsFactory, "settingsFactory");
             Ensure.NotNull(navigator, "navigator");
             this.mainApplicationLoader = mainApplicationLoader;
             this.shortcutService = shortcutService;
             this.runHotKey = runHotKey;
             this.settingsService = settingsService;
             this.settings = settings;
+            this.settingsFactory = settingsFactory;
             this.navigator = navigator;
         }
 
         public ConfigurationViewModel Create()
         {
-            ConfigurationViewModel viewModel = new ConfigurationViewModel(new SaveConfigurationCommandFactory(settingsService, settings, runHotKey, shortcutService), navigator);
+            ConfigurationViewModel viewModel = new ConfigurationViewModel(
+                new SaveConfigurationCommandFactory(this, settingsService, settings), 
+                settingsFactory, 
+                this, 
+                navigator
+            );
 
             viewModel.ConfigurationPath = Properties.Configuration.Default.Path;
 
+            Map(settings, viewModel);
+            return viewModel;
+        }
+
+        public void Map(ISettings settings, ConfigurationViewModel viewModel)
+        {
             viewModel.SourceDirectoryPath = settings.SourceDirectoryPath;
             viewModel.FileSearchMode = settings.FileSearchMode;
             viewModel.FileSearchCount = settings.FileSearchCount;
@@ -85,8 +100,48 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels.Factories
             viewModel.PositionTop = settings.PositionTop;
 
             viewModel.ThemeMode = settings.ThemeMode;
+        }
 
-            return viewModel;
+        public void Map(ConfigurationViewModel viewModel, ISettings settings)
+        {
+            settings.SourceDirectoryPath = viewModel.SourceDirectoryPath;
+            settings.PreferedApplicationPath = viewModel.PreferedApplication?.Path;
+            settings.FileSearchMode = viewModel.FileSearchMode;
+            settings.FileSearchCount = viewModel.FileSearchCount;
+            settings.IsFileSearchPatternSaved = viewModel.IsFileSearchPatternSaved;
+            settings.IsLastUsedApplicationSavedAsPrefered = viewModel.IsLastUsedApplicationSavedAsPrefered;
+            settings.IsDismissedWhenLostFocus = viewModel.IsDismissedWhenLostFocus;
+            settings.IsHiddentOnStartup = viewModel.IsHiddentOnStartup;
+            settings.IsAutoSelectApplicationVersion = viewModel.IsAutoSelectApplicationVersion;
+            settings.AutoSelectApplicationMinimalVersion = viewModel.AutoSelectApplicationMinimalVersion.Model;
+            settings.IsFileNameRemovedFromDisplayedPath = viewModel.IsFileNameRemovedFromDisplayedPath;
+            settings.IsDisplayedPathTrimmedToLastFolderName = viewModel.IsDisplayedPathTrimmedToLastFolderName;
+            settings.IsTrayIcon = viewModel.IsTrayIcon;
+            settings.IsStatisticsCounted = viewModel.IsStatisticsCounted;
+            settings.IsProjectCountEnabled = viewModel.IsProjectCountEnabled;
+            settings.AdditionalApplications = new AdditionalApplicationCollection(viewModel.AdditionalApplications.Select(a => a.Model));
+
+            if (viewModel.IsAutoStartup)
+                shortcutService.Create(Environment.SpecialFolder.Startup);
+            else
+                shortcutService.Delete(Environment.SpecialFolder.Startup);
+
+            string runKeyValue;
+            if (Converts.Try(viewModel.RunKey, out runKeyValue))
+                settings.RunKey = runKeyValue;
+
+            if (viewModel.RunKey == null)
+                runHotKey.UnBind();
+            else
+                runHotKey.Bind(viewModel.RunKey.Key, viewModel.RunKey.Modifier);
+
+            settings.PositionMode = viewModel.PositionMode;
+            settings.PositionLeft = viewModel.PositionLeft ?? 0;
+            settings.PositionTop = viewModel.PositionTop ?? 0;
+
+            settings.HiddenMainApplications = viewModel.MainApplications.Where(a => !a.IsEnabled).Select(a => a.Path).ToArray();
+
+            settings.ThemeMode = viewModel.ThemeMode;
         }
     }
 }
