@@ -10,42 +10,50 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Searching
 {
     public class FileCache
     {
-        public const string FileName = "FileCache.dat";
+        private readonly SequenceIsolatedFile storage = new SequenceIsolatedFile("FileCache.dat");
+        private HashSet<FileModel> files;
 
-        private IsolatedStorageFile GetStorage()
+        public bool IsEmpty => storage.IsEmpty;
+
+        public void Add(FileModel file)
         {
-            return IsolatedStorageFile.GetUserStoreForApplication();
+            if (files == null || files.Add(file))
+                storage.Append(file.Path);
         }
 
-        private void Append(string line)
+        public void AddRange(IEnumerable<FileModel> files)
         {
-            IsolatedStorageFile storage = GetStorage();
-            using (IsolatedStorageFileStream stream = new IsolatedStorageFileStream(FileName, FileMode.Append, storage))
-            using (StreamWriter writer = new StreamWriter(stream))
-                writer.WriteLine(line);
-        }
-
-        public void Add(string path)
-        {
-            Append(path);
-        }
-
-        public IEnumerable<string> Enumerate()
-        {
-            IsolatedStorageFile storage = GetStorage();
-            if (storage.FileExists(FileName))
+            if (files != null)
             {
-                using (IsolatedStorageFileStream stream = new IsolatedStorageFileStream(FileName, FileMode.Open, storage))
-                using (StreamReader reader = new StreamReader(stream))
-                {
-                    string line;
-                    while ((line = reader.ReadLine()) != null)
-                    {
-                        if (File.Exists(line))
-                            yield return line;
-                    }
-                }
+                storage.Append(files.Where(f => this.files.Add(f)).Select(f => f.Path));
             }
+            else if (storage.IsEmpty)
+            {
+                this.files = new HashSet<FileModel>();
+                foreach (FileModel file in files)
+                    this.files.Add(file);
+
+                storage.Append(files.Select(f => f.Path));
+            }
+        }
+
+        public IEnumerable<FileModel> Enumerate()
+        {
+            if (files == null)
+            {
+                files = new HashSet<FileModel>();
+
+                foreach (string path in storage.Enumerate())
+                {
+                    if (File.Exists(path))
+                        files.Add(new FileModel(path));
+                }
+
+                storage.Clear();
+                storage.Append(files.Select(f => f.Path));
+            }
+
+            return files;
         }
     }
 }

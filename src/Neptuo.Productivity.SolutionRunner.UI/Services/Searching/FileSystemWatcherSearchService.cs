@@ -41,17 +41,24 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Searching
         {
             if (watchers.Count == 0)
             {
-                Task.Factory.StartNew(() =>
+                Action initializeFromDirectory = () =>
                 {
-                    storage.AddRange(EnumerateDirectory(directoryPath), false);
+                    storage.AddRange(EnumerateDirectory(directoryPath));
                     storage.IsCacheUsed = false;
-                });
+                };
+
+                if (!storage.IsCacheEmpty)
+                {
+                    Task.Factory.StartNew(initializeFromDirectory);
+                }
 
                 return Task.Factory.StartNew(() =>
                 {
                     if (watchers.Count == 0)
                     {
                         InitializeWatchers(directoryPath);
+                        if (storage.IsCacheEmpty)
+                            initializeFromDirectory();
                     }
                 });
             }

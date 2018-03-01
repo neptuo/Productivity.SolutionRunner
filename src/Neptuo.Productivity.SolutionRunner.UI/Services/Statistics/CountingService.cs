@@ -13,20 +13,7 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Statistics
     /// </summary>
     public class CountingService : ICountingAppender, ICountingReader
     {
-        public const string FileName = "Statistics.dat";
-
-        private IsolatedStorageFile GetStorage()
-        {
-            return IsolatedStorageFile.GetUserStoreForApplication();
-        }
-
-        private void Append(string line)
-        {
-            IsolatedStorageFile storage = GetStorage();
-            using (IsolatedStorageFileStream stream = new IsolatedStorageFileStream(FileName, FileMode.Append, storage))
-            using (StreamWriter writer = new StreamWriter(stream))
-                writer.WriteLine(line);
-        }
+        private SequenceIsolatedFile file = new SequenceIsolatedFile("Statistics.dat");
 
         private string GetDateTimeNow()
         {
@@ -35,37 +22,28 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Statistics
 
         public void Application(string path)
         {
-            Append(String.Concat(GetDateTimeNow(), ";", path));
+            file.Append(String.Concat(GetDateTimeNow(), ";", path));
         }
 
         public void File(string applicationPath, string filePath)
         {
-            Append(String.Concat(GetDateTimeNow(), ";", applicationPath, ";", filePath));
+            file.Append(String.Concat(GetDateTimeNow(), ";", applicationPath, ";", filePath));
         }
 
         public void File(string applicationPath, string argumentsTemplate, string filePath)
         {
-            Append(String.Concat(GetDateTimeNow(), ";", applicationPath, ";", argumentsTemplate, ";", filePath));
+            file.Append(String.Concat(GetDateTimeNow(), ";", applicationPath, ";", argumentsTemplate, ";", filePath));
         }
 
         private IEnumerable<string[]> ReadLines()
         {
-            IsolatedStorageFile storage = GetStorage();
-            if (storage.FileExists(FileName))
+            foreach (string line in file.Enumerate())
             {
-                using (IsolatedStorageFileStream stream = new IsolatedStorageFileStream(FileName, FileMode.Open, storage))
-                using (StreamReader reader = new StreamReader(stream))
-                {
-                    string line = null;
-                    while ((line = reader.ReadLine()) != null)
-                    {
-                        string[] parts = line.Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
-                        if (parts.Length == 0)
-                            continue;
+                string[] parts = line.Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
+                if (parts.Length == 0)
+                    continue;
 
-                        yield return parts;
-                    }
-                }
+                yield return parts;
             }
         }
 

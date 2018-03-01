@@ -16,20 +16,22 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Searching
 
         public bool IsCacheUsed { get; set; }
 
-        public FileStorage Add(FileModel file, bool isCacheIncluded = true)
+        public bool IsCacheEmpty => cache.IsEmpty;
+
+        public FileStorage Add(FileModel file)
         {
             storage.Add(file);
-
-            if (isCacheIncluded)
-                cache.Add(file.Path);
+            cache.Add(file);
 
             return this;
         }
 
-        public FileStorage AddRange(IEnumerable<FileModel> files, bool isCacheIncluded = true)
+        public FileStorage AddRange(IEnumerable<FileModel> files)
         {
             foreach (FileModel file in files)
-                Add(file, isCacheIncluded);
+                storage.Add(file);
+
+            cache.AddRange(files);
 
             return this;
         }
@@ -49,7 +51,7 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Searching
             if (IsCacheUsed)
             {
                 if (cacheStorage == null)
-                    cacheStorage = new HashSet<FileModel>(cache.Enumerate().Select(p => new FileModel(p)));
+                    cacheStorage = new HashSet<FileModel>(cache.Enumerate());
 
                 return cacheStorage.GetEnumerator();
             }

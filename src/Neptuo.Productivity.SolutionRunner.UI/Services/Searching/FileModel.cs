@@ -23,6 +23,11 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Searching
             }
         }
 
+        internal void Append(object path)
+        {
+            throw new NotImplementedException();
+        }
+
         public FileModel(string path)
         {
             Path = path;
