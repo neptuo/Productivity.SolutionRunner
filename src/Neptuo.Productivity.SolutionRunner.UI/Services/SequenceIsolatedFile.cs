@@ -33,13 +33,14 @@ namespace Neptuo.Productivity.SolutionRunner.Services
             }
         }
 
-        private IsolatedStorageFile GetStorage()
-        {
-            return IsolatedStorageFile.GetUserStoreForApplication();
-        }
+#if DEBUG
+        private IsolatedStorageFile GetStorage() => IsolatedStorageFile.GetUserStoreForAssembly();
+#else
+        private IsolatedStorageFile GetStorage() => IsolatedStorageFile.GetUserStoreForApplication();
+#endif
 
         public void Append(params string[] lines)
-            => Append(lines);
+            => Append((IEnumerable<string>)lines);
 
         public void Append(IEnumerable<string> lines)
         {
