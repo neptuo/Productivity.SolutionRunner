@@ -26,7 +26,7 @@ namespace Neptuo.Productivity.SolutionRunner.Services
                 if (storage.FileExists(fileName))
                 {
                     using (IsolatedStorageFileStream stream = new IsolatedStorageFileStream(fileName, FileMode.Open, storage))
-                        return stream.Length > 0;
+                        return stream.Length == 0;
                 }
 
                 return false;
