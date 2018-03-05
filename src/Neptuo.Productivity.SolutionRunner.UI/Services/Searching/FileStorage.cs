@@ -13,6 +13,7 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Searching
         private readonly FileCache cache = new FileCache();
 
         private HashSet<FileModel> cacheStorage;
+        private readonly object cacheStorageLock = new object();
 
         public bool IsCacheUsed { get; set; }
 
@@ -51,7 +52,13 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Searching
             if (IsCacheUsed)
             {
                 if (cacheStorage == null)
-                    cacheStorage = new HashSet<FileModel>(cache.Enumerate());
+                {
+                    lock (cacheStorageLock)
+                    {
+                        if (cacheStorage == null)
+                            cacheStorage = new HashSet<FileModel>(cache.Enumerate());
+                    }
+                }
 
                 return cacheStorage.GetEnumerator();
             }
