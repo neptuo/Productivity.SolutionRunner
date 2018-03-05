@@ -16,9 +16,10 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Searching
         private readonly List<FileSystemWatcher> watchers;
         private readonly IPinStateService pinStateService;
         private readonly PatternMatcherFactory matcherFactory = new PatternMatcherFactory();
-        private readonly FileCache fileCache;
-
-        private readonly FileStorage storage = new FileStorage();
+        private readonly FileStorage storage = new FileStorage()
+        {
+            IsCacheUsed = true
+        };
 
         public FileSystemWatcherSearchService(string directoryPath, IPinStateService pinStateService)
         {
@@ -27,7 +28,6 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Searching
             this.directoryPath = directoryPath;
             this.pinStateService = pinStateService;
             this.watchers = new List<FileSystemWatcher>();
-            this.fileCache = new FileCache();
         }
 
         private IEnumerable<FileModel> EnumerateDirectory(string directoryPath)
@@ -69,20 +69,24 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Searching
         private void InitializeWatchers(string directoryPath)
         {
             // Watcher for changes on directory structure.
-            FileSystemWatcher directoryWatcher = new FileSystemWatcher(directoryPath);
-            directoryWatcher.EnableRaisingEvents = true;
-            directoryWatcher.IncludeSubdirectories = true;
-            directoryWatcher.NotifyFilter = NotifyFilters.DirectoryName;
+            FileSystemWatcher directoryWatcher = new FileSystemWatcher(directoryPath)
+            {
+                EnableRaisingEvents = true,
+                IncludeSubdirectories = true,
+                NotifyFilter = NotifyFilters.DirectoryName
+            };
             directoryWatcher.Created += (sender, e) => SafeChangeWatcher(sender, e, OnFileCreated);
             directoryWatcher.Deleted += (sender, e) => SafeChangeWatcher(sender, e, OnFileDeleted);
             directoryWatcher.Renamed += (sender, e) => SafeChangeWatcher(sender, e, OnFileRenamed);
             watchers.Add(directoryWatcher);
 
             // Watcher for changes on *.sln files.
-            FileSystemWatcher fileWatcher = new FileSystemWatcher(directoryPath, "*.sln");
-            fileWatcher.EnableRaisingEvents = true;
-            fileWatcher.IncludeSubdirectories = true;
-            fileWatcher.NotifyFilter = NotifyFilters.FileName;
+            FileSystemWatcher fileWatcher = new FileSystemWatcher(directoryPath, "*.sln")
+            {
+                EnableRaisingEvents = true,
+                IncludeSubdirectories = true,
+                NotifyFilter = NotifyFilters.FileName
+            };
             fileWatcher.Created += (sender, e) => SafeChangeWatcher(sender, e, OnFileCreated);
             fileWatcher.Deleted += (sender, e) => SafeChangeWatcher(sender, e, OnFileDeleted);
             fileWatcher.Renamed += (sender, e) => SafeChangeWatcher(sender, e, OnFileRenamed);
