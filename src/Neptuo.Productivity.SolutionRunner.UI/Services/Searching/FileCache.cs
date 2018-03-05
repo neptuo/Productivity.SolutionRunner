@@ -23,7 +23,7 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Searching
 
         public void AddRange(IEnumerable<FileModel> files)
         {
-            if (files != null)
+            if (this.files != null)
             {
                 storage.Append(files.Where(f => this.files.Add(f)).Select(f => f.Path));
             }
