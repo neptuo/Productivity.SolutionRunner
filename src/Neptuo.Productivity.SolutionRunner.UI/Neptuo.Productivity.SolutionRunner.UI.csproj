@@ -97,8 +97,8 @@
     <Reference Include="Neptuo, Version=5.5.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Neptuo.5.5.0\lib\net45\Neptuo.dll</HintPath>
     </Reference>
-    <Reference Include="Neptuo.Exceptions, Version=1.2.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Neptuo.Exceptions.1.2.0\lib\net45\Neptuo.Exceptions.dll</HintPath>
+    <Reference Include="Neptuo.Exceptions, Version=1.2.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Neptuo.Exceptions.1.2.1\lib\net45\Neptuo.Exceptions.dll</HintPath>
     </Reference>
     <Reference Include="Neptuo.FileSystems, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Neptuo.FileSystems.1.1.0\lib\net45\Neptuo.FileSystems.dll</HintPath>
