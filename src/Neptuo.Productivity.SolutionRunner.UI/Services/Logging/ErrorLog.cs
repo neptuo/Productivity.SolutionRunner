@@ -1,14 +1,12 @@
-﻿using Neptuo.Logging.Serialization;
+﻿using Neptuo.Logging;
+using Neptuo.Logging.Serialization;
+using Neptuo.Logging.Serialization.Formatters;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.IO;
 using System.Text;
 using System.Threading.Tasks;
-using Neptuo.Logging;
-using Neptuo;
-using Neptuo.Logging.Serialization.Formatters;
-using System.IO.IsolatedStorage;
-using System.IO;
 
 namespace Neptuo.Productivity.SolutionRunner.Services.Logging
 {
@@ -24,28 +22,10 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Logging
             this.formatter = formatter;
         }
 
-        private bool TryGetStorage(out IsolatedStorageFile file)
-        {
-            try
-            {
-                file = IsolatedStorageFile.GetUserStoreForApplication();
-                return true;
-            }
-            catch (Exception)
-            {
-                file = null;
-                return false;
-            }
-        }
-
         private void Append(string line)
         {
-            if (TryGetStorage(out IsolatedStorageFile storage))
-            {
-                using (IsolatedStorageFileStream stream = new IsolatedStorageFileStream(String.Format(FileNameFormat, DateTime.Now), FileMode.Append, storage))
-                using (StreamWriter writer = new StreamWriter(stream))
-                    writer.WriteLine(line);
-            }
+            SequenceIsolatedFile file = new SequenceIsolatedFile(String.Format(FileNameFormat, DateTime.Now));
+            file.Append(line);
         }
 
         public void Append(string scopeName, LogLevel level, object model)
@@ -59,25 +39,15 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Logging
             return level == LogLevel.Error || level == LogLevel.Fatal;
         }
 
-        public IEnumerable<string> GetFileNames()
-        {
-            if (TryGetStorage(out IsolatedStorageFile storage))
-                return storage.GetFileNames("*.log");
-
-            return Enumerable.Empty<string>();
-        }
+        public IEnumerable<string> GetFileNames() => SequenceIsolatedFile.EnumerateNames("*.log");
 
         public string FindFileContent(string fileName)
         {
             Ensure.NotNullOrEmpty(fileName, "fileName");
-            if (TryGetStorage(out IsolatedStorageFile storage) && fileName.EndsWith(".log") && storage.FileExists(fileName))
+            if (fileName.EndsWith(".log") && SequenceIsolatedFile.Exists(fileName))
             {
-                using (IsolatedStorageFileStream stream = storage.OpenFile(fileName, FileMode.Open))
-                using (StreamReader reader = new StreamReader(stream))
-                {
-                    string content = reader.ReadToEnd();
-                    return content;
-                }
+                SequenceIsolatedFile file = new SequenceIsolatedFile(fileName);
+                return String.Join(Environment.NewLine, file.Enumerate());
             }
 
             return null;

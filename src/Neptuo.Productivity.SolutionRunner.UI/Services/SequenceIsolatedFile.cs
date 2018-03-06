@@ -34,9 +34,9 @@ namespace Neptuo.Productivity.SolutionRunner.Services
         }
 
 #if DEBUG
-        private IsolatedStorageFile GetStorage() => IsolatedStorageFile.GetUserStoreForAssembly();
+        private static IsolatedStorageFile GetStorage() => IsolatedStorageFile.GetUserStoreForAssembly();
 #else
-        private IsolatedStorageFile GetStorage() => IsolatedStorageFile.GetUserStoreForApplication();
+        private static IsolatedStorageFile GetStorage() => IsolatedStorageFile.GetUserStoreForApplication();
 #endif
 
         public void Append(params string[] lines)
@@ -74,5 +74,10 @@ namespace Neptuo.Productivity.SolutionRunner.Services
             if (storage.FileExists(fileName))
                 storage.DeleteFile(fileName);
         }
+
+
+        public static IEnumerable<string> EnumerateNames(string pattern) => GetStorage().GetFileNames(pattern);
+
+        public static bool Exists(string fileName) => GetStorage().FileExists(fileName);
     }
 }

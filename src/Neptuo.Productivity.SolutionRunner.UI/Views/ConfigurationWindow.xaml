@@ -11,7 +11,7 @@
         xmlns:ui="clr-namespace:Neptuo.Productivity.SolutionRunner.Views.Controls"
         xmlns:ds="clr-namespace:Neptuo.Productivity.SolutionRunner.Views.DataSources"
         xmlns:converters="clr-namespace:Neptuo.Productivity.SolutionRunner.Views.Converters"
-        Title="SolutionRunner - Configuration" Width="510" SizeToContent="Height" Icon="{StaticResource IconBitmapImage}"
+        Title="SolutionRunner - Configuration" Width="550" SizeToContent="Height" Icon="{StaticResource IconBitmapImage}"
         Background="{StaticResource BackgroundBrush}" WindowStartupLocation="CenterScreen"
         PreviewKeyDown="OnPreviewKeyDown" Closing="OnClosing">
     <Window.Resources>
@@ -340,6 +340,47 @@
                     </StackPanel>
                 </StackPanel>
             </TabItem>
+            <TabItem Header="Troubleshoot">
+                <StackPanel DataContext="{Binding Troubleshooting}">
+                    <ui:ListView ItemsSource="{Binding ErrorLogFileNames}" Label="Error Log:" LabelDetail="List of all error logs from last update">
+                        <ui:ListView.ItemTemplate>
+                            <DataTemplate>
+                                <Border Style="{StaticResource AdditionalBorderStyle}">
+                                    <Grid>
+                                        <TextBlock Text="{Binding}" Style="{StaticResource ApplicationNameTextBlockStyle}" />
+
+                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Right">
+                                            <Button Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ItemsControl}}, Path=DataContext.OpenErrorLog}" CommandParameter="{Binding}" Style="{StaticResource PlainButtonStyle}">
+                                                <fa:ImageAwesome Style="{StaticResource ImageAwesome}" ToolTip="Open Error Log in External Editor" Icon="Eye" />
+                                            </Button>
+                                        </StackPanel>
+                                    </Grid>
+                                </Border>
+                            </DataTemplate>
+                        </ui:ListView.ItemTemplate>
+                        <ui:ListView.NoData>
+                            <TextBlock Text="Error Log is Empty" />
+                        </ui:ListView.NoData>
+                    </ui:ListView>
+                    
+                    <StackPanel Style="{StaticResource EditorPanelStyle}">
+                        <Grid>
+                            <Label Content="File Searching:" />
+                            <TextBlock Text="Currently maintained list of solution files" HorizontalAlignment="Right" />
+                        </Grid>
+                        <Grid>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="In Memory Count:" VerticalAlignment="Center" />
+                                <TextBlock Text="{Binding LiveFileCount}" VerticalAlignment="Center" Margin="0" Style="{StaticResource ApplicationNameTextBlockStyle}" />
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                                <Button Content="In Memory" Command="{Binding OpenLiveFileList}" />
+                                <Button Content="Cache Content" Command="{Binding OpenCacheFileList}" />
+                            </StackPanel>
+                        </Grid>
+                    </StackPanel>
+                </StackPanel>
+            </TabItem>
             <TabItem Header="About">
                 <Grid>
                     <StackPanel VerticalAlignment="Bottom">
@@ -347,10 +388,6 @@
                         <TextBlock Text="Neptuo" VerticalAlignment="Center" />
                         <TextBlock Text="Copyright © 2017" VerticalAlignment="Center" />
                         <Button x:Name="btnAbout" Content="Documentation" ToolTip="www.neptuo.com/project/desktop/solutionrunner" Click="btnAbout_Click" Style="{StaticResource LinkButtonStyle}" Margin="2,0,5,0" />
-                    </StackPanel>
-
-                    <StackPanel HorizontalAlignment="Right">
-                        <Button x:Name="btnErrorLog" Content="Error log" Click="btnErrorLog_Click" Margin="0" />
                     </StackPanel>
                 </Grid>
             </TabItem>

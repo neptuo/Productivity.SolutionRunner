@@ -4,6 +4,8 @@ using Neptuo.Observables.Collections;
 using Neptuo.Productivity.SolutionRunner.Services;
 using Neptuo.Productivity.SolutionRunner.Services.Applications;
 using Neptuo.Productivity.SolutionRunner.Services.Configuration;
+using Neptuo.Productivity.SolutionRunner.Services.Logging;
+using Neptuo.Productivity.SolutionRunner.Services.Searching;
 using Neptuo.Productivity.SolutionRunner.Services.StartupShortcuts;
 using Neptuo.Productivity.SolutionRunner.ViewModels.Commands.Factories;
 using System;
@@ -23,8 +25,9 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels.Factories
         private readonly ISettings settings;
         private readonly ISettingsFactory settingsFactory;
         private readonly INavigator navigator;
+        private readonly ILogProvider logProvider;
 
-        internal ConfigurationViewModelFactory(IApplicationLoader mainApplicationLoader, ShortcutService shortcutService, DefaultRunHotKeyService runHotKey, ISettingsService settingsService, ISettings settings, ISettingsFactory settingsFactory, INavigator navigator)
+        internal ConfigurationViewModelFactory(IApplicationLoader mainApplicationLoader, ShortcutService shortcutService, DefaultRunHotKeyService runHotKey, ISettingsService settingsService, ISettings settings, ISettingsFactory settingsFactory, INavigator navigator, ILogProvider logProvider)
         {
             Ensure.NotNull(mainApplicationLoader, "mainApplicationLoader");
             Ensure.NotNull(shortcutService, "shortcutService");
@@ -33,6 +36,7 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels.Factories
             Ensure.NotNull(settings, "settings");
             Ensure.NotNull(settingsFactory, "settingsFactory");
             Ensure.NotNull(navigator, "navigator");
+            Ensure.NotNull(logProvider, "logProvider");
             this.mainApplicationLoader = mainApplicationLoader;
             this.shortcutService = shortcutService;
             this.runHotKey = runHotKey;
@@ -40,6 +44,7 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels.Factories
             this.settings = settings;
             this.settingsFactory = settingsFactory;
             this.navigator = navigator;
+            this.logProvider = logProvider;
         }
 
         public ConfigurationViewModel Create()
@@ -48,7 +53,8 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels.Factories
                 new SaveConfigurationCommandFactory(this, settingsService, settings), 
                 settingsFactory, 
                 this, 
-                navigator
+                navigator,
+                logProvider
             );
 
             viewModel.ConfigurationPath = Properties.Configuration.Default.Path;

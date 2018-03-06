@@ -15,6 +15,7 @@ using System.Windows.Input;
 using System.Collections.Specialized;
 using Neptuo.Productivity.SolutionRunner.Services.Themes;
 using Neptuo.Productivity.SolutionRunner.Services.Configuration;
+using Neptuo.Productivity.SolutionRunner.Services.Logging;
 
 namespace Neptuo.Productivity.SolutionRunner.ViewModels
 {
@@ -387,6 +388,8 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels
             }
         }
 
+        public TroubleshootViewModel Troubleshooting { get; private set; }
+
         public string Version { get; private set; }
 
         private SaveConfigurationCommand saveCommand;
@@ -402,8 +405,10 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels
         public ICommand Import { get; private set; }
         public ICommand SaveAs { get; private set; }
 
-        public ConfigurationViewModel(IFactory<SaveConfigurationCommand, ConfigurationViewModel> saveCommandFactory, ISettingsFactory settingsFactory, IConfigurationViewModelMapper mapper, INavigator navigator)
+        public ConfigurationViewModel(IFactory<SaveConfigurationCommand, ConfigurationViewModel> saveCommandFactory, ISettingsFactory settingsFactory, IConfigurationViewModelMapper mapper, INavigator navigator, ILogProvider logProvider)
         {
+            Troubleshooting = new TroubleshootViewModel(logProvider);
+
             string version = Assembly.GetExecutingAssembly().GetCustomAttribute<AssemblyInformationalVersionAttribute>().InformationalVersion;
             Version = String.Format("v{0}", version);
 

@@ -244,7 +244,8 @@ namespace Neptuo.Productivity.SolutionRunner
                 settingsService,
                 settings,
                 new JsonSettingsFactory(),
-                this
+                this,
+                errorLog
             );
 
             mainFactory = new MainViewModelFactory(
@@ -398,7 +399,7 @@ namespace Neptuo.Productivity.SolutionRunner
             {
                 isMainWindowViewModelReloadRequired = true;
 
-                configurationWindow = new ConfigurationWindow(configurationFactory.Create(), this, errorLog, String.IsNullOrEmpty(settings.SourceDirectoryPath));
+                configurationWindow = new ConfigurationWindow(configurationFactory.Create(), this, String.IsNullOrEmpty(settings.SourceDirectoryPath));
                 configurationWindow.ShowInTaskbar = !runHotKey.IsSet;
                 configurationWindow.ResizeMode = !runHotKey.IsSet ? ResizeMode.CanMinimize : ResizeMode.NoResize;
                 configurationWindow.Closed += OnConfigurationWindowClosed;

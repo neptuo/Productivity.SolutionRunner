@@ -1,11 +1,13 @@
 ﻿using Neptuo.Activators;
 using Neptuo.Converters;
+using Neptuo.Logging.Serialization.Formatters;
 using Neptuo.Observables.Collections;
 using Neptuo.Productivity.SolutionRunner.Services;
 using Neptuo.Productivity.SolutionRunner.Services.Applications;
 using Neptuo.Productivity.SolutionRunner.Services.Colors;
 using Neptuo.Productivity.SolutionRunner.Services.Configuration;
 using Neptuo.Productivity.SolutionRunner.Services.Converters;
+using Neptuo.Productivity.SolutionRunner.Services.Logging;
 using Neptuo.Productivity.SolutionRunner.Services.Positions;
 using Neptuo.Productivity.SolutionRunner.Services.Searching;
 using Neptuo.Productivity.SolutionRunner.Services.StartupShortcuts;
@@ -122,7 +124,14 @@ namespace Neptuo.Productivity.SolutionRunner.Views.DesignData
                     Converts.Repository
                         .Add(new KeyViewModelConverter());
 
-                    configurationViewModel = new ConfigurationViewModel(new SaveConfigurationCommandFactory(), new JsonSettingsFactory(), new DesignConfigurationViewModelMapper(), new Navigator());
+                    configurationViewModel = new ConfigurationViewModel(
+                        new SaveConfigurationCommandFactory(), 
+                        new JsonSettingsFactory(), 
+                        new DesignConfigurationViewModelMapper(), 
+                        new Navigator(), 
+                        new DesignLogProvider()
+                    );
+
                     configurationViewModel.SourceDirectoryPath = @"D:\Development";
                     configurationViewModel.FileSearchMode = FileSearchMode.Contains;
                     configurationViewModel.FileSearchCount = 10;
