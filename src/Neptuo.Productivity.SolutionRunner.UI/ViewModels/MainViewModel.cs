@@ -1,4 +1,5 @@
-﻿using Neptuo.Observables;
+﻿using Neptuo;
+using Neptuo.Observables;
 using Neptuo.Observables.Collections;
 using Neptuo.Productivity.SolutionRunner.Services;
 using Neptuo.Productivity.SolutionRunner.Services.Applications;
@@ -6,6 +7,7 @@ using Neptuo.Productivity.SolutionRunner.Services.Searching;
 using Neptuo.Productivity.SolutionRunner.Services.UserConfigurations;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -18,15 +20,18 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels
     /// <summary>
     /// The view model of main window.
     /// </summary>
-    public class MainViewModel : ObservableObject, IApplicationCollection, IFileCollection, IDisposable
+    public partial class MainViewModel : ObservableObject, IApplicationCollection, IFileCollection, IDisposable
     {
         private readonly IFileSearchService fileSearch;
         private readonly FileSearchModeGetter fileSearchModeGetter;
         private readonly FileSearchCountGetter fileSearchCountGetter;
 
-        public MainViewModel(IFileSearchService fileSearch, FileSearchModeGetter fileSearchModeGetter, FileSearchCountGetter fileSearchCountGetter)
+        public UiBackgroundContext BackgroundContext { get; private set; }
+
+        public MainViewModel(IFileSearchService fileSearch, UiBackgroundContext backgroundContext, FileSearchModeGetter fileSearchModeGetter, FileSearchCountGetter fileSearchCountGetter)
         {
             Ensure.NotNull(fileSearch, "fileSearch");
+            Ensure.NotNull(backgroundContext, "backgroundContext");
             Ensure.NotNull(fileSearchModeGetter, "fileSearchModeGetter");
             Ensure.NotNull(fileSearchCountGetter, "fileSearchCountGetter");
             this.fileSearch = fileSearch;
@@ -37,6 +42,7 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels
             files = new ObservableCollection<FileViewModel>();
 
             IsLoading = true;
+            BackgroundContext = backgroundContext;
         }
 
         #region Initialization

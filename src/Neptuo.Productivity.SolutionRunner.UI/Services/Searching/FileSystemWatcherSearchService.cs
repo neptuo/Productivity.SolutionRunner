@@ -1,4 +1,5 @@
-﻿using Neptuo.FileSystems;
+﻿using Neptuo;
+using Neptuo.FileSystems;
 using Neptuo.Threading.Tasks;
 using System;
 using System.Collections.Generic;
@@ -15,18 +16,21 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Searching
         private readonly string directoryPath;
         private readonly List<FileSystemWatcher> watchers;
         private readonly IPinStateService pinStateService;
+        private readonly IBackgroundContext backgroundContext;
         private readonly PatternMatcherFactory matcherFactory = new PatternMatcherFactory();
         private readonly FileStorage storage = new FileStorage()
         {
             IsCacheUsed = true
         };
 
-        public FileSystemWatcherSearchService(string directoryPath, IPinStateService pinStateService)
+        public FileSystemWatcherSearchService(string directoryPath, IPinStateService pinStateService, IBackgroundContext backgroundContext)
         {
             Ensure.Condition.DirectoryExists(directoryPath, "directoryPath");
             Ensure.NotNull(pinStateService, "pinStateService");
+            Ensure.NotNull(backgroundContext, "backgroundContext");
             this.directoryPath = directoryPath;
             this.pinStateService = pinStateService;
+            this.backgroundContext = backgroundContext;
             this.watchers = new List<FileSystemWatcher>();
         }
 
@@ -43,8 +47,11 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Searching
             {
                 Action initializeFromDirectory = () =>
                 {
-                    storage.AddRange(EnumerateDirectory(directoryPath));
-                    storage.IsCacheUsed = false;
+                    using (backgroundContext.Start())
+                    {
+                        storage.AddRange(EnumerateDirectory(directoryPath));
+                        storage.IsCacheUsed = false;
+                    }
                 };
 
                 if (!storage.IsCacheEmpty)

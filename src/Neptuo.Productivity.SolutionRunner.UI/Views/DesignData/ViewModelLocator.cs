@@ -58,7 +58,7 @@ namespace Neptuo.Productivity.SolutionRunner.Views.DesignData
                     Settings.IsFileNameRemovedFromDisplayedPath = true;
                     //Settings.IsDisplayedPathTrimmedToLastFolderName = true;
 
-                    mainViewModel = new MainViewModel(new FileSearchService(true), () => FileSearchMode.StartsWith, () => 20);
+                    mainViewModel = new MainViewModel(new FileSearchService(true), new UiBackgroundContext(), () => FileSearchMode.StartsWith, () => 20);
                     mainViewModel.IsLoading = false;
                     mainViewModel.SearchPattern = "Neptuo.sln";
 

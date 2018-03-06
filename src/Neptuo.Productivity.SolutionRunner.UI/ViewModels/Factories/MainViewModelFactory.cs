@@ -33,6 +33,8 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels.Factories
 
         public MainViewModel Create()
         {
+            UiBackgroundContext backgroundContext = new UiBackgroundContext();
+
             MainViewModel viewModel = new MainViewModel(
                 new PinnedForEmptyPatternFileSearchService(
                     //new DelayedFileSearchService(
@@ -40,9 +42,10 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels.Factories
                     //    CreateFileSearchService()
                     //),
                     //this
-                    CreateFileSearchService(),
+                    CreateFileSearchService(backgroundContext),
                     pinStateService
                 ),
+                backgroundContext,
                 () => settings.FileSearchMode,
                 () => settings.FileSearchCount
             );
@@ -66,12 +69,12 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels.Factories
         private string directoryPath;
         private FileSystemWatcherSearchService fileSearchService;
 
-        private IFileSearchService CreateFileSearchService()
+        private IFileSearchService CreateFileSearchService(IBackgroundContext backgroundContext)
         {
             if (fileSearchService == null || directoryPath != settings.SourceDirectoryPath)
             {
                 directoryPath = settings.SourceDirectoryPath;
-                fileSearchService = new FileSystemWatcherSearchService(directoryPath, pinStateService);
+                fileSearchService = new FileSystemWatcherSearchService(directoryPath, pinStateService, backgroundContext);
             }
 
             return fileSearchService;
