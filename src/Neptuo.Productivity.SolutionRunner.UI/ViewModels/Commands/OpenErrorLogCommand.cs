@@ -13,9 +13,9 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels.Commands
 {
     public class OpenErrorLogCommand : Command<string>
     {
-        private readonly ILogProvider logProvider;
+        private readonly ILogService logProvider;
 
-        public OpenErrorLogCommand(ILogProvider logProvider)
+        public OpenErrorLogCommand(ILogService logProvider)
         {
             Ensure.NotNull(logProvider, "logProvider");
             this.logProvider = logProvider;

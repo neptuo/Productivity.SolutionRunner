@@ -15,7 +15,7 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels
 {
     public class TroubleshootViewModel : ObservableObject
     {
-        private readonly ILogProvider logProvider;
+        private readonly ILogService logProvider;
 
         public List<string> ErrorLogFileNames { get; private set; }
 
@@ -37,7 +37,7 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels
         public ICommand OpenLiveFileList { get; private set; }
         public ICommand OpenCacheFileList { get; private set; }
 
-        public TroubleshootViewModel(ILogProvider logProvider)
+        public TroubleshootViewModel(ILogService logProvider)
         {
             Ensure.NotNull(logProvider, "logProvider");
             this.logProvider = logProvider;

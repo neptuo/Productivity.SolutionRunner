@@ -187,6 +187,8 @@
     <Compile Include="Services\Converters\JsonReadOnlyListConverter.cs" />
     <Compile Include="Services\Converters\JsonVersionConverter.cs" />
     <Compile Include="Services\IBackgroundContext.cs" />
+    <Compile Include="Services\Logging\FileLogSerializer.cs" />
+    <Compile Include="Services\Logging\IsolatedLogService.cs" />
     <Compile Include="Services\Searching\FileCache.cs" />
     <Compile Include="Services\Searching\FileStorage.cs" />
     <Compile Include="Services\SequenceIsolatedFile.cs" />
@@ -230,8 +232,8 @@
     <Compile Include="Services\INavigatorState.cs" />
     <Compile Include="Services\IRunHotKeyService.cs" />
     <Compile Include="Services\DefaultRunHotKeyService.cs" />
-    <Compile Include="Services\Logging\ErrorLog.cs" />
-    <Compile Include="Services\Logging\ILogProvider.cs" />
+    <Compile Include="Services\Logging\ErrorLogSerializer.cs" />
+    <Compile Include="Services\Logging\ILogService.cs" />
     <Compile Include="Services\Positions\IPositionProvider.cs" />
     <Compile Include="Services\Positions\IPositionTarget.cs" />
     <Compile Include="Services\Positions\PositionService.cs" />

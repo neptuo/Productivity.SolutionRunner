@@ -25,9 +25,9 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels.Factories
         private readonly ISettings settings;
         private readonly ISettingsFactory settingsFactory;
         private readonly INavigator navigator;
-        private readonly ILogProvider logProvider;
+        private readonly ILogService logProvider;
 
-        internal ConfigurationViewModelFactory(IApplicationLoader mainApplicationLoader, ShortcutService shortcutService, DefaultRunHotKeyService runHotKey, ISettingsService settingsService, ISettings settings, ISettingsFactory settingsFactory, INavigator navigator, ILogProvider logProvider)
+        internal ConfigurationViewModelFactory(IApplicationLoader mainApplicationLoader, ShortcutService shortcutService, DefaultRunHotKeyService runHotKey, ISettingsService settingsService, ISettings settings, ISettingsFactory settingsFactory, INavigator navigator, ILogService logProvider)
         {
             Ensure.NotNull(mainApplicationLoader, "mainApplicationLoader");
             Ensure.NotNull(shortcutService, "shortcutService");

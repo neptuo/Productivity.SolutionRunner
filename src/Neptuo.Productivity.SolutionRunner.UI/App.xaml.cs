@@ -51,7 +51,7 @@ namespace Neptuo.Productivity.SolutionRunner
         private SwitchableContingService countingService;
         private IPositionProvider positionProvider;
         private ILog log;
-        private ErrorLog errorLog;
+        private ErrorLogSerializer errorLog;
 
         private IExceptionHandler exceptionHandler;
 
@@ -212,7 +212,7 @@ namespace Neptuo.Productivity.SolutionRunner
 
         private void InitializeErrorHandler()
         {
-            errorLog = new ErrorLog(new DefaultLogFormatter());
+            errorLog = new ErrorLogSerializer(new DefaultLogFormatter());
             ILogFactory logFactory = new DefaultLogFactory()
                 .AddSerializer(errorLog)
 #if DEBUG

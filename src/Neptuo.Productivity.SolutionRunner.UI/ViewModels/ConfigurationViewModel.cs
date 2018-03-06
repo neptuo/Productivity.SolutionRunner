@@ -405,7 +405,7 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels
         public ICommand Import { get; private set; }
         public ICommand SaveAs { get; private set; }
 
-        public ConfigurationViewModel(IFactory<SaveConfigurationCommand, ConfigurationViewModel> saveCommandFactory, ISettingsFactory settingsFactory, IConfigurationViewModelMapper mapper, INavigator navigator, ILogProvider logProvider)
+        public ConfigurationViewModel(IFactory<SaveConfigurationCommand, ConfigurationViewModel> saveCommandFactory, ISettingsFactory settingsFactory, IConfigurationViewModelMapper mapper, INavigator navigator, ILogService logProvider)
         {
             Troubleshooting = new TroubleshootViewModel(logProvider);
 

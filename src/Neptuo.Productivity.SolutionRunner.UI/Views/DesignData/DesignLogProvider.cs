@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Productivity.SolutionRunner.Views.DesignData
 {
-    public class DesignLogProvider : ILogProvider
+    public class DesignLogProvider : ILogService
     {
         public string FindFileContent(string fileName)
         {

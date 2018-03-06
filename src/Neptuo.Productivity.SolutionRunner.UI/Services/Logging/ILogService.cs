@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Productivity.SolutionRunner.Services.Logging
 {
-    public interface ILogProvider
+    public interface ILogService
     {
         IEnumerable<string> GetFileNames();
 
