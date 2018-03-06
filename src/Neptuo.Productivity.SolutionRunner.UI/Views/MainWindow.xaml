@@ -183,7 +183,10 @@
                 </Grid>
 
                 <Border Grid.Row="1">
-                    <TextBox x:Name="tbxSearch" Text="{Binding SearchPattern, UpdateSourceTrigger=PropertyChanged}" />
+                    <Grid>
+                        <TextBox x:Name="tbxSearch" Text="{Binding SearchPattern, UpdateSourceTrigger=PropertyChanged}" />
+                        <ProgressBar IsIndeterminate="True" Width="40" Height="3" BorderThickness="0" Background="Transparent" HorizontalAlignment="Right" Margin="0,0,8,0" Visibility="{Binding BackgroundContext.IsWorking, Converter={StaticResource TrueToVisibleConverter}}" />
+                    </Grid>
                 </Border>
 
                 <ListView x:Name="lvwFiles" ItemsSource="{Binding Files}" ItemContainerStyle="{StaticResource ListViewItemStyle}" Visibility="{Binding IsFileListAvailable, Converter={StaticResource TrueToVisibleConverter}}" Grid.Row="3">
