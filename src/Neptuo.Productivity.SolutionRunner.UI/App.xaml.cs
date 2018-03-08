@@ -50,8 +50,7 @@ namespace Neptuo.Productivity.SolutionRunner
         private DefaultRunHotKeyService runHotKey;
         private SwitchableContingService countingService;
         private IPositionProvider positionProvider;
-        private ILog log;
-        private ErrorLogSerializer errorLog;
+        private ILogFactory logFactory;
         private IsolatedLogService logService;
 
         private IExceptionHandler exceptionHandler;
@@ -215,15 +214,15 @@ namespace Neptuo.Productivity.SolutionRunner
         {
             logService = new IsolatedLogService();
 
-            errorLog = new ErrorLogSerializer(new DefaultLogFormatter());
-            ILogFactory logFactory = new DefaultLogFactory()
-                .AddSerializer(errorLog)
+            logFactory = new DefaultLogFactory()
+                .AddSerializer(new FileLogSerializer(new DefaultLogFormatter()))
+                .AddSerializer(new ErrorLogSerializer(new DefaultLogFormatter()))
 #if DEBUG
                 .AddConsole()
 #endif
             ;
 
-            log = logFactory.Scope("Root");
+            ILog rootLog = logFactory.Scope("Root");
 
             ExceptionHandlerBuilder builder = new ExceptionHandlerBuilder();
             builder
@@ -232,7 +231,7 @@ namespace Neptuo.Productivity.SolutionRunner
 
             builder
                 .Filter(e => !(e is UnauthorizedAccessException))
-                .Handler(new LogExceptionHandler(log))
+                .Handler(new LogExceptionHandler(rootLog))
                 .Handler(new MessageBoxExceptionHandler(this));
 
             exceptionHandler = builder;
@@ -255,6 +254,7 @@ namespace Neptuo.Productivity.SolutionRunner
                 pinStateService,
                 settings,
                 mainApplicationLoader,
+                logFactory,
                 OnMainViewModelPropertyChanged
             );
         }

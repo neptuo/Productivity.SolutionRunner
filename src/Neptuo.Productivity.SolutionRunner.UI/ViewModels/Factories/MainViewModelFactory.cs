@@ -1,4 +1,6 @@
-﻿using Neptuo.Activators;
+﻿using Neptuo;
+using Neptuo.Activators;
+using Neptuo.Logging;
 using Neptuo.Productivity.SolutionRunner.Services;
 using Neptuo.Productivity.SolutionRunner.Services.Applications;
 using Neptuo.Productivity.SolutionRunner.Services.Configuration;
@@ -18,16 +20,19 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels.Factories
         private readonly IPinStateService pinStateService;
         private readonly ISettings settings;
         private readonly IApplicationLoader mainApplicationLoader;
+        private readonly ILogFactory logFactory;
         private readonly PropertyChangedEventHandler propertyChangedHandler;
 
-        internal MainViewModelFactory(IPinStateService pinStateService, ISettings settings, IApplicationLoader mainApplicationLoader, PropertyChangedEventHandler propertyChangedHandler)
+        internal MainViewModelFactory(IPinStateService pinStateService, ISettings settings, IApplicationLoader mainApplicationLoader, ILogFactory logFactory, PropertyChangedEventHandler propertyChangedHandler)
         {
             Ensure.NotNull(pinStateService, "pinStateService");
             Ensure.NotNull(settings, "settings");
             Ensure.NotNull(mainApplicationLoader, "mainApplicationLoader");
+            Ensure.NotNull(logFactory, "logFactory");
             this.pinStateService = pinStateService;
             this.settings = settings;
             this.mainApplicationLoader = mainApplicationLoader;
+            this.logFactory = logFactory;
             this.propertyChangedHandler = propertyChangedHandler;
         }
 
@@ -74,7 +79,7 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels.Factories
             if (fileSearchService == null || directoryPath != settings.SourceDirectoryPath)
             {
                 directoryPath = settings.SourceDirectoryPath;
-                fileSearchService = new FileSystemWatcherSearchService(directoryPath, pinStateService, backgroundContext);
+                fileSearchService = new FileSystemWatcherSearchService(directoryPath, pinStateService, backgroundContext, logFactory);
             }
 
             return fileSearchService;

@@ -19,6 +19,17 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Searching
 
         public bool IsCacheEmpty => cache.IsEmpty;
 
+        public int Count
+        {
+            get
+            {
+                if (IsCacheEmpty && cacheStorage != null)
+                    return cacheStorage.Count;
+
+                return storage.Count;
+            }
+        }
+
         public FileStorage Add(FileModel file)
         {
             storage.Add(file);
@@ -33,7 +44,6 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Searching
                 storage.Add(file);
 
             cache.AddRange(files);
-
             return this;
         }
 

@@ -1,5 +1,6 @@
 ﻿using Neptuo;
 using Neptuo.FileSystems;
+using Neptuo.Logging;
 using Neptuo.Threading.Tasks;
 using System;
 using System.Collections.Generic;
@@ -17,20 +18,23 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Searching
         private readonly List<FileSystemWatcher> watchers;
         private readonly IPinStateService pinStateService;
         private readonly IBackgroundContext backgroundContext;
+        private readonly ILog log;
         private readonly PatternMatcherFactory matcherFactory = new PatternMatcherFactory();
         private readonly FileStorage storage = new FileStorage()
         {
             IsCacheUsed = true
         };
 
-        public FileSystemWatcherSearchService(string directoryPath, IPinStateService pinStateService, IBackgroundContext backgroundContext)
+        public FileSystemWatcherSearchService(string directoryPath, IPinStateService pinStateService, IBackgroundContext backgroundContext, ILogFactory logFactory)
         {
             Ensure.Condition.DirectoryExists(directoryPath, "directoryPath");
             Ensure.NotNull(pinStateService, "pinStateService");
             Ensure.NotNull(backgroundContext, "backgroundContext");
+            Ensure.NotNull(logFactory, "logFactory");
             this.directoryPath = directoryPath;
             this.pinStateService = pinStateService;
             this.backgroundContext = backgroundContext;
+            this.log = logFactory.Scope("FileSystemWatcherSearch");
             this.watchers = new List<FileSystemWatcher>();
         }
 
@@ -45,17 +49,28 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Searching
         {
             if (watchers.Count == 0)
             {
+                log.Debug("Initializing in directory '{0}'.", directoryPath);
                 Action initializeFromDirectory = () =>
                 {
+                    log.Debug("Initializing from file system.");
                     using (backgroundContext.Start())
                     {
                         storage.AddRange(EnumerateDirectory(directoryPath));
                         storage.IsCacheUsed = false;
                     }
+
+                    log.Info("Found '{0}' items in file system.", storage.Count);
                 };
 
                 if (!storage.IsCacheEmpty)
                 {
+                    log.Debug("Cache is not empty.");
+
+                    if (storage.Count == 0)
+                        log.Debug("Cache is not yet initialized.");
+                    else
+                        log.Debug("Cache contains '{0}' items.", storage.Count);
+
                     Task.Factory.StartNew(initializeFromDirectory);
                 }
 
@@ -65,7 +80,10 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Searching
                     {
                         InitializeWatchers(directoryPath);
                         if (storage.IsCacheEmpty)
+                        {
+                            log.Debug("Cache is empty.");
                             initializeFromDirectory();
+                        }
                     }
                 });
             }
@@ -123,14 +141,16 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Searching
             string extension = Path.GetExtension(e.FullPath);
             if (String.IsNullOrEmpty(extension))
             {
+                log.Debug("New directory '{0}'.", e.FullPath);
                 foreach (FileModel file in EnumerateDirectory(e.FullPath))
                 {
-                    if (!storage.Any(f => f.Path == file.Path))
-                        storage.Add(file);
+                    log.Debug("New file '{0}'.", file.Path);
+                    storage.Add(file);
                 }
             }
             else if (extension == ".sln" && File.Exists(e.FullPath))
             {
+                log.Debug("New file '{0}'.", e.FullPath);
                 storage.Add(new FileModel(e.FullPath));
             }
         }
@@ -139,6 +159,8 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Searching
         {
             if (String.IsNullOrEmpty(Path.GetExtension(e.FullPath)))
             {
+                log.Debug("Deleted directory '{0}'.", e.FullPath);
+
                 // Deleting directory.
                 List<FileModel> toRemove = new List<FileModel>();
                 foreach (FileModel model in storage)
@@ -152,6 +174,8 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Searching
             }
             else
             {
+                log.Debug("Deleted file '{0}'.", e.FullPath);
+
                 // Deleting file.
                 FileModel model = storage.FirstOrDefault(f => f.Path == e.FullPath);
                 if (model != null)
@@ -163,6 +187,8 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Searching
         {
             if (String.IsNullOrEmpty(Path.GetExtension(e.OldFullPath)))
             {
+                log.Debug("Renamed directory '{0}'.", e.FullPath);
+
                 // Renaming directory.
                 foreach (FileModel model in storage)
                 {
@@ -172,6 +198,8 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Searching
             }
             else
             {
+                log.Debug("Renamed file '{0}'.", e.FullPath);
+
                 // Renaming solution file.
                 FileModel model = storage.FirstOrDefault(f => f.Path == e.OldFullPath);
                 if (model != null)
@@ -183,6 +211,8 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Searching
         {
             if (cancellationToken.IsCancellationRequested)
                 return;
+
+            log.Debug("Searching for query '{0}'.", searchPattern);
 
             HashSet<FileModel> result = new HashSet<FileModel>();
 
@@ -204,6 +234,8 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Searching
 
             if (cancellationToken.IsCancellationRequested)
                 return;
+
+            log.Debug("Found '{0}' items.", result.Count);
 
             files.Clear();
             foreach (FileModel model in result)
