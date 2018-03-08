@@ -114,8 +114,6 @@ namespace Neptuo.Productivity.SolutionRunner.Views
 
         private void RunSolution(ApplicationViewModel application, FileViewModel file)
         {
-            throw new InvalidOperationException($"Missing file '{file.Path}'.");
-
             if (application != null)
             {
                 if (settings.IsLastUsedApplicationSavedAsPrefered)
