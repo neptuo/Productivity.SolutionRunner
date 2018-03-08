@@ -23,11 +23,14 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Logging
 
         public void Append(string scopeName, LogLevel level, object model)
         {
-            Ensure.NotNull(scopeName, "scopeName");
-            string rootName = GetRootName(scopeName);
-            string message = formatter.Format(scopeName, level, model);
-            SequenceIsolatedFile file = new SequenceIsolatedFile(String.Format(FileNameFormat, rootName, DateTime.Now));
-            file.Append(message);
+            if (IsEnabled(scopeName, level))
+            {
+                Ensure.NotNull(scopeName, "scopeName");
+                string rootName = GetRootName(scopeName);
+                string message = formatter.Format(scopeName, level, model);
+                SequenceIsolatedFile file = new SequenceIsolatedFile(String.Format(FileNameFormat, rootName, DateTime.Now));
+                file.Append(message);
+            }
         }
 
         protected virtual string GetRootName(string scopeName) 
