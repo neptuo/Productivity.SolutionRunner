@@ -368,25 +368,6 @@
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>
-                    
-                    
-                    
-                    <StackPanel Style="{StaticResource EditorPanelStyle}">
-                        <Grid>
-                            <Label Content="File Searching:" />
-                            <TextBlock Text="Currently maintained list of solution files" HorizontalAlignment="Right" />
-                        </Grid>
-                        <Grid>
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="In Memory Count:" VerticalAlignment="Center" />
-                                <TextBlock Text="{Binding LiveFileCount}" VerticalAlignment="Center" Margin="0" Style="{StaticResource ApplicationNameTextBlockStyle}" />
-                            </StackPanel>
-                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                                <Button Content="In Memory" Command="{Binding OpenLiveFileList}" />
-                                <Button Content="Cache Content" Command="{Binding OpenCacheFileList}" />
-                            </StackPanel>
-                        </Grid>
-                    </StackPanel>
                 </StackPanel>
             </TabItem>
             <TabItem Header="About">
