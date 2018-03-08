@@ -342,26 +342,34 @@
             </TabItem>
             <TabItem Header="Troubleshoot">
                 <StackPanel DataContext="{Binding Troubleshooting}">
-                    <ui:ListView ItemsSource="{Binding ErrorLogFileNames}" Label="Error Log:" LabelDetail="List of all error logs from last update">
-                        <ui:ListView.ItemTemplate>
+                    <ItemsControl ItemsSource="{Binding Logs}">
+                        <ItemsControl.ItemTemplate>
                             <DataTemplate>
-                                <Border Style="{StaticResource AdditionalBorderStyle}">
-                                    <Grid>
-                                        <TextBlock Text="{Binding}" Style="{StaticResource ApplicationNameTextBlockStyle}" />
+                                <ui:ListView ItemsSource="{Binding FileNames}" Label="{Binding Name}" LabelDetail="List of log file names">
+                                    <ui:ListView.ItemTemplate>
+                                        <DataTemplate>
+                                            <Border Style="{StaticResource AdditionalBorderStyle}">
+                                                <Grid>
+                                                    <TextBlock Text="{Binding}" Style="{StaticResource ApplicationNameTextBlockStyle}" />
 
-                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Right">
-                                            <Button Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ItemsControl}}, Path=DataContext.OpenErrorLog}" CommandParameter="{Binding}" Style="{StaticResource PlainButtonStyle}">
-                                                <fa:ImageAwesome Style="{StaticResource ImageAwesome}" ToolTip="Open Error Log in External Editor" Icon="Eye" />
-                                            </Button>
-                                        </StackPanel>
-                                    </Grid>
-                                </Border>
+                                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Right">
+                                                        <Button Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ItemsControl}, AncestorLevel=2}, Path=DataContext.OpenLog}" CommandParameter="{Binding}" Style="{StaticResource PlainButtonStyle}">
+                                                            <fa:ImageAwesome Style="{StaticResource ImageAwesome}" ToolTip="Open Log in External Editor" Icon="Eye" />
+                                                        </Button>
+                                                    </StackPanel>
+                                                </Grid>
+                                            </Border>
+                                        </DataTemplate>
+                                    </ui:ListView.ItemTemplate>
+                                    <ui:ListView.NoData>
+                                        <TextBlock Text="Log Category is Empty" />
+                                    </ui:ListView.NoData>
+                                </ui:ListView>
                             </DataTemplate>
-                        </ui:ListView.ItemTemplate>
-                        <ui:ListView.NoData>
-                            <TextBlock Text="Error Log is Empty" />
-                        </ui:ListView.NoData>
-                    </ui:ListView>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                    
+                    
                     
                     <StackPanel Style="{StaticResource EditorPanelStyle}">
                         <Grid>

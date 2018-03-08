@@ -14,12 +14,18 @@ namespace Neptuo.Productivity.SolutionRunner.Views.DesignData
             return String.Empty;
         }
 
-        public IEnumerable<string> GetFileNames()
+        public IEnumerable<LogModel> GetFileNames()
         {
-            yield return "ErrorLog_2017-12-24.log";
-            yield return "ErrorLog_2018-02-01.log";
-            yield return "ErrorLog_2018-03-04.log";
-            yield return "ErrorLog_2018-03-06.log";
+            yield return new LogModel(
+                "ErrorLog",
+                new List<string>()
+                {
+                    "ErrorLog_2017-12-24.log",
+                    "ErrorLog_2018-02-01.log",
+                    "ErrorLog_2018-03-04.log",
+                    "ErrorLog_2018-03-06.log"
+                }
+            );
         }
     }
 }

@@ -8,7 +8,7 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Logging
 {
     public interface ILogService
     {
-        IEnumerable<string> GetFileNames();
+        IEnumerable<LogModel> GetFileNames();
 
         string FindFileContent(string fileName);
     }

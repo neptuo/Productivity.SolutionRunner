@@ -189,11 +189,12 @@
     <Compile Include="Services\IBackgroundContext.cs" />
     <Compile Include="Services\Logging\FileLogSerializer.cs" />
     <Compile Include="Services\Logging\IsolatedLogService.cs" />
+    <Compile Include="Services\Logging\LogModel.cs" />
     <Compile Include="Services\Searching\FileCache.cs" />
     <Compile Include="Services\Searching\FileStorage.cs" />
     <Compile Include="Services\SequenceIsolatedFile.cs" />
     <Compile Include="ViewModels\Commands\ImportConfigurationCommand.cs" />
-    <Compile Include="ViewModels\Commands\OpenErrorLogCommand.cs" />
+    <Compile Include="ViewModels\Commands\OpenLogCommand.cs" />
     <Compile Include="ViewModels\Commands\SaveAsConfigurationCommand.cs" />
     <Compile Include="ViewModels\IConfigurationViewModelMapper.cs" />
     <Compile Include="ViewModels\TroubleshootViewModel.cs" />

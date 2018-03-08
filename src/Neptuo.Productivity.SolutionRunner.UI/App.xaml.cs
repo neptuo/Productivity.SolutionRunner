@@ -52,6 +52,7 @@ namespace Neptuo.Productivity.SolutionRunner
         private IPositionProvider positionProvider;
         private ILog log;
         private ErrorLogSerializer errorLog;
+        private IsolatedLogService logService;
 
         private IExceptionHandler exceptionHandler;
 
@@ -212,6 +213,8 @@ namespace Neptuo.Productivity.SolutionRunner
 
         private void InitializeErrorHandler()
         {
+            logService = new IsolatedLogService();
+
             errorLog = new ErrorLogSerializer(new DefaultLogFormatter());
             ILogFactory logFactory = new DefaultLogFactory()
                 .AddSerializer(errorLog)
@@ -245,7 +248,7 @@ namespace Neptuo.Productivity.SolutionRunner
                 settings,
                 new JsonSettingsFactory(),
                 this,
-                errorLog
+                logService
             );
 
             mainFactory = new MainViewModelFactory(

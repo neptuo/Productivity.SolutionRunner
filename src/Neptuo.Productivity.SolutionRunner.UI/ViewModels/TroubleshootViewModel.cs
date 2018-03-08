@@ -1,5 +1,5 @@
 ﻿using Neptuo.Observables;
-using Neptuo.Observables.Commands;
+using Neptuo.Observables.Collections;
 using Neptuo.Productivity.SolutionRunner.Services.Logging;
 using Neptuo.Productivity.SolutionRunner.ViewModels.Commands;
 using System;
@@ -17,7 +17,7 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels
     {
         private readonly ILogService logProvider;
 
-        public List<string> ErrorLogFileNames { get; private set; }
+        public ObservableCollection<LogModel> Logs { get; private set; }
 
         private int liveFileCount;
         public int LiveFileCount
@@ -33,7 +33,7 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels
             }
         }
 
-        public ICommand OpenErrorLog { get; private set; }
+        public ICommand OpenLog { get; private set; }
         public ICommand OpenLiveFileList { get; private set; }
         public ICommand OpenCacheFileList { get; private set; }
 
@@ -42,15 +42,14 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels
             Ensure.NotNull(logProvider, "logProvider");
             this.logProvider = logProvider;
 
-            ErrorLogFileNames = new List<string>(logProvider.GetFileNames());
-            OpenErrorLog = new OpenErrorLogCommand(logProvider);
+            Logs = new ObservableCollection<LogModel>(logProvider.GetFileNames());
+            OpenLog = new OpenLogCommand(logProvider);
         }
 
-        private void OpenTempFile(IEnumerable<string> lines)
+        public void ReloadLogs()
         {
-            string filePath = Path.GetTempFileName();
-            File.WriteAllLines(filePath, lines);
-            Process.Start(filePath);
+            Logs.Clear();
+            Logs.AddRange(logProvider.GetFileNames());
         }
     }
 }

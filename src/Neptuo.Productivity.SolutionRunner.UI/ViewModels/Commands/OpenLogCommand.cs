@@ -11,20 +11,18 @@ using System.Windows;
 
 namespace Neptuo.Productivity.SolutionRunner.ViewModels.Commands
 {
-    public class OpenErrorLogCommand : Command<string>
+    public class OpenLogCommand : Command<string>
     {
         private readonly ILogService logProvider;
 
-        public OpenErrorLogCommand(ILogService logProvider)
+        public OpenLogCommand(ILogService logProvider)
         {
             Ensure.NotNull(logProvider, "logProvider");
             this.logProvider = logProvider;
         }
 
         public override bool CanExecute(string filePath)
-        {
-            return logProvider.GetFileNames().Contains(filePath);
-        }
+            => true;
 
         public override void Execute(string filePath)
         {

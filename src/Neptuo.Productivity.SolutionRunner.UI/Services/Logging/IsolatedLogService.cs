@@ -8,9 +8,21 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Logging
 {
     public class IsolatedLogService : ILogService
     {
-        // TODO: Group by root ScopeName
+        public IEnumerable<LogModel> GetFileNames()
+        {
+            Dictionary<string, List<string>> result = new Dictionary<string, List<string>>();
+            foreach (string fileName in SequenceIsolatedFile.EnumerateNames("*.log"))
+            {
+                string[] parts = fileName.Split(new char[] { '_' }, StringSplitOptions.RemoveEmptyEntries);
+                string name = parts[0];
+                if (!result.TryGetValue(name, out List<string> items))
+                    result[name] = items = new List<string>();
 
-        public IEnumerable<string> GetFileNames() => SequenceIsolatedFile.EnumerateNames("*.log");
+                items.Add(fileName);
+            }
+
+            return result.Select(i => new LogModel(i.Key, i.Value));
+        }
 
         public string FindFileContent(string fileName)
         {
