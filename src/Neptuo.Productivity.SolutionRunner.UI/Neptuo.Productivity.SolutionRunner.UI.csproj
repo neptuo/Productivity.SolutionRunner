@@ -199,6 +199,7 @@
     <Compile Include="ViewModels\IConfigurationViewModelMapper.cs" />
     <Compile Include="ViewModels\TroubleshootViewModel.cs" />
     <Compile Include="ViewModels\UiBackgroundContext.cs" />
+    <Compile Include="Views\DataSources\LogLevels.cs" />
     <Compile Include="Views\DesignData\DesignConfigurationViewModelMapper.cs" />
     <Compile Include="Views\DesignData\DesignLogProvider.cs" />
     <Compile Include="Views\IWindowManager.cs" />

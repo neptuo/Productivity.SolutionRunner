@@ -341,33 +341,42 @@
                 </StackPanel>
             </TabItem>
             <TabItem Header="Troubleshoot">
-                <StackPanel DataContext="{Binding Troubleshooting}">
-                    <ItemsControl ItemsSource="{Binding Logs}">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <ui:ListView ItemsSource="{Binding FileNames}" Label="{Binding Name}" LabelDetail="List of log file names">
-                                    <ui:ListView.ItemTemplate>
-                                        <DataTemplate>
-                                            <Border Style="{StaticResource AdditionalBorderStyle}">
-                                                <Grid>
-                                                    <TextBlock Text="{Binding}" Style="{StaticResource ApplicationNameTextBlockStyle}" />
+                <StackPanel>
+                    <StackPanel DataContext="{Binding Troubleshooting}">
+                        <ItemsControl ItemsSource="{Binding Logs}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <ui:ListView ItemsSource="{Binding FileNames}" Label="{Binding Name}" LabelDetail="List of log file names">
+                                        <ui:ListView.ItemTemplate>
+                                            <DataTemplate>
+                                                <Border Style="{StaticResource AdditionalBorderStyle}">
+                                                    <Grid>
+                                                        <TextBlock Text="{Binding}" Style="{StaticResource ApplicationNameTextBlockStyle}" />
 
-                                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Right">
-                                                        <Button Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ItemsControl}, AncestorLevel=2}, Path=DataContext.OpenLog}" CommandParameter="{Binding}" Style="{StaticResource PlainButtonStyle}">
-                                                            <fa:ImageAwesome Style="{StaticResource ImageAwesome}" ToolTip="Open Log in External Editor" Icon="Eye" />
-                                                        </Button>
-                                                    </StackPanel>
-                                                </Grid>
-                                            </Border>
-                                        </DataTemplate>
-                                    </ui:ListView.ItemTemplate>
-                                    <ui:ListView.NoData>
-                                        <TextBlock Text="Log Category is Empty" />
-                                    </ui:ListView.NoData>
-                                </ui:ListView>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
+                                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Right">
+                                                            <Button Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ItemsControl}, AncestorLevel=2}, Path=DataContext.OpenLog}" CommandParameter="{Binding}" Style="{StaticResource PlainButtonStyle}">
+                                                                <fa:ImageAwesome Style="{StaticResource ImageAwesome}" ToolTip="Open Log in External Editor" Icon="Eye" />
+                                                            </Button>
+                                                        </StackPanel>
+                                                    </Grid>
+                                                </Border>
+                                            </DataTemplate>
+                                        </ui:ListView.ItemTemplate>
+                                        <ui:ListView.NoData>
+                                            <TextBlock Text="Log Category is Empty" />
+                                        </ui:ListView.NoData>
+                                    </ui:ListView>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </StackPanel>
+                    <StackPanel Style="{StaticResource EditorPanelStyle}">
+                        <Grid>
+                            <Label Content="Minimal log level:" Target="{Binding ElementName=cobLogLevel}" />
+                        </Grid>
+
+                        <ListBox x:Name="cobLogLevel" ItemsSource="{ds:LogLevels}" SelectedItem="{Binding LogLevel}" Style="{StaticResource CheckBoxList}" />
+                    </StackPanel>
                 </StackPanel>
             </TabItem>
             <TabItem Header="About">
