@@ -47,13 +47,13 @@
             <Label Content="{Binding Label, ElementName=this}" Target="{Binding ElementName=tbxAdditionalApplications}" />
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                 <TextBlock Text="{Binding LabelDetail, ElementName=this}" Margin="0 0 3 0" />
-                <Button x:Name="btnReload" Click="btnReload_Click" ToolTip="Reload" Style="{StaticResource PlainButtonStyle}" Margin="0 0 3 0" Visibility="Collapsed">
-                    <fa:ImageAwesome Icon="Refresh" Style="{StaticResource ImageAwesome}" Margin="0 0 3 0" />
+                <Button x:Name="btnReload" Click="btnReload_Click" ToolTip="Reload" Style="{StaticResource PlainButtonStyle}" Margin="0,0,3,0" Visibility="Collapsed">
+                    <fa:ImageAwesome Icon="Refresh" Style="{StaticResource ImageAwesome}" Width="12" />
                 </Button>
-                <Button x:Name="btnAdd" ToolTip="{Binding CreateCommandToolTip, ElementName=this}" Style="{StaticResource PlainButtonStyle}" 
+                <Button x:Name="btnAdd" ToolTip="{Binding CreateCommandToolTip, ElementName=this}" Style="{StaticResource PlainButtonStyle}" Margin="0,0,1,0" 
                  Command="{Binding CreateCommand, ElementName=this}"
                  Visibility="{Binding CreateCommand, ElementName=this, Converter={StaticResource NullToCollapsedConverter}}">
-                    <fa:ImageAwesome Icon="Plus" Style="{StaticResource ImageAwesome}" Margin="0 0 3 0" />
+                    <fa:ImageAwesome Icon="Plus" Style="{StaticResource ImageAwesome}" />
                 </Button>
             </StackPanel>
         </Grid>
