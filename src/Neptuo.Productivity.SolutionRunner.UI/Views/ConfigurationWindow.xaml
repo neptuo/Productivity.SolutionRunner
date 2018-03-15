@@ -370,13 +370,18 @@
                             </ItemsControl.ItemTemplate>
                         </ItemsControl>
                     </StackPanel>
-                    <StackPanel Style="{StaticResource EditorPanelStyle}">
-                        <Grid>
-                            <Label Content="Minimal log level:" Target="{Binding ElementName=cobLogLevel}" />
-                        </Grid>
+                    <Grid>
+                        <StackPanel Style="{StaticResource EditorPanelStyle}">
+                            <Grid>
+                                <Label Content="Minimal log level:" Target="{Binding ElementName=cobLogLevel}" />
+                            </Grid>
 
-                        <ListBox x:Name="cobLogLevel" ItemsSource="{ds:LogLevels}" SelectedValue="{Binding LogLevel}" Style="{StaticResource CheckBoxList}" />
-                    </StackPanel>
+                            <ListBox x:Name="cobLogLevel" ItemsSource="{ds:LogLevels}" SelectedValue="{Binding LogLevel}" Style="{StaticResource CheckBoxList}" />
+                        </StackPanel>
+                        <StackPanel HorizontalAlignment="Right">
+                            <Button Content="Open folder containing internal state" Command="{Binding Troubleshooting.OpenIsolatedFolder}" />
+                        </StackPanel>
+                    </Grid>
                 </StackPanel>
             </TabItem>
             <TabItem Header="About">

@@ -34,9 +34,9 @@ namespace Neptuo.Productivity.SolutionRunner.Services
         }
 
 #if DEBUG
-        private static IsolatedStorageFile GetStorage() => IsolatedStorageFile.GetUserStoreForAssembly();
+        public static IsolatedStorageFile GetStorage() => IsolatedStorageFile.GetUserStoreForAssembly();
 #else
-        private static IsolatedStorageFile GetStorage() => IsolatedStorageFile.GetUserStoreForApplication();
+        public static IsolatedStorageFile GetStorage() => IsolatedStorageFile.GetUserStoreForApplication();
 #endif
 
         public void Append(params string[] lines)

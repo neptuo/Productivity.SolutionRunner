@@ -194,6 +194,7 @@
     <Compile Include="Services\Searching\FileStorage.cs" />
     <Compile Include="Services\SequenceIsolatedFile.cs" />
     <Compile Include="ViewModels\Commands\ImportConfigurationCommand.cs" />
+    <Compile Include="ViewModels\Commands\OpenIsolatedFolderCommand.cs" />
     <Compile Include="ViewModels\Commands\OpenLogCommand.cs" />
     <Compile Include="ViewModels\Commands\SaveAsConfigurationCommand.cs" />
     <Compile Include="ViewModels\IConfigurationViewModelMapper.cs" />

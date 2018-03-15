@@ -34,8 +34,7 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels
         }
 
         public ICommand OpenLog { get; private set; }
-        public ICommand OpenLiveFileList { get; private set; }
-        public ICommand OpenCacheFileList { get; private set; }
+        public ICommand OpenIsolatedFolder { get; private set; }
 
         public TroubleshootViewModel(ILogService logProvider)
         {
@@ -44,6 +43,7 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels
 
             Logs = new ObservableCollection<LogModel>(logProvider.GetFileNames());
             OpenLog = new OpenLogCommand(logProvider);
+            OpenIsolatedFolder = new OpenIsolatedFolderCommand();
         }
 
         public void ReloadLogs()
