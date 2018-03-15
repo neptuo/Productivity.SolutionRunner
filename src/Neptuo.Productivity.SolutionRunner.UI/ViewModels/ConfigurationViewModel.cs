@@ -16,6 +16,7 @@ using System.Collections.Specialized;
 using Neptuo.Productivity.SolutionRunner.Services.Themes;
 using Neptuo.Productivity.SolutionRunner.Services.Configuration;
 using Neptuo.Productivity.SolutionRunner.Services.Logging;
+using Neptuo.Logging;
 
 namespace Neptuo.Productivity.SolutionRunner.ViewModels
 {
@@ -389,6 +390,20 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels
         }
 
         public TroubleshootViewModel Troubleshooting { get; private set; }
+
+        private LogLevel logLevel;
+        public LogLevel LogLevel
+        {
+            get { return logLevel; }
+            set
+            {
+                if (logLevel != value)
+                {
+                    logLevel = value;
+                    RaisePropertyChanged();
+                }
+            }
+        }
 
         public string Version { get; private set; }
 

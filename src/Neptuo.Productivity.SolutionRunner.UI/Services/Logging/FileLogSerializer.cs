@@ -14,11 +14,14 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Logging
         public const string FileNameFormat = "{0}_{1:yyyy-MM}.log";
 
         private readonly ILogFormatter formatter;
+        private readonly Func<LogLevel> levelThreshold;
 
-        public FileLogSerializer(ILogFormatter formatter)
+        public FileLogSerializer(ILogFormatter formatter, Func<LogLevel> levelThreshold)
         {
             Ensure.NotNull(formatter, "formatter");
+            Ensure.NotNull(levelThreshold, "levelThreshold");
             this.formatter = formatter;
+            this.levelThreshold = levelThreshold;
         }
 
         public void Append(string scopeName, LogLevel level, object model)
@@ -37,6 +40,6 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Logging
             => scopeName.Split(new char[] { '.' }, StringSplitOptions.RemoveEmptyEntries).First();
 
         public virtual bool IsEnabled(string scopeName, LogLevel level) 
-            => !(scopeName == ".Root" && (level == LogLevel.Error || level == LogLevel.Fatal)); // These are in ErrorLog.
+            => !(scopeName == ".Root" && (level == LogLevel.Error || level == LogLevel.Fatal) && level >= levelThreshold()); // These are in ErrorLog.
     }
 }

@@ -215,7 +215,7 @@ namespace Neptuo.Productivity.SolutionRunner
             logService = new IsolatedLogService();
 
             logFactory = new DefaultLogFactory()
-                .AddSerializer(new FileLogSerializer(new DefaultLogFormatter()))
+                .AddSerializer(new FileLogSerializer(new DefaultLogFormatter(), () => settings.LogLevel))
                 .AddSerializer(new ErrorLogSerializer(new DefaultLogFormatter()))
 #if DEBUG
                 .AddConsole()

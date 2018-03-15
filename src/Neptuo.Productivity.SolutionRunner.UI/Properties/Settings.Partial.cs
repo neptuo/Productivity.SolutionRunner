@@ -1,4 +1,5 @@
-﻿using Neptuo.Productivity.SolutionRunner.Services.Applications;
+﻿using Neptuo.Logging;
+using Neptuo.Productivity.SolutionRunner.Services.Applications;
 using Neptuo.Productivity.SolutionRunner.Services.Configuration;
 using Neptuo.Productivity.SolutionRunner.Services.Searching;
 using System;
@@ -107,5 +108,8 @@ namespace Neptuo.Productivity.SolutionRunner.Properties
                     PinnedFiles = String.Join(Path.PathSeparator.ToString(), value);
             }
         }
+
+        [Obsolete("This property is not stored anywhere.")]
+        public LogLevel LogLevel { get; set; }
     }
 }

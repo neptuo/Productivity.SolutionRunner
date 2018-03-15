@@ -106,6 +106,7 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels.Factories
             viewModel.PositionTop = settings.PositionTop;
 
             viewModel.ThemeMode = settings.ThemeMode;
+            viewModel.LogLevel = settings.LogLevel;
         }
 
         public void Map(ConfigurationViewModel viewModel, ISettings settings)
@@ -148,6 +149,7 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels.Factories
             settings.HiddenMainApplications = viewModel.MainApplications.Where(a => !a.IsEnabled).Select(a => a.Path).ToArray();
 
             settings.ThemeMode = viewModel.ThemeMode;
+            settings.LogLevel = viewModel.LogLevel;
         }
     }
 }

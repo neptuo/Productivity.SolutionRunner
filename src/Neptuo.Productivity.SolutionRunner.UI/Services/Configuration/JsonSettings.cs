@@ -1,5 +1,6 @@
 ﻿using Neptuo.Collections.Specialized;
 using Neptuo.Formatters;
+using Neptuo.Logging;
 using Neptuo.Productivity.SolutionRunner.Services.Applications;
 using Neptuo.Productivity.SolutionRunner.Services.Positions;
 using Neptuo.Productivity.SolutionRunner.Services.Searching;
@@ -39,6 +40,8 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Configuration
         public FileSearchMode FileSearchMode { get; set; }
         public Version AutoSelectApplicationMinimalVersion { get; set; }
 
+        public LogLevel LogLevel { get; set; }
+
         public void Load(ICompositeStorage storage)
         {
             int configurationVersion = storage.Get("ConfigurationVersion", 1);
@@ -71,6 +74,7 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Configuration
             FileSearchCount = storage.Get<int>("FileSearchCount");
             FileSearchMode = storage.Get<FileSearchMode>("FileSearchMode");
             AutoSelectApplicationMinimalVersion = storage.Get<Version>("AutoSelectApplicationMinimalVersion");
+            LogLevel = storage.Get("LogLevel", LogLevel.Error);
         }
 
         public void Save(ICompositeStorage storage)
@@ -101,6 +105,7 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Configuration
             storage.Add("FileSearchCount", FileSearchCount);
             storage.Add("FileSearchMode", FileSearchMode);
             storage.Add("AutoSelectApplicationMinimalVersion", AutoSelectApplicationMinimalVersion);
+            storage.Add("LogLevel", LogLevel);
         }
     }
 }

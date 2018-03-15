@@ -1,4 +1,5 @@
-﻿using Neptuo.Productivity.SolutionRunner.Services.Applications;
+﻿using Neptuo.Logging;
+using Neptuo.Productivity.SolutionRunner.Services.Applications;
 using Neptuo.Productivity.SolutionRunner.Services.Positions;
 using Neptuo.Productivity.SolutionRunner.Services.Searching;
 using Neptuo.Productivity.SolutionRunner.Services.Themes;
@@ -37,5 +38,7 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Configuration
         int FileSearchCount { get; set; }
         FileSearchMode FileSearchMode { get; set; }
         Version AutoSelectApplicationMinimalVersion { get; set; }
+
+        LogLevel LogLevel { get; set; }
     }
 }
