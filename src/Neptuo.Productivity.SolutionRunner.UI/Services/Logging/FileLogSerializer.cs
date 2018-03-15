@@ -37,6 +37,6 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Logging
             => scopeName.Split(new char[] { '.' }, StringSplitOptions.RemoveEmptyEntries).First();
 
         public virtual bool IsEnabled(string scopeName, LogLevel level) 
-            => !(scopeName == "Root" && (level == LogLevel.Error || level == LogLevel.Fatal)); // These are in ErrorLog.
+            => !(scopeName == ".Root" && (level == LogLevel.Error || level == LogLevel.Fatal)); // These are in ErrorLog.
     }
 }
