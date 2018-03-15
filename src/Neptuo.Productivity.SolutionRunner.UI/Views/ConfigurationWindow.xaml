@@ -346,7 +346,7 @@
                         <ItemsControl ItemsSource="{Binding Logs}">
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
-                                    <ui:ListView ItemsSource="{Binding FileNames}" Label="{Binding Name}" LabelDetail="List of log file names">
+                                    <ui:ListView ItemsSource="{Binding FileNames}" Label="{Binding Name}" LabelDetail="List of log file names" Reload="OnLogReload">
                                         <ui:ListView.ItemTemplate>
                                             <DataTemplate>
                                                 <Border Style="{StaticResource AdditionalBorderStyle}">

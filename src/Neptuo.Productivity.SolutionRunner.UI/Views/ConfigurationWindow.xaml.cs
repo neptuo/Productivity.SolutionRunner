@@ -92,5 +92,8 @@ namespace Neptuo.Productivity.SolutionRunner.Views
         {
             navigator.OpenStatistics();
         }
+
+        private void OnLogReload() 
+            => ViewModel.Troubleshooting.ReloadLogs();
     }
 }
