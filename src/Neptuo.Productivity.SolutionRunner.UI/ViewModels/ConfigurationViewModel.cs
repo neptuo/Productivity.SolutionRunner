@@ -420,9 +420,9 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels
         public ICommand Import { get; private set; }
         public ICommand SaveAs { get; private set; }
 
-        public ConfigurationViewModel(IFactory<SaveConfigurationCommand, ConfigurationViewModel> saveCommandFactory, ISettingsFactory settingsFactory, IConfigurationViewModelMapper mapper, INavigator navigator, ILogService logProvider)
+        internal ConfigurationViewModel(IFactory<SaveConfigurationCommand, ConfigurationViewModel> saveCommandFactory, ISettingsFactory settingsFactory, IConfigurationViewModelMapper mapper, INavigator navigator, TroubleshootViewModel troubleshooting)
         {
-            Troubleshooting = new TroubleshootViewModel(logProvider);
+            Troubleshooting = troubleshooting;
 
             string version = Assembly.GetExecutingAssembly().GetCustomAttribute<AssemblyInformationalVersionAttribute>().InformationalVersion;
             Version = String.Format("v{0}", version);

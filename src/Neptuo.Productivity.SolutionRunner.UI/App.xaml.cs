@@ -239,6 +239,14 @@ namespace Neptuo.Productivity.SolutionRunner
 
         private void InitializeViewModelFactories()
         {
+            mainFactory = new MainViewModelFactory(
+                pinStateService,
+                settings,
+                mainApplicationLoader,
+                logFactory,
+                OnMainViewModelPropertyChanged
+            );
+
             configurationFactory = new ConfigurationViewModelFactory(
                 mainApplicationLoader,
                 shortcutService,
@@ -247,15 +255,8 @@ namespace Neptuo.Productivity.SolutionRunner
                 settings,
                 new JsonSettingsFactory(),
                 this,
-                logService
-            );
-
-            mainFactory = new MainViewModelFactory(
-                pinStateService,
-                settings,
-                mainApplicationLoader,
-                logFactory,
-                OnMainViewModelPropertyChanged
+                logService,
+                mainFactory
             );
         }
 

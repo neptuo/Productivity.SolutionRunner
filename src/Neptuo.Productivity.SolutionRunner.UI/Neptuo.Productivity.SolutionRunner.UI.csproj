@@ -192,9 +192,11 @@
     <Compile Include="Services\Logging\LogModel.cs" />
     <Compile Include="Services\Searching\FileCache.cs" />
     <Compile Include="Services\Searching\FileStorage.cs" />
+    <Compile Include="Services\Searching\IDiagnosticService.cs" />
     <Compile Include="Services\SequenceIsolatedFile.cs" />
     <Compile Include="ViewModels\Commands\ImportConfigurationCommand.cs" />
     <Compile Include="ViewModels\Commands\OpenIsolatedFolderCommand.cs" />
+    <Compile Include="ViewModels\Commands\OpenLastSearchFilesCommand.cs" />
     <Compile Include="ViewModels\Commands\OpenLogCommand.cs" />
     <Compile Include="ViewModels\Commands\SaveAsConfigurationCommand.cs" />
     <Compile Include="ViewModels\IConfigurationViewModelMapper.cs" />
@@ -202,6 +204,7 @@
     <Compile Include="ViewModels\UiBackgroundContext.cs" />
     <Compile Include="Views\DataSources\LogLevels.cs" />
     <Compile Include="Views\DesignData\DesignConfigurationViewModelMapper.cs" />
+    <Compile Include="Views\DesignData\DesignDiagnosticService.cs" />
     <Compile Include="Views\DesignData\DesignLogProvider.cs" />
     <Compile Include="Views\IWindowManager.cs" />
     <Compile Include="Properties\Settings.Partial.cs" />

@@ -381,7 +381,8 @@
                             <ListBox x:Name="cobLogLevel" ItemsSource="{ds:LogLevels}" SelectedValue="{Binding LogLevel}" Style="{StaticResource CheckBoxList}" />
                         </StackPanel>
                         <StackPanel HorizontalAlignment="Right">
-                            <Button Content="Open folder containing internal state" Command="{Binding Troubleshooting.OpenIsolatedFolder}" />
+                            <Button Content="Open folder containing internal state" Command="{Binding Troubleshooting.OpenIsolatedFolder}" Margin="0,0,0,8" />
+                            <Button Content="Open available file list" Command="{Binding Troubleshooting.OpenLastSearchFiles}" Margin="0,0,0,8" />
                         </StackPanel>
                     </Grid>
                 </StackPanel>

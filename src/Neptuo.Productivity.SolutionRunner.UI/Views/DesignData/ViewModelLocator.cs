@@ -129,7 +129,7 @@ namespace Neptuo.Productivity.SolutionRunner.Views.DesignData
                         new JsonSettingsFactory(), 
                         new DesignConfigurationViewModelMapper(), 
                         new Navigator(), 
-                        new DesignLogProvider()
+                        new TroubleshootViewModel(new DesignLogProvider(), new DesignDiagnosticService())
                     );
 
                     configurationViewModel.SourceDirectoryPath = @"D:\Development";

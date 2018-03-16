@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Productivity.SolutionRunner.ViewModels.Factories
 {
-    public class MainViewModelFactory : IFactory<MainViewModel>
+    public class MainViewModelFactory : IFactory<MainViewModel>, IDiagnosticService
     {
         private readonly IPinStateService pinStateService;
         private readonly ISettings settings;
@@ -88,5 +88,30 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels.Factories
         {
             fileSearchService = null;
         }
+
+        #region IDiagnosticService
+
+        public bool IsAvailable
+        {
+            get
+            {
+                IDiagnosticService target = fileSearchService as IDiagnosticService;
+                if (target == null)
+                    return false;
+
+                return target.IsAvailable;
+            }
+        }
+
+        public IEnumerable<string> EnumerateFiles()
+        {
+            IDiagnosticService target = fileSearchService as IDiagnosticService;
+            if (target == null)
+                return Enumerable.Empty<string>();
+
+            return target.EnumerateFiles();
+        }
+
+        #endregion
     }
 }

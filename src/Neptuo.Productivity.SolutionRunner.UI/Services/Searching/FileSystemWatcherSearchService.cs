@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Productivity.SolutionRunner.Services.Searching
 {
-    public class FileSystemWatcherSearchService : DisposableBase, IFileSearchService
+    public class FileSystemWatcherSearchService : DisposableBase, IFileSearchService, IDiagnosticService
     {
         private readonly string directoryPath;
         private readonly List<FileSystemWatcher> watchers;
@@ -248,5 +248,15 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Searching
             foreach (FileSystemWatcher watcher in watchers)
                 watcher.Dispose();
         }
+
+        #region IDiagnosticService
+
+        public bool IsAvailable 
+            => true;
+
+        public IEnumerable<string> EnumerateFiles() 
+            => storage.Select(f => f.Path);
+
+        #endregion
     }
 }
