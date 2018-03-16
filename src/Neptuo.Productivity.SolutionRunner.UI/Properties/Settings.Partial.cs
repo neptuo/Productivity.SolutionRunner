@@ -110,6 +110,6 @@ namespace Neptuo.Productivity.SolutionRunner.Properties
         }
 
         [Obsolete("This property is not stored anywhere.")]
-        public LogLevel LogLevel { get; set; }
+        public LogLevel LogLevel { get; set; } = Logging.LogLevel.Error;
     }
 }
