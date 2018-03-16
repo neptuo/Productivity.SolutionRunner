@@ -216,6 +216,9 @@ namespace Neptuo.Productivity.SolutionRunner.Views
         protected override void OnActivated(EventArgs e)
         {
             base.OnActivated(e);
+
+            btnClose.Visibility = settings.IsTrayIcon ? Visibility.Collapsed : Visibility.Visible;
+
             ClearAccessKeyActiveFlags();
             FocusTextBox();
         }
@@ -471,9 +474,7 @@ namespace Neptuo.Productivity.SolutionRunner.Views
         }
 
         private void OnAutoSelectApplicationVersionSelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            TryAutoSelectApplicationVersion();
-        }
+            => TryAutoSelectApplicationVersion();
 
         public void TryAutoSelectApplicationVersion()
         {
@@ -491,5 +492,8 @@ namespace Neptuo.Productivity.SolutionRunner.Views
                     lvwApplications.SelectedItem = application;
             }
         }
+
+        private void btnClose_Click(object sender, RoutedEventArgs e)
+            => App.Current.Shutdown();
     }
 }
