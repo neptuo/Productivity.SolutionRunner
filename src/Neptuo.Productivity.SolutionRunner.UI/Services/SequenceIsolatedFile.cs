@@ -10,26 +10,31 @@ namespace Neptuo.Productivity.SolutionRunner.Services
 {
     public class SequenceIsolatedFile
     {
-        private string fileName;
+        private readonly string fileName;
+        private readonly object fileLock;
 
         public SequenceIsolatedFile(string fileName)
         {
             Ensure.NotNullOrEmpty(fileName, "fileName");
             this.fileName = fileName;
+            this.fileLock = FileLockProvider.Get(fileName);
         }
 
         public bool IsEmpty
         {
             get
             {
-                IsolatedStorageFile storage = GetStorage();
-                if (storage.FileExists(fileName))
+                lock (fileLock)
                 {
-                    using (IsolatedStorageFileStream stream = new IsolatedStorageFileStream(fileName, FileMode.Open, storage))
-                        return stream.Length == 0;
-                }
+                    IsolatedStorageFile storage = GetStorage();
+                    if (storage.FileExists(fileName))
+                    {
+                        using (IsolatedStorageFileStream stream = new IsolatedStorageFileStream(fileName, FileMode.Open, storage))
+                            return stream.Length == 0;
+                    }
 
-                return false;
+                    return false; 
+                }
             }
         }
 
@@ -44,40 +49,50 @@ namespace Neptuo.Productivity.SolutionRunner.Services
 
         public void Append(IEnumerable<string> lines)
         {
-            IsolatedStorageFile storage = GetStorage();
-            using (IsolatedStorageFileStream stream = new IsolatedStorageFileStream(fileName, FileMode.Append, storage))
-            using (StreamWriter writer = new StreamWriter(stream))
+            lock (fileLock)
             {
-                foreach (string line in lines)
-                    writer.WriteLine(line);
+                IsolatedStorageFile storage = GetStorage();
+                using (IsolatedStorageFileStream stream = new IsolatedStorageFileStream(fileName, FileMode.Append, storage))
+                using (StreamWriter writer = new StreamWriter(stream))
+                {
+                    foreach (string line in lines)
+                        writer.WriteLine(line);
+                }
             }
         }
 
         public IEnumerable<string> Enumerate()
         {
-            IsolatedStorageFile storage = GetStorage();
-            if (storage.FileExists(fileName))
+            lock (fileLock)
             {
-                using (IsolatedStorageFileStream stream = new IsolatedStorageFileStream(fileName, FileMode.Open, storage))
-                using (StreamReader reader = new StreamReader(stream))
+                IsolatedStorageFile storage = GetStorage();
+                if (storage.FileExists(fileName))
                 {
-                    string line;
-                    while ((line = reader.ReadLine()) != null)
-                        yield return line;
+                    using (IsolatedStorageFileStream stream = new IsolatedStorageFileStream(fileName, FileMode.Open, storage))
+                    using (StreamReader reader = new StreamReader(stream))
+                    {
+                        string line;
+                        while ((line = reader.ReadLine()) != null)
+                            yield return line;
+                    }
                 }
             }
         }
 
         public void Clear()
         {
-            IsolatedStorageFile storage = GetStorage();
-            if (storage.FileExists(fileName))
-                storage.DeleteFile(fileName);
+            lock (fileLock)
+            {
+                IsolatedStorageFile storage = GetStorage();
+                if (storage.FileExists(fileName))
+                    storage.DeleteFile(fileName); 
+            }
         }
 
+        public static IEnumerable<string> EnumerateNames(string pattern) 
+            => GetStorage().GetFileNames(pattern);
 
-        public static IEnumerable<string> EnumerateNames(string pattern) => GetStorage().GetFileNames(pattern);
-
-        public static bool Exists(string fileName) => GetStorage().FileExists(fileName);
+        public static bool Exists(string fileName) 
+            => GetStorage().FileExists(fileName);
     }
 }
