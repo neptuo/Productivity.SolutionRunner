@@ -9,12 +9,13 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Productivity.SolutionRunner.Services.Logging
 {
-    public class FileLogSerializer : ILogSerializer
+    public class FileLogSerializer : DisposableBase, ILogSerializer
     {
         public const string FileNameFormat = "{0}_{1:yyyy-MM}.log";
 
         private readonly ILogFormatter formatter;
         private readonly Func<LogLevel> levelThreshold;
+        private readonly BatchExecutor<(string rootName, string message)> executor = new BatchExecutor<(string, string)>(OnWriteToFile, TimeSpan.FromSeconds(30));
 
         public FileLogSerializer(ILogFormatter formatter, Func<LogLevel> levelThreshold)
         {
@@ -31,12 +32,12 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Logging
                 Ensure.NotNull(scopeName, "scopeName");
                 string rootName = GetRootName(scopeName);
                 string message = formatter.Format(scopeName, level, model);
-                SequenceIsolatedFile file = new SequenceIsolatedFile(String.Format(FileNameFormat, rootName, DateTime.Now));
-                file.Append(message);
+
+                executor.Add((rootName, message));
             }
         }
 
-        protected virtual string GetRootName(string scopeName) 
+        protected virtual string GetRootName(string scopeName)
             => scopeName.Split(new char[] { '.' }, StringSplitOptions.RemoveEmptyEntries).First();
 
         public virtual bool IsEnabled(string scopeName, LogLevel level)
@@ -47,6 +48,21 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Logging
 
             // Logging settings.
             return level >= levelThreshold();
+        }
+
+        private static void OnWriteToFile(IEnumerable<(string rootName, string message)> items)
+        {
+            foreach (var group in items.GroupBy(i => i.rootName))
+            {
+                SequenceIsolatedFile file = new SequenceIsolatedFile(String.Format(FileNameFormat, group.Key, DateTime.Now));
+                file.Append(group.Select(i => i.message));
+            }
+        }
+
+        protected override void DisposeManagedResources()
+        {
+            base.DisposeManagedResources();
+            executor.Dispose();
         }
     }
 }

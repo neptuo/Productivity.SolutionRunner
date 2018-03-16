@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Productivity.SolutionRunner.ViewModels.Factories
 {
-    public class MainViewModelFactory : IFactory<MainViewModel>, IDiagnosticService
+    public class MainViewModelFactory : DisposableBase, IFactory<MainViewModel>, IDiagnosticService
     {
         private readonly IPinStateService pinStateService;
         private readonly ISettings settings;
@@ -86,6 +86,9 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels.Factories
 
         public void ClearService()
         {
+            if (fileSearchService != null)
+                fileSearchService.Dispose();
+
             fileSearchService = null;
         }
 
@@ -113,5 +116,13 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels.Factories
         }
 
         #endregion
+
+        protected override void DisposeManagedResources()
+        {
+            base.DisposeManagedResources();
+
+            if (fileSearchService != null)
+                fileSearchService.Dispose();
+        }
     }
 }

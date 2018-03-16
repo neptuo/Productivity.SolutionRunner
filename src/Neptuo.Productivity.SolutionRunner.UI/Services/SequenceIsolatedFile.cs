@@ -51,6 +51,7 @@ namespace Neptuo.Productivity.SolutionRunner.Services
         {
             lock (fileLock)
             {
+                
                 IsolatedStorageFile storage = GetStorage();
                 using (IsolatedStorageFileStream stream = new IsolatedStorageFileStream(fileName, FileMode.Append, storage))
                 using (StreamWriter writer = new StreamWriter(stream))

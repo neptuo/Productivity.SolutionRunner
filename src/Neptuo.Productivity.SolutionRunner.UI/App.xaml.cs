@@ -137,7 +137,7 @@ namespace Neptuo.Productivity.SolutionRunner
                 MessageBox.Show(
                     "Unfortunately, we have lost your configuration file (or, if you see this message for the first time, we are going to upgrade from previous version)."
                     + Environment.NewLine
-                    + "More information can be found in configuration -> Import and Export.", 
+                    + "More information can be found in configuration -> Import and Export.",
                     "SolutionRunner"
                 );
 
@@ -215,8 +215,8 @@ namespace Neptuo.Productivity.SolutionRunner
             logService = new IsolatedLogService();
 
             logFactory = new DefaultLogFactory()
-                .AddSerializer(new FileLogSerializer(new DefaultLogFormatter(), () => settings.LogLevel))
-                .AddSerializer(new ErrorLogSerializer(new DefaultLogFormatter()))
+                .AddSerializer(AddDisposable(new FileLogSerializer(new DefaultLogFormatter(), () => settings.LogLevel)))
+                .AddSerializer(AddDisposable(new ErrorLogSerializer(new DefaultLogFormatter())))
 #if DEBUG
                 .AddConsole()
 #endif
@@ -239,13 +239,13 @@ namespace Neptuo.Productivity.SolutionRunner
 
         private void InitializeViewModelFactories()
         {
-            mainFactory = new MainViewModelFactory(
+            mainFactory = AddDisposable(new MainViewModelFactory(
                 pinStateService,
                 settings,
                 mainApplicationLoader,
                 logFactory,
                 OnMainViewModelPropertyChanged
-            );
+            ));
 
             configurationFactory = new ConfigurationViewModelFactory(
                 mainApplicationLoader,
@@ -363,6 +363,10 @@ namespace Neptuo.Productivity.SolutionRunner
         {
             runHotKey.Dispose();
             trayIcon.TryDestroy();
+
+            foreach (IDisposable disposable in disposables)
+                disposable.Dispose();
+
             base.OnExit(e);
         }
 
@@ -626,6 +630,17 @@ namespace Neptuo.Productivity.SolutionRunner
         }
 
         #endregion
+
+        private readonly List<IDisposable> disposables = new List<IDisposable>();
+
+        private T AddDisposable<T>(T disposable)
+            where T : IDisposable
+        {
+            if (disposable != null)
+                disposables.Add(disposable);
+
+            return disposable;
+        }
     }
 
     public static class ForEachExtensions

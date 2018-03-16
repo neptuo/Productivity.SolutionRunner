@@ -186,7 +186,9 @@
     <Compile Include="Services\Configuration\ModelValueCollection.cs" />
     <Compile Include="Services\Converters\JsonReadOnlyListConverter.cs" />
     <Compile Include="Services\Converters\JsonVersionConverter.cs" />
+    <Compile Include="Services\FileLockProvider.cs" />
     <Compile Include="Services\IBackgroundContext.cs" />
+    <Compile Include="Services\Logging\BatchExecutor.cs" />
     <Compile Include="Services\Logging\FileLogSerializer.cs" />
     <Compile Include="Services\Logging\IsolatedLogService.cs" />
     <Compile Include="Services\Logging\LogModel.cs" />
