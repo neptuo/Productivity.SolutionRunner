@@ -193,6 +193,7 @@
     <Compile Include="Services\Searching\FileCache.cs" />
     <Compile Include="Services\Searching\FileStorage.cs" />
     <Compile Include="Services\Searching\IDiagnosticService.cs" />
+    <Compile Include="Services\Searching\PatternMatcherFactory.IFileModel.cs" />
     <Compile Include="Services\SequenceIsolatedFile.cs" />
     <Compile Include="ViewModels\Commands\ImportConfigurationCommand.cs" />
     <Compile Include="ViewModels\Commands\OpenIsolatedFolderCommand.cs" />

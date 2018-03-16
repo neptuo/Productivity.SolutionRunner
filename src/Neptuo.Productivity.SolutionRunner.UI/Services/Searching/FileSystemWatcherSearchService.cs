@@ -18,7 +18,7 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Searching
         private readonly IPinStateService pinStateService;
         private readonly IBackgroundContext backgroundContext;
         private readonly ILog log;
-        private readonly PatternMatcherFactory matcherFactory = new PatternMatcherFactory();
+        private readonly PatternMatcherFactory matcherFactory;
         private readonly FileStorage storage = new FileStorage()
         {
             IsCacheUsed = true
@@ -34,6 +34,7 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Searching
             this.pinStateService = pinStateService;
             this.backgroundContext = backgroundContext;
             this.log = logFactory.Scope("FileSystemWatcherSearch");
+            this.matcherFactory = new PatternMatcherFactory(log.Factory);
             this.watchers = new List<FileSystemWatcher>();
         }
 

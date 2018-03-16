@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Neptuo.Logging;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,8 +7,16 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Productivity.SolutionRunner.Services.Searching
 {
-    public class PatternMatcherFactory
+    public partial class PatternMatcherFactory
     {
+        private readonly ILog log;
+
+        public PatternMatcherFactory(ILogFactory logFactory)
+        {
+            Ensure.NotNull(logFactory, "logFactory");
+            log = logFactory.Scope("PatternMatcher");
+        }
+
         public Func<IFileModel, bool> Create(string searchPattern, FileSearchMode mode)
         {
             if (searchPattern == null)
@@ -34,28 +43,29 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Searching
 
         private bool IsNameStartedWith(IFileModel file, string searchPattern)
         {
-            return file.NameWithExtension.ToLowerInvariant().StartsWith(searchPattern);
+            bool result = file.NameWithExtension.ToLowerInvariant().StartsWith(searchPattern);
+            log.Debug("Path: '{0}'; Pattern: '{1}'; Mode: 'NameStartsWith'; Result: '{2}'.", file.Path, searchPattern, result);
+            return result;
         }
 
         private bool IsPathSearchMatched(IFileModel file, string[] searchPattern)
         {
+            bool result = true;
             string pathMatch = file.Path.ToLowerInvariant();
             for (int i = 0; i < searchPattern.Length; i++)
             {
                 int currentIndex = pathMatch.IndexOf(searchPattern[i]);
                 if (currentIndex == -1)
-                    return false;
+                {
+                    result = false;
+                    break;
+                }
 
                 pathMatch = pathMatch.Substring(currentIndex + searchPattern[i].Length);
             }
 
-            return true;
-        }
-
-        public interface IFileModel
-        {
-            string NameWithExtension { get; }
-            string Path { get; }
+            log.Debug("Path: '{0}'; Pattern: '{1}'; Mode: 'Contains' Result: '{2}'.", file.Path, String.Join(" ", searchPattern), result);
+            return result;
         }
     }
 }
