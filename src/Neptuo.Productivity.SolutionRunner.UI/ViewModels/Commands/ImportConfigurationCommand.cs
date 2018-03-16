@@ -1,5 +1,4 @@
-﻿using Neptuo;
-using Neptuo.Observables.Commands;
+﻿using Neptuo.Observables.Commands;
 using Neptuo.Productivity.SolutionRunner.Services.Configuration;
 using System;
 using System.Collections.Generic;

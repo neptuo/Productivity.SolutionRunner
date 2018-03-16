@@ -1,5 +1,4 @@
-﻿using Neptuo;
-using Neptuo.Productivity.SolutionRunner.Services;
+﻿using Neptuo.Productivity.SolutionRunner.Services;
 using Neptuo.Productivity.SolutionRunner.Services.Configuration;
 using Neptuo.Productivity.SolutionRunner.Views;
 using System;

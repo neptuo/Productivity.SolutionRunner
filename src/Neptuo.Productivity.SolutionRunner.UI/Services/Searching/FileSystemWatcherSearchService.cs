@@ -1,5 +1,4 @@
-﻿using Neptuo;
-using Neptuo.FileSystems;
+﻿using Neptuo.FileSystems;
 using Neptuo.Logging;
 using Neptuo.Threading.Tasks;
 using System;

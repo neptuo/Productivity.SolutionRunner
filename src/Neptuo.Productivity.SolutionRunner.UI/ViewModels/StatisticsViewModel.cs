@@ -1,5 +1,4 @@
-﻿using Neptuo;
-using Neptuo.Observables;
+﻿using Neptuo.Observables;
 using Neptuo.Observables.Collections;
 using Neptuo.Productivity.SolutionRunner.Services.Colors;
 using Neptuo.Productivity.SolutionRunner.Services.Statistics;

@@ -1,5 +1,4 @@
-﻿using Neptuo;
-using Neptuo.Collections.Specialized;
+﻿using Neptuo.Collections.Specialized;
 using Neptuo.Converters;
 using System;
 using System.Collections.Generic;

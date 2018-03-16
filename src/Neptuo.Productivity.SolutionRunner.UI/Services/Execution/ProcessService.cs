@@ -1,5 +1,4 @@
-﻿using Neptuo;
-using Neptuo.Collections.Specialized;
+﻿using Neptuo.Collections.Specialized;
 using Neptuo.Productivity.SolutionRunner.Services.Statistics;
 using Neptuo.Productivity.SolutionRunner.ViewModels;
 using Neptuo.Text.Tokens;
