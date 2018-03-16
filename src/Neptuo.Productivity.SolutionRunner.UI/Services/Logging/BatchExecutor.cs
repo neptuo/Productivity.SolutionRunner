@@ -48,8 +48,11 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Logging
         {
             lock (itemsLock)
             {
-                worker(items);
-                items.Clear();
+                if (items.Count > 0)
+                {
+                    worker(items);
+                    items.Clear();
+                }
             }
         }
 

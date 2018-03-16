@@ -15,14 +15,15 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Logging
 
         private readonly ILogFormatter formatter;
         private readonly Func<LogLevel> levelThreshold;
-        private readonly BatchExecutor<(string rootName, string message)> executor = new BatchExecutor<(string, string)>(OnWriteToFile, TimeSpan.FromSeconds(30));
+        private readonly BatchExecutor<(string, string)> executor;
 
-        public FileLogSerializer(ILogFormatter formatter, Func<LogLevel> levelThreshold)
+        public FileLogSerializer(ILogFormatter formatter, Func<LogLevel> levelThreshold, FileLogBatchFactory executorFactory)
         {
             Ensure.NotNull(formatter, "formatter");
             Ensure.NotNull(levelThreshold, "levelThreshold");
             this.formatter = formatter;
             this.levelThreshold = levelThreshold;
+            this.executor = executorFactory.Create(OnWriteToFile);
         }
 
         public void Append(string scopeName, LogLevel level, object model)

@@ -1,5 +1,6 @@
 ﻿using Neptuo.Activators;
 using Neptuo.Converters;
+using Neptuo.Logging;
 using Neptuo.Logging.Serialization.Formatters;
 using Neptuo.Observables.Collections;
 using Neptuo.Productivity.SolutionRunner.Services;
@@ -129,7 +130,11 @@ namespace Neptuo.Productivity.SolutionRunner.Views.DesignData
                         new JsonSettingsFactory(), 
                         new DesignConfigurationViewModelMapper(), 
                         new Navigator(), 
-                        new TroubleshootViewModel(new DesignLogProvider(), new DesignDiagnosticService())
+                        new TroubleshootViewModel(
+                            new DesignLogProvider(), 
+                            new DesignDiagnosticService(), 
+                            new FileLogBatchFactory(TimeSpan.Zero)
+                        )
                     );
 
                     configurationViewModel.SourceDirectoryPath = @"D:\Development";
@@ -175,6 +180,8 @@ namespace Neptuo.Productivity.SolutionRunner.Views.DesignData
                     configurationViewModel.PositionMode = PositionMode.UserDefined;
                     configurationViewModel.PositionLeft = 450;
                     configurationViewModel.PositionTop = 20;
+
+                    configurationViewModel.LogLevel = LogLevel.Warning;
                 }
 
                 return configurationViewModel;

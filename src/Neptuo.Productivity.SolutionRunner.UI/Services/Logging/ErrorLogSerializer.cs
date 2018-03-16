@@ -13,8 +13,8 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Logging
     {
         public const string RootName = "Error";
 
-        public ErrorLogSerializer(ILogFormatter formatter)
-            : base(formatter, () => LogLevel.Error)
+        public ErrorLogSerializer(ILogFormatter formatter, FileLogBatchFactory executorFactory)
+            : base(formatter, () => LogLevel.Error, executorFactory)
         { }
 
         protected override string GetRootName(string scopeName)

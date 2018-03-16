@@ -189,6 +189,7 @@
     <Compile Include="Services\FileLockProvider.cs" />
     <Compile Include="Services\IBackgroundContext.cs" />
     <Compile Include="Services\Logging\BatchExecutor.cs" />
+    <Compile Include="Services\Logging\FileLogBatchFactory.cs" />
     <Compile Include="Services\Logging\FileLogSerializer.cs" />
     <Compile Include="Services\Logging\IsolatedLogService.cs" />
     <Compile Include="Services\Logging\LogModel.cs" />

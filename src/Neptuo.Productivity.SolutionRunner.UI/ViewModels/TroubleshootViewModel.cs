@@ -1,5 +1,6 @@
 ﻿using Neptuo.Observables;
 using Neptuo.Observables.Collections;
+using Neptuo.Observables.Commands;
 using Neptuo.Productivity.SolutionRunner.Services.Logging;
 using Neptuo.Productivity.SolutionRunner.Services.Searching;
 using Neptuo.Productivity.SolutionRunner.ViewModels.Commands;
@@ -37,8 +38,9 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels
         public ICommand OpenLog { get; private set; }
         public ICommand OpenIsolatedFolder { get; private set; }
         public ICommand OpenLastSearchFiles { get; private set; }
+        public ICommand FlushLogMessages { get; private set; }
 
-        public TroubleshootViewModel(ILogService logProvider, IDiagnosticService searchDiagnostics)
+        public TroubleshootViewModel(ILogService logProvider, IDiagnosticService searchDiagnostics, FileLogBatchFactory executorFactory)
         {
             Ensure.NotNull(logProvider, "logProvider");
             this.logProvider = logProvider;
@@ -47,6 +49,7 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels
             OpenLog = new OpenLogCommand(logProvider);
             OpenIsolatedFolder = new OpenIsolatedFolderCommand();
             OpenLastSearchFiles = new OpenLastSearchFilesCommand(searchDiagnostics);
+            FlushLogMessages = new DelegateCommand(executorFactory.Flush);
         }
 
         public void ReloadLogs()

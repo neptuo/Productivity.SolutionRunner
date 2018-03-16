@@ -27,8 +27,9 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels.Factories
         private readonly INavigator navigator;
         private readonly ILogService logProvider;
         private readonly IDiagnosticService searchDiagnostics;
+        private readonly FileLogBatchFactory executorFactory;
 
-        internal ConfigurationViewModelFactory(IApplicationLoader mainApplicationLoader, ShortcutService shortcutService, DefaultRunHotKeyService runHotKey, ISettingsService settingsService, ISettings settings, ISettingsFactory settingsFactory, INavigator navigator, ILogService logProvider, IDiagnosticService searchDiagnostics)
+        internal ConfigurationViewModelFactory(IApplicationLoader mainApplicationLoader, ShortcutService shortcutService, DefaultRunHotKeyService runHotKey, ISettingsService settingsService, ISettings settings, ISettingsFactory settingsFactory, INavigator navigator, ILogService logProvider, IDiagnosticService searchDiagnostics, FileLogBatchFactory executorFactory)
         {
             Ensure.NotNull(mainApplicationLoader, "mainApplicationLoader");
             Ensure.NotNull(shortcutService, "shortcutService");
@@ -39,6 +40,7 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels.Factories
             Ensure.NotNull(navigator, "navigator");
             Ensure.NotNull(logProvider, "logProvider");
             Ensure.NotNull(searchDiagnostics, "searchDiagnostics");
+            Ensure.NotNull(executorFactory, "executorFactory");
             this.mainApplicationLoader = mainApplicationLoader;
             this.shortcutService = shortcutService;
             this.runHotKey = runHotKey;
@@ -48,6 +50,7 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels.Factories
             this.navigator = navigator;
             this.logProvider = logProvider;
             this.searchDiagnostics = searchDiagnostics;
+            this.executorFactory = executorFactory;
         }
 
         public ConfigurationViewModel Create()
@@ -57,7 +60,7 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels.Factories
                 settingsFactory, 
                 this, 
                 navigator,
-                new TroubleshootViewModel(logProvider, searchDiagnostics)
+                new TroubleshootViewModel(logProvider, searchDiagnostics, executorFactory)
             );
 
             viewModel.ConfigurationPath = Properties.Configuration.Default.Path;

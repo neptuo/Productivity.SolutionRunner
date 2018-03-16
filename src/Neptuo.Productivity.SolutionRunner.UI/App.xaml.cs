@@ -52,6 +52,7 @@ namespace Neptuo.Productivity.SolutionRunner
         private IPositionProvider positionProvider;
         private ILogFactory logFactory;
         private IsolatedLogService logService;
+        private FileLogBatchFactory executorFactory;
 
         private IExceptionHandler exceptionHandler;
 
@@ -212,11 +213,13 @@ namespace Neptuo.Productivity.SolutionRunner
 
         private void InitializeErrorHandler()
         {
+            executorFactory = new FileLogBatchFactory(TimeSpan.FromSeconds(30));
+
             logService = new IsolatedLogService();
 
             logFactory = new DefaultLogFactory()
-                .AddSerializer(AddDisposable(new FileLogSerializer(new DefaultLogFormatter(), () => settings.LogLevel)))
-                .AddSerializer(AddDisposable(new ErrorLogSerializer(new DefaultLogFormatter())))
+                .AddSerializer(AddDisposable(new FileLogSerializer(new DefaultLogFormatter(), () => settings.LogLevel, executorFactory)))
+                .AddSerializer(AddDisposable(new ErrorLogSerializer(new DefaultLogFormatter(), executorFactory)))
 #if DEBUG
                 .AddConsole()
 #endif
@@ -256,7 +259,8 @@ namespace Neptuo.Productivity.SolutionRunner
                 new JsonSettingsFactory(),
                 this,
                 logService,
-                mainFactory
+                mainFactory,
+                executorFactory
             );
         }
 
