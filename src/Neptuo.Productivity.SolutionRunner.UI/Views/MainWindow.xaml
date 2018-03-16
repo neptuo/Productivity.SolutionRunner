@@ -176,7 +176,7 @@
                     </ListView>
 
                     <StackPanel HorizontalAlignment="Right">
-                        <Button x:Name="btnClose" Click="btnClose_Click" ToolTip="Exit" Style="{StaticResource ShellButtonStyle}">
+                        <Button x:Name="btnClose" Click="btnClose_Click" ToolTip="Close window and exit application" Style="{StaticResource ShellButtonStyle}">
                             <Border Background="Red" CornerRadius="2">
                                 <Image Source="{StaticResource CloseImage}" Width="16"  />
                             </Border>
