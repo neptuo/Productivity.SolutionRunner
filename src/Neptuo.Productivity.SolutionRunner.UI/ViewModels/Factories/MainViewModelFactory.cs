@@ -77,6 +77,8 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels.Factories
         {
             if (fileSearchService == null || directoryPath != settings.SourceDirectoryPath)
             {
+                ClearService();
+
                 directoryPath = settings.SourceDirectoryPath;
                 fileSearchService = new FileSystemWatcherSearchService(directoryPath, pinStateService, backgroundContext, logFactory);
             }
