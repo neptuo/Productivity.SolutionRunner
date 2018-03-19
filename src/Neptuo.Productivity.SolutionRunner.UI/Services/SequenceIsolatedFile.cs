@@ -33,7 +33,7 @@ namespace Neptuo.Productivity.SolutionRunner.Services
                             return stream.Length == 0;
                     }
 
-                    return false; 
+                    return true;
                 }
             }
         }
@@ -51,7 +51,7 @@ namespace Neptuo.Productivity.SolutionRunner.Services
         {
             lock (fileLock)
             {
-                
+
                 IsolatedStorageFile storage = GetStorage();
                 using (IsolatedStorageFileStream stream = new IsolatedStorageFileStream(fileName, FileMode.Append, storage))
                 using (StreamWriter writer = new StreamWriter(stream))
@@ -86,14 +86,14 @@ namespace Neptuo.Productivity.SolutionRunner.Services
             {
                 IsolatedStorageFile storage = GetStorage();
                 if (storage.FileExists(fileName))
-                    storage.DeleteFile(fileName); 
+                    storage.DeleteFile(fileName);
             }
         }
 
-        public static IEnumerable<string> EnumerateNames(string pattern) 
+        public static IEnumerable<string> EnumerateNames(string pattern)
             => GetStorage().GetFileNames(pattern);
 
-        public static bool Exists(string fileName) 
+        public static bool Exists(string fileName)
             => GetStorage().FileExists(fileName);
     }
 }

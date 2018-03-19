@@ -259,5 +259,10 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Searching
             => storage.Select(f => f.Path);
 
         #endregion
+
+        public static void ClearCache()
+        {
+            FileCache.Clear();
+        }
     }
 }

@@ -10,7 +10,9 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Searching
 {
     public class FileCache
     {
-        private readonly SequenceIsolatedFile storage = new SequenceIsolatedFile("FileCache.dat");
+        public const string FileName = "FileCache.dat";
+
+        private readonly SequenceIsolatedFile storage = new SequenceIsolatedFile(FileName);
         private HashSet<FileModel> files;
 
         public bool IsEmpty => storage.IsEmpty;
@@ -55,5 +57,8 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Searching
 
             return files;
         }
+
+        public static void Clear() 
+            => new SequenceIsolatedFile(FileName).Clear();
     }
 }
