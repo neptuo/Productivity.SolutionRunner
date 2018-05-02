@@ -177,8 +177,8 @@
 
                     <StackPanel HorizontalAlignment="Right">
                         <Button x:Name="btnClose" Click="btnClose_Click" ToolTip="Close window and exit application" Style="{StaticResource ShellButtonStyle}">
-                            <Border Background="Red" CornerRadius="2">
-                                <Image Source="{StaticResource CloseImage}" Width="16"  />
+                            <Border Background="Red" CornerRadius="2" Opacity=".9">
+                                <Image Source="{StaticResource CloseImage}" Width="16" />
                             </Border>
                         </Button>
                         <Button x:Name="btnConfiguration" Click="btnConfiguration_Click" ToolTip="Application configuration &amp; help (F1)" Style="{StaticResource ShellButtonStyle}">
