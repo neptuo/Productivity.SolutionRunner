@@ -14,6 +14,7 @@
         <converters:BoolConverter x:Key="TrueToIntermediateConverter" TrueValue="Indeterminate" FalseValue="None" />
         <converters:BoolConverter x:Key="TrueToCollapsedConverter" TrueValue="Collapsed" FalseValue="Visible" />
         <converters:BoolConverter x:Key="TrueToVisibleConverter" TrueValue="Visible" FalseValue="Collapsed" />
+        <converters:BoolConverter x:Key="FalseToVisibleConverter" TrueValue="Collapsed" FalseValue="Visible" />
         <converters:BoolConverter x:Key="TrueToFalseConverter" TrueValue="False" FalseValue="True" />
         <converters:PathConverter x:Key="PathConverter" />
         <converters:KeyToStringConverter x:Key="KeyToStringConverter" />
@@ -190,7 +191,9 @@
                 <Border Grid.Row="1">
                     <Grid>
                         <TextBox x:Name="tbxSearch" Text="{Binding SearchPattern, UpdateSourceTrigger=PropertyChanged}" />
-                        <ProgressBar IsIndeterminate="True" Width="40" Height="3" BorderThickness="0" Background="Transparent" HorizontalAlignment="Right" Margin="0,0,8,0" Visibility="{Binding BackgroundContext.IsWorking, Converter={StaticResource TrueToVisibleConverter}}" />
+                        <Grid ToolTip="Work in background..." HorizontalAlignment="Right" Margin="0,0,8,0" Visibility="{Binding IsLoading, Converter={StaticResource FalseToVisibleConverter}}">
+                            <ProgressBar IsIndeterminate="True" Width="40" Height="3" BorderThickness="0" Background="Transparent" Visibility="{Binding BackgroundContext.IsWorking, Converter={StaticResource TrueToVisibleConverter}}" />
+                        </Grid>
                     </Grid>
                 </Border>
 
