@@ -40,7 +40,7 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Configuration
         public FileSearchMode FileSearchMode { get; set; }
         public Version AutoSelectApplicationMinimalVersion { get; set; }
 
-        public LogLevel LogLevel { get; set; }
+        public LogLevel LogLevel { get; set; } = LogLevel.Error;
 
         public void Load(ICompositeStorage storage)
         {
