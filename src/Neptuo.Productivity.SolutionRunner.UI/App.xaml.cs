@@ -30,6 +30,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Deployment.Application;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -135,12 +136,19 @@ namespace Neptuo.Productivity.SolutionRunner
             {
                 Configuration.Default.Path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "SolutionRunner.json");
 
-                MessageBox.Show(
-                    "Unfortunately, we have lost your configuration file (or, if you see this message for the first time, we are going to upgrade from previous version)."
-                    + Environment.NewLine
-                    + "More information can be found in configuration -> Import and Export.",
-                    "SolutionRunner"
-                );
+#if DEBUG
+                if (true)
+#else
+                if (!ApplicationDeployment.CurrentDeployment.IsFirstRun)
+#endif
+                {
+                    MessageBox.Show(
+                        "Unfortunately, we have lost your configuration file (or, if you see this message for the first time, we are going to upgrade from previous version)."
+                        + Environment.NewLine
+                        + "More information can be found in configuration -> Import and Export.",
+                        "SolutionRunner"
+                    );
+                }
 
                 if (!File.Exists(Configuration.Default.Path))
                 {
