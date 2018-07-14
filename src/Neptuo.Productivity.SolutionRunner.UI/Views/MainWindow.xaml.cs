@@ -493,7 +493,12 @@ namespace Neptuo.Productivity.SolutionRunner.Views
             }
         }
 
+        public bool IsShutdown { get; private set; }
+
         private void btnClose_Click(object sender, RoutedEventArgs e)
-            => App.Current.Shutdown();
+        {
+            IsShutdown = true;
+            App.Current.Shutdown();
+        }
     }
 }

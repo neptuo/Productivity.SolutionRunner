@@ -548,7 +548,9 @@ namespace Neptuo.Productivity.SolutionRunner
         {
             if (runHotKey.IsSet)
             {
-                mainWindow.Hide();
+                if (!mainWindow.IsShutdown)
+                    mainWindow.Hide();
+
                 e.Cancel = true;
             }
 
