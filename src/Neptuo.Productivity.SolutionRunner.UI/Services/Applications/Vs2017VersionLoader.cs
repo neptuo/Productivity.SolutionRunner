@@ -72,7 +72,7 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Applications
             var instance2 = (ISetupInstance2)instance;
             var state = instance2.GetState();
 
-            if (state == InstanceState.Complete)
+            if (state.HasFlag(InstanceState.Local | InstanceState.NoErrors))
             {
                 Version.TryParse(instance.GetInstallationVersion(), out version);
 
