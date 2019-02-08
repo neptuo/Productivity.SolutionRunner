@@ -312,7 +312,7 @@
                         </Grid>
                         <Grid>
                             <TextBlock Text="Open empty instance of application" />
-                            <TextBlock Text="DoubleClick on application" HorizontalAlignment="Right" />
+                            <TextBlock Text="Ctrl+Enter, DoubleClick on application" HorizontalAlignment="Right" />
                         </Grid>
                         <Grid>
                             <TextBlock Text="Open file in application" />

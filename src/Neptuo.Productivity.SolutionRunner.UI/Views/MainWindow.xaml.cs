@@ -309,10 +309,17 @@ namespace Neptuo.Productivity.SolutionRunner.Views
             {
                 // On ENTER, open sln in selected application.
                 ApplicationViewModel application = lvwApplications.SelectedItem as ApplicationViewModel;
-                FileViewModel file = lvwFiles.SelectedItem as FileViewModel;
-
-                if (application != null && file != null)
-                    RunSolution(application, file);
+                if (Keyboard.IsKeyDown(Key.LeftCtrl))
+                {
+                    if (application != null)
+                        RunSolution(application, null);
+                }
+                else
+                {
+                    FileViewModel file = lvwFiles.SelectedItem as FileViewModel;
+                    if (application != null && file != null)
+                        RunSolution(application, file);
+                }
             }
             else if (e.Key == Key.Escape)
             {
