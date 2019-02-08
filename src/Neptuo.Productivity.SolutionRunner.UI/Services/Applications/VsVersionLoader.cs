@@ -19,6 +19,28 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Applications
 {
     public class VsVersionLoader : IApplicationLoader
     {
+        public static void AddAdministratorCommand(IApplicationBuilder builder, string filePath)
+        {
+            builder.AddCommand(
+                "Run as Administrator",
+                filePath,
+                null,
+                true,
+                Key.A
+            );
+        }
+
+        public static void AddExperimentalCommand(IApplicationBuilder builder, string filePath)
+        {
+            builder.AddCommand(
+                "Run experimental",
+                filePath,
+                "/rootsuffix Exp {FilePath}",
+                false,
+                Key.E
+            );
+        }
+
         public void Add(IApplicationCollection applications)
         {
             IDirectoryNameSearch search = new LocalSearchProvider(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86));
@@ -76,13 +98,8 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Applications
                     true
                 );
 
-                builder.AddCommand(
-                    "Run as Administrator",
-                    filePath,
-                    null,
-                    true,
-                    Key.A
-                );
+                AddAdministratorCommand(builder, filePath);
+                AddExperimentalCommand(builder, filePath);
             }
         }
     }

@@ -31,13 +31,8 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Applications
                     true
                 );
 
-                builder.AddCommand(
-                    "Run as Administrator",
-                    filePath,
-                    null,
-                    true,
-                    Key.A
-                );
+                VsVersionLoader.AddAdministratorCommand(builder, filePath);
+                VsVersionLoader.AddExperimentalCommand(builder, filePath);
             }
         }
 
