@@ -18,7 +18,7 @@ namespace Neptuo.Productivity.SolutionRunner.Views.Converters
         {
             string path = (string)value;
 
-            if (Settings.IsFileNameRemovedFromDisplayedPath)
+            if (Settings != null && Settings.IsFileNameRemovedFromDisplayedPath)
             {
                 path = Path.GetDirectoryName(path);
 

@@ -285,42 +285,45 @@
                     </StackPanel>
 
                     <StackPanel Style="{StaticResource EditorPanelStyle}">
+                        <StackPanel.Resources>
+                            <Style TargetType="TextBox" BasedOn="{StaticResource TextBoxDescriptionStyle}" />
+                        </StackPanel.Resources>
                         <Label Content="Shortcuts" />
                         <Grid>
-                            <TextBlock Text="Open configuration &amp; help window" />
-                            <TextBlock Text="F1" HorizontalAlignment="Right" />
+                            <TextBox Text="Open configuration &amp; help window" />
+                            <TextBox Text="F1" HorizontalAlignment="Right" />
                         </Grid>
                         <Grid>
-                            <TextBlock Text="Switch application" />
-                            <TextBlock Text="Ctrl+Tab, Ctrl+Shift+Tab" HorizontalAlignment="Right" />
+                            <TextBox Text="Switch application" />
+                            <TextBox Text="Ctrl+Tab, Ctrl+Shift+Tab" HorizontalAlignment="Right" />
                         </Grid>
                         <Grid>
-                            <TextBlock Text="Switch file" />
-                            <TextBlock Text="ArrowDown, ArrowUp, PageUp, PageDown" HorizontalAlignment="Right" />
+                            <TextBox Text="Switch file" />
+                            <TextBox Text="ArrowDown, ArrowUp, PageUp, PageDown" HorizontalAlignment="Right" />
                         </Grid>
                         <Grid>
-                            <TextBlock Text="Pin/unpin file" />
-                            <TextBlock Text="Ctrl+S" HorizontalAlignment="Right" />
+                            <TextBox Text="Pin/unpin file" />
+                            <TextBox Text="Ctrl+S" HorizontalAlignment="Right" />
                         </Grid>
                         <Grid>
-                            <TextBlock Text="Copy application path" />
-                            <TextBlock Text="Ctrl+Shift+C" HorizontalAlignment="Right" />
+                            <TextBox Text="Copy application path" />
+                            <TextBox Text="Ctrl+Shift+C" HorizontalAlignment="Right" />
                         </Grid>
                         <Grid>
-                            <TextBlock Text="Copy file path" />
-                            <TextBlock Text="Ctrl+C" HorizontalAlignment="Right" />
+                            <TextBox Text="Copy file path" />
+                            <TextBox Text="Ctrl+C" HorizontalAlignment="Right" />
                         </Grid>
                         <Grid>
-                            <TextBlock Text="Open empty instance of application" />
-                            <TextBlock Text="Ctrl+Enter, DoubleClick on application" HorizontalAlignment="Right" />
+                            <TextBox Text="Open empty instance of application" />
+                            <TextBox Text="Ctrl+Enter, DoubleClick on application" HorizontalAlignment="Right" />
                         </Grid>
                         <Grid>
-                            <TextBlock Text="Open file in application" />
-                            <TextBlock Text="Enter (+ Shift to runas), DoubleClick on file" HorizontalAlignment="Right" />
+                            <TextBox Text="Open file in application" />
+                            <TextBox Text="Enter (+ Shift to runas), DoubleClick on file" HorizontalAlignment="Right" />
                         </Grid>
                         <Grid>
-                            <TextBlock Text="Close/hide" />
-                            <TextBlock Text="Escape" HorizontalAlignment="Right" />
+                            <TextBox Text="Close/hide" />
+                            <TextBox Text="Escape" HorizontalAlignment="Right" />
                         </Grid>
                     </StackPanel>
                 </StackPanel>

@@ -36,16 +36,21 @@
                 <TextBlock Text="If not set, {FilePath} is used" HorizontalAlignment="Right" />
             </Grid>
             <TextBox x:Name="tbxArguments" Text="{Binding FileArguments, ElementName=this, UpdateSourceTrigger=PropertyChanged}" Margin="0" />
-            <TextBlock TextWrapping="Wrap">
-             Here you can define additional application arguments. By default the only passed argument is a path to the selected file.
-             Value can contain dynamic blocks that are replaced by values from selected file.
-            </TextBlock>
-            <TextBlock TextWrapping="Wrap">
-             {FilePath} is replaced with a full path to the selected file.
-            </TextBlock>
-            <TextBlock TextWrapping="Wrap">
-             {DirectoryPath} is replaced with a full path to the directory of the selected file.
-            </TextBlock>
+            <StackPanel>
+                <StackPanel.Resources>
+                    <Style TargetType="TextBox" BasedOn="{StaticResource TextBoxDescriptionStyle}" />
+                </StackPanel.Resources>
+                <TextBox TextWrapping="Wrap">
+                    Here you can define additional application arguments. By default the only passed argument is a path to the selected file.
+                    Value can contain dynamic blocks that are replaced by values from selected file.
+                </TextBox>
+                <TextBox TextWrapping="Wrap">
+                    {FilePath} is replaced with a full path to the selected file.
+                </TextBox>
+                <TextBox TextWrapping="Wrap">
+                    {DirectoryPath} is replaced with a full path to the directory of the selected file.
+                </TextBox>
+            </StackPanel>
         </StackPanel>
         <StackPanel Style="{StaticResource EditorPanelStyle}">
             <CheckBox Content="Run as Administrator" IsChecked="{Binding IsAdministratorRequired}" />
