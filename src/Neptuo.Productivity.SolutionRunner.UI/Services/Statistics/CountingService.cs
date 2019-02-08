@@ -25,6 +25,11 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Statistics
             file.Append(String.Concat(GetDateTimeNow(), ";", path));
         }
 
+        public void Application(string path, string arguments)
+        {
+            file.Append(String.Concat(GetDateTimeNow(), ";", path));
+        }
+
         public void File(string applicationPath, string filePath)
         {
             file.Append(String.Concat(GetDateTimeNow(), ";", applicationPath, ";", filePath));

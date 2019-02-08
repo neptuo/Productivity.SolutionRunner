@@ -14,8 +14,6 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels
 {
     public class AdditionalCommandEditViewModel : ObservableObject, IApplicationViewModel
     {
-        private readonly INavigator navigator;
-
         public bool IsNameChanged { get; set; }
 
         private string name;

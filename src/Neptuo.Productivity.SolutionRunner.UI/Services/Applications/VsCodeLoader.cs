@@ -60,6 +60,7 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Applications
                     ),
                     new Version(version.FileMajorPart, version.FileMinorPart),
                     filePath,
+                    null,
                     "{DirectoryPath}",
                     false,
                     IconExtractor.Get(filePath),
@@ -70,6 +71,7 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Applications
                 builder.AddCommand(
                     "Run as Administrator",
                     filePath,
+                    null,
                     null,
                     true,
                     Key.A

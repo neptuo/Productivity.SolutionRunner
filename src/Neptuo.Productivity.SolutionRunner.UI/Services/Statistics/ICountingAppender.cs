@@ -18,6 +18,13 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Statistics
         void Application(string path);
 
         /// <summary>
+        /// Appends application usage.
+        /// </summary>
+        /// <param name="path">A path to the application being started.</param>
+        /// <param name="arguments">Arguments for the application.</param>
+        void Application(string path, string arguments);
+
+        /// <summary>
         /// Appends opened file in application.
         /// </summary>
         /// <param name="applicationPath">A path to the application being started.</param>
@@ -31,5 +38,7 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Statistics
         /// <param name="argumentsTemplate">A template of arguments passed to the application.</param>
         /// <param name="filePath">A path to the file being opened.</param>
         void File(string applicationPath, string argumentsTemplate, string filePath);
+
+
     }
 }

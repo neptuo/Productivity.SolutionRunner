@@ -12,52 +12,29 @@ using System.Windows.Media;
 
 namespace Neptuo.Productivity.SolutionRunner.ViewModels
 {
-    public class ApplicationViewModel : ObservableObject, IApplication, IPreferedApplicationViewModel, IApplicationBuilder
+    public class ApplicationViewModel : ApplicationCommandViewModel, IPreferedApplicationViewModel, IApplicationBuilder
     {
-        public string Name { get; private set; }
-        public string Path { get; private set; }
-        public Version Version { get; private set; }
-        public string Arguments { get; private set; }
-        public bool IsAdministratorRequired { get; private set; }
-        public ImageSource Icon { get; private set; }
-        public bool IsMain { get; private set; }
-        public Key HotKey { get; private set; }
+        public Version Version { get; }
+        public ImageSource Icon { get; }
+        public bool IsMain { get; }
 
-        private bool isHotKeyActive;
-        public bool IsHotKeyActive
-        {
-            get { return isHotKeyActive; }
-            set
-            {
-                if (isHotKeyActive != value)
-                {
-                    isHotKeyActive = value;
-                    RaisePropertyChanged();
-                }
-            }
-        }
-        
-        public ObservableCollection<ApplicationCommandViewModel> Commands { get; private set; }
+        public ObservableCollection<ApplicationCommandViewModel> Commands { get; }
 
-        public ApplicationViewModel(string name, Version version, string path, string arguments, bool isAdministratorRequired, ImageSource icon, Key hotKey, bool isMain)
+        public ApplicationViewModel(string name, Version version, string path, string emptyArguments, string fileArguments, bool isAdministratorRequired, ImageSource icon, Key hotKey, bool isMain)
+            : base(name, path, emptyArguments, fileArguments, isAdministratorRequired, hotKey)
         {
             Ensure.NotNullOrEmpty(name, "name");
             Ensure.NotNull(path, "path");
             Ensure.NotNull(icon, "icon");
-            Name = name;
             Version = version;
-            Path = path;
-            Arguments = arguments;
-            IsAdministratorRequired = isAdministratorRequired;
             Icon = icon;
             IsMain = isMain;
-            HotKey = hotKey;
             Commands = new ObservableCollection<ApplicationCommandViewModel>();
         }
         
-        public IApplicationBuilder AddCommand(string name, string path, string arguments, bool isAdministratorRequired, Key hotKey)
+        public IApplicationBuilder AddCommand(string name, string path, string emptyArguments, string fileArguments, bool isAdministratorRequired, Key hotKey)
         {
-            Commands.Add(new ApplicationCommandViewModel(name, path, arguments, isAdministratorRequired, hotKey));
+            Commands.Add(new ApplicationCommandViewModel(name, path, emptyArguments, fileArguments, isAdministratorRequired, hotKey));
             return this;
         }
     }

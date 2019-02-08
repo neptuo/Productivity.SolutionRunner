@@ -25,6 +25,7 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Applications
                 "Run as Administrator",
                 filePath,
                 null,
+                null,
                 true,
                 Key.A
             );
@@ -35,6 +36,7 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Applications
             builder.AddCommand(
                 "Run experimental",
                 filePath,
+                "/rootsuffix Exp",
                 "/rootsuffix Exp {FilePath}",
                 false,
                 Key.E
@@ -91,6 +93,7 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Applications
                     String.Format("Visual Studio {0}", VersionFormatter.Format(version)),
                     new Version(version.FileMajorPart, version.FileMinorPart, version.FileBuildPart),
                     filePath,
+                    null,
                     null,
                     false,
                     IconExtractor.Get(filePath),

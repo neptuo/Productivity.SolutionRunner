@@ -12,7 +12,7 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels
 {
     public class MainApplicationCollection : ObservableCollection<MainApplicationListViewModel>, IApplicationCollection
     {
-        public IApplicationBuilder Add(string name, string path, string arguments, bool isAdministratorRequired, ImageSource icon, Key hotKey, bool isMain)
+        public IApplicationBuilder Add(string name, string path, string emptyArguments, string fileArguments, bool isAdministratorRequired, ImageSource icon, Key hotKey, bool isMain)
         {
             MainApplicationListViewModel viewModel = new MainApplicationListViewModel()
             {
@@ -25,7 +25,7 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels
             return viewModel;
         }
 
-        public IApplicationBuilder Add(string name, Version version, string path, string arguments, bool isAdministratorRequired, ImageSource icon, Key hotKey, bool isMain)
+        public IApplicationBuilder Add(string name, Version version, string path, string emptyArguments, string fileArguments, bool isAdministratorRequired, ImageSource icon, Key hotKey, bool isMain)
         {
             MainApplicationListViewModel viewModel = new MainApplicationListViewModel()
             {

@@ -26,6 +26,7 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Applications
                 IApplicationBuilder builder = applications.Add(
                     model.Name,
                     model.Path,
+                    null,
                     model.Arguments,
                     model.IsAdministratorRequired,
                     IconExtractor.Get(model.Path),
@@ -38,6 +39,7 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Applications
                     builder.AddCommand(
                         commandModel.Name,
                         commandModel.Path,
+                        null,
                         commandModel.Arguments,
                         commandModel.IsAdministratorRequired,
                         commandModel.HotKey

@@ -32,6 +32,12 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Statistics
                 appender.Application(path);
         }
 
+        public void Application(string path, string arguments)
+        {
+            if (settings.IsStatisticsCounted)
+                appender.Application(path, arguments);
+        }
+
         public void File(string applicationPath, string filePath)
         {
             if (settings.IsStatisticsCounted)
