@@ -79,7 +79,7 @@
     <ApplicationManifest>Properties\app.manifest</ApplicationManifest>
   </PropertyGroup>
   <PropertyGroup>
-    <StartupObject>Neptuo.Productivity.SolutionRunner.App</StartupObject>
+    <StartupObject>Neptuo.Productivity.SolutionRunner.AppEntryPoint</StartupObject>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>Resources\SolutionRunner.ico</ApplicationIcon>
