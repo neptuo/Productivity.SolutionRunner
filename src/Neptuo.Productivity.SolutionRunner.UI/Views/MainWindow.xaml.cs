@@ -312,13 +312,19 @@ namespace Neptuo.Productivity.SolutionRunner.Views
                 if (Keyboard.IsKeyDown(Key.LeftCtrl))
                 {
                     if (application != null)
+                    {
                         RunSolution(application, null);
+                        e.Handled = true;
+                    }
                 }
                 else
                 {
                     FileViewModel file = lvwFiles.SelectedItem as FileViewModel;
                     if (application != null && file != null)
+                    {
                         RunSolution(application, file);
+                        e.Handled = true;
+                    }
                 }
             }
             else if (e.Key == Key.Escape)
