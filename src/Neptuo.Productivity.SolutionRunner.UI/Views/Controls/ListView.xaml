@@ -44,7 +44,7 @@
     </UserControl.Resources>
     <StackPanel Style="{StaticResource EditorPanelStyle}">
         <Grid>
-            <Label Content="{Binding Label, ElementName=this}" Target="{Binding ElementName=tbxAdditionalApplications}" />
+            <Label Content="{Binding Label, ElementName=this}" Target="{Binding ElementName=Items}" />
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                 <TextBlock Text="{Binding LabelDetail, ElementName=this}" Margin="0 0 3 0" />
                 <Button x:Name="btnReload" Click="btnReload_Click" ToolTip="Reload" Style="{StaticResource PlainButtonStyle}" Margin="0,0,3,0" Visibility="Collapsed">
@@ -57,7 +57,7 @@
                 </Button>
             </StackPanel>
         </Grid>
-        <ItemsControl ItemsSource="{Binding ItemsSource, ElementName=this}" ItemTemplate="{Binding ItemTemplate, ElementName=this}">
+        <ItemsControl x:Name="Items" ItemsSource="{Binding ItemsSource, ElementName=this}" ItemTemplate="{Binding ItemTemplate, ElementName=this}">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
                     <StackPanel />
