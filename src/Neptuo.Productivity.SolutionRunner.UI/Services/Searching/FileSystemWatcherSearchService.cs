@@ -45,9 +45,31 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Searching
 
         private IEnumerable<FileModel> EnumerateDirectory(string directoryPath)
         {
-            return Directory
-                .GetFiles(directoryPath, "*.sln", SearchOption.AllDirectories)
-                .Select(f => new FileModel(f));
+            void AddDirectory(List<FileModel> result, string path, bool isTopDirectory = true)
+            {
+                if (path.Length < 248)
+                {
+                    try
+                    {
+                        foreach (string subDirectoryPath in Directory.EnumerateDirectories(path))
+                            AddDirectory(result, subDirectoryPath, false);
+
+                        result.AddRange(Directory.EnumerateFiles(path, "*.sln").Select(f => new FileModel(f)));
+                    }
+                    catch (PathTooLongException)
+                    {
+                    }
+                    catch (UnauthorizedAccessException)
+                    {
+                        if (isTopDirectory)
+                            throw;
+                    }
+                }
+            }
+
+            var files = new List<FileModel>();
+            AddDirectory(files, directoryPath);
+            return files;
         }
 
         public Task InitializeAsync()
