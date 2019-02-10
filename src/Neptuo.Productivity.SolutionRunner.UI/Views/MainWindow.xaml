@@ -18,6 +18,7 @@
         <converters:BoolConverter x:Key="TrueToFalseConverter" TrueValue="False" FalseValue="True" />
         <converters:PathConverter x:Key="PathConverter" />
         <converters:KeyToStringConverter x:Key="KeyToStringConverter" />
+        <converters:KeyToVisibilityConverter x:Key="KeyToVisibilityConverter" />
         <converters:BoolConverter x:Key="ListViewBadgeForegroundConverter" TrueValue="{StaticResource ForegroundBrush}" FalseValue="{StaticResource ActiveBrush}" />
         <converters:BoolConverter x:Key="TrueToActiveBrushConverter" TrueValue="{StaticResource ActiveBrush}" FalseValue="{StaticResource BackgroundBrush}" />
 
@@ -153,7 +154,7 @@
                                             </DockPanel>
                                         </Grid>
                                         <StackPanel Style="{StaticResource AccessStackPanelStyle}">
-                                            <Border Style="{StaticResource AccessBorderStyle}">
+                                            <Border Style="{StaticResource AccessBorderStyle}" Visibility="{Binding HotKey, Converter={StaticResource KeyToVisibilityConverter}}">
                                                 <TextBlock Text="{Binding HotKey, Converter={StaticResource KeyToStringConverter}}" Style="{StaticResource AccessTextBlock}" />
                                             </Border>
 

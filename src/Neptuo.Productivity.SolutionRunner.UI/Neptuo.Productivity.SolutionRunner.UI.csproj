@@ -206,6 +206,7 @@
     <Compile Include="ViewModels\IConfigurationViewModelMapper.cs" />
     <Compile Include="ViewModels\TroubleshootViewModel.cs" />
     <Compile Include="ViewModels\UiBackgroundContext.cs" />
+    <Compile Include="Views\Converters\KeyToVisibilityConverter.cs" />
     <Compile Include="Views\DataSources\LogLevels.cs" />
     <Compile Include="Views\DesignData\DesignConfigurationViewModelMapper.cs" />
     <Compile Include="Views\DesignData\DesignDiagnosticService.cs" />
