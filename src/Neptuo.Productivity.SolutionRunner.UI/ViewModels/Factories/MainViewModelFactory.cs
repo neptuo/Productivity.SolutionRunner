@@ -1,4 +1,6 @@
-﻿using Neptuo.Activators;
+﻿using Neptuo;
+using Neptuo.Activators;
+using Neptuo.Exceptions.Handlers;
 using Neptuo.Logging;
 using Neptuo.Productivity.SolutionRunner.Services;
 using Neptuo.Productivity.SolutionRunner.Services.Applications;
@@ -20,18 +22,21 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels.Factories
         private readonly ISettings settings;
         private readonly IApplicationLoader mainApplicationLoader;
         private readonly ILogFactory logFactory;
+        private readonly IExceptionHandler exceptionHandler;
         private readonly PropertyChangedEventHandler propertyChangedHandler;
 
-        internal MainViewModelFactory(IPinStateService pinStateService, ISettings settings, IApplicationLoader mainApplicationLoader, ILogFactory logFactory, PropertyChangedEventHandler propertyChangedHandler)
+        internal MainViewModelFactory(IPinStateService pinStateService, ISettings settings, IApplicationLoader mainApplicationLoader, ILogFactory logFactory, IExceptionHandler exceptionHandler, PropertyChangedEventHandler propertyChangedHandler)
         {
             Ensure.NotNull(pinStateService, "pinStateService");
             Ensure.NotNull(settings, "settings");
             Ensure.NotNull(mainApplicationLoader, "mainApplicationLoader");
             Ensure.NotNull(logFactory, "logFactory");
+            Ensure.NotNull(exceptionHandler, "exceptionHandler");
             this.pinStateService = pinStateService;
             this.settings = settings;
             this.mainApplicationLoader = mainApplicationLoader;
             this.logFactory = logFactory;
+            this.exceptionHandler = exceptionHandler;
             this.propertyChangedHandler = propertyChangedHandler;
         }
 
@@ -83,7 +88,7 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels.Factories
                     FileSystemWatcherSearchService.ClearCache();
 
                 directoryPath = settings.SourceDirectoryPath;
-                fileSearchService = new FileSystemWatcherSearchService(directoryPath, pinStateService, backgroundContext, logFactory);
+                fileSearchService = new FileSystemWatcherSearchService(directoryPath, pinStateService, backgroundContext, logFactory, exceptionHandler);
             }
 
             return fileSearchService;

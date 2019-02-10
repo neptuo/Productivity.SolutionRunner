@@ -257,6 +257,7 @@ namespace Neptuo.Productivity.SolutionRunner
                 settings,
                 mainApplicationLoader,
                 logFactory,
+                exceptionHandler,
                 OnMainViewModelPropertyChanged
             ));
 

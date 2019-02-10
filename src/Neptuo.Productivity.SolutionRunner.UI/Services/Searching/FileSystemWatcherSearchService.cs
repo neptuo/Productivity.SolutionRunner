@@ -1,4 +1,6 @@
-﻿using Neptuo.FileSystems;
+﻿using Neptuo;
+using Neptuo.Exceptions.Handlers;
+using Neptuo.FileSystems;
 using Neptuo.Logging;
 using Neptuo.Threading.Tasks;
 using System;
@@ -17,6 +19,7 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Searching
         private readonly List<FileSystemWatcher> watchers;
         private readonly IPinStateService pinStateService;
         private readonly IBackgroundContext backgroundContext;
+        private readonly IExceptionHandler backgroundExceptionHandler;
         private readonly ILog log;
         private readonly PatternMatcherFactory matcherFactory;
         private readonly FileStorage storage = new FileStorage()
@@ -24,16 +27,18 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Searching
             IsCacheUsed = true
         };
 
-        public FileSystemWatcherSearchService(string directoryPath, IPinStateService pinStateService, IBackgroundContext backgroundContext, ILogFactory logFactory)
+        public FileSystemWatcherSearchService(string directoryPath, IPinStateService pinStateService, IBackgroundContext backgroundContext, ILogFactory logFactory, IExceptionHandler backgroundExceptionHandler)
         {
             Ensure.Condition.DirectoryExists(directoryPath, "directoryPath");
             Ensure.NotNull(pinStateService, "pinStateService");
             Ensure.NotNull(backgroundContext, "backgroundContext");
             Ensure.NotNull(logFactory, "logFactory");
+            Ensure.NotNull(backgroundExceptionHandler, "backgroundExceptionHandler");
             this.directoryPath = directoryPath;
             this.pinStateService = pinStateService;
             this.backgroundContext = backgroundContext;
             this.log = logFactory.Scope("FileSystemWatcherSearch");
+            this.backgroundExceptionHandler = backgroundExceptionHandler;
             this.matcherFactory = new PatternMatcherFactory(log.Factory);
             this.watchers = new List<FileSystemWatcher>();
         }
@@ -71,7 +76,11 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Searching
                     else
                         log.Debug("Cache contains '{0}' items.", storage.Count);
 
-                    Task.Factory.StartNew(initializeFromDirectory);
+                    Task.Factory.StartNew(initializeFromDirectory).ContinueWith(t =>
+                    {
+                        if (t.IsFaulted)
+                            backgroundExceptionHandler.Handle(t.Exception);
+                    });
                 }
 
                 return Task.Factory.StartNew(() =>
