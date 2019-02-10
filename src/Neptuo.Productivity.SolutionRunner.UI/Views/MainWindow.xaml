@@ -96,6 +96,19 @@
                 </Setter.Value>
             </Setter>
         </Style>
+
+        <Style x:Key="AccessGrid" TargetType="Grid">
+            <Setter Property="HorizontalAlignment" Value="Left" />
+            <Setter Property="VerticalAlignment" Value="Top" />
+        </Style>
+        <Style x:Key="AccessStackPanelStyle" TargetType="StackPanel">
+            <Setter Property="Visibility" Value="Collapsed" />
+            <Style.Triggers>
+                <Trigger Property="{x:Static controls:AccessKey.IsKeyboardCuesProperty}" Value="{x:Static ds:Boolean.True}">
+                    <Setter Property="Visibility" Value="Visible" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
         <Style x:Key="AccessBorderStyle" TargetType="Border">
             <Setter Property="BorderThickness" Value="1" />
             <Setter Property="BorderBrush" Value="{StaticResource ActiveBrush}" />
@@ -104,16 +117,6 @@
             <Setter Property="Margin" Value="0,0,0,4" />
             <Setter Property="HorizontalAlignment" Value="Left" />
             <Setter Property="Background" Value="{Binding IsHotKeyActive, Converter={StaticResource TrueToActiveBrushConverter}}" />
-        </Style>
-        <Style x:Key="AccessStackPanelStyle" TargetType="StackPanel">
-            <Setter Property="HorizontalAlignment" Value="Left" />
-            <Setter Property="VerticalAlignment" Value="Top" />
-            <Setter Property="Visibility" Value="Collapsed" />
-            <Style.Triggers>
-                <Trigger Property="{x:Static controls:AccessKey.IsKeyboardCuesProperty}" Value="{x:Static ds:Boolean.True}">
-                    <Setter Property="Visibility" Value="Visible" />
-                </Trigger>
-            </Style.Triggers>
         </Style>
         <Style x:Key="AccessTextBlock" TargetType="TextBlock">
             <Setter Property="Width" Value="8" />
@@ -153,24 +156,26 @@
                                                 <Image Source="{Binding Icon}" Width="32" />
                                             </DockPanel>
                                         </Grid>
-                                        <StackPanel Style="{StaticResource AccessStackPanelStyle}">
-                                            <Border Style="{StaticResource AccessBorderStyle}" Visibility="{Binding HotKey, Converter={StaticResource KeyToVisibilityConverter}}">
-                                                <TextBlock Text="{Binding HotKey, Converter={StaticResource KeyToStringConverter}}" Style="{StaticResource AccessTextBlock}" />
-                                            </Border>
+                                        <Grid Style="{StaticResource AccessGrid}" Visibility="{Binding HotKey, Converter={StaticResource KeyToVisibilityConverter}}">
+                                            <StackPanel Style="{StaticResource AccessStackPanelStyle}">
+                                                <Border Style="{StaticResource AccessBorderStyle}">
+                                                    <TextBlock Text="{Binding HotKey, Converter={StaticResource KeyToStringConverter}}" Style="{StaticResource AccessTextBlock}" />
+                                                </Border>
 
-                                            <ItemsControl ItemsSource="{Binding Commands}">
-                                                <ItemsControl.ItemTemplate>
-                                                    <DataTemplate>
-                                                        <Border Style="{StaticResource AccessBorderStyle}">
-                                                            <StackPanel Orientation="Horizontal">
-                                                                <TextBlock Text="{Binding HotKey, Converter={StaticResource KeyToStringConverter}}" Style="{StaticResource AccessTextBlock}" ToolTip="{Binding Name}" />
-                                                                <TextBlock Text="{Binding Name}" Margin="5,0,0,0" FontSize="10" Visibility="{Binding IsHotKeyActive, Converter={StaticResource TrueToVisibleConverter}}" />
-                                                            </StackPanel>
-                                                        </Border>
-                                                    </DataTemplate>
-                                                </ItemsControl.ItemTemplate>
-                                            </ItemsControl>
-                                        </StackPanel>
+                                                <ItemsControl ItemsSource="{Binding Commands}">
+                                                    <ItemsControl.ItemTemplate>
+                                                        <DataTemplate>
+                                                            <Border Style="{StaticResource AccessBorderStyle}">
+                                                                <StackPanel Orientation="Horizontal">
+                                                                    <TextBlock Text="{Binding HotKey, Converter={StaticResource KeyToStringConverter}}" Style="{StaticResource AccessTextBlock}" ToolTip="{Binding Name}" />
+                                                                    <TextBlock Text="{Binding Name}" Margin="5,0,0,0" FontSize="10" Visibility="{Binding IsHotKeyActive, Converter={StaticResource TrueToVisibleConverter}}" />
+                                                                </StackPanel>
+                                                            </Border>
+                                                        </DataTemplate>
+                                                    </ItemsControl.ItemTemplate>
+                                                </ItemsControl>
+                                            </StackPanel>
+                                        </Grid>
                                     </Grid>
                                 </ContentControl>
                             </DataTemplate>
