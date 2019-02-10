@@ -209,6 +209,8 @@ namespace Neptuo.Productivity.SolutionRunner
                 }
                 catch (Win32Exception)
                 {
+                    MessageBox.Show($"The global hotkey '{settings.RunKey}' is already in use. Configure another one in the settings.", "SolutionRunner");
+
                     runHotKey.UnBind();
                     settings.RunKey = null;
                     await settingsService.SaveAsync(settings);
