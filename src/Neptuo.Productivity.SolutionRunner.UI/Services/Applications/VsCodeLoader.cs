@@ -42,11 +42,6 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Applications
 
             foreach (var search in files)
             {
-                //IFile file = directory
-                //    .WithFileNameSearch()
-                //    .FindFiles(TextSearch.CreateMatched("Code", false), TextSearch.CreateMatched(".exe"))
-                //    .FirstOrDefault();
-
                 string filePath = search.file.WithAbsolutePath().AbsolutePath;
                 FileVersionInfo version = FileVersionInfo.GetVersionInfo(filePath);
 
@@ -82,13 +77,17 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Applications
         private IEnumerable<(string suffix, IDirectoryNameSearch directory)> EnumerateProgramFolders()
         {
             string x86 = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86);
-            string x64 = x86.Replace(" (x86)", String.Empty);
+            string x64 = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles);
 
             if (Directory.Exists(x86))
                 yield return ("x86", new LocalSearchProvider(x86));
 
             if (x64 != x86 && Directory.Exists(x64))
                 yield return ("x64", new LocalSearchProvider(x64));
+
+            string user = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Programs");
+            if (Directory.Exists(user))
+                yield return ("user", new LocalSearchProvider(user));
         }
     }
 }
