@@ -26,7 +26,8 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels.Commands
             this.mapper = mapper;
         }
 
-        public override bool CanExecute() => true;
+        public override bool CanExecute() 
+            => true;
 
         public async override void Execute()
         {

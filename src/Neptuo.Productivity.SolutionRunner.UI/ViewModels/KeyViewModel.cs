@@ -8,7 +8,7 @@ using System.Windows.Input;
 
 namespace Neptuo.Productivity.SolutionRunner.ViewModels
 {
-    public class KeyViewModel : ObservableObject
+    public class KeyViewModel : ObservableModel
     {
         private Key key;
         public Key Key

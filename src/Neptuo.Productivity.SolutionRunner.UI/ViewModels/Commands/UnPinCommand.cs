@@ -1,4 +1,5 @@
-﻿using Neptuo.Productivity.SolutionRunner.Services;
+﻿using Neptuo.Observables.Commands;
+using Neptuo.Productivity.SolutionRunner.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Productivity.SolutionRunner.ViewModels.Commands
 {
-    public class UnPinCommand : CommandBase
+    public class UnPinCommand : Command
     {
         private readonly FileViewModel viewModel;
 
@@ -17,14 +18,10 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels.Commands
             this.viewModel = viewModel;
         }
 
-        protected override bool CanExecute()
-        {
-            return true;
-        }
+        public override bool CanExecute() 
+            => true;
 
-        protected override void Execute()
-        {
-            viewModel.IsPinned = false;
-        }
+        public override void Execute() 
+            => viewModel.IsPinned = false;
     }
 }

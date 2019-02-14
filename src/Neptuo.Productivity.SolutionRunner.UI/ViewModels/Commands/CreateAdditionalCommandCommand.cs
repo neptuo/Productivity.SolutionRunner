@@ -1,4 +1,5 @@
-﻿using Neptuo.Productivity.SolutionRunner.Services;
+﻿using Neptuo.Observables.Commands;
+using Neptuo.Productivity.SolutionRunner.Services;
 using Neptuo.Productivity.SolutionRunner.Services.Applications;
 using System;
 using System.Collections.Generic;
@@ -9,7 +10,7 @@ using System.Windows.Input;
 
 namespace Neptuo.Productivity.SolutionRunner.ViewModels.Commands
 {
-    public class CreateAdditionalCommandCommand : CommandBase
+    public class CreateAdditionalCommandCommand : Command
     {
         private readonly AdditionalApplicationEditViewModel viewModel;
         private readonly INavigator navigator;
@@ -22,12 +23,10 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels.Commands
             this.navigator = navigator;
         }
 
-        protected override bool CanExecute()
-        {
-            return true;
-        }
+        public override bool CanExecute() 
+            => true;
 
-        protected override void Execute()
+        public override void Execute()
         {
             navigator.OpenAdditionalCommandEdit(
                 new AdditionalApplicationModel(null, viewModel.Path, null, false, Key.None), 

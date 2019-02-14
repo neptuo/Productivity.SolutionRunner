@@ -28,10 +28,8 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels.Commands
             return value;
         }
 
-        public override bool CanExecute()
-        {
-            return Directory.Exists(FindPath());
-        }
+        public override bool CanExecute() 
+            => Directory.Exists(FindPath());
 
         public override void Execute()
         {

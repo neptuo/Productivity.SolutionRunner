@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Productivity.SolutionRunner.ViewModels
 {
-    public class Container<T> : ObservableObject
+    public class Container<T> : ObservableModel
         where T : class
     {
         private string title;

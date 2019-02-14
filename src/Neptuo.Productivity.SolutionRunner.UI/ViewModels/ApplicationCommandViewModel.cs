@@ -9,7 +9,7 @@ using System.Windows.Input;
 
 namespace Neptuo.Productivity.SolutionRunner.ViewModels
 {
-    public class ApplicationCommandViewModel : ObservableObject, IApplication
+    public class ApplicationCommandViewModel : ObservableModel, IApplication
     {
         public string Name { get; }
         public string Path { get; }

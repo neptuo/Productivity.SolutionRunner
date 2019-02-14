@@ -19,7 +19,7 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels
     /// <summary>
     /// The view model of main window.
     /// </summary>
-    public partial class MainViewModel : ObservableObject, IApplicationCollection, IFileCollection, IDisposable
+    public partial class MainViewModel : ObservableModel, IApplicationCollection, IFileCollection, IDisposable
     {
         private readonly IFileSearchService fileSearch;
         private readonly FileSearchModeGetter fileSearchModeGetter;

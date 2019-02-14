@@ -1,4 +1,5 @@
-﻿using Neptuo.Productivity.SolutionRunner.Services;
+﻿using Neptuo.Observables.Commands;
+using Neptuo.Productivity.SolutionRunner.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Productivity.SolutionRunner.ViewModels.Commands
 {
-    public class EditAdditionalApplicationCommand : CommandBase<AdditionalApplicationListViewModel>
+    public class EditAdditionalApplicationCommand : Command<AdditionalApplicationListViewModel>
     {
         private readonly ConfigurationViewModel viewModel;
         private readonly INavigator navigator;
@@ -20,12 +21,10 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels.Commands
             this.navigator = navigator;
         }
 
-        protected override bool CanExecute(AdditionalApplicationListViewModel parameter)
-        {
-            return true;
-        }
+        public override bool CanExecute(AdditionalApplicationListViewModel parameter) 
+            => true;
 
-        protected override void Execute(AdditionalApplicationListViewModel parameter)
+        public override void Execute(AdditionalApplicationListViewModel parameter)
         {
             if (parameter != null)
             {

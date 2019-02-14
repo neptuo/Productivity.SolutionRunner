@@ -12,7 +12,7 @@ using System.Windows.Media;
 
 namespace Neptuo.Productivity.SolutionRunner.ViewModels
 {
-    public class StatisticsViewModel : ObservableObject
+    public class StatisticsViewModel : ObservableModel
     {
         private readonly IColorGenerator generator;
 

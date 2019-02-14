@@ -13,7 +13,7 @@ namespace Neptuo.Productivity.SolutionRunner.Services
     {
         private readonly INavigator navigator;
         private readonly INavigatorState state;
-        private ComponentDispatcherHotKeyCollection hotKeys;
+        private ComponentDispatcherHotkeyCollection hotKeys;
         private KeyViewModel runKey;
 
         public DefaultRunHotKeyService(INavigator navigator, INavigatorState state)
@@ -22,7 +22,7 @@ namespace Neptuo.Productivity.SolutionRunner.Services
             Ensure.NotNull(state, "state");
             this.navigator = navigator;
             this.state = state;
-            this.hotKeys = new ComponentDispatcherHotKeyCollection();
+            this.hotKeys = new ComponentDispatcherHotkeyCollection();
         }
 
         public bool IsSet

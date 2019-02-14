@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Neptuo.Observables.Commands;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Productivity.SolutionRunner.ViewModels.Commands
 {
-    public class RemoveAdditionalApplicationCommand : CommandBase<AdditionalApplicationListViewModel>
+    public class RemoveAdditionalApplicationCommand : Command<AdditionalApplicationListViewModel>
     {
         public interface IContainer
         {
@@ -21,12 +22,10 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels.Commands
             this.container = container;
         }
 
-        protected override bool CanExecute(AdditionalApplicationListViewModel parameter)
-        {
-            return true;
-        }
+        public override bool CanExecute(AdditionalApplicationListViewModel parameter) 
+            => true;
 
-        protected override void Execute(AdditionalApplicationListViewModel parameter)
+        public override void Execute(AdditionalApplicationListViewModel parameter)
         {
             if (parameter != null)
                 container.Remove(parameter);

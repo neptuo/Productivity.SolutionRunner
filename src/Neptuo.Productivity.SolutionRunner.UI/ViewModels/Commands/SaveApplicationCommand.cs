@@ -1,4 +1,5 @@
-﻿using Neptuo.Productivity.SolutionRunner.Services.Applications;
+﻿using Neptuo.Observables.Commands;
+using Neptuo.Productivity.SolutionRunner.Services.Applications;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -9,7 +10,7 @@ using System.Windows.Input;
 
 namespace Neptuo.Productivity.SolutionRunner.ViewModels.Commands
 {
-    public class SaveApplicationCommand : CommandBase
+    public class SaveApplicationCommand : Command
     {
         private readonly IApplicationViewModel viewModel;
         private readonly AdditionalApplicationModel sourceModel;
@@ -26,7 +27,7 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels.Commands
             this.isHotKeyRequired = isHotKeyRequired;
         }
 
-        protected override bool CanExecute()
+        public override bool CanExecute()
         {
             if (String.IsNullOrEmpty(viewModel.Path) || !File.Exists(viewModel.Path))
                 return false;
@@ -37,7 +38,7 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels.Commands
             return true;
         }
 
-        protected override void Execute()
+        public override void Execute()
         {
             AdditionalApplicationModel targetModel = viewModel.ToModel();
             if (sourceModel == null || !sourceModel.Equals(targetModel))
@@ -45,5 +46,8 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels.Commands
             else
                 onSaved(null);
         }
+
+        public new void RaiseCanExecuteChanged()
+            => base.RaiseCanExecuteChanged();
     }
 }

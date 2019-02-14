@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Productivity.SolutionRunner.ViewModels
 {
-    public class UiBackgroundContext : ObservableObject, IBackgroundContext
+    public class UiBackgroundContext : ObservableModel, IBackgroundContext
     {
         private int currentCount;
 

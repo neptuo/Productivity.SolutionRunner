@@ -10,7 +10,7 @@ using System.Windows.Input;
 
 namespace Neptuo.Productivity.SolutionRunner.ViewModels
 {
-    public class MainApplicationListViewModel : ObservableObject, IPreferedApplicationViewModel, IApplicationBuilder
+    public class MainApplicationListViewModel : ObservableModel, IPreferedApplicationViewModel, IApplicationBuilder
     {
         private ImageSource icon;
         public ImageSource Icon

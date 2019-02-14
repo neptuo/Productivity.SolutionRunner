@@ -15,7 +15,7 @@ using System.Windows.Input;
 
 namespace Neptuo.Productivity.SolutionRunner.ViewModels
 {
-    public class TroubleshootViewModel : ObservableObject
+    public class TroubleshootViewModel : ObservableModel
     {
         private readonly ILogService logProvider;
 

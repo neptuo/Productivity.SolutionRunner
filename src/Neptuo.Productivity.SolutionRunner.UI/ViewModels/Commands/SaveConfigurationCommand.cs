@@ -1,4 +1,5 @@
-﻿using Neptuo.Productivity.SolutionRunner.Services.Configuration;
+﻿using Neptuo.Observables.Commands;
+using Neptuo.Productivity.SolutionRunner.Services.Configuration;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Productivity.SolutionRunner.ViewModels.Commands
 {
-    public class SaveConfigurationCommand : CommandBase
+    public class SaveConfigurationCommand : Command
     {
         private readonly ConfigurationViewModel viewModel;
         private readonly IConfigurationViewModelMapper mapper;
@@ -27,7 +28,7 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels.Commands
             this.settings = settings;
         }
 
-        protected override bool CanExecute()
+        public override bool CanExecute()
         {
             if (String.IsNullOrEmpty(viewModel.SourceDirectoryPath))
                 return false;
@@ -41,7 +42,7 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels.Commands
             return true;
         }
 
-        protected override void Execute()
+        public override void Execute()
         {
             Properties.Configuration.Default.Path = viewModel.ConfigurationPath;
             Properties.Configuration.Default.Save();
@@ -51,5 +52,8 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels.Commands
             settingsService.SaveAsync(settings);
             EventManager.RaiseConfigurationSaved(viewModel);
         }
+
+        public new void RaiseCanExecuteChanged()
+            => base.RaiseCanExecuteChanged();
     }
 }

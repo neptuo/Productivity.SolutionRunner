@@ -20,7 +20,7 @@ using Neptuo.Logging;
 
 namespace Neptuo.Productivity.SolutionRunner.ViewModels
 {
-    public class ConfigurationViewModel : ObservableObject, CreateAdditionalApplicationCommand.IContainer, RemoveAdditionalApplicationCommand.IContainer
+    public class ConfigurationViewModel : ObservableModel, CreateAdditionalApplicationCommand.IContainer, RemoveAdditionalApplicationCommand.IContainer
     {
         private string sourceDirectoryPath;
         public string SourceDirectoryPath

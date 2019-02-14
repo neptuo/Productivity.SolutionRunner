@@ -12,7 +12,7 @@ using System.Windows.Input;
 
 namespace Neptuo.Productivity.SolutionRunner.ViewModels
 {
-    public class FileViewModel : ObservableObject, IFile
+    public class FileViewModel : ObservableModel, IFile
     {
         private Version version;
         private int? projectCount;

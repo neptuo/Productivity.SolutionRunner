@@ -13,7 +13,7 @@ using System.Windows.Media;
 
 namespace Neptuo.Productivity.SolutionRunner.ViewModels
 {
-    public class AdditionalApplicationListViewModel : ObservableObject, IPreferedApplicationViewModel
+    public class AdditionalApplicationListViewModel : ObservableModel, IPreferedApplicationViewModel
     {
         public AdditionalApplicationModel Model { get; private set; }
 

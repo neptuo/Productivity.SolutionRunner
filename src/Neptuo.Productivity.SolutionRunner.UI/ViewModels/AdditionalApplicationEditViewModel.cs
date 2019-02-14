@@ -13,7 +13,7 @@ using System.Windows.Media;
 
 namespace Neptuo.Productivity.SolutionRunner.ViewModels
 {
-    public class AdditionalApplicationEditViewModel : ObservableObject, IApplicationViewModel
+    public class AdditionalApplicationEditViewModel : ObservableModel, IApplicationViewModel
     {
         public bool IsNameChanged { get; set; }
 

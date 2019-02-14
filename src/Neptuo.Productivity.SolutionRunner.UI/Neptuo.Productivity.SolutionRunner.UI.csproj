@@ -40,6 +40,7 @@
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
     <BootstrapperEnabled>true</BootstrapperEnabled>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -278,7 +279,6 @@
     <Compile Include="ViewModels\AdditionalApplicationListViewModel.cs" />
     <Compile Include="ViewModels\AdditionalCommandEditViewModel.cs" />
     <Compile Include="ViewModels\ApplicationCommandViewModel.cs" />
-    <Compile Include="ViewModels\Commands\CommandBase.cs" />
     <Compile Include="ViewModels\Commands\CreateAdditionalApplicationCommand.cs" />
     <Compile Include="ViewModels\Commands\CreateAdditionalCommandCommand.cs" />
     <Compile Include="ViewModels\Commands\EditAdditionalCommandCommand.cs" />
