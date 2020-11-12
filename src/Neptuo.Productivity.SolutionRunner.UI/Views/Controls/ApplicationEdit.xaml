@@ -54,6 +54,7 @@
         </StackPanel>
         <StackPanel Style="{StaticResource EditorPanelStyle}">
             <CheckBox Content="Run as Administrator" IsChecked="{Binding IsAdministratorRequired}" />
+            <CheckBox Content="Show application window" IsChecked="{Binding IsApplicationWindowShown}" Margin="0,4,0,0" />
         </StackPanel>
     </StackPanel>
 </UserControl>

@@ -30,7 +30,7 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels.Commands
         protected override void Execute()
         {
             navigator.OpenAdditionalCommandEdit(
-                new AdditionalApplicationModel(null, viewModel.Path, null, false, Key.None), 
+                new AdditionalApplicationModel(null, viewModel.Path, null, true, false, Key.None), 
                 m => viewModel.Commands.Add(new AdditionalApplicationListViewModel(m))
             );
         }

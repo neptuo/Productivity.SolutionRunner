@@ -62,6 +62,12 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Execution
             if (isAdministratorRequired || application.IsAdministratorRequired)
                 info.Verb = "runas";
 
+            if (!application.IsApplicationWindowShown)
+            {
+                info.CreateNoWindow = true;
+                info.UseShellExecute = false;
+            }
+
             try
             {
                 Process.Start(info);

@@ -18,7 +18,7 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Applications
             if (EnsureInstallerPath())
             {
                 string args = $"-- modify --installPath \"{installationPath}\"";
-                application.AddCommand("Installer", installerPath, args, args, true, Key.I);
+                application.AddCommand("Installer", installerPath, args, args, true, true, Key.I);
             }
         }
 

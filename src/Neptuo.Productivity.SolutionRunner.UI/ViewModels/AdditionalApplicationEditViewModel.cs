@@ -91,6 +91,20 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels
             }
         }
 
+        private bool isApplicationWindowShown;
+        public bool IsApplicationWindowShown
+        {
+            get { return isApplicationWindowShown; }
+            set
+            {
+                if (isApplicationWindowShown != value)
+                {
+                    isApplicationWindowShown = value;
+                    RaisePropertyChanged();
+                }
+            }
+        }
+
         private ImageSource icon;
         public ImageSource Icon
         {
@@ -142,6 +156,7 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels
                 Path = model.Path;
                 Arguments = model.Arguments;
                 IsAdministratorRequired = model.IsAdministratorRequired;
+                IsApplicationWindowShown = model.IsApplicationWindowShown;
                 HotKey = model.HotKey == Key.None 
                     ? null 
                     : new KeyViewModel(model.HotKey, ModifierKeys.None);
@@ -163,6 +178,7 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels
                 Path,
                 Arguments,
                 IsAdministratorRequired,
+                IsApplicationWindowShown,
                 HotKey.GetKey(),
                 Commands
                     .Select(vm => vm.Model)

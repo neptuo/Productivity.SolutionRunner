@@ -58,6 +58,7 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Applications
                     null,
                     "{DirectoryPath}",
                     false,
+                    true,
                     IconExtractor.Get(filePath),
                     Key.None,
                     true
@@ -68,6 +69,7 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Applications
                     filePath,
                     null,
                     null,
+                    true,
                     true,
                     Key.A
                 );

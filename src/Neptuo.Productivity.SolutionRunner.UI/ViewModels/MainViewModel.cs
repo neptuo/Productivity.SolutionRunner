@@ -240,16 +240,16 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels
             return hotKey;
         }
 
-        public IApplicationBuilder Add(string name, string path, string emptyArguments, string fileArguments, bool isAdministratorRequired, ImageSource icon, Key hotKey, bool isMain)
+        public IApplicationBuilder Add(string name, string path, string emptyArguments, string fileArguments, bool isAdministratorRequired, bool isApplicationWindowShown, ImageSource icon, Key hotKey, bool isMain)
         {
-            ApplicationViewModel viewModel = new ApplicationViewModel(name, null, path, emptyArguments, fileArguments, isAdministratorRequired, icon, EnsureHotKey(hotKey, isMain), isMain);
+            ApplicationViewModel viewModel = new ApplicationViewModel(name, null, path, emptyArguments, fileArguments, isAdministratorRequired, isApplicationWindowShown, icon, EnsureHotKey(hotKey, isMain), isMain);
             applications.Add(viewModel);
             return viewModel;
         }
 
-        public IApplicationBuilder Add(string name, Version version, string path, string emptyArguments, string fileArguments, bool isAdministratorRequired, ImageSource icon, Key hotKey, bool isMain)
+        public IApplicationBuilder Add(string name, Version version, string path, string emptyArguments, string fileArguments, bool isAdministratorRequired, bool isApplicationWindowShown, ImageSource icon, Key hotKey, bool isMain)
         {
-            ApplicationViewModel viewModel = new ApplicationViewModel(name, version, path, emptyArguments, fileArguments, isAdministratorRequired, icon, EnsureHotKey(hotKey, isMain), isMain);
+            ApplicationViewModel viewModel = new ApplicationViewModel(name, version, path, emptyArguments, fileArguments, isAdministratorRequired, isApplicationWindowShown, icon, EnsureHotKey(hotKey, isMain), isMain);
             applications.Add(viewModel);
             return viewModel;
         }

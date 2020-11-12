@@ -9,6 +9,6 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Applications
 {
     public interface IApplicationBuilder
     {
-        IApplicationBuilder AddCommand(string name, string path, string emptyArguments, string fileArguments, bool isAdministratorRequired, Key hotKey);
+        IApplicationBuilder AddCommand(string name, string path, string emptyArguments, string fileArguments, bool isAdministratorRequired, bool isApplicationWindowShown, Key hotKey);
     }
 }

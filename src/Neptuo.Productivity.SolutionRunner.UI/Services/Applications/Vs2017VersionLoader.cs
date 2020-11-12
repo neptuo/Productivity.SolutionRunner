@@ -23,6 +23,7 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Applications
                     null,
                     null,
                     false,
+                    true,
                     IconExtractor.Get(filePath),
                     Key.None,
                     true

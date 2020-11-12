@@ -29,6 +29,7 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Applications
                     null,
                     model.Arguments,
                     model.IsAdministratorRequired,
+                    model.IsApplicationWindowShown,
                     IconExtractor.Get(model.Path),
                     model.HotKey,
                     false
@@ -42,6 +43,7 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Applications
                         null,
                         commandModel.Arguments,
                         commandModel.IsAdministratorRequired,
+                        commandModel.IsApplicationWindowShown,
                         commandModel.HotKey
                     );
                 }

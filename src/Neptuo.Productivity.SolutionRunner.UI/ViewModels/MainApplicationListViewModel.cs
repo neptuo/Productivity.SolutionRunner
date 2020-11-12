@@ -68,7 +68,7 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels
             }
         }
 
-        public IApplicationBuilder AddCommand(string name, string path, string emptyArguments, string fileArguments, bool isAdministratorRequired, Key hotKey)
+        public IApplicationBuilder AddCommand(string name, string path, string emptyArguments, string fileArguments, bool isAdministratorRequired, bool isApplicationWindowShown, Key hotKey)
         {
             return this;
         }

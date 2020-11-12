@@ -65,13 +65,14 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Applications
             string path = storage.Get<string>("Path");
             string arguments = storage.Get<string>("Arguments", null);
             bool isAdministratorRequired = storage.Get<bool>("IsAdministratorRequired", false);
+            bool isApplicationWindowShown = storage.Get<bool>("IsApplicationWindowShown", true);
             Key hotKey = storage.Get("HotKey", Key.None);
 
             IReadOnlyList<AdditionalApplicationModel> commands = LoadCollection(storage);
             if (commands == null)
-                return new AdditionalApplicationModel(name, path, arguments, isAdministratorRequired, hotKey);
+                return new AdditionalApplicationModel(name, path, arguments, isAdministratorRequired, isApplicationWindowShown, hotKey);
             else
-                return new AdditionalApplicationModel(name, path, arguments, isAdministratorRequired, hotKey, commands);
+                return new AdditionalApplicationModel(name, path, arguments, isAdministratorRequired, isApplicationWindowShown, hotKey, commands);
         }
 
         public void Save(ICompositeStorage storage)
@@ -99,6 +100,7 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Applications
             storage.Add("Path", model.Path);
             storage.Add("Arguments", model.Arguments);
             storage.Add("IsAdministratorRequired", model.IsAdministratorRequired);
+            storage.Add("IsApplicationWindowShown", model.IsApplicationWindowShown);
 
             if (model.HotKey != Key.None)
                 storage.Add("HotKey", model.HotKey);
