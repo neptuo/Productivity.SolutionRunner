@@ -62,6 +62,7 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Applications
             string name = "Visual Studio";
             string filePath = null;
             string installationPath = null;
+            bool isPreRelease = false;
             Version version = null;
 
             var instance2 = (ISetupInstance2)instance;
@@ -79,6 +80,8 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Applications
 
                 if (instance is ISetupInstanceCatalog catalog)
                 {
+                    isPreRelease = catalog.IsPrerelease();
+
                     var properties = EnumerateProperties(catalog);
                     foreach (var property in properties)
                     {
@@ -102,6 +105,9 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Applications
                     name,
                     VersionFormatter.Format(version)
                 );
+
+                if (isPreRelease)
+                    name += " Prev";
 
                 output = (name, installationPath, filePath, version);
                 return true;
