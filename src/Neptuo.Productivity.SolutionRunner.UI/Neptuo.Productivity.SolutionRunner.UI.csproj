@@ -91,7 +91,7 @@
     </Reference>
     <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="Microsoft.VisualStudio.Setup.Configuration.Interop, Version=1.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Microsoft.VisualStudio.Setup.Configuration.Interop.1.15.103\lib\net35\Microsoft.VisualStudio.Setup.Configuration.Interop.dll</HintPath>
+      <HintPath>..\..\packages\Microsoft.VisualStudio.Setup.Configuration.Interop.1.16.30\lib\net35\Microsoft.VisualStudio.Setup.Configuration.Interop.dll</HintPath>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
     <Reference Include="Neptuo, Version=5.5.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -177,6 +177,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Configuration.settings</DependentUpon>
     </Compile>
+    <Compile Include="Services\Applications\VsInstallerCommandLoader.cs" />
     <Compile Include="Services\Configuration\ISettingsFactory.cs" />
     <Compile Include="Services\Configuration\ISettingsMapper.cs" />
     <Compile Include="Services\Configuration\JsonSettings.cs" />
