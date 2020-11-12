@@ -136,10 +136,9 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels
         }
 
         private SaveApplicationCommand saveCommand;
-        public ICommand SaveCommand
-        {
-            get { return saveCommand; }
-        }
+        public ICommand SaveCommand => saveCommand;
+
+        public ICommand SelectCustomIcon { get; } // null
 
         public AdditionalCommandEditViewModel(INavigator navigator, AdditionalApplicationModel model, Action<AdditionalApplicationModel> onSaved)
         {
@@ -165,6 +164,7 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels
                 Name,
                 Path,
                 Arguments,
+                null,
                 IsAdministratorRequired,
                 IsApplicationWindowShown,
                 HotKey.GetKey()

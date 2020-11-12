@@ -23,6 +23,12 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Applications
         {
             foreach (AdditionalApplicationModel model in settings.AdditionalApplications)
             {
+                ImageSource icon = null;
+                if (model.IconData == null)
+                    icon = IconExtractor.Get(model.Path);
+                else
+                    icon = Base64ImageCoder.GetImageFromString(model.IconData);
+
                 IApplicationBuilder builder = applications.Add(
                     model.Name,
                     model.Path,
@@ -30,7 +36,7 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Applications
                     model.Arguments,
                     model.IsAdministratorRequired,
                     model.IsApplicationWindowShown,
-                    IconExtractor.Get(model.Path),
+                    icon,
                     model.HotKey,
                     false
                 );

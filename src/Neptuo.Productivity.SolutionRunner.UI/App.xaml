@@ -15,6 +15,8 @@
 
             <converters:CuttingConverter x:Key="ZeroOrLowerToVisibleConverter" EdgeValue="0" GreaterValue="Collapsed" LowerValue="Visible" EqualValue="Visible" />
             <converters:BoolConverter x:Key="ActiveBorderConverter" TrueValue="{StaticResource ActiveBrush}" FalseValue="{StaticResource InactiveBrush}" />
+            <converters:NullConverter x:Key="NullToCollapsedConverter" TrueValue="Collapsed" FalseValue="Visible" />
+            <converters:NullConverter x:Key="NullToVisibleConverter" TrueValue="Visible" FalseValue="Collapsed" />
 
             <Style TargetType="TextBlock">
                 <Setter Property="Foreground" Value="{DynamicResource ForegroundBrush}" />
@@ -105,11 +107,12 @@
             </Style>
             <Style x:Key="PlainButtonStyle" TargetType="Button">
                 <Setter Property="Cursor" Value="Hand" />
+                <Setter Property="VerticalContentAlignment" Value="Bottom" />
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="Button">
                             <Border Padding="{TemplateBinding Padding}" Margin="{TemplateBinding Margin}">
-                                <ContentPresenter VerticalAlignment="Bottom" />
+                                <ContentPresenter VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
                             </Border>
                         </ControlTemplate>
                     </Setter.Value>
@@ -123,6 +126,26 @@
                             <Border Padding="{TemplateBinding Padding}" Margin="{TemplateBinding Margin}">
                                 <ContentPresenter VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
                             </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            <Style x:Key="LinkButtonStyle" TargetType="Button">
+                <Setter Property="Height" Value="15" />
+                <Setter Property="HorizontalAlignment" Value="Left" />
+                <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="Button">
+                            <TextBlock x:Name="content" Text="{TemplateBinding Content}" Foreground="{StaticResource LinkForegroundBrush}" TextDecorations="Underline" Cursor="Hand" ToolTip="{TemplateBinding ToolTip}" Margin="0" Padding="0" />
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsFocused" Value="True">
+                                    <Setter TargetName="content" Property="Foreground" Value="Red" />
+                                </Trigger>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter TargetName="content" Property="Foreground" Value="Red" />
+                                </Trigger>
+                            </ControlTemplate.Triggers>
                         </ControlTemplate>
                     </Setter.Value>
                 </Setter>
