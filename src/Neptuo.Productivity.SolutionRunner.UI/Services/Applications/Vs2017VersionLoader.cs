@@ -14,14 +14,10 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Applications
     {
         public void Add(IApplicationCollection applications)
         {
-            foreach (var (name, filePath, version) in Enumerate())
+            foreach (var (name, filePath, version) in Enumerate().OrderBy(vs => vs.name))
             {
                 IApplicationBuilder builder = applications.Add(
-                    String.Format(
-                        "{0} {1}",
-                        name,
-                        VersionFormatter.Format(version)
-                    ),
+                    name,
                     version,
                     filePath,
                     null,
@@ -95,6 +91,12 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Applications
 
             if (name != null && filePath != null && File.Exists(filePath) && version != null)
             {
+                name = String.Format(
+                    "{0} {1}", 
+                    name, 
+                    VersionFormatter.Format(version)
+                );
+
                 output = (name, filePath, version);
                 return true;
             }
