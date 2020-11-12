@@ -31,8 +31,8 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Applications
             {
                 imageSource = Imaging.CreateBitmapSourceFromHIcon(
                     i.Handle,
-                    new Int32Rect(0, 0, 32, 32),
-                    BitmapSizeOptions.FromWidthAndHeight(32, 32)
+                    new Int32Rect(0, 0, i.Size.Width, i.Size.Height),
+                    BitmapSizeOptions.FromWidthAndHeight(i.Size.Width, i.Size.Height)
                 );
             }
 
