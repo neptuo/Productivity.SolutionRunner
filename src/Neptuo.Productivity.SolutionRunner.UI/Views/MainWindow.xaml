@@ -149,11 +149,11 @@
                         <ListView.ItemTemplate>
                             <DataTemplate>
                                 <ContentControl x:Name="cocApplication" PreviewMouseDoubleClick="cocApplication_MouseDoubleClick" ToolTip="{Binding Path}">
-                                    <Grid Width="100" Height="60" Background="{StaticResource BackgroundBrush}">
+                                    <Grid Width="120" Height="82" Background="{StaticResource BackgroundBrush}">
                                         <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
                                             <DockPanel>
                                                 <TextBlock Text="{Binding Name}" DockPanel.Dock="Bottom" />
-                                                <Image Source="{Binding Icon}" Width="32" />
+                                                <Image Source="{Binding Icon}" Width="40" Margin="0,0,0,8" />
                                             </DockPanel>
                                         </Grid>
                                         <Grid Style="{StaticResource AccessGrid}" Visibility="{Binding HotKey, Converter={StaticResource KeyToVisibilityConverter}}">
