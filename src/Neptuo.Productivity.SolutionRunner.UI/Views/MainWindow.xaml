@@ -153,7 +153,7 @@
                                         <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
                                             <DockPanel>
                                                 <TextBlock Text="{Binding Name}" DockPanel.Dock="Bottom" />
-                                                <Image Source="{Binding Icon}" Width="40" Margin="0,0,0,8" />
+                                                <Image Source="{Binding Icon}" Width="40" Height="40" Margin="0,0,0,8" />
                                             </DockPanel>
                                         </Grid>
                                         <Grid Style="{StaticResource AccessGrid}" Visibility="{Binding HotKey, Converter={StaticResource KeyToVisibilityConverter}}">
