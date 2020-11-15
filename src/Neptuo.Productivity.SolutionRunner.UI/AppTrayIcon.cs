@@ -44,11 +44,11 @@ namespace Neptuo.Productivity.SolutionRunner
                 trayIcon.MouseClick += OnIconClick;
                 trayIcon.Visible = true;
 
-                trayIcon.ContextMenu = new ContextMenu();
-                trayIcon.ContextMenu.MenuItems.Add("Open", (sender, e) => { navigator.OpenMain(); windows.Configuration?.Close(); windows.Statistics?.Close(); });
-                trayIcon.ContextMenu.MenuItems.Add("Configuration", (sender, e) => { navigator.OpenConfiguration(); windows.Main?.Close(); windows.Statistics?.Close(); });
-                trayIcon.ContextMenu.MenuItems.Add("Statistics", (sender, e) => navigator.OpenStatistics());
-                trayIcon.ContextMenu.MenuItems.Add("Exit", (sender, e) => app.Shutdown());
+                //trayIcon.ContextMenu = new ContextMenu();
+                //trayIcon.ContextMenu.MenuItems.Add("Open", (sender, e) => { navigator.OpenMain(); windows.Configuration?.Close(); windows.Statistics?.Close(); });
+                //trayIcon.ContextMenu.MenuItems.Add("Configuration", (sender, e) => { navigator.OpenConfiguration(); windows.Main?.Close(); windows.Statistics?.Close(); });
+                //trayIcon.ContextMenu.MenuItems.Add("Statistics", (sender, e) => navigator.OpenStatistics());
+                //trayIcon.ContextMenu.MenuItems.Add("Exit", (sender, e) => app.Shutdown());
                 return true;
             }
 

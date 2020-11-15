@@ -30,7 +30,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
-using System.Deployment.Application;
+//using System.Deployment.Application;
 using System.IO;
 using System.Linq;
 using System.Text;

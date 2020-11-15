@@ -1,0 +1,465 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{F1CE4B36-FA69-473F-A5BB-A44478DC07E2}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Neptuo.Productivity.SolutionRunner</RootNamespace>
+    <AssemblyName>Productivity.SolutionRunner.UI</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+    <IsWebBootstrapper>true</IsWebBootstrapper>
+    <TargetFrameworkProfile />
+    <PublishUrl>C:\inetpub\wwwroot\applications\apps\solution-runner\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Web</InstallFrom>
+    <UpdateEnabled>true</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <InstallUrl>https://apps.neptuo.com/solution-runner/</InstallUrl>
+    <SupportUrl>https://github.com/neptuo/Productivity.SolutionRunner/issues</SupportUrl>
+    <ProductName>Productivity.SolutionRunner</ProductName>
+    <PublisherName>Neptuo</PublisherName>
+    <SuiteName>Productivity</SuiteName>
+    <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
+    <WebPage>index.html</WebPage>
+    <OpenBrowserOnPublish>false</OpenBrowserOnPublish>
+    <ApplicationRevision>1</ApplicationRevision>
+    <ApplicationVersion>1.12.0.%2a</ApplicationVersion>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <PublishWizardCompleted>true</PublishWizardCompleted>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>true</UseVSHostingProcess>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestCertificateThumbprint>691A6F4951941906DC5AFBB6F6656E8F19D60D68</ManifestCertificateThumbprint>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestKeyFile>TemporaryKey.pfx</ManifestKeyFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <GenerateManifests>true</GenerateManifests>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignManifests>false</SignManifests>
+  </PropertyGroup>
+  <PropertyGroup>
+    <TargetZone>LocalIntranet</TargetZone>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationManifest>Properties\app.manifest</ApplicationManifest>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>Neptuo.Productivity.SolutionRunner.AppEntryPoint</StartupObject>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Resources\SolutionRunner.ico</ApplicationIcon>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.VisualBasic" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+    <Compile Include="AppEntryPoint.cs" />
+    <Compile Include="AppEntryPointManager.cs" />
+    <Compile Include="AppPinStateService.cs" />
+    <Compile Include="AppTrayIcon.cs" />
+    <Compile Include="Properties\Configuration.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Configuration.settings</DependentUpon>
+    </Compile>
+    <Compile Include="Services\Applications\Base64ImageCoder.cs" />
+    <Compile Include="Services\Applications\VsInstallerCommandLoader.cs" />
+    <Compile Include="Services\Configuration\ISettingsFactory.cs" />
+    <Compile Include="Services\Configuration\ISettingsMapper.cs" />
+    <Compile Include="Services\Configuration\JsonSettings.cs" />
+    <Compile Include="Services\Configuration\JsonSettingsFactory.cs" />
+    <Compile Include="Services\Configuration\JsonSettingsService.cs" />
+    <Compile Include="Services\Configuration\ManualSettingsMapper.cs" />
+    <Compile Include="Services\Configuration\ModelValueCollection.cs" />
+    <Compile Include="Services\Converters\JsonReadOnlyListConverter.cs" />
+    <Compile Include="Services\Converters\JsonVersionConverter.cs" />
+    <Compile Include="Services\FileLockProvider.cs" />
+    <Compile Include="Services\IBackgroundContext.cs" />
+    <Compile Include="Services\Logging\BatchExecutor.cs" />
+    <Compile Include="Services\Logging\FileLogBatchFactory.cs" />
+    <Compile Include="Services\Logging\FileLogSerializer.cs" />
+    <Compile Include="Services\Logging\IsolatedLogService.cs" />
+    <Compile Include="Services\Logging\LogModel.cs" />
+    <Compile Include="Services\Searching\FileCache.cs" />
+    <Compile Include="Services\Searching\FileStorage.cs" />
+    <Compile Include="Services\Searching\IDiagnosticService.cs" />
+    <Compile Include="Services\Searching\PatternMatcherFactory.IFileModel.cs" />
+    <Compile Include="Services\SequenceIsolatedFile.cs" />
+    <Compile Include="ViewModels\Commands\ClearCustomIconCommand.cs" />
+    <Compile Include="ViewModels\Commands\ImportConfigurationCommand.cs" />
+    <Compile Include="ViewModels\Commands\LoadIconFromFileCommand.cs" />
+    <Compile Include="ViewModels\Commands\OpenIsolatedFolderCommand.cs" />
+    <Compile Include="ViewModels\Commands\OpenLastSearchFilesCommand.cs" />
+    <Compile Include="ViewModels\Commands\OpenLogCommand.cs" />
+    <Compile Include="ViewModels\Commands\SaveAsConfigurationCommand.cs" />
+    <Compile Include="ViewModels\IConfigurationViewModelMapper.cs" />
+    <Compile Include="ViewModels\TroubleshootViewModel.cs" />
+    <Compile Include="ViewModels\UiBackgroundContext.cs" />
+    <Compile Include="Views\Converters\KeyToVisibilityConverter.cs" />
+    <Compile Include="Views\DataSources\LogLevels.cs" />
+    <Compile Include="Views\DesignData\DesignConfigurationViewModelMapper.cs" />
+    <Compile Include="Views\DesignData\DesignDiagnosticService.cs" />
+    <Compile Include="Views\DesignData\DesignLogProvider.cs" />
+    <Compile Include="Views\IWindowManager.cs" />
+    <Compile Include="Properties\Settings.Partial.cs" />
+    <Compile Include="Properties\VersionInfo.cs" />
+    <Compile Include="Services\Applications\AdditionalApplicationLoader.cs" />
+    <Compile Include="Services\Applications\AdditionalApplicationCollection.cs" />
+    <Compile Include="Services\Applications\AdditionalApplicationModel.cs" />
+    <Compile Include="Services\Applications\ApplicationLoaderCollection.cs" />
+    <Compile Include="Services\Applications\EmptyAplicationBuilder.cs" />
+    <Compile Include="Services\Applications\IApplicationBuilder.cs" />
+    <Compile Include="Services\Applications\IApplicationLoader.cs" />
+    <Compile Include="Services\Applications\IconExtractor.cs" />
+    <Compile Include="Services\Applications\ApplicationFilteredCollection.cs" />
+    <Compile Include="Services\Applications\VersionFormatter.cs" />
+    <Compile Include="Services\Applications\Vs2017VersionLoader.cs" />
+    <Compile Include="Services\Applications\VsCodeLoader.cs" />
+    <Compile Include="Services\Colors\IColorGenerator.cs" />
+    <Compile Include="Services\Colors\NamedColorGenerator.cs" />
+    <Compile Include="Services\Colors\RandomColorGenerator.cs" />
+    <Compile Include="Services\Configuration\DefaultKeyValueCollection.cs" />
+    <Compile Include="Services\Configuration\DefaultSettingsService.cs" />
+    <Compile Include="Services\Configuration\ISettings.cs" />
+    <Compile Include="Services\Configuration\ISettingsService.cs" />
+    <Compile Include="Services\Converters\AdditionalApplicationCollectionConverter.cs" />
+    <Compile Include="Services\Converters\KeyViewModelConverter.cs" />
+    <Compile Include="Services\Exceptions\MessageBoxExceptionHandler.cs" />
+    <Compile Include="Services\Exceptions\UnauthorizedAccessExceptionHandler.cs" />
+    <Compile Include="Services\Execution\IApplication.cs" />
+    <Compile Include="Services\Execution\IFile.cs" />
+    <Compile Include="Services\Execution\ProcessService.cs" />
+    <Compile Include="Services\INavigatorState.cs" />
+    <Compile Include="Services\IRunHotKeyService.cs" />
+    <Compile Include="Services\DefaultRunHotKeyService.cs" />
+    <Compile Include="Services\Logging\ErrorLogSerializer.cs" />
+    <Compile Include="Services\Logging\ILogService.cs" />
+    <Compile Include="Services\Positions\IPositionProvider.cs" />
+    <Compile Include="Services\Positions\IPositionTarget.cs" />
+    <Compile Include="Services\Positions\PositionService.cs" />
+    <Compile Include="Services\Searching\DelayedFileSearchService.cs" />
+    <Compile Include="Services\Applications\IApplicationCollection.cs" />
+    <Compile Include="Services\IFileCollection.cs" />
+    <Compile Include="Services\Searching\FileModel.cs" />
+    <Compile Include="Services\Searching\FileSearchMode.cs" />
+    <Compile Include="Services\Searching\FileSystemWatcherSearchService.cs" />
+    <Compile Include="Services\Searching\IFileSearchService.cs" />
+    <Compile Include="Services\INavigator.cs" />
+    <Compile Include="Services\IPinStateService.cs" />
+    <Compile Include="Services\Searching\PatternMatcherFactory.cs" />
+    <Compile Include="Services\Searching\PinnedForEmptyPatternFileSearchService.cs" />
+    <Compile Include="Services\Searching\_EnsureExceptionExtensions.cs" />
+    <Compile Include="Services\StartupFlags\StartupModel.cs" />
+    <Compile Include="Services\StartupFlags\StartupModelProvider.cs" />
+    <Compile Include="Services\StartupShortcuts\ShortcutService.cs" />
+    <Compile Include="Services\Statistics\ApplicationCountModel.cs" />
+    <Compile Include="Services\Statistics\CountingService.cs" />
+    <Compile Include="Services\Statistics\FileCountModel.cs" />
+    <Compile Include="Services\Statistics\ICountingAppender.cs" />
+    <Compile Include="Services\Statistics\ICountingReader.cs" />
+    <Compile Include="Services\Statistics\Month.cs" />
+    <Compile Include="Services\Statistics\SwitchableContingService.cs" />
+    <Compile Include="Services\Themes\ThemeMode.cs" />
+    <Compile Include="Services\UserConfigurations\FileSearchCountGetter.cs" />
+    <Compile Include="Services\UserConfigurations\FileSearchModeGetter.cs" />
+    <Compile Include="Services\Applications\VsVersionLoader.cs" />
+    <Compile Include="ThrottlingHelper.cs" />
+    <Compile Include="ViewModels\_ApplicationViewModelCollectionExtensions.cs" />
+    <Compile Include="ViewModels\AdditionalApplicationEditViewModel.cs" />
+    <Compile Include="ViewModels\AdditionalApplicationListViewModel.cs" />
+    <Compile Include="ViewModels\AdditionalCommandEditViewModel.cs" />
+    <Compile Include="ViewModels\ApplicationCommandViewModel.cs" />
+    <Compile Include="ViewModels\Commands\CreateAdditionalApplicationCommand.cs" />
+    <Compile Include="ViewModels\Commands\CreateAdditionalCommandCommand.cs" />
+    <Compile Include="ViewModels\Commands\EditAdditionalCommandCommand.cs" />
+    <Compile Include="ViewModels\Commands\PinCommand.cs" />
+    <Compile Include="ViewModels\Commands\EditAdditionalApplicationCommand.cs" />
+    <Compile Include="ViewModels\Commands\RemoveAdditionalCommandCommand.cs" />
+    <Compile Include="ViewModels\Commands\RemoveAdditionalApplicationCommand.cs" />
+    <Compile Include="ViewModels\Commands\SaveApplicationCommand.cs" />
+    <Compile Include="ViewModels\Commands\SaveConfigurationCommand.cs" />
+    <Compile Include="ViewModels\Commands\UnPinCommand.cs" />
+    <Compile Include="ViewModels\ConfigurationViewModel.cs" />
+    <Compile Include="ViewModels\ContainerCollection.cs" />
+    <Compile Include="ViewModels\EventManager.cs" />
+    <Compile Include="ViewModels\Commands\Factories\SaveConfigurationCommandFactory.cs" />
+    <Compile Include="ViewModels\Factories\ConfigurationViewModelFactory.cs" />
+    <Compile Include="ViewModels\Factories\MainViewModelFactory.cs" />
+    <Compile Include="ViewModels\FileViewModel.cs" />
+    <Compile Include="ViewModels\IApplicationViewModel.cs" />
+    <Compile Include="ViewModels\IPreferedApplicationViewModel.cs" />
+    <Compile Include="ViewModels\MainApplicationCollection.cs" />
+    <Compile Include="ViewModels\MainApplicationListViewModel.cs" />
+    <Compile Include="ViewModels\NameValueViewModel.cs" />
+    <Compile Include="ViewModels\KeyViewModel.cs" />
+    <Compile Include="Services\Positions\PositionMode.cs" />
+    <Compile Include="ViewModels\Container.cs" />
+    <Compile Include="ViewModels\NoPreferedApplicationViewModel.cs" />
+    <Compile Include="ViewModels\PreferedApplicationCollection.cs" />
+    <Compile Include="ViewModels\StatisticsItemViewModel.cs" />
+    <Compile Include="ViewModels\StatisticsViewModel.cs" />
+    <Compile Include="ViewModels\VersionViewModel.cs" />
+    <Compile Include="ViewModels\VsVersionCollection.cs" />
+    <Compile Include="ViewModels\_KeyViewModelExtensions.cs" />
+    <Compile Include="Views\AdditionalApplicationEditWindow.xaml.cs">
+      <DependentUpon>AdditionalApplicationEditWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\AdditionalCommandEditWindow.xaml.cs">
+      <DependentUpon>AdditionalCommandEditWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ConfigurationWindow.xaml.cs">
+      <DependentUpon>ConfigurationWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Controls\AccessKey.cs" />
+    <Compile Include="Views\Controls\AccessKeyPressedEventArgs.cs" />
+    <Compile Include="Views\Controls\AccessKeyPressingEventArgs.cs" />
+    <Compile Include="Views\Controls\ApplicationEdit.xaml.cs">
+      <DependentUpon>ApplicationEdit.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Controls\FileBrowser.xaml.cs">
+      <DependentUpon>FileBrowser.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Controls\DirectoryBrowser.xaml.cs">
+      <DependentUpon>DirectoryBrowser.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Controls\HelpPopup.xaml.cs">
+      <DependentUpon>HelpPopup.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Controls\HotKeyTextBox.cs" />
+    <Compile Include="Views\Controls\ListView.xaml.cs">
+      <DependentUpon>ListView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Controls\PieChart.xaml.cs">
+      <DependentUpon>PieChart.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Controls\PieChartItem.xaml.cs">
+      <DependentUpon>PieChartItem.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Controls\SettingsExtension.cs" />
+    <Compile Include="Views\Converters\BoolConverter.cs" />
+    <Compile Include="Views\Converters\CuttingConverter.cs" />
+    <Compile Include="Views\Converters\HelpVisibilityMultiValueConverter.cs" />
+    <Compile Include="Views\Converters\KeyToStringConverter.cs" />
+    <Compile Include="Views\Converters\NullConverter.cs" />
+    <Compile Include="Views\Converters\PathConverter.cs" />
+    <Compile Include="Views\Converters\PositionUserDefinedToVisibleConverter.cs" />
+    <Compile Include="Views\DataSources\FileSearchModes.cs" />
+    <Compile Include="Views\DataSources\Boolean.cs" />
+    <Compile Include="Views\DataSources\PositionModes.cs" />
+    <Compile Include="Views\DataSources\ThemeModes.cs" />
+    <Compile Include="Views\DesignData\DesignSettingsService.cs" />
+    <Compile Include="Views\DesignData\ViewModelLocator.cs" />
+    <Compile Include="ViewModels\ApplicationViewModel.cs" />
+    <Compile Include="ViewModels\MainViewModel.cs" />
+    <Compile Include="Views\StatisticsWindow.xaml.cs">
+      <DependentUpon>StatisticsWindow.xaml</DependentUpon>
+    </Compile>
+    <Page Include="Views\AdditionalApplicationEditWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\AdditionalCommandEditWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ConfigurationWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Controls\ApplicationEdit.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Controls\FileBrowser.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Controls\DirectoryBrowser.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Controls\HelpPopup.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Controls\ListView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Controls\PieChart.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Controls\PieChartItem.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\MainWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Views\Controls\WindowDrag.cs" />
+    <Compile Include="Views\MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Page Include="Views\StatisticsWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Themes\Dark.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Themes\Light.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <None Include="Properties\app.manifest" />
+    <None Include="Properties\Configuration.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Configuration.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <AppDesigner Include="Properties\" />
+    <None Include="TemporaryKey.pfx" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Views\Icons\Pinned.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Views\Icons\UnPinned.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Views\Icons\Close.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Views\Icons\Settings.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Views\Icons\Help.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.5">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.5 %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\SolutionRunner.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\SolutionRunner.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Loading.ico" />
+    <Resource Include="Resources\Loading.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="FontAwesome.WPF" Version="4.7.0.9" />
+    <PackageReference Include="Microsoft.VisualStudio.Setup.Configuration.Interop" Version="1.16.30" />
+    <PackageReference Include="Neptuo" Version="5.5.0" />
+    <PackageReference Include="Neptuo.Exceptions" Version="1.2.1" />
+    <PackageReference Include="Neptuo.FileSystems" Version="1.1.0" />
+    <PackageReference Include="Neptuo.FileSystems.Local" Version="1.0.1" />
+    <PackageReference Include="Neptuo.Formatters" Version="2.0.0" />
+    <PackageReference Include="Neptuo.Formatters.Composite" Version="2.2.0" />
+    <PackageReference Include="Neptuo.Formatters.Composite.Json" Version="2.2.0" />
+    <PackageReference Include="Neptuo.Formatters.Composite.Metadata" Version="1.0.1" />
+    <PackageReference Include="Neptuo.Models.Features" Version="1.0.0" />
+    <PackageReference Include="Neptuo.Observables" Version="2.1.0" />
+    <PackageReference Include="Neptuo.PresentationModels" Version="7.2.0" />
+    <PackageReference Include="Neptuo.Windows.Hotkeys" Version="2.0.0" />
+    <PackageReference Include="Neptuo.Windows.Threading" Version="1.0.1" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.1" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
