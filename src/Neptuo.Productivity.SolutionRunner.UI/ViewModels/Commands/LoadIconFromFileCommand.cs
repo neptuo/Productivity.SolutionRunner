@@ -1,4 +1,5 @@
 ﻿using Neptuo;
+using Neptuo.Productivity.SolutionRunner.Services.Applications;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -31,16 +32,8 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels.Commands
 
             if (dialog.ShowDialog() == DialogResult.OK)
             {
-                string path = dialog.FileName;
-                Icon icon = Icon.ExtractAssociatedIcon(path);
-                using (var imageStream = new MemoryStream())
-                {
-                    icon.Save(imageStream);
-                    imageStream.Position = 0;
-
-                    string data = Convert.ToBase64String(imageStream.ToArray());
-                    setter(data);
-                }
+                string imageData = Base64ImageCoder.GetIconFromFile(dialog.FileName);
+                setter(imageData);
             }
         }
     }

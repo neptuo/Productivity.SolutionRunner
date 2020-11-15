@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -21,6 +23,19 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Applications
             image.EndInit();
 
             return image;
+        }
+
+        public static string GetIconFromFile(string filePath)
+        {
+            Icon icon = Icon.ExtractAssociatedIcon(filePath);
+            using (var imageStream = new MemoryStream())
+            {
+                icon.ToBitmap().Save(imageStream, ImageFormat.Png);
+                imageStream.Position = 0;
+
+                string data = Convert.ToBase64String(imageStream.ToArray());
+                return data;
+            }
         }
     }
 }
