@@ -1,4 +1,5 @@
 ﻿using Neptuo;
+using Neptuo.Observables.Commands;
 using Neptuo.Productivity.SolutionRunner.Services.Applications;
 using System;
 using System.Collections.Generic;
@@ -11,7 +12,7 @@ using System.Windows.Forms;
 
 namespace Neptuo.Productivity.SolutionRunner.ViewModels.Commands
 {
-    public class LoadIconFromFileCommand : CommandBase
+    public class LoadIconFromFileCommand : Command
     {
         private readonly Action<string> setter;
 
@@ -21,9 +22,9 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels.Commands
             this.setter = setter;
         }
 
-        protected override bool CanExecute() => true;
+        public override bool CanExecute() => true;
 
-        protected override void Execute()
+        public override void Execute()
         {
             OpenFileDialog dialog = new OpenFileDialog();
             dialog.AddExtension = true;

@@ -1,4 +1,5 @@
 ﻿using Neptuo;
+using Neptuo.Observables.Commands;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Productivity.SolutionRunner.ViewModels.Commands
 {
-    public class ClearCustomIconCommand : CommandBase
+    public class ClearCustomIconCommand : Command
     {
         private readonly AdditionalApplicationEditViewModel viewModel;
 
@@ -27,10 +28,10 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels.Commands
                 RaiseCanExecuteChanged();
         }
 
-        protected override bool CanExecute() 
+        public override bool CanExecute() 
             => viewModel.IconData != null;
 
-        protected override void Execute() 
+        public override void Execute() 
             => viewModel.IconData = null;
     }
 }

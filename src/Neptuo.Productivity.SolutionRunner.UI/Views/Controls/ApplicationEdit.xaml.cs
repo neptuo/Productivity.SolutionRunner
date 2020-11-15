@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Neptuo.Productivity.SolutionRunner.Services.Applications;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,12 +13,11 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using OpenFileDialog = System.Windows.Forms.OpenFileDialog;
-using DialogResult = System.Windows.Forms.DialogResult;
-using Neptuo.Productivity.SolutionRunner.Services.Applications;
 using System.IO;
 using System.Drawing;
 using System.Security.Policy;
+using OpenFileDialog = System.Windows.Forms.OpenFileDialog;
+using DialogResult = System.Windows.Forms.DialogResult;
 
 namespace Neptuo.Productivity.SolutionRunner.Views.Controls
 {
