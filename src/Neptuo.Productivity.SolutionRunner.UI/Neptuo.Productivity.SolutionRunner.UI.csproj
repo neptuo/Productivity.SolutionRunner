@@ -34,10 +34,11 @@
     <PackageReference Include="Neptuo.Formatters.Composite.Metadata" Version="1.0.1" />
     <PackageReference Include="Neptuo.Models.Features" Version="1.0.0" />
     <PackageReference Include="Neptuo.Observables" Version="2.1.0" />
-    <PackageReference Include="Neptuo.PresentationModels" Version="7.2.0" />
+    <PackageReference Include="Neptuo.PresentationModels" Version="8.0.0" />
+    <PackageReference Include="Neptuo.PresentationModels.TypeModels" Version="1.0.0" />
     <PackageReference Include="Neptuo.Windows.Hotkeys" Version="2.0.0" />
     <PackageReference Include="Neptuo.Windows.Threading" Version="1.0.1" />
-    <PackageReference Include="Newtonsoft.Json" Version="12.0.1" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
   </ItemGroup>
 
 </Project>
