@@ -100,7 +100,7 @@
                             <ui:HelpPopup.IsOpen>
                                 <MultiBinding Converter="{StaticResource HelpVisibilityMultiValueConverter}">
                                     <Binding Path="SourceDirectoryPath" Converter="{StaticResource NullToTrueConverter}" Mode="OneWay" />
-                                    <Binding Path="IsSaveRequired" ElementName="this" />
+                                    <Binding Path="IsSaveRequired" ElementName="this" Mode="OneWay" />
                                 </MultiBinding>
                             </ui:HelpPopup.IsOpen>
                             <StackPanel>
