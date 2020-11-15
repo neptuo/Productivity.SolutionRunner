@@ -14,19 +14,16 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Applications
     {
         public void Add(IApplicationCollection applications)
         {
-            foreach (var (name, filePath, version) in Enumerate())
+            foreach (var (name, installationPath, filePath, version) in Enumerate().OrderBy(vs => vs.name))
             {
                 IApplicationBuilder builder = applications.Add(
-                    String.Format(
-                        "{0} {1}",
-                        name,
-                        VersionFormatter.Format(version)
-                    ),
+                    name,
                     version,
                     filePath,
                     null,
                     null,
                     false,
+                    true,
                     IconExtractor.Get(filePath),
                     Key.None,
                     true
@@ -34,10 +31,11 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Applications
 
                 VsVersionLoader.AddAdministratorCommand(builder, filePath);
                 VsVersionLoader.AddExperimentalCommand(builder, filePath);
+                VsInstallerCommandLoader.AddCommand(builder, installationPath);
             }
         }
 
-        private IEnumerable<(string name, string filePath, Version version)> Enumerate()
+        private IEnumerable<(string name, string installationPath, string filePath, Version version)> Enumerate()
         {
             var query = new SetupConfiguration();
             var query2 = (ISetupConfiguration2)query;
@@ -59,10 +57,12 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Applications
             while (fetched > 0);
         }
 
-        private bool TryGetInstance(ISetupInstance instance, ISetupHelper helper, out (string name, string filePath, Version version) output)
+        private bool TryGetInstance(ISetupInstance instance, ISetupHelper helper, out (string name, string installationPath, string filePath, Version version) output)
         {
             string name = "Visual Studio";
             string filePath = null;
+            string installationPath = null;
+            bool isPreRelease = false;
             Version version = null;
 
             var instance2 = (ISetupInstance2)instance;
@@ -73,10 +73,15 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Applications
                 Version.TryParse(instance.GetInstallationVersion(), out version);
 
                 if ((state & InstanceState.Local) == InstanceState.Local)
-                    filePath = Path.Combine(instance2.GetInstallationPath(), @"Common7\IDE\devenv.exe");
+                {
+                    installationPath = instance2.GetInstallationPath();
+                    filePath = Path.Combine(installationPath, @"Common7\IDE\devenv.exe");
+                }
 
                 if (instance is ISetupInstanceCatalog catalog)
                 {
+                    isPreRelease = catalog.IsPrerelease();
+
                     var properties = EnumerateProperties(catalog);
                     foreach (var property in properties)
                     {
@@ -95,11 +100,20 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Applications
 
             if (name != null && filePath != null && File.Exists(filePath) && version != null)
             {
-                output = (name, filePath, version);
+                name = String.Format(
+                    "{0} {1}",
+                    name,
+                    VersionFormatter.Format(version)
+                );
+
+                if (isPreRelease)
+                    name += " Prev";
+
+                output = (name, installationPath, filePath, version);
                 return true;
             }
 
-            output = default((string, string, Version));
+            output = default((string, string, string, Version));
             return false;
         }
 

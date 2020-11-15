@@ -39,8 +39,7 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Positions
             switch (settings.PositionMode)
             {
                 case PositionMode.CenterPrimaryScreen:
-                    Screen screen = Screen.PrimaryScreen;
-                    target.Left = (screen.WorkingArea.Width - target.ActualWidth) / 2 + screen.WorkingArea.Left;
+                    target.Left = (SystemParameters.WorkArea.Width - target.ActualWidth) / 2 + SystemParameters.WorkArea.Left;
                     break;
                 case PositionMode.UserDefined:
                     target.Left = settings.PositionLeft;
@@ -55,8 +54,7 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Positions
             switch (settings.PositionMode)
             {
                 case PositionMode.CenterPrimaryScreen:
-                    Screen screen = Screen.PrimaryScreen;
-                    target.Top = (screen.WorkingArea.Height - target.ActualHeight) / 2 + screen.WorkingArea.Top;
+                    target.Top = (SystemParameters.WorkArea.Height - target.ActualHeight) / 2 + SystemParameters.WorkArea.Top;
                     break;
                 case PositionMode.UserDefined:
                     target.Top = settings.PositionTop;

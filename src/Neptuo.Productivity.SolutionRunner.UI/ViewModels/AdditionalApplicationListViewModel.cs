@@ -60,7 +60,12 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels
         public void UpdateModel(AdditionalApplicationModel model)
         {
             Ensure.NotNull(model, "model");
-            Icon = IconExtractor.Get(model.Path);
+
+            if (model.IconData == null)
+                Icon = IconExtractor.Get(model.Path);
+            else
+                Icon = Base64ImageCoder.GetImageFromString(model.IconData);
+
             Path = model.Path;
             Model = model;
             RaisePropertyChanged(nameof(Name));

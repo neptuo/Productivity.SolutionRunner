@@ -14,7 +14,15 @@
     </UserControl.Resources>
     <StackPanel>
         <DockPanel>
-            <Image Source="{Binding Icon}" Width="32" Margin="5,0,15,0" DockPanel.Dock="Left" />
+            <Grid DockPanel.Dock="Left" Margin="5,0" Visibility="{Binding SelectCustomIcon, Converter={StaticResource NullToCollapsedConverter}}">
+                <Button Command="{Binding SelectCustomIcon}" Style="{StaticResource PlainButtonStyle}" VerticalContentAlignment="Center">
+                    <Image Source="{Binding Icon}" Width="32" />
+                </Button>
+                <Button Content="Clear" Command="{Binding ClearCustomIcon}" Style="{StaticResource LinkButtonStyle}" VerticalAlignment="Bottom" HorizontalAlignment="Center" Visibility="{Binding IconData, Converter={StaticResource NullToCollapsedConverter}}" />
+            </Grid>
+            <Grid DockPanel.Dock="Left" Margin="5,0" Visibility="{Binding SelectCustomIcon, Converter={StaticResource NullToVisibleConverter}}">
+                <Image Source="{Binding Icon}" Width="32" />
+            </Grid>
             <StackPanel Style="{StaticResource EditorPanelStyle}">
                 <Grid>
                     <Label Content="Name:" Target="{Binding ElementName=tbxName}" />
@@ -54,6 +62,7 @@
         </StackPanel>
         <StackPanel Style="{StaticResource EditorPanelStyle}">
             <CheckBox Content="Run as Administrator" IsChecked="{Binding IsAdministratorRequired}" />
+            <CheckBox Content="Show application window" IsChecked="{Binding IsApplicationWindowShown}" Margin="0,4,0,0" />
         </StackPanel>
     </StackPanel>
 </UserControl>

@@ -27,6 +27,7 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Applications
                 null,
                 null,
                 true,
+                true,
                 Key.A
             );
         }
@@ -39,6 +40,7 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Applications
                 "/rootsuffix Exp",
                 "/rootsuffix Exp {FilePath}",
                 false,
+                true,
                 Key.E
             );
         }
@@ -96,6 +98,7 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Applications
                     null,
                     null,
                     false,
+                    true,
                     IconExtractor.Get(filePath),
                     Key.None,
                     true

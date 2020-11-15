@@ -5,11 +5,13 @@ using Neptuo.Productivity.SolutionRunner.Services.Applications;
 using Neptuo.Productivity.SolutionRunner.ViewModels.Commands;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 
 namespace Neptuo.Productivity.SolutionRunner.ViewModels
 {
@@ -45,20 +47,26 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels
                     if (saveCommand != null)
                         saveCommand.RaiseCanExecuteChanged();
 
-                    if (System.IO.File.Exists(path))
-                    {
-                        if (!IsNameChanged)
-                            Name = System.IO.Path.GetFileNameWithoutExtension(path);
+                    SetIconFromPath();
+                }
+            }
+        }
 
-                        Icon = IconExtractor.Get(path);
-                    }
+        private string iconData;
+        public string IconData
+        {
+            get { return iconData; }
+            set
+            {
+                if (iconData != value)
+                {
+                    iconData = value;
+                    RaisePropertyChanged();
+
+                    if (iconData != null)
+                        SetIconFromIconData();
                     else
-                    {
-                        if (!IsNameChanged)
-                            Name = null;
-
-                        Icon = null;
-                    }
+                        SetIconFromPath();
                 }
             }
         }
@@ -86,6 +94,20 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels
                 if (isAdministratorRequired != value)
                 {
                     isAdministratorRequired = value;
+                    RaisePropertyChanged();
+                }
+            }
+        }
+
+        private bool isApplicationWindowShown;
+        public bool IsApplicationWindowShown
+        {
+            get { return isApplicationWindowShown; }
+            set
+            {
+                if (isApplicationWindowShown != value)
+                {
+                    isApplicationWindowShown = value;
                     RaisePropertyChanged();
                 }
             }
@@ -130,6 +152,8 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels
         public ICommand RemoveAdditionalApplicationCommand { get; private set; }
         public ICommand EditAdditionalApplicationCommand { get; private set; }
         public ICommand CreateCommand { get; private set; }
+        public ICommand SelectCustomIcon { get; }
+        public ICommand ClearCustomIcon { get; }
 
         public AdditionalApplicationEditViewModel(INavigator navigator, AdditionalApplicationModel model, Action<AdditionalApplicationModel> onSaved)
         {
@@ -141,12 +165,18 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels
                 Name = model.Name;
                 Path = model.Path;
                 Arguments = model.Arguments;
+                IconData = model.IconData;
                 IsAdministratorRequired = model.IsAdministratorRequired;
-                HotKey = model.HotKey == Key.None 
-                    ? null 
+                IsApplicationWindowShown = model.IsApplicationWindowShown;
+                HotKey = model.HotKey == Key.None
+                    ? null
                     : new KeyViewModel(model.HotKey, ModifierKeys.None);
 
                 Commands.AddRange(model.Commands.Select(m => new AdditionalApplicationListViewModel(m)));
+            }
+            else
+            {
+                IsApplicationWindowShown = true;
             }
 
             saveCommand = new SaveApplicationCommand(this, model, onSaved);
@@ -154,6 +184,35 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels
             EditAdditionalApplicationCommand = new EditAdditionalCommandCommand(this, navigator);
             RemoveAdditionalApplicationCommand = new RemoveAdditionalCommandCommand(this);
             CreateCommand = new CreateAdditionalCommandCommand(this, navigator);
+            SelectCustomIcon = new LoadIconFromFileCommand(base64 => IconData = base64);
+            ClearCustomIcon = new ClearCustomIconCommand(this);
+        }
+
+        private void SetIconFromPath()
+        {
+            if (IconData == null)
+            {
+                if (System.IO.File.Exists(path))
+                {
+                    if (!IsNameChanged)
+                        Name = System.IO.Path.GetFileNameWithoutExtension(path);
+
+                    Icon = IconExtractor.Get(path);
+                }
+                else
+                {
+                    if (!IsNameChanged)
+                        Name = null;
+
+                    Icon = null;
+                }
+            }
+        }
+
+        private void SetIconFromIconData()
+        {
+            if (iconData != null)
+                Icon = Base64ImageCoder.GetImageFromString(iconData);
         }
 
         public AdditionalApplicationModel ToModel()
@@ -162,7 +221,9 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels
                 Name,
                 Path,
                 Arguments,
+                IconData,
                 IsAdministratorRequired,
+                IsApplicationWindowShown,
                 HotKey.GetKey(),
                 Commands
                     .Select(vm => vm.Model)

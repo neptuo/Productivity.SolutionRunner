@@ -11,21 +11,25 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Applications
     {
         public string Name { get; private set; }
         public string Path { get; private set; }
+        public string IconData { get; }
         public string Arguments { get; private set; }
         public bool IsAdministratorRequired { get; private set; }
+        public bool IsApplicationWindowShown { get; private set; } = true;
         public Key HotKey { get; private set; }
         public IReadOnlyList<AdditionalApplicationModel> Commands { get; private set; }
 
-        public AdditionalApplicationModel(string name, string path, string arguments, bool isAdministratorRequired, Key hotKey)
-            : this(name, path, arguments, isAdministratorRequired, hotKey, new List<AdditionalApplicationModel>())
+        public AdditionalApplicationModel(string name, string path, string arguments, string iconData, bool isAdministratorRequired, bool isApplicationWindowShown, Key hotKey)
+            : this(name, path, arguments, iconData, isAdministratorRequired, isApplicationWindowShown, hotKey, new List<AdditionalApplicationModel>())
         { }
 
-        public AdditionalApplicationModel(string name, string path, string arguments, bool isAdministratorRequired, Key hotKey, IReadOnlyList<AdditionalApplicationModel> commands)
+        public AdditionalApplicationModel(string name, string path, string arguments, string iconData, bool isAdministratorRequired, bool isApplicationWindowShown, Key hotKey, IReadOnlyList<AdditionalApplicationModel> commands)
         {
             Name = name;
             Path = path;
             Arguments = arguments;
+            IconData = iconData;
             IsAdministratorRequired = isAdministratorRequired;
+            IsApplicationWindowShown = isApplicationWindowShown;
             HotKey = hotKey;
             Commands = commands;
         }
@@ -38,8 +42,10 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Applications
 
                 hash += 13 * Name.GetHashCode();
                 hash += 13 * Path.GetHashCode();
+                hash += 13 * IconData.GetHashCode();
                 hash += 13 * Arguments.GetHashCode();
                 hash += 13 * IsAdministratorRequired.GetHashCode();
+                hash += 13 * IsApplicationWindowShown.GetHashCode();
                 hash += 13 * HotKey.GetHashCode();
 
                 if (Commands != null)
@@ -66,10 +72,16 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Applications
             if (other.Path != Path)
                 return false;
 
+            if (other.IconData != IconData)
+                return false;
+
             if (other.Arguments != Arguments)
                 return false;
 
             if (other.IsAdministratorRequired != IsAdministratorRequired)
+                return false;
+
+            if (other.IsApplicationWindowShown != IsApplicationWindowShown)
                 return false;
 
             if (other.HotKey != HotKey)

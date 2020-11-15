@@ -12,6 +12,12 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using OpenFileDialog = System.Windows.Forms.OpenFileDialog;
+using DialogResult = System.Windows.Forms.DialogResult;
+using Neptuo.Productivity.SolutionRunner.Services.Applications;
+using System.IO;
+using System.Drawing;
+using System.Security.Policy;
 
 namespace Neptuo.Productivity.SolutionRunner.Views.Controls
 {
@@ -70,6 +76,21 @@ namespace Neptuo.Productivity.SolutionRunner.Views.Controls
             typeof(ApplicationEdit), 
             new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault)
         );
+
+
+        public string IconData
+        {
+            get { return (string)GetValue(IconDataProperty); }
+            set { SetValue(IconDataProperty, value); }
+        }
+
+        public static readonly DependencyProperty IconDataProperty = DependencyProperty.Register(
+            "IconData", 
+            typeof(string), 
+            typeof(ApplicationEdit), 
+            new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault)
+        );
+
 
         public ApplicationEdit()
         {

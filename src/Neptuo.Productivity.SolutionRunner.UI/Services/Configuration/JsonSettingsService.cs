@@ -3,6 +3,7 @@ using Neptuo.Collections.Specialized;
 using Neptuo.Formatters;
 using Neptuo.PresentationModels;
 using Neptuo.PresentationModels.TypeModels;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -16,7 +17,7 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Configuration
     {
         private static readonly CompositeModelFormatter formatter = new CompositeModelFormatter(
             type => Activator.CreateInstance(type),
-            Factory.Getter(() => new JsonCompositeStorage())
+            Factory.Getter(() => new JsonCompositeStorage(Formatting.Indented))
         );
 
         private static readonly IModelDefinition modelDefinition = new TypeModelDefinitionCollection()

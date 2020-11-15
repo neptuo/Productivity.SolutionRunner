@@ -74,8 +74,8 @@ namespace Neptuo.Productivity.SolutionRunner.Views.DesignData
                     loader = new VsCodeLoader();
                     loader.Add(mainViewModel);
 
-                    mainViewModel.Add("File Explorer", @"C:\Windows\explorer.exe", null, null, false, IconExtractor.Get(@"C:\Windows\explorer.exe"), Key.E, false);
-                    mainViewModel.Add("Notepad", @"C:\Windows\notepad.exe", null, null, true, IconExtractor.Get(@"C:\Windows\notepad.exe"), Key.N, false);
+                    mainViewModel.Add("File Explorer", @"C:\Windows\explorer.exe", null, null, false, true, IconExtractor.Get(@"C:\Windows\explorer.exe"), Key.E, false);
+                    mainViewModel.Add("Notepad", @"C:\Windows\notepad.exe", null, null, true, true, IconExtractor.Get(@"C:\Windows\notepad.exe"), Key.N, false);
                 }
 
                 return mainViewModel;
@@ -146,8 +146,8 @@ namespace Neptuo.Productivity.SolutionRunner.Views.DesignData
                     configurationViewModel.AdditionalApplications = new ObservableCollection<AdditionalApplicationListViewModel>();
                     preferedApplications.AddCollectionChanged(configurationViewModel.AdditionalApplications);
                     configurationViewModel.AdditionalApplications.AddRange(
-                        new AdditionalApplicationListViewModel(new AdditionalApplicationModel("Notepad", @"C:\Windows\notepad.exe", "", false, Key.N)),
-                        new AdditionalApplicationListViewModel(new AdditionalApplicationModel("GitExtensions", @"C:\Program Files (x86)\GitExtensions\GitExtensions.exe", "", false, Key.G))
+                        new AdditionalApplicationListViewModel(new AdditionalApplicationModel("Notepad", @"C:\Windows\notepad.exe", "", null, false, true, Key.N)),
+                        new AdditionalApplicationListViewModel(new AdditionalApplicationModel("GitExtensions", @"C:\Program Files (x86)\GitExtensions\GitExtensions.exe", "", null, false, true, Key.G))
                     );
                     configurationViewModel.MainApplications = new ObservableCollection<MainApplicationListViewModel>();
                     preferedApplications.AddCollectionChanged(configurationViewModel.MainApplications);

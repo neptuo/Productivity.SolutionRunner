@@ -36,7 +36,7 @@
     <WebPage>index.html</WebPage>
     <OpenBrowserOnPublish>false</OpenBrowserOnPublish>
     <ApplicationRevision>1</ApplicationRevision>
-    <ApplicationVersion>1.11.0.%2a</ApplicationVersion>
+    <ApplicationVersion>1.12.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
     <BootstrapperEnabled>true</BootstrapperEnabled>
@@ -119,6 +119,8 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Configuration.settings</DependentUpon>
     </Compile>
+    <Compile Include="Services\Applications\Base64ImageCoder.cs" />
+    <Compile Include="Services\Applications\VsInstallerCommandLoader.cs" />
     <Compile Include="Services\Configuration\ISettingsFactory.cs" />
     <Compile Include="Services\Configuration\ISettingsMapper.cs" />
     <Compile Include="Services\Configuration\JsonSettings.cs" />
@@ -140,7 +142,9 @@
     <Compile Include="Services\Searching\IDiagnosticService.cs" />
     <Compile Include="Services\Searching\PatternMatcherFactory.IFileModel.cs" />
     <Compile Include="Services\SequenceIsolatedFile.cs" />
+    <Compile Include="ViewModels\Commands\ClearCustomIconCommand.cs" />
     <Compile Include="ViewModels\Commands\ImportConfigurationCommand.cs" />
+    <Compile Include="ViewModels\Commands\LoadIconFromFileCommand.cs" />
     <Compile Include="ViewModels\Commands\OpenIsolatedFolderCommand.cs" />
     <Compile Include="ViewModels\Commands\OpenLastSearchFilesCommand.cs" />
     <Compile Include="ViewModels\Commands\OpenLogCommand.cs" />

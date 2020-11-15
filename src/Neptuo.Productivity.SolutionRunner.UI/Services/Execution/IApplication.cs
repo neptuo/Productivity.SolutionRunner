@@ -30,5 +30,10 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Execution
         /// Gets a <c>true</c> if administrator priviledge is required; <c>false</c> otherwise.
         /// </summary>
         bool IsAdministratorRequired { get; }
+
+        /// <summary>
+        /// Gets a <c>true</c> if application windows should be shown; <c>false</c> otherwise.
+        /// </summary>
+        bool IsApplicationWindowShown { get; }
     }
 }

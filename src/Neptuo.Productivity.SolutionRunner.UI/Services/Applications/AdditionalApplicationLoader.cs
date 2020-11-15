@@ -23,13 +23,20 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Applications
         {
             foreach (AdditionalApplicationModel model in settings.AdditionalApplications)
             {
+                ImageSource icon = null;
+                if (model.IconData == null)
+                    icon = IconExtractor.Get(model.Path);
+                else
+                    icon = Base64ImageCoder.GetImageFromString(model.IconData);
+
                 IApplicationBuilder builder = applications.Add(
                     model.Name,
                     model.Path,
                     null,
                     model.Arguments,
                     model.IsAdministratorRequired,
-                    IconExtractor.Get(model.Path),
+                    model.IsApplicationWindowShown,
+                    icon,
                     model.HotKey,
                     false
                 );
@@ -42,6 +49,7 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Applications
                         null,
                         commandModel.Arguments,
                         commandModel.IsAdministratorRequired,
+                        commandModel.IsApplicationWindowShown,
                         commandModel.HotKey
                     );
                 }
