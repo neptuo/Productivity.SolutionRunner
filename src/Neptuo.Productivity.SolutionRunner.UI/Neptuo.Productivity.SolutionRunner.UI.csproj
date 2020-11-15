@@ -6,6 +6,7 @@
     <UseWPF>true</UseWPF>
     <UseWindowsForms>true</UseWindowsForms>
 
+    <RootNamespace>Neptuo.Productivity.SolutionRunner</RootNamespace>
     <ApplicationIcon>Resources\SolutionRunner.ico</ApplicationIcon>
   </PropertyGroup>
   
