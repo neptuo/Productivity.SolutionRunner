@@ -1,7 +1,4 @@
-﻿using Neptuo.FileSystems;
-using Neptuo.FileSystems.Features;
-using Neptuo.FileSystems.Features.Searching;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -16,34 +13,17 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Applications
     {
         public void Add(IApplicationCollection applications)
         {
-            List<(string suffix, IFile file)> files = new List<(string suffix, IFile file)>();
+            List<(string suffix, string file)> files = new List<(string suffix, string file)>(3);
             foreach (var search in EnumerateProgramFolders())
             {
-                IDirectory directory = search
-                    .directory
-                    .FindDirectories(TextSearch.CreateMatched("Microsoft VS Code"))
-                    .FirstOrDefault();
-
-                if (directory == null)
-                    continue;
-
-                IFile file = directory
-                    .WithFileEnumerator()
-                    .FirstOrDefault(f => f.Name == "Code" && f.Extension == "exe");
-
-                if (file == null)
-                    continue;
-
-                files.Add((search.suffix, file));
+                string filePath = Path.Combine(search.directory, "Microsoft VS Code", "Code.exe");
+                if (File.Exists(filePath))
+                    files.Add((search.suffix, filePath));
             }
-
-            if (files.Count == 0)
-                return;
 
             foreach (var search in files)
             {
-                string filePath = search.file.WithAbsolutePath().AbsolutePath;
-                FileVersionInfo version = FileVersionInfo.GetVersionInfo(filePath);
+                FileVersionInfo version = FileVersionInfo.GetVersionInfo(search.file);
 
                 IApplicationBuilder builder = applications.Add(
                     String.Format(
@@ -54,19 +34,19 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Applications
                         VersionFormatter.Format(version)
                     ),
                     new Version(version.FileMajorPart, version.FileMinorPart),
-                    filePath,
+                    search.file,
                     null,
                     "{DirectoryPath}",
                     false,
                     true,
-                    IconExtractor.Get(filePath),
+                    IconExtractor.Get(search.file),
                     Key.None,
                     true
                 );
 
                 builder.AddCommand(
                     "Run as Administrator",
-                    filePath,
+                    search.file,
                     null,
                     null,
                     true,
@@ -76,20 +56,20 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Applications
             }
         }
 
-        private IEnumerable<(string suffix, IDirectoryNameSearch directory)> EnumerateProgramFolders()
+        private IEnumerable<(string suffix, string directory)> EnumerateProgramFolders()
         {
             string x86 = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86);
             string x64 = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles);
 
             if (Directory.Exists(x86))
-                yield return ("x86", new LocalSearchProvider(x86));
+                yield return ("x86", x86);
 
             if (x64 != x86 && Directory.Exists(x64))
-                yield return ("x64", new LocalSearchProvider(x64));
+                yield return ("x64", x64);
 
             string user = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Programs");
             if (Directory.Exists(user))
-                yield return ("user", new LocalSearchProvider(user));
+                yield return ("user", user);
         }
     }
 }

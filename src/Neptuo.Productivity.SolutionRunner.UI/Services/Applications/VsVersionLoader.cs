@@ -1,7 +1,4 @@
-﻿using Neptuo.FileSystems;
-using Neptuo.FileSystems.Features;
-using Neptuo.FileSystems.Features.Searching;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
@@ -47,45 +44,25 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Applications
 
         public void Add(IApplicationCollection applications)
         {
-            IDirectoryNameSearch search = new LocalSearchProvider(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86));
-            Add2015AndOlder(search, applications);
-            //Add2017AndNewer(search, applications);
+            string rootPath = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86);
+            Add2015AndOlder(rootPath, applications);
         }
 
-        private void Add2017AndNewer(IDirectoryNameSearch search, IApplicationCollection applications)
+        private void Add2015AndOlder(string rootPath, IApplicationCollection applications)
         {
-            IDirectory root = search
-                .FindDirectories(TextSearch.CreateMatched("Microsoft Visual Studio"))
-                .FirstOrDefault();
+            IEnumerable<string> directories = Directory.EnumerateDirectories(rootPath, "Microsoft Visual Studio*");
 
-            if (root == null)
-                return;
-
-            foreach (IDirectory version in root.WithDirectoryEnumerator())
-            {
-                if (version.Name.Length == 4)
-                {
-                    foreach (IDirectory edition in version.WithDirectoryEnumerator())
-                        TryAdd(applications, edition);
-                }
-            }
+            foreach (string directory in directories)
+                TryAddDirectory(applications, directory);
         }
 
-        private void Add2015AndOlder(IDirectoryNameSearch search, IApplicationCollection applications)
+        private void TryAddDirectory(IApplicationCollection applications, string directory)
         {
-            IEnumerable<IDirectory> directories = search.FindDirectories(TextSearch.CreatePrefixed("Microsoft Visual Studio"));
-
-            foreach (IDirectory directory in directories)
-                TryAdd(applications, directory);
+            string filePath = Path.Combine(directory, @"Common7\IDE\devenv.exe");
+            TryAddApplication(applications, filePath);
         }
 
-        private void TryAdd(IApplicationCollection applications, IDirectory directory)
-        {
-            string filePath = Path.Combine(directory.WithAbsolutePath().AbsolutePath, @"Common7\IDE\devenv.exe");
-            TryAdd(applications, filePath);
-        }
-
-        private void TryAdd(IApplicationCollection applications, string filePath)
+        private void TryAddApplication(IApplicationCollection applications, string filePath)
         {
             if (File.Exists(filePath))
             {
