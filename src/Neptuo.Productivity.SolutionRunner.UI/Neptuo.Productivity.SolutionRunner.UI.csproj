@@ -8,6 +8,7 @@
 
     <RootNamespace>Neptuo.Productivity.SolutionRunner</RootNamespace>
     <ApplicationIcon>Resources\SolutionRunner.ico</ApplicationIcon>
+    <StartupObject>Neptuo.Productivity.SolutionRunner.AppEntryPoint</StartupObject>
   </PropertyGroup>
   
   <ItemGroup>
