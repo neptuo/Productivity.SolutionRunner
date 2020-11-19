@@ -4,14 +4,11 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" 
         xmlns:dd="clr-namespace:Neptuo.Productivity.SolutionRunner.Views.DesignData" d:DataContext="{x:Static dd:ViewModelLocator.AdditionalCommand}"
-        xmlns:converters="clr-namespace:Neptuo.Productivity.SolutionRunner.Views.Converters"
         xmlns:ui="clr-namespace:Neptuo.Productivity.SolutionRunner.Views.Controls"
         Title="SolutionRunner - Additional Application Command" Width="400" SizeToContent="Height" ResizeMode="NoResize" Icon="{StaticResource IconBitmapImage}" 
         ShowInTaskbar="False" Background="{StaticResource BackgroundBrush}" WindowStartupLocation="CenterScreen"
         PreviewKeyDown="OnPreviewKeyDown">
     <Window.Resources>
-        <converters:NullConverter x:Key="NullToHiddenConverter" TrueValue="Hidden" FalseValue="Visible"/>
-
         <Style TargetType="TextBlock" BasedOn="{StaticResource DescriptionStyle}">
             <Setter Property="Padding" Value="2" />
         </Style>

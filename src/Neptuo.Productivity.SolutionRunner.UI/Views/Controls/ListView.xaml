@@ -8,12 +8,9 @@
              xmlns:fa="http://schemas.fontawesome.io/icons/"
              mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="300">
     <UserControl.Resources>
-        <converters:NullConverter x:Key="NullToCollapsedConverter" TrueValue="Collapsed" FalseValue="Visible" />
-
         <Style TargetType="TextBlock" BasedOn="{StaticResource DescriptionStyle}">
             <Setter Property="Padding" Value="2" />
         </Style>
-
 
         <Style x:Key="AdditionalBorderStyle" TargetType="Border">
             <Setter Property="Background" Value="{DynamicResource TextBoxBackgroundBrush}" />

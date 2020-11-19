@@ -5,24 +5,22 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" 
         xmlns:dd="clr-namespace:Neptuo.Productivity.SolutionRunner.Views.DesignData" d:DataContext="{x:Static dd:ViewModelLocator.ConfigurationViewModel}"
-        xmlns:system="clr-namespace:System;assembly=mscorlib"
+        xmlns:ds="clr-namespace:Neptuo.Productivity.SolutionRunner.Views.DataSources"
         xmlns:cm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
         xmlns:fa="http://schemas.fontawesome.io/icons/"
         xmlns:ui="clr-namespace:Neptuo.Productivity.SolutionRunner.Views.Controls"
-        xmlns:ds="clr-namespace:Neptuo.Productivity.SolutionRunner.Views.DataSources"
+        xmlns:nc="clr-namespace:Neptuo.Windows.Converters;assembly=Neptuo.Windows.Converters"
         xmlns:converters="clr-namespace:Neptuo.Productivity.SolutionRunner.Views.Converters"
         Title="SolutionRunner - Configuration" Width="550" SizeToContent="Height" Icon="{StaticResource IconBitmapImage}"
         Background="{StaticResource BackgroundBrush}" WindowStartupLocation="CenterScreen"
         PreviewKeyDown="OnPreviewKeyDown" Closing="OnClosing">
     <Window.Resources>
-        <converters:NullConverter x:Key="NullToTrueConverter" TrueValue="{x:Static ds:Boolean.True}" FalseValue="{x:Static ds:Boolean.False}" />
-        <converters:NullConverter x:Key="NullToFalseConverter" TrueValue="False" FalseValue="True" />
         <converters:HelpVisibilityMultiValueConverter x:Key="HelpVisibilityMultiValueConverter" />
         <converters:PositionUserDefinedToVisibleConverter x:Key="PositionUserDefinedToVisibleConverter" />
-        <converters:BoolConverter x:Key="TrueToEyeConverter" TrueValue="Eye" FalseValue="EyeSlash" />
-        <converters:BoolConverter x:Key="TrueToOpacityConverter" TrueValue="1" FalseValue=".5" />
-        <converters:BoolConverter x:Key="TrueToDescriptionConverter" TrueValue="Visible" FalseValue="Hidden" />
-        <converters:BoolConverter x:Key="TrueToVisibleConverter" TrueValue="Visible" FalseValue="Collapsed" />
+        <nc:BoolConverter x:Key="TrueToEyeConverter" TrueValue="Eye" FalseValue="EyeSlash" />
+        <nc:BoolConverter x:Key="TrueToOpacityConverter" TrueValue="1" FalseValue=".5" />
+        <nc:BoolConverter x:Key="TrueToDescriptionConverter" TrueValue="Visible" FalseValue="Hidden" />
+        <nc:BoolConverter x:Key="TrueToVisibleConverter" TrueValue="Visible" FalseValue="Collapsed" />
 
         <CollectionViewSource x:Key="PreferedApplications" Source="{Binding PreferedApplications}">
             <CollectionViewSource.SortDescriptions>
