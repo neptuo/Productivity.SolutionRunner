@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
@@ -42,5 +42,14 @@
     <PackageReference Include="Neptuo.Windows.Threading" Version="1.0.1" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
   </ItemGroup>
-
+  
+  <ItemGroup>
+    <Compile Update="Properties\Configuration.Designer.cs" DesignTimeSharedInput="True" AutoGen="True" DependentUpon="Configuration.settings" />
+    <None Update="Properties\Configuration.settings" Generator="SettingsSingleFileGenerator" LastGenOutput="Configuration.Designer.cs" />
+    
+    <Compile Update="Properties\Settings.Partial.cs" DependentUpon="Settings.settings" />
+    <Compile Update="Properties\Settings.Designer.cs" DesignTimeSharedInput="True" AutoGen="True" DependentUpon="Settings.settings" />
+    <None Update="Properties\Settings.settings" Generator="SettingsSingleFileGenerator" LastGenOutput="Settings.Designer.cs" />
+  </ItemGroup>
+  
 </Project>
