@@ -80,5 +80,29 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Execution
                     throw;
             }
         }
+
+        public void OpenFolder(string folderPath)
+        {
+            if (Directory.Exists(folderPath))
+            {
+                Process.Start(new ProcessStartInfo()
+                {
+                    FileName = folderPath,
+                    UseShellExecute = true
+                });
+            }
+        }
+
+        public void OpenTextFile(string filePath) => Process.Start(new ProcessStartInfo()
+        {
+            FileName = filePath,
+            UseShellExecute = true
+        });
+
+        public void OpenUrl(string url) => Process.Start(new ProcessStartInfo()
+        {
+            FileName = url,
+            UseShellExecute = true
+        });
     }
 }

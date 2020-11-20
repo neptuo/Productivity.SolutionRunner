@@ -1,4 +1,6 @@
-﻿using Neptuo.Observables.Commands;
+﻿using Neptuo;
+using Neptuo.Observables.Commands;
+using Neptuo.Productivity.SolutionRunner.Services.Execution;
 using Neptuo.Productivity.SolutionRunner.Services.Searching;
 using System;
 using System.Collections.Generic;
@@ -14,11 +16,14 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels.Commands
     public class OpenLastSearchFilesCommand : Command
     {
         private readonly IDiagnosticService searchDiagnostics;
+        private readonly ProcessService processes;
 
-        public OpenLastSearchFilesCommand(IDiagnosticService searchDiagnostics)
+        public OpenLastSearchFilesCommand(IDiagnosticService searchDiagnostics, ProcessService processes)
         {
             Ensure.NotNull(searchDiagnostics, "searchDiagnostics");
+            Ensure.NotNull(processes, "processes");
             this.searchDiagnostics = searchDiagnostics;
+            this.processes = processes;
         }
 
         public override bool CanExecute()
@@ -37,7 +42,7 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels.Commands
 
                 string temp = Path.GetTempFileName();
                 File.WriteAllText(temp, content);
-                Process.Start(temp);
+                processes.OpenTextFile(temp);
             }
         }
     }

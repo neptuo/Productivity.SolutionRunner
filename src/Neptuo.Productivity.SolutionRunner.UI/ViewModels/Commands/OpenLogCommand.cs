@@ -1,4 +1,6 @@
-﻿using Neptuo.Observables.Commands;
+﻿using Neptuo;
+using Neptuo.Observables.Commands;
+using Neptuo.Productivity.SolutionRunner.Services.Execution;
 using Neptuo.Productivity.SolutionRunner.Services.Logging;
 using System;
 using System.Collections.Generic;
@@ -14,11 +16,14 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels.Commands
     public class OpenLogCommand : Command<string>
     {
         private readonly ILogService logProvider;
+        private readonly ProcessService processes;
 
-        public OpenLogCommand(ILogService logProvider)
+        public OpenLogCommand(ILogService logProvider, ProcessService processes)
         {
             Ensure.NotNull(logProvider, "logProvider");
+            Ensure.NotNull(processes, "processes");
             this.logProvider = logProvider;
+            this.processes = processes;
         }
 
         public override bool CanExecute(string filePath)
@@ -43,7 +48,7 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels.Commands
 
                 string temp = Path.GetTempFileName();
                 File.WriteAllText(temp, content);
-                Process.Start(temp);
+                processes.OpenTextFile(temp);
             }
         }
     }

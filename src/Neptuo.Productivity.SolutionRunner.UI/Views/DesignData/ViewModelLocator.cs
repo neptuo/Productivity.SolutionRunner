@@ -8,10 +8,12 @@ using Neptuo.Productivity.SolutionRunner.Services.Applications;
 using Neptuo.Productivity.SolutionRunner.Services.Colors;
 using Neptuo.Productivity.SolutionRunner.Services.Configuration;
 using Neptuo.Productivity.SolutionRunner.Services.Converters;
+using Neptuo.Productivity.SolutionRunner.Services.Execution;
 using Neptuo.Productivity.SolutionRunner.Services.Logging;
 using Neptuo.Productivity.SolutionRunner.Services.Positions;
 using Neptuo.Productivity.SolutionRunner.Services.Searching;
 using Neptuo.Productivity.SolutionRunner.Services.StartupShortcuts;
+using Neptuo.Productivity.SolutionRunner.Services.Statistics;
 using Neptuo.Productivity.SolutionRunner.ViewModels;
 using Neptuo.Productivity.SolutionRunner.ViewModels.Commands;
 using Neptuo.Productivity.SolutionRunner.ViewModels.Factories;
@@ -133,7 +135,8 @@ namespace Neptuo.Productivity.SolutionRunner.Views.DesignData
                         new TroubleshootViewModel(
                             new DesignLogProvider(), 
                             new DesignDiagnosticService(), 
-                            new FileLogBatchFactory(TimeSpan.Zero)
+                            new FileLogBatchFactory(TimeSpan.Zero),
+                            new ProcessService(new CountingService())
                         )
                     );
 

@@ -50,6 +50,7 @@ namespace Neptuo.Productivity.SolutionRunner
         private IApplicationLoader mainApplicationLoader;
         private DefaultRunHotKeyService runHotKey;
         private SwitchableContingService countingService;
+        private ProcessService processes;
         private IPositionProvider positionProvider;
         private ILogFactory logFactory;
         private IsolatedLogService logService;
@@ -110,12 +111,12 @@ namespace Neptuo.Productivity.SolutionRunner
 
             await BindHotKeyAsync();
 
+            InitializeCounting();
+            InitializeProcessService();
             InitializeViewModelFactories();
 
             SettingsExtension.Settings = await settingsService.LoadRawAsync();
             PathConverter.Settings = settings;
-
-            InitializeCounting();
 
             trayIcon.TryCreate();
 
@@ -271,7 +272,8 @@ namespace Neptuo.Productivity.SolutionRunner
                 this,
                 logService,
                 mainFactory,
-                executorFactory
+                executorFactory,
+                processes
             );
         }
 
@@ -293,6 +295,11 @@ namespace Neptuo.Productivity.SolutionRunner
         {
             CountingService inner = new CountingService();
             countingService = new SwitchableContingService(settings, inner, inner);
+        }
+
+        private void InitializeProcessService()
+        {
+            processes = new ProcessService(countingService);
         }
 
         private void OnConfigurationSaved(ConfigurationViewModel viewModel)
@@ -422,7 +429,7 @@ namespace Neptuo.Productivity.SolutionRunner
             {
                 isMainWindowViewModelReloadRequired = true;
 
-                configurationWindow = new ConfigurationWindow(configurationFactory.Create(), this, String.IsNullOrEmpty(settings.SourceDirectoryPath));
+                configurationWindow = new ConfigurationWindow(configurationFactory.Create(), this, processes, String.IsNullOrEmpty(settings.SourceDirectoryPath));
                 configurationWindow.ShowInTaskbar = !runHotKey.IsSet;
                 configurationWindow.ResizeMode = !runHotKey.IsSet ? ResizeMode.CanMinimize : ResizeMode.NoResize;
                 configurationWindow.Closed += OnConfigurationWindowClosed;
@@ -491,7 +498,7 @@ namespace Neptuo.Productivity.SolutionRunner
         {
             if (mainWindow == null)
             {
-                mainWindow = new MainWindow(this, positionProvider, settingsService, settings, new ProcessService(countingService), runHotKey.IsSet);
+                mainWindow = new MainWindow(this, positionProvider, settingsService, settings, processes, runHotKey.IsSet);
                 mainWindow.Closing += OnMainWindowClosing;
                 mainWindow.Closed += OnMainWindowClosed;
             }

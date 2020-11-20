@@ -1,6 +1,7 @@
 ﻿using Neptuo.Observables;
 using Neptuo.Observables.Collections;
 using Neptuo.Observables.Commands;
+using Neptuo.Productivity.SolutionRunner.Services.Execution;
 using Neptuo.Productivity.SolutionRunner.Services.Logging;
 using Neptuo.Productivity.SolutionRunner.Services.Searching;
 using Neptuo.Productivity.SolutionRunner.ViewModels.Commands;
@@ -40,15 +41,15 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels
         public ICommand OpenLastSearchFiles { get; private set; }
         public ICommand FlushLogMessages { get; private set; }
 
-        public TroubleshootViewModel(ILogService logProvider, IDiagnosticService searchDiagnostics, FileLogBatchFactory executorFactory)
+        public TroubleshootViewModel(ILogService logProvider, IDiagnosticService searchDiagnostics, FileLogBatchFactory executorFactory, ProcessService processes)
         {
             Ensure.NotNull(logProvider, "logProvider");
             this.logProvider = logProvider;
 
             Logs = new ObservableCollection<LogModel>(logProvider.GetFileNames());
-            OpenLog = new OpenLogCommand(logProvider);
-            OpenIsolatedFolder = new OpenIsolatedFolderCommand();
-            OpenLastSearchFiles = new OpenLastSearchFilesCommand(searchDiagnostics);
+            OpenLog = new OpenLogCommand(logProvider, processes);
+            OpenIsolatedFolder = new OpenIsolatedFolderCommand(processes);
+            OpenLastSearchFiles = new OpenLastSearchFilesCommand(searchDiagnostics, processes);
             FlushLogMessages = new DelegateCommand(executorFactory.Flush);
         }
 

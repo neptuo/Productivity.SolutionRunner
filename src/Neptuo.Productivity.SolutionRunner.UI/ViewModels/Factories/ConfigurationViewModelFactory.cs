@@ -4,6 +4,7 @@ using Neptuo.Observables.Collections;
 using Neptuo.Productivity.SolutionRunner.Services;
 using Neptuo.Productivity.SolutionRunner.Services.Applications;
 using Neptuo.Productivity.SolutionRunner.Services.Configuration;
+using Neptuo.Productivity.SolutionRunner.Services.Execution;
 using Neptuo.Productivity.SolutionRunner.Services.Logging;
 using Neptuo.Productivity.SolutionRunner.Services.Searching;
 using Neptuo.Productivity.SolutionRunner.Services.StartupShortcuts;
@@ -28,8 +29,9 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels.Factories
         private readonly ILogService logProvider;
         private readonly IDiagnosticService searchDiagnostics;
         private readonly FileLogBatchFactory executorFactory;
+        private readonly ProcessService processes;
 
-        internal ConfigurationViewModelFactory(IApplicationLoader mainApplicationLoader, ShortcutService shortcutService, DefaultRunHotKeyService runHotKey, ISettingsService settingsService, ISettings settings, ISettingsFactory settingsFactory, INavigator navigator, ILogService logProvider, IDiagnosticService searchDiagnostics, FileLogBatchFactory executorFactory)
+        internal ConfigurationViewModelFactory(IApplicationLoader mainApplicationLoader, ShortcutService shortcutService, DefaultRunHotKeyService runHotKey, ISettingsService settingsService, ISettings settings, ISettingsFactory settingsFactory, INavigator navigator, ILogService logProvider, IDiagnosticService searchDiagnostics, FileLogBatchFactory executorFactory, ProcessService processes)
         {
             Ensure.NotNull(mainApplicationLoader, "mainApplicationLoader");
             Ensure.NotNull(shortcutService, "shortcutService");
@@ -41,6 +43,7 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels.Factories
             Ensure.NotNull(logProvider, "logProvider");
             Ensure.NotNull(searchDiagnostics, "searchDiagnostics");
             Ensure.NotNull(executorFactory, "executorFactory");
+            Ensure.NotNull(processes, "processes");
             this.mainApplicationLoader = mainApplicationLoader;
             this.shortcutService = shortcutService;
             this.runHotKey = runHotKey;
@@ -51,6 +54,7 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels.Factories
             this.logProvider = logProvider;
             this.searchDiagnostics = searchDiagnostics;
             this.executorFactory = executorFactory;
+            this.processes = processes;
         }
 
         public ConfigurationViewModel Create()
@@ -60,7 +64,7 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels.Factories
                 settingsFactory, 
                 this, 
                 navigator,
-                new TroubleshootViewModel(logProvider, searchDiagnostics, executorFactory)
+                new TroubleshootViewModel(logProvider, searchDiagnostics, executorFactory, processes)
             );
 
             viewModel.ConfigurationPath = Properties.Configuration.Default.Path;

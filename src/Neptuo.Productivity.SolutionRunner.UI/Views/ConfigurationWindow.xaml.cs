@@ -1,4 +1,6 @@
-﻿using Neptuo.Productivity.SolutionRunner.Services;
+﻿using Neptuo;
+using Neptuo.Productivity.SolutionRunner.Services;
+using Neptuo.Productivity.SolutionRunner.Services.Execution;
 using Neptuo.Productivity.SolutionRunner.Services.Logging;
 using Neptuo.Productivity.SolutionRunner.ViewModels;
 using System;
@@ -18,6 +20,7 @@ namespace Neptuo.Productivity.SolutionRunner.Views
     public partial class ConfigurationWindow : Window
     {
         private readonly INavigator navigator;
+        private readonly ProcessService processes;
 
         public bool IsSaveRequired { get; private set; }
 
@@ -27,13 +30,15 @@ namespace Neptuo.Productivity.SolutionRunner.Views
             set { DataContext = value; }
         }
 
-        public ConfigurationWindow(ConfigurationViewModel viewModel, INavigator navigator, bool isSaveRequired)
+        public ConfigurationWindow(ConfigurationViewModel viewModel, INavigator navigator, ProcessService processes, bool isSaveRequired)
         {
             Ensure.NotNull(viewModel, "viewModel");
             Ensure.NotNull(navigator, "navigator");
+            Ensure.NotNull(processes, "processes");
             ViewModel = viewModel;
             IsSaveRequired = isSaveRequired;
             this.navigator = navigator;
+            this.processes = processes;
 
             InitializeComponent();
             EventManager.ConfigurationSaved += OnConfigurationSaved;
@@ -84,14 +89,10 @@ namespace Neptuo.Productivity.SolutionRunner.Views
         }
 
         private void btnAbout_Click(object sender, RoutedEventArgs e)
-        {
-            Process.Start("http://www.neptuo.com/project/desktop/solutionrunner");
-        }
+            => processes.OpenUrl("http://www.neptuo.com/project/desktop/solutionrunner");
 
         private void btnViewStatistics_Click(object sender, RoutedEventArgs e)
-        {
-            navigator.OpenStatistics();
-        }
+            => navigator.OpenStatistics();
 
         private void OnLogReload() 
             => ViewModel.Troubleshooting.ReloadLogs();

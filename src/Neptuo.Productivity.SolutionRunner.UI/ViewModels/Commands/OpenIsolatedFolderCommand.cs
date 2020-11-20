@@ -1,5 +1,7 @@
-﻿using Neptuo.Observables.Commands;
+﻿using Neptuo;
+using Neptuo.Observables.Commands;
 using Neptuo.Productivity.SolutionRunner.Services;
+using Neptuo.Productivity.SolutionRunner.Services.Execution;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -14,11 +16,27 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels.Commands
 {
     public class OpenIsolatedFolderCommand : Command
     {
+        private readonly ProcessService processes;
+        private FieldInfo fieldInfo;
+
+        public OpenIsolatedFolderCommand(ProcessService processes)
+        {
+            Ensure.NotNull(processes, "processes");
+            this.processes = processes;
+        }
+
+        private bool EnsureFieldInfo()
+        {
+            if (fieldInfo == null)
+                fieldInfo = typeof(IsolatedStorageFile).GetField("_rootDirectory", BindingFlags.NonPublic | BindingFlags.Instance);
+
+            return fieldInfo != null;
+        }
+
         private string FindPath()
         {
             IsolatedStorageFile storage = SequenceIsolatedFile.GetStorage();
-            FieldInfo fieldInfo = storage.GetType().GetField("m_RootDir", BindingFlags.NonPublic | BindingFlags.Instance);
-            if (fieldInfo == null)
+            if (!EnsureFieldInfo())
                 return null;
 
             string value = (string)fieldInfo.GetValue(storage);
@@ -34,8 +52,7 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels.Commands
         public override void Execute()
         {
             string path = FindPath();
-            if (Directory.Exists(path))
-                Process.Start(path);
+            processes.OpenFolder(path);
         }
     }
 }
