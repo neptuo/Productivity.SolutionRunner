@@ -17,6 +17,7 @@ using Neptuo.Productivity.SolutionRunner.Services.Themes;
 using Neptuo.Productivity.SolutionRunner.Services.Configuration;
 using Neptuo.Productivity.SolutionRunner.Services.Logging;
 using Neptuo.Logging;
+using Windows.ApplicationModel;
 
 namespace Neptuo.Productivity.SolutionRunner.ViewModels
 {
@@ -408,10 +409,7 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels
         public string Version { get; private set; }
 
         private SaveConfigurationCommand saveCommand;
-        public ICommand SaveCommand
-        {
-            get { return saveCommand; }
-        }
+        public ICommand SaveCommand => saveCommand;
 
         public ICommand RemoveAdditionalApplicationCommand { get; private set; }
         public ICommand EditAdditionalApplicationCommand { get; private set; }
@@ -424,8 +422,8 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels
         {
             Troubleshooting = troubleshooting;
 
-            string version = Assembly.GetExecutingAssembly().GetCustomAttribute<AssemblyInformationalVersionAttribute>().InformationalVersion;
-            Version = String.Format("v{0}", version);
+            var version = Package.Current.Id.Version;
+            Version = $"v{version.Major}.{version.Minor}.{version.Revision}";
 
             saveCommand = saveCommandFactory.Create(this);
             EditAdditionalApplicationCommand = new EditAdditionalApplicationCommand(this, navigator);
