@@ -5,12 +5,13 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Neptuo.Productivity.SolutionRunner.ViewModels.Commands
 {
-    public class ImportConfigurationCommand : Command
+    public class ImportConfigurationCommand : AsyncCommand
     {
         private readonly ConfigurationViewModel viewModel;
         private readonly ISettingsFactory settingsFactory;
@@ -26,10 +27,10 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels.Commands
             this.mapper = mapper;
         }
 
-        public override bool CanExecute() 
+        protected override bool CanExecuteOverride()
             => true;
 
-        public async override void Execute()
+        protected async override Task ExecuteAsync(CancellationToken cancellationToken)
         {
             var dialog = new OpenFileDialog
             {
@@ -57,7 +58,7 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels.Commands
                 ISettingsService target = settingsFactory.CreateForFile(path);
                 ISettings targetSettings = await target.LoadAsync();
 
-                mapper.Map(targetSettings, viewModel);
+                await mapper.MapAsync(targetSettings, viewModel);
             }
         }
     }

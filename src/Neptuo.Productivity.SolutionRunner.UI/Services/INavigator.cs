@@ -15,5 +15,6 @@ namespace Neptuo.Productivity.SolutionRunner.Services
         void OpenAdditionalApplicationEdit(AdditionalApplicationModel model, Action<AdditionalApplicationModel> onSaved);
         void OpenAdditionalCommandEdit(AdditionalApplicationModel model, Action<AdditionalApplicationModel> onSaved);
         void OpenStatistics();
+        void Notify(string message);
     }
 }

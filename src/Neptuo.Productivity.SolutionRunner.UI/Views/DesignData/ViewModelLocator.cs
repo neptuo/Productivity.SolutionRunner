@@ -230,6 +230,11 @@ namespace Neptuo.Productivity.SolutionRunner.Views.DesignData
 
         private class Navigator : INavigator
         {
+            public void Notify(string message)
+            {
+                throw new NotImplementedException();
+            }
+
             public void OpenAdditionalApplicationEdit(AdditionalApplicationModel model, Action<AdditionalApplicationModel> onSaved)
             {
                 throw new NotImplementedException();

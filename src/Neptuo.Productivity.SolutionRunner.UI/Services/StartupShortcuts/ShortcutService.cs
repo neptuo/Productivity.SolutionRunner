@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Productivity.SolutionRunner.Services.StartupShortcuts
 {
-    public class ShortcutService
+    public class ShortcutService : IAutoStartup
     {
         private readonly string companyName;
         private readonly string suiteName;
@@ -51,6 +51,21 @@ namespace Neptuo.Productivity.SolutionRunner.Services.StartupShortcuts
             string targetPath = Path.Combine(Environment.GetFolderPath(folder), GetFileName());
             if (File.Exists(targetPath))
                 File.Delete(targetPath);
+        }
+
+        Task<bool> IAutoStartup.IsEnabledAsync() 
+            => Task.FromResult(Exists(Environment.SpecialFolder.Startup));
+
+        Task<bool> IAutoStartup.EnableAsync()
+        {
+            Create(Environment.SpecialFolder.Startup);
+            return Task.FromResult(true);
+        }
+
+        Task<bool> IAutoStartup.DisableAsync()
+        {
+            Delete(Environment.SpecialFolder.Startup);
+            return Task.FromResult(true);
         }
     }
 }

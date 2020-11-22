@@ -17,10 +17,10 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Productivity.SolutionRunner.ViewModels.Factories
 {
-    public class ConfigurationViewModelFactory : IFactory<ConfigurationViewModel>, IConfigurationViewModelMapper
+    public class ConfigurationViewModelFactory : IAsyncFactory<ConfigurationViewModel>, IConfigurationViewModelMapper
     {
         private readonly IApplicationLoader mainApplicationLoader;
-        private readonly ShortcutService shortcutService;
+        private readonly IAutoStartup autoStartup;
         private readonly DefaultRunHotKeyService runHotKey;
         private readonly ISettingsService settingsService;
         private readonly ISettings settings;
@@ -32,10 +32,10 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels.Factories
         private readonly ProcessService processes;
         private readonly ApplicationVersion applicationVersion;
 
-        internal ConfigurationViewModelFactory(IApplicationLoader mainApplicationLoader, ShortcutService shortcutService, DefaultRunHotKeyService runHotKey, ISettingsService settingsService, ISettings settings, ISettingsFactory settingsFactory, INavigator navigator, ILogService logProvider, IDiagnosticService searchDiagnostics, FileLogBatchFactory executorFactory, ProcessService processes, ApplicationVersion applicationVersion)
+        internal ConfigurationViewModelFactory(IApplicationLoader mainApplicationLoader, IAutoStartup autoStartup, DefaultRunHotKeyService runHotKey, ISettingsService settingsService, ISettings settings, ISettingsFactory settingsFactory, INavigator navigator, ILogService logProvider, IDiagnosticService searchDiagnostics, FileLogBatchFactory executorFactory, ProcessService processes, ApplicationVersion applicationVersion)
         {
             Ensure.NotNull(mainApplicationLoader, "mainApplicationLoader");
-            Ensure.NotNull(shortcutService, "shortcutService");
+            Ensure.NotNull(autoStartup, "autoStartup");
             Ensure.NotNull(runHotKey, "runHotKey");
             Ensure.NotNull(settingsService, "settingsService");
             Ensure.NotNull(settings, "settings");
@@ -47,7 +47,7 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels.Factories
             Ensure.NotNull(processes, "processes");
             Ensure.NotNull(applicationVersion, "applicationVersion");
             this.mainApplicationLoader = mainApplicationLoader;
-            this.shortcutService = shortcutService;
+            this.autoStartup = autoStartup;
             this.runHotKey = runHotKey;
             this.settingsService = settingsService;
             this.settings = settings;
@@ -60,7 +60,7 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels.Factories
             this.applicationVersion = applicationVersion;
         }
 
-        public ConfigurationViewModel Create()
+        public async Task<ConfigurationViewModel> Create()
         {
             ConfigurationViewModel viewModel = new ConfigurationViewModel(
                 new SaveConfigurationCommandFactory(this, settingsService, settings), 
@@ -73,11 +73,11 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels.Factories
 
             viewModel.ConfigurationPath = Properties.Configuration.Default.Path;
 
-            Map(settings, viewModel);
+            await MapAsync(settings, viewModel);
             return viewModel;
         }
 
-        public void Map(ISettings settings, ConfigurationViewModel viewModel)
+        public async Task MapAsync(ISettings settings, ConfigurationViewModel viewModel)
         {
             viewModel.SourceDirectoryPath = settings.SourceDirectoryPath;
             viewModel.FileSearchMode = settings.FileSearchMode;
@@ -89,7 +89,7 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels.Factories
             viewModel.IsAutoSelectApplicationVersion = settings.IsAutoSelectApplicationVersion;
             viewModel.IsFileNameRemovedFromDisplayedPath = settings.IsFileNameRemovedFromDisplayedPath;
             viewModel.IsDisplayedPathTrimmedToLastFolderName = settings.IsDisplayedPathTrimmedToLastFolderName;
-            viewModel.IsAutoStartup = shortcutService.Exists(Environment.SpecialFolder.Startup);
+            viewModel.IsAutoStartup = await autoStartup.IsEnabledAsync();
             viewModel.IsTrayIcon = settings.IsTrayIcon;
             viewModel.IsStatisticsCounted = settings.IsStatisticsCounted;
             viewModel.IsProjectCountEnabled = settings.IsProjectCountEnabled;
@@ -123,7 +123,7 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels.Factories
             viewModel.LogLevel = settings.LogLevel;
         }
 
-        public void Map(ConfigurationViewModel viewModel, ISettings settings)
+        public async Task MapAsync(ConfigurationViewModel viewModel, ISettings settings)
         {
             settings.SourceDirectoryPath = viewModel.SourceDirectoryPath;
             settings.PreferedApplicationPath = viewModel.PreferedApplication?.Path;
@@ -143,9 +143,9 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels.Factories
             settings.AdditionalApplications = new AdditionalApplicationCollection(viewModel.AdditionalApplications.Select(a => a.Model));
 
             if (viewModel.IsAutoStartup)
-                shortcutService.Create(Environment.SpecialFolder.Startup);
+                await autoStartup.EnableAsync();
             else
-                shortcutService.Delete(Environment.SpecialFolder.Startup);
+                await autoStartup.DisableAsync();
 
             string runKeyValue;
             if (Converts.Try(viewModel.RunKey, out runKeyValue))

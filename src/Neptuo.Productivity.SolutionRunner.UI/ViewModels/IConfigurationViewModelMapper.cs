@@ -9,7 +9,7 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels
 {
     public interface IConfigurationViewModelMapper
     {
-        void Map(ISettings settings, ConfigurationViewModel viewModel);
-        void Map(ConfigurationViewModel viewModel, ISettings settings);
+        Task MapAsync(ISettings settings, ConfigurationViewModel viewModel);
+        Task MapAsync(ConfigurationViewModel viewModel, ISettings settings);
     }
 }

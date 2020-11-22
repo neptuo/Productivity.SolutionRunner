@@ -58,7 +58,7 @@ namespace Neptuo.Productivity.SolutionRunner
 
         private IExceptionHandler exceptionHandler;
 
-        private IFactory<ConfigurationViewModel> configurationFactory;
+        private IAsyncFactory<ConfigurationViewModel> configurationFactory;
         private MainViewModelFactory mainFactory;
 
         // THIS must be synchronized with Click-Once deployment settings.
@@ -68,10 +68,17 @@ namespace Neptuo.Productivity.SolutionRunner
             productName: "Productivity.SolutionRunner"
         );
 
+        private readonly UwpAutoStartupTask uwpAutoStartup;
+
         private AppTrayIcon trayIcon;
         private AppPinStateService pinStateService;
 
         protected DispatcherHelper DispatcherHelper { get; private set; }
+
+        public App()
+        {
+            uwpAutoStartup = new UwpAutoStartupTask(this);
+        }
 
         private void PrepareStartup(StartupEventArgs e)
         {
@@ -264,7 +271,7 @@ namespace Neptuo.Productivity.SolutionRunner
 
             configurationFactory = new ConfigurationViewModelFactory(
                 mainApplicationLoader,
-                shortcutService,
+                Uwp.Is() ? uwpAutoStartup : shortcutService,
                 runHotKey,
                 settingsService,
                 settings,
@@ -426,11 +433,16 @@ namespace Neptuo.Productivity.SolutionRunner
 
         public void OpenConfiguration()
         {
+            _ = OpenConfigurationAsync();
+        }
+
+        private async Task OpenConfigurationAsync()
+        {
             if (configurationWindow == null)
             {
                 isMainWindowViewModelReloadRequired = true;
 
-                configurationWindow = new ConfigurationWindow(configurationFactory.Create(), this, processes, String.IsNullOrEmpty(settings.SourceDirectoryPath));
+                configurationWindow = new ConfigurationWindow(await configurationFactory.Create(), this, processes, String.IsNullOrEmpty(settings.SourceDirectoryPath));
                 configurationWindow.ShowInTaskbar = !runHotKey.IsSet;
                 configurationWindow.ResizeMode = !runHotKey.IsSet ? ResizeMode.CanMinimize : ResizeMode.NoResize;
                 configurationWindow.Closed += OnConfigurationWindowClosed;
@@ -653,6 +665,9 @@ namespace Neptuo.Productivity.SolutionRunner
             statisticsWindow.Closed -= OnStatisticsWindowClosed;
             statisticsWindow = null;
         }
+
+        public void Notify(string message) 
+            => MessageBox.Show(message, "Solution Runner");
 
         #endregion
 

@@ -10,10 +10,10 @@ namespace Neptuo.Productivity.SolutionRunner.Views.DesignData
 {
     public class DesignConfigurationViewModelMapper : IConfigurationViewModelMapper
     {
-        public void Map(ISettings settings, ConfigurationViewModel viewModel)
-        { }
+        public Task MapAsync(ISettings settings, ConfigurationViewModel viewModel)
+            => Task.FromResult(true);
 
-        public void Map(ConfigurationViewModel viewModel, ISettings settings)
-        { }
+        public Task MapAsync(ConfigurationViewModel viewModel, ISettings settings)
+            => Task.FromResult(true);
     }
 }

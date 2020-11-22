@@ -5,11 +5,14 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
+using Windows.ApplicationModel;
+using Windows.UI.Popups;
 
 namespace Neptuo.Productivity.SolutionRunner.ViewModels.Commands
 {
-    public class SaveConfigurationCommand : Command
+    public class SaveConfigurationCommand : AsyncCommand
     {
         private readonly ConfigurationViewModel viewModel;
         private readonly IConfigurationViewModelMapper mapper;
@@ -28,7 +31,7 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels.Commands
             this.settings = settings;
         }
 
-        public override bool CanExecute()
+        protected override bool CanExecuteOverride()
         {
             if (String.IsNullOrEmpty(viewModel.SourceDirectoryPath))
                 return false;
@@ -42,14 +45,14 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels.Commands
             return true;
         }
 
-        public override void Execute()
+        protected override async Task ExecuteAsync(CancellationToken cancellationToken)
         {
             Properties.Configuration.Default.Path = viewModel.ConfigurationPath;
             Properties.Configuration.Default.Save();
 
-            mapper.Map(viewModel, settings);
+            mapper.MapAsync(viewModel, settings);
 
-            settingsService.SaveAsync(settings);
+            await settingsService.SaveAsync(settings);
             EventManager.RaiseConfigurationSaved(viewModel);
         }
 

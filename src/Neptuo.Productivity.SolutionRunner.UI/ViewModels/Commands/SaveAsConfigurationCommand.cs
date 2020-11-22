@@ -58,7 +58,7 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels.Commands
                 ISettingsService target = settingsFactory.CreateForFile(path);
                 ISettings targetSettings = await target.LoadAsync();
 
-                mapper.Map(viewModel, targetSettings);
+                mapper.MapAsync(viewModel, targetSettings);
 
                 await target.SaveAsync(targetSettings);
             }
