@@ -316,8 +316,8 @@
                         <ui:FileBrowser x:Name="fbrConfigurationPath" Path="{Binding ConfigurationPath, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Style="{StaticResource ConfigurationFileBrowser}"  Margin="0" />
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                        <Button x:Name="btnImport" Content="Import..." Command="{Binding Import}" />
-                        <Button x:Name="btnSaveAs" Content="Save as..." Command="{Binding SaveAs}" />
+                        <Button x:Name="btnImport" Content="Import..." Command="{Binding Import}" ToolTip="One time import settings from other file to one selected above" />
+                        <Button x:Name="btnSaveAs" Content="Save as..." Command="{Binding SaveAs}" ToolTip="One time export settings to other file from one selected above" />
                     </StackPanel>
                 </StackPanel>
             </TabItem>
