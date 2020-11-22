@@ -137,7 +137,8 @@ namespace Neptuo.Productivity.SolutionRunner.Views.DesignData
                             new DesignDiagnosticService(), 
                             new FileLogBatchFactory(TimeSpan.Zero),
                             new ProcessService(new CountingService())
-                        )
+                        ),
+                        new ApplicationVersion()
                     );
 
                     configurationViewModel.SourceDirectoryPath = @"D:\Development";

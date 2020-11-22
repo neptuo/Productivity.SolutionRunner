@@ -1,23 +1,19 @@
 ﻿using Neptuo.Activators;
+using Neptuo.Logging;
 using Neptuo.Observables;
 using Neptuo.Observables.Collections;
 using Neptuo.Productivity.SolutionRunner.Services;
+using Neptuo.Productivity.SolutionRunner.Services.Configuration;
 using Neptuo.Productivity.SolutionRunner.Services.Positions;
 using Neptuo.Productivity.SolutionRunner.Services.Searching;
+using Neptuo.Productivity.SolutionRunner.Services.Themes;
 using Neptuo.Productivity.SolutionRunner.ViewModels.Commands;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using System.Collections.Specialized;
-using Neptuo.Productivity.SolutionRunner.Services.Themes;
-using Neptuo.Productivity.SolutionRunner.Services.Configuration;
-using Neptuo.Productivity.SolutionRunner.Services.Logging;
-using Neptuo.Logging;
-using Windows.ApplicationModel;
 
 namespace Neptuo.Productivity.SolutionRunner.ViewModels
 {
@@ -418,12 +414,10 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels
         public ICommand Import { get; private set; }
         public ICommand SaveAs { get; private set; }
 
-        internal ConfigurationViewModel(IFactory<SaveConfigurationCommand, ConfigurationViewModel> saveCommandFactory, ISettingsFactory settingsFactory, IConfigurationViewModelMapper mapper, INavigator navigator, TroubleshootViewModel troubleshooting)
+        internal ConfigurationViewModel(IFactory<SaveConfigurationCommand, ConfigurationViewModel> saveCommandFactory, ISettingsFactory settingsFactory, IConfigurationViewModelMapper mapper, INavigator navigator, TroubleshootViewModel troubleshooting, ApplicationVersion applicationVersion)
         {
             Troubleshooting = troubleshooting;
-
-            var version = Package.Current.Id.Version;
-            Version = $"v{version.Major}.{version.Minor}.{version.Revision}";
+            Version = applicationVersion.GetDisplayString();
 
             saveCommand = saveCommandFactory.Create(this);
             EditAdditionalApplicationCommand = new EditAdditionalApplicationCommand(this, navigator);

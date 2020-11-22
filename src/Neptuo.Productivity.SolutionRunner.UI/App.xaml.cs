@@ -273,7 +273,8 @@ namespace Neptuo.Productivity.SolutionRunner
                 logService,
                 mainFactory,
                 executorFactory,
-                processes
+                processes,
+                new ApplicationVersion()
             );
         }
 
