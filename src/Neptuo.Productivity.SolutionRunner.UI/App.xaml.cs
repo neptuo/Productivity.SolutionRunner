@@ -643,7 +643,7 @@ namespace Neptuo.Productivity.SolutionRunner
                 viewModel.Add(yearViewModel);
             }
 
-            if (allViewModel.Data.Count == 0 || (allViewModel.Data[0].Data.Applications.Count == 0 || allViewModel.Data[0].Data.Files.Count == 0))
+            if (allViewModel.Data.Count == 0 || (allViewModel.Data[0].Data.Applications.Count == 0 && allViewModel.Data[0].Data.Files.Count == 0))
                 viewModel.Remove(allViewModel);
 
             statisticsWindow = new StatisticsWindow();
