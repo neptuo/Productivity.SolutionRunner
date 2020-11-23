@@ -8,7 +8,7 @@
         xmlns:nc="clr-namespace:Neptuo.Windows.Converters;assembly=Neptuo.Windows.Converters"
         xmlns:converters="clr-namespace:Neptuo.Productivity.SolutionRunner.Views.Converters"
         xmlns:ds="clr-namespace:Neptuo.Productivity.SolutionRunner.Views.DataSources"
-        Title="SolutionRunner" MinWidth="525" SizeToContent="WidthAndHeight" Icon="{StaticResource IconBitmapImage}"
+        Title="Solution Runner" MinWidth="525" SizeToContent="WidthAndHeight" Icon="{StaticResource IconBitmapImage}"
         ResizeMode="CanMinimize" WindowStyle="None" Background="{StaticResource BackgroundBrush}"
         PreviewMouseDown="OnPreviewMouseDown" PreviewKeyDown="OnPreviewKeyDown">
     <Window.Resources>

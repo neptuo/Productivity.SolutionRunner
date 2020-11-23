@@ -7,7 +7,7 @@
         mc:Ignorable="d" d:DataContext="{x:Static dd:ViewModelLocator.Statistics}"
         xmlns:converters="clr-namespace:Neptuo.Productivity.SolutionRunner.Views.Converters"
         xmlns:controls="clr-namespace:Neptuo.Productivity.SolutionRunner.Views.Controls"
-        Title="SolutionRunner - Statistics" Width="480" MinHeight="300" SizeToContent="Height" ShowInTaskbar="False" Icon="{StaticResource IconBitmapImage}"
+        Title="Solution Runner - Statistics" Width="480" MinHeight="300" SizeToContent="Height" ShowInTaskbar="False" Icon="{StaticResource IconBitmapImage}"
         Background="{StaticResource BackgroundBrush}" WindowStartupLocation="CenterOwner" ResizeMode="NoResize"
         PreviewKeyDown="OnPreviewKeyDown">
     <Window.Resources>

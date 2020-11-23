@@ -40,7 +40,7 @@ namespace Neptuo.Productivity.SolutionRunner
             {
                 trayIcon = new NotifyIcon();
                 trayIcon.Icon = Icon.ExtractAssociatedIcon(Process.GetCurrentProcess().MainModule.FileName);
-                trayIcon.Text = "SolutionRunner";
+                trayIcon.Text = "Solution Runner";
                 trayIcon.MouseClick += OnIconClick;
                 trayIcon.Visible = true;
 

@@ -11,7 +11,7 @@
         xmlns:ui="clr-namespace:Neptuo.Productivity.SolutionRunner.Views.Controls"
         xmlns:nc="clr-namespace:Neptuo.Windows.Converters;assembly=Neptuo.Windows.Converters"
         xmlns:converters="clr-namespace:Neptuo.Productivity.SolutionRunner.Views.Converters"
-        Title="SolutionRunner - Configuration" Width="550" SizeToContent="Height" Icon="{StaticResource IconBitmapImage}"
+        Title="Solution Runner - Configuration" Width="550" SizeToContent="Height" Icon="{StaticResource IconBitmapImage}"
         Background="{StaticResource BackgroundBrush}" WindowStartupLocation="CenterScreen"
         PreviewKeyDown="OnPreviewKeyDown" Closing="OnClosing">
     <Window.Resources>
@@ -102,7 +102,7 @@
                                 </MultiBinding>
                             </ui:HelpPopup.IsOpen>
                             <StackPanel>
-                                <TextBlock Foreground="Black" Text="SolutionRunner scans your file system, finds all *.sln files and offer those to you. " />
+                                <TextBlock Foreground="Black" Text="Solution Runner scans your file system, finds all *.sln files and offer those to you. " />
                                 <TextBlock Foreground="Black" Text="This field should contain root directory where to look for solution files. " />
                                 <TextBlock Foreground="Black" Text="If your projects are located under for eg. C:/Dev, than select this directory here." />
                             </StackPanel>

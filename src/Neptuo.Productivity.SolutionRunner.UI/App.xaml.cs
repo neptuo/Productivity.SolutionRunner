@@ -150,11 +150,10 @@ namespace Neptuo.Productivity.SolutionRunner
                 if (!ApplicationDeployment.CurrentDeployment.IsFirstRun)
 #endif
                 {
-                    MessageBox.Show(
+                    Notify(
                         "Unfortunately, we have lost your configuration file (or, if you see this message for the first time, we are going to upgrade from previous version)."
                         + Environment.NewLine
-                        + "More information can be found in configuration -> Import and Export.",
-                        "SolutionRunner"
+                        + "More information can be found in configuration -> Import and Export."
                     );
                 }
 
@@ -217,7 +216,7 @@ namespace Neptuo.Productivity.SolutionRunner
                 }
                 catch (Win32Exception)
                 {
-                    MessageBox.Show($"The global hotkey '{settings.RunKey}' is already in use. Configure another one in the settings.", "SolutionRunner");
+                    Notify($"The global hotkey '{settings.RunKey}' is already in use. Configure another one in the settings.");
 
                     runHotKey.UnBind();
                     settings.RunKey = null;
