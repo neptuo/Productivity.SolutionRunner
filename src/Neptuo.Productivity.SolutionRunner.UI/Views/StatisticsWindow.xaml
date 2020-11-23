@@ -51,42 +51,46 @@
             <Setter Property="Padding" Value="0" />
         </Style>
     </Window.Resources>
-    <TabControl ItemsSource="{Binding}" SelectedIndex="0">
-        <TabControl.ItemTemplate>
-            <DataTemplate>
-                <TextBlock Text="{Binding Title}" />
-            </DataTemplate>
-        </TabControl.ItemTemplate>
-        <TabControl.ContentTemplate>
-            <DataTemplate>
-                <TabControl ItemsSource="{Binding Data}" SelectedIndex="0">
-                    <TabControl.ItemTemplate>
-                        <DataTemplate>
-                            <TextBlock Text="{Binding Title}" />
-                        </DataTemplate>
-                    </TabControl.ItemTemplate>
-                    <TabControl.ContentTemplate>
-                        <DataTemplate>
-                            <Grid>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="220" />
-                                </Grid.RowDefinitions>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="*" />
-                                </Grid.ColumnDefinitions>
+    <Grid>
+        <TextBlock Text="No data" Visibility="{Binding Count, Converter={StaticResource ZeroOrLowerToVisibleConverter}}" 
+         HorizontalAlignment="Center" VerticalAlignment="Center" />
+        <TabControl ItemsSource="{Binding}" SelectedIndex="0">
+            <TabControl.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding Title}" />
+                </DataTemplate>
+            </TabControl.ItemTemplate>
+            <TabControl.ContentTemplate>
+                <DataTemplate>
+                    <TabControl ItemsSource="{Binding Data}" SelectedIndex="0">
+                        <TabControl.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Title}" />
+                            </DataTemplate>
+                        </TabControl.ItemTemplate>
+                        <TabControl.ContentTemplate>
+                            <DataTemplate>
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="220" />
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
 
-                                <ItemsControl ItemsSource="{Binding Data.Applications}" Grid.Column="0" />
-                                <controls:PieChart ItemsSource="{Binding Data.Applications}" Grid.Column="0" Grid.Row="1" />
+                                    <ItemsControl ItemsSource="{Binding Data.Applications}" Grid.Column="0" />
+                                    <controls:PieChart ItemsSource="{Binding Data.Applications}" Grid.Column="0" Grid.Row="1" />
 
-                                <ItemsControl ItemsSource="{Binding Data.Files}" Grid.Column="1" />
-                                <controls:PieChart ItemsSource="{Binding Data.Files}" Grid.Column="1" Grid.Row="1" />
-                            </Grid>
-                        </DataTemplate>
-                    </TabControl.ContentTemplate>
-                </TabControl>
-            </DataTemplate>
-        </TabControl.ContentTemplate>
-    </TabControl>
+                                    <ItemsControl ItemsSource="{Binding Data.Files}" Grid.Column="1" />
+                                    <controls:PieChart ItemsSource="{Binding Data.Files}" Grid.Column="1" Grid.Row="1" />
+                                </Grid>
+                            </DataTemplate>
+                        </TabControl.ContentTemplate>
+                    </TabControl>
+                </DataTemplate>
+            </TabControl.ContentTemplate>
+        </TabControl>
+    </Grid>
 </Window>
