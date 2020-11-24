@@ -303,7 +303,7 @@ namespace Neptuo.Productivity.SolutionRunner
             processes = new ProcessService(countingService);
         }
 
-        private void OnConfigurationSaved(ConfigurationViewModel viewModel)
+        private async void OnConfigurationSaved(ConfigurationViewModel viewModel)
         {
             if (viewModel.IsTrayIcon)
                 trayIcon.TryCreate();
@@ -311,6 +311,7 @@ namespace Neptuo.Productivity.SolutionRunner
                 trayIcon.TryDestroy();
 
             ReloadThemeResources();
+            SettingsExtension.Settings = await settingsService.LoadRawAsync();
         }
 
         private void ReloadThemeResources()
