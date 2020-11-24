@@ -138,11 +138,11 @@ namespace Neptuo.Productivity.SolutionRunner.Views.DesignData
                             new FileLogBatchFactory(TimeSpan.Zero),
                             new ProcessService(new CountingService())
                         ),
-                        new ApplicationVersion(),
                         new StatisticsWithImportViewModel(
                             Factory.Default<StatisticsRootViewModel>(), 
                             new CountingService()
-                        )
+                        ),
+                        new AboutViewModel(new ApplicationVersion(), new ProcessService(new CountingService()))
                     );
 
                     configurationViewModel.SourceDirectoryPath = @"D:\Development";

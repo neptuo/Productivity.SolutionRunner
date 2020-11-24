@@ -89,9 +89,6 @@ namespace Neptuo.Productivity.SolutionRunner.Views
             navigator.OpenMain();
         }
 
-        private void btnAbout_Click(object sender, RoutedEventArgs e)
-            => processes.OpenUrl("http://www.neptuo.com/project/desktop/solutionrunner");
-
         private void OnLogReload()
             => ViewModel.Troubleshooting.ReloadLogs();
 

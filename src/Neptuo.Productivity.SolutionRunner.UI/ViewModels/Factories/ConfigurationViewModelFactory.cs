@@ -90,8 +90,8 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels.Factories
                 this, 
                 navigator,
                 new TroubleshootViewModel(logProvider, searchDiagnostics, executorFactory, processes), 
-                applicationVersion,
-                new StatisticsWithImportViewModel(statisticsFactory, countingImporter)
+                new StatisticsWithImportViewModel(statisticsFactory, countingImporter),
+                new AboutViewModel(applicationVersion, processes)
             );
 
             viewModel.ConfigurationPath = Properties.Configuration.Default.Path;
