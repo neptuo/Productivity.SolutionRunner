@@ -11,7 +11,7 @@
         xmlns:ui="clr-namespace:Neptuo.Productivity.SolutionRunner.Views.Controls"
         xmlns:nc="clr-namespace:Neptuo.Windows.Converters;assembly=Neptuo.Windows.Converters"
         xmlns:converters="clr-namespace:Neptuo.Productivity.SolutionRunner.Views.Converters"
-        Title="Solution Runner - Configuration" Width="550" SizeToContent="Height" Icon="{StaticResource IconBitmapImage}"
+        Title="Solution Runner - Configuration" Width="620" SizeToContent="Height" Icon="{StaticResource IconBitmapImage}"
         Background="{StaticResource BackgroundBrush}" WindowStartupLocation="CenterScreen"
         PreviewKeyDown="OnPreviewKeyDown" Closing="OnClosing">
     <Window.Resources>
@@ -85,7 +85,7 @@
             </StackPanel>
         </Grid>
 
-        <TabControl>
+        <TabControl x:Name="tbcMain" SelectionChanged="tbcMain_SelectionChanged">
             <TabItem Header="Searching">
                 <StackPanel>
                     <StackPanel Style="{StaticResource EditorPanelStyle}">
@@ -174,7 +174,6 @@
                                 <CheckBox Content="Trim displayed path to last folder name only" IsChecked="{Binding IsDisplayedPathTrimmedToLastFolderName}" IsEnabled="{Binding IsFileNameRemovedFromDisplayedPath}" />
                                 <StackPanel Orientation="Horizontal">
                                     <CheckBox Content="Count statistics" IsChecked="{Binding IsStatisticsCounted}" />
-                                    <Button x:Name="btnViewStatistics" Content="view" IsEnabled="{Binding IsStatisticsCounted}" Click="btnViewStatistics_Click" Style="{StaticResource LinkButtonStyle}" Margin="5,0,0,0" />
                                 </StackPanel>
                                 <CheckBox Content="Show number of projects in file" IsChecked="{Binding IsProjectCountEnabled}" />
 
@@ -305,6 +304,9 @@
                         </Grid>
                     </StackPanel>
                 </StackPanel>
+            </TabItem>
+            <TabItem x:Name="tbiStatistics" Header="Statistics">
+                <ui:Statistics x:Name="staStatistics" />
             </TabItem>
             <TabItem Header="Import and Export">
                 <StackPanel>

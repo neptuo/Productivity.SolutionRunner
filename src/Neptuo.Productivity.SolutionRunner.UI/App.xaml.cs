@@ -40,7 +40,7 @@ using EventManager = Neptuo.Productivity.SolutionRunner.ViewModels.EventManager;
 
 namespace Neptuo.Productivity.SolutionRunner
 {
-    public partial class App : Application, INavigator, INavigatorState, IWindowManager
+    public partial class App : Application, INavigator, INavigatorState, IWindowManager, IFactory<StatisticsRootViewModel>
     {
         private ISettingsService settingsService;
         private ISettingsMapper settingsMapper;
@@ -77,6 +77,7 @@ namespace Neptuo.Productivity.SolutionRunner
         public App()
         {
             uwpAutoStartup = new UwpAutoStartupTask(this);
+            statisticsViewModelFactory = this;
         }
 
         private void PrepareStartup(StartupEventArgs e)
@@ -432,7 +433,7 @@ namespace Neptuo.Productivity.SolutionRunner
             {
                 isMainWindowViewModelReloadRequired = true;
 
-                configurationWindow = new ConfigurationWindow(await configurationFactory.Create(), this, processes, String.IsNullOrEmpty(settings.SourceDirectoryPath));
+                configurationWindow = new ConfigurationWindow(await configurationFactory.Create(), this, processes, statisticsViewModelFactory, String.IsNullOrEmpty(settings.SourceDirectoryPath));
                 configurationWindow.ShowInTaskbar = !runHotKey.IsSet;
                 configurationWindow.ResizeMode = !runHotKey.IsSet ? ResizeMode.CanMinimize : ResizeMode.NoResize;
                 configurationWindow.Closed += OnConfigurationWindowClosed;
@@ -587,12 +588,22 @@ namespace Neptuo.Productivity.SolutionRunner
         }
 
         private StatisticsWindow statisticsWindow;
+        private IFactory<StatisticsRootViewModel> statisticsViewModelFactory;
 
         public void OpenStatistics()
         {
+            statisticsWindow = new StatisticsWindow();
+            statisticsWindow.ViewModel = statisticsViewModelFactory.Create();
+            statisticsWindow.Owner = configurationWindow;
+            statisticsWindow.Closed += OnStatisticsWindowClosed;
+            statisticsWindow.ShowDialog();
+        }
+
+        StatisticsRootViewModel IFactory<StatisticsRootViewModel>.Create()
+        {
             IFactory<IColorGenerator> colorGeneratorFactory = Factory.Default<RandomColorGenerator>();
 
-            ContainerCollection<ContainerCollection<StatisticsViewModel>> viewModel = new ContainerCollection<ContainerCollection<StatisticsViewModel>>();
+            StatisticsRootViewModel viewModel = new StatisticsRootViewModel();
             Stack<StatisticsViewModel> appendTo = new Stack<StatisticsViewModel>();
 
             Container<ContainerCollection<StatisticsViewModel>> allViewModel = new Container<ContainerCollection<StatisticsViewModel>>();
@@ -646,11 +657,7 @@ namespace Neptuo.Productivity.SolutionRunner
             if (allViewModel.Data.Count == 0 || (allViewModel.Data[0].Data.Applications.Count == 0 && allViewModel.Data[0].Data.Files.Count == 0))
                 viewModel.Remove(allViewModel);
 
-            statisticsWindow = new StatisticsWindow();
-            statisticsWindow.ViewModel = viewModel;
-            statisticsWindow.Owner = configurationWindow;
-            statisticsWindow.Closed += OnStatisticsWindowClosed;
-            statisticsWindow.ShowDialog();
+            return viewModel;
         }
 
         private void OnStatisticsWindowClosed(object sender, EventArgs e)

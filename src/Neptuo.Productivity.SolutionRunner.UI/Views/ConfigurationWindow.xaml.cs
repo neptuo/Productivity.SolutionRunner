@@ -1,4 +1,5 @@
 ﻿using Neptuo;
+using Neptuo.Activators;
 using Neptuo.Productivity.SolutionRunner.Services;
 using Neptuo.Productivity.SolutionRunner.Services.Execution;
 using Neptuo.Productivity.SolutionRunner.Services.Logging;
@@ -21,6 +22,7 @@ namespace Neptuo.Productivity.SolutionRunner.Views
     {
         private readonly INavigator navigator;
         private readonly ProcessService processes;
+        private readonly IFactory<StatisticsRootViewModel> statisticsFactory;
 
         public bool IsSaveRequired { get; private set; }
 
@@ -30,15 +32,17 @@ namespace Neptuo.Productivity.SolutionRunner.Views
             set { DataContext = value; }
         }
 
-        public ConfigurationWindow(ConfigurationViewModel viewModel, INavigator navigator, ProcessService processes, bool isSaveRequired)
+        public ConfigurationWindow(ConfigurationViewModel viewModel, INavigator navigator, ProcessService processes, IFactory<StatisticsRootViewModel> statisticsFactory, bool isSaveRequired)
         {
             Ensure.NotNull(viewModel, "viewModel");
             Ensure.NotNull(navigator, "navigator");
             Ensure.NotNull(processes, "processes");
+            Ensure.NotNull(statisticsFactory, "statisticsFactory");
             ViewModel = viewModel;
             IsSaveRequired = isSaveRequired;
             this.navigator = navigator;
             this.processes = processes;
+            this.statisticsFactory = statisticsFactory;
 
             InitializeComponent();
             EventManager.ConfigurationSaved += OnConfigurationSaved;
@@ -91,10 +95,15 @@ namespace Neptuo.Productivity.SolutionRunner.Views
         private void btnAbout_Click(object sender, RoutedEventArgs e)
             => processes.OpenUrl("http://www.neptuo.com/project/desktop/solutionrunner");
 
-        private void btnViewStatistics_Click(object sender, RoutedEventArgs e)
-            => navigator.OpenStatistics();
+        private bool areStatisticsLoaded = false;
 
-        private void OnLogReload() 
-            => ViewModel.Troubleshooting.ReloadLogs();
+        private void tbcMain_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        {
+            if (tbcMain.SelectedItem != null && tbcMain.SelectedItem == tbiStatistics && !areStatisticsLoaded)
+            {
+                areStatisticsLoaded = true;
+                staStatistics.DataContext = statisticsFactory.Create();
+            }
+        }
     }
 }

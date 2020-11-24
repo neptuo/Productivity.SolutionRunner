@@ -22,9 +22,9 @@ namespace Neptuo.Productivity.SolutionRunner.Views
     /// </summary>
     public partial class StatisticsWindow : Window
     {
-        public ContainerCollection<ContainerCollection<StatisticsViewModel>> ViewModel
+        public StatisticsRootViewModel ViewModel
         {
-            get { return (ContainerCollection<ContainerCollection<StatisticsViewModel>>)DataContext; }
+            get { return (StatisticsRootViewModel)DataContext; }
             set { DataContext = value; }
         }
 

@@ -4,10 +4,10 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:dd="clr-namespace:Neptuo.Productivity.SolutionRunner.Views.DesignData"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:controls="clr-namespace:Neptuo.Productivity.SolutionRunner.Views.Controls"
+        xmlns:ui="clr-namespace:Neptuo.Productivity.SolutionRunner.Views.Controls"
         mc:Ignorable="d" d:DataContext="{x:Static dd:ViewModelLocator.Statistics}"
         Title="SolutionRunner - Statistics" Width="480" MinHeight="300" SizeToContent="Height" ShowInTaskbar="False" Icon="{StaticResource IconBitmapImage}"
         Background="{StaticResource BackgroundBrush}" WindowStartupLocation="CenterOwner" ResizeMode="NoResize"
         PreviewKeyDown="OnPreviewKeyDown">
-    <controls:Statistics />
+    <ui:Statistics />
 </Window>
