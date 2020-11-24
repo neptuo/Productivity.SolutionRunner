@@ -95,5 +95,15 @@ namespace Neptuo.Productivity.SolutionRunner.Services
 
         public static bool Exists(string fileName)
             => GetStorage().FileExists(fileName);
+
+        public async Task CopyToAsync(Stream target)
+        {
+            IsolatedStorageFile storage = GetStorage();
+            if (storage.FileExists(fileName))
+            {
+                using (IsolatedStorageFileStream stream = new IsolatedStorageFileStream(fileName, FileMode.Open, storage))
+                    await stream.CopyToAsync(target);
+            }
+        }
     }
 }

@@ -11,7 +11,7 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Statistics
     /// <summary>
     /// A service for counting numbers.
     /// </summary>
-    public class CountingService : ICountingAppender, ICountingReader
+    public class CountingService : ICountingAppender, ICountingReader, ICountingImporter
     {
         private SequenceIsolatedFile file = new SequenceIsolatedFile("Statistics.dat");
 
@@ -121,5 +121,32 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Statistics
 
             return result.Select(item => new FileCountModel(item.Key, item.Value));
         }
+
+        public Task ImportAsync(Stream data)
+        {
+            return Task.Run(() =>
+            {
+                file.Clear();
+
+                using (StreamReader reader = new StreamReader(data))
+                {
+                    string line;
+                    List<string> lines = new List<string>();
+                    while ((line = reader.ReadLine()) != null)
+                    {
+                        string[] parts = line.Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
+                        if (parts.Length == 0 && parts.Length > 4)
+                            continue;
+
+                        lines.Add(line);
+                    }
+
+                    file.Append(lines);
+                }
+            });
+        }
+
+        public Task ExportAsync(Stream data)
+            => file.CopyToAsync(data);
     }
 }

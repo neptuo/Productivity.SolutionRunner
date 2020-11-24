@@ -272,7 +272,9 @@ namespace Neptuo.Productivity.SolutionRunner
                 mainFactory,
                 executorFactory,
                 processes,
-                new ApplicationVersion()
+                new ApplicationVersion(),
+                countingService,
+                this
             );
         }
 
@@ -293,7 +295,7 @@ namespace Neptuo.Productivity.SolutionRunner
         private void InitializeCounting()
         {
             CountingService inner = new CountingService();
-            countingService = new SwitchableContingService(settings, inner, inner);
+            countingService = new SwitchableContingService(settings, inner, inner, inner);
         }
 
         private void InitializeProcessService()
@@ -433,7 +435,7 @@ namespace Neptuo.Productivity.SolutionRunner
             {
                 isMainWindowViewModelReloadRequired = true;
 
-                configurationWindow = new ConfigurationWindow(await configurationFactory.Create(), this, processes, statisticsViewModelFactory, String.IsNullOrEmpty(settings.SourceDirectoryPath));
+                configurationWindow = new ConfigurationWindow(await configurationFactory.Create(), this, processes, String.IsNullOrEmpty(settings.SourceDirectoryPath));
                 configurationWindow.ShowInTaskbar = !runHotKey.IsSet;
                 configurationWindow.ResizeMode = !runHotKey.IsSet ? ResizeMode.CanMinimize : ResizeMode.NoResize;
                 configurationWindow.Closed += OnConfigurationWindowClosed;

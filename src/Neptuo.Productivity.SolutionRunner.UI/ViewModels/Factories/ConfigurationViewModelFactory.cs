@@ -8,6 +8,7 @@ using Neptuo.Productivity.SolutionRunner.Services.Execution;
 using Neptuo.Productivity.SolutionRunner.Services.Logging;
 using Neptuo.Productivity.SolutionRunner.Services.Searching;
 using Neptuo.Productivity.SolutionRunner.Services.StartupShortcuts;
+using Neptuo.Productivity.SolutionRunner.Services.Statistics;
 using Neptuo.Productivity.SolutionRunner.ViewModels.Commands.Factories;
 using System;
 using System.Collections.Generic;
@@ -31,8 +32,25 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels.Factories
         private readonly FileLogBatchFactory executorFactory;
         private readonly ProcessService processes;
         private readonly ApplicationVersion applicationVersion;
+        private readonly ICountingImporter countingImporter;
+        private readonly IFactory<StatisticsRootViewModel> statisticsFactory;
 
-        internal ConfigurationViewModelFactory(IApplicationLoader mainApplicationLoader, IAutoStartup autoStartup, DefaultRunHotKeyService runHotKey, ISettingsService settingsService, ISettings settings, ISettingsFactory settingsFactory, INavigator navigator, ILogService logProvider, IDiagnosticService searchDiagnostics, FileLogBatchFactory executorFactory, ProcessService processes, ApplicationVersion applicationVersion)
+        internal ConfigurationViewModelFactory(
+            IApplicationLoader mainApplicationLoader,
+            IAutoStartup autoStartup,
+            DefaultRunHotKeyService runHotKey,
+            ISettingsService settingsService,
+            ISettings settings,
+            ISettingsFactory settingsFactory,
+            INavigator navigator,
+            ILogService logProvider,
+            IDiagnosticService searchDiagnostics,
+            FileLogBatchFactory executorFactory,
+            ProcessService processes,
+            ApplicationVersion applicationVersion,
+            ICountingImporter countingImporter,
+            IFactory<StatisticsRootViewModel> statisticsFactory
+        )
         {
             Ensure.NotNull(mainApplicationLoader, "mainApplicationLoader");
             Ensure.NotNull(autoStartup, "autoStartup");
@@ -46,6 +64,8 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels.Factories
             Ensure.NotNull(executorFactory, "executorFactory");
             Ensure.NotNull(processes, "processes");
             Ensure.NotNull(applicationVersion, "applicationVersion");
+            Ensure.NotNull(countingImporter, "countingImporter");
+            Ensure.NotNull(statisticsFactory, "statisticsFactory");
             this.mainApplicationLoader = mainApplicationLoader;
             this.autoStartup = autoStartup;
             this.runHotKey = runHotKey;
@@ -58,6 +78,8 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels.Factories
             this.executorFactory = executorFactory;
             this.processes = processes;
             this.applicationVersion = applicationVersion;
+            this.countingImporter = countingImporter;
+            this.statisticsFactory = statisticsFactory;
         }
 
         public async Task<ConfigurationViewModel> Create()
@@ -68,7 +90,8 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels.Factories
                 this, 
                 navigator,
                 new TroubleshootViewModel(logProvider, searchDiagnostics, executorFactory, processes), 
-                applicationVersion
+                applicationVersion,
+                new StatisticsWithImportViewModel(statisticsFactory, countingImporter)
             );
 
             viewModel.ConfigurationPath = Properties.Configuration.Default.Path;

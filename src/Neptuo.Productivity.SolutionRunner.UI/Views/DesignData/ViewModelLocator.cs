@@ -138,7 +138,11 @@ namespace Neptuo.Productivity.SolutionRunner.Views.DesignData
                             new FileLogBatchFactory(TimeSpan.Zero),
                             new ProcessService(new CountingService())
                         ),
-                        new ApplicationVersion()
+                        new ApplicationVersion(),
+                        new StatisticsWithImportViewModel(
+                            Factory.Default<StatisticsRootViewModel>(), 
+                            new CountingService()
+                        )
                     );
 
                     configurationViewModel.SourceDirectoryPath = @"D:\Development";
@@ -311,15 +315,15 @@ namespace Neptuo.Productivity.SolutionRunner.Views.DesignData
 
         #region Statistics
 
-        private static ContainerCollection<ContainerCollection<StatisticsViewModel>> statistics;
+        private static StatisticsRootViewModel statistics;
 
-        public static ContainerCollection<ContainerCollection<StatisticsViewModel>> Statistics
+        public static StatisticsRootViewModel Statistics
         {
             get
             {
                 if (statistics == null)
                 {
-                    statistics = new ContainerCollection<ContainerCollection<StatisticsViewModel>>();
+                    statistics = new StatisticsRootViewModel();
                     statistics.Add(new Container<ContainerCollection<StatisticsViewModel>>()
                     {
                         Title = "2017",

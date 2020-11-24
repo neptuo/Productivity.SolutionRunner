@@ -386,7 +386,7 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels
             }
         }
 
-        public TroubleshootViewModel Troubleshooting { get; private set; }
+        public TroubleshootViewModel Troubleshooting { get; }
 
         private LogLevel logLevel;
         public LogLevel LogLevel
@@ -402,7 +402,9 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels
             }
         }
 
-        public string Version { get; private set; }
+        public string Version { get; }
+
+        public StatisticsWithImportViewModel Statistics { get; }
 
         private SaveConfigurationCommand saveCommand;
         public ICommand SaveCommand => saveCommand;
@@ -414,10 +416,11 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels
         public ICommand Import { get; private set; }
         public ICommand SaveAs { get; private set; }
 
-        internal ConfigurationViewModel(IFactory<SaveConfigurationCommand, ConfigurationViewModel> saveCommandFactory, ISettingsFactory settingsFactory, IConfigurationViewModelMapper mapper, INavigator navigator, TroubleshootViewModel troubleshooting, ApplicationVersion applicationVersion)
+        internal ConfigurationViewModel(IFactory<SaveConfigurationCommand, ConfigurationViewModel> saveCommandFactory, ISettingsFactory settingsFactory, IConfigurationViewModelMapper mapper, INavigator navigator, TroubleshootViewModel troubleshooting, ApplicationVersion applicationVersion, StatisticsWithImportViewModel statistics)
         {
             Troubleshooting = troubleshooting;
             Version = applicationVersion.GetDisplayString();
+            Statistics = statistics;
 
             saveCommand = saveCommandFactory.Create(this);
             EditAdditionalApplicationCommand = new EditAdditionalApplicationCommand(this, navigator);
