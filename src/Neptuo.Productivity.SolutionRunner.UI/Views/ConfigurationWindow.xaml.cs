@@ -92,6 +92,9 @@ namespace Neptuo.Productivity.SolutionRunner.Views
         private void btnAbout_Click(object sender, RoutedEventArgs e)
             => processes.OpenUrl("http://www.neptuo.com/project/desktop/solutionrunner");
 
+        private void OnLogReload()
+            => ViewModel.Troubleshooting.ReloadLogs();
+
         private bool areStatisticsLoaded = false;
 
         private void tbcMain_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
