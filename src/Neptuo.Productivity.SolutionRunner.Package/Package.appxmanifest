@@ -9,7 +9,7 @@
 
   <Identity
     Name="Neptuo.Productivity.SolutionRunner"
-    Publisher="CN=marek"
+    Publisher="CN=EAB75B3F-E36D-4CF5-9E4D-41F903A6766E"
     Version="2.0.0.0" />
 
   <Properties>
