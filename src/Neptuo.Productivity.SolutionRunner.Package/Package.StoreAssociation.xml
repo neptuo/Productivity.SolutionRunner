@@ -367,7 +367,7 @@
     </ReservedNames>
   </ProductReservedInfo>
   <AccountPackageIdentityNames>
-    <MainPackageIdentityName>51993Neptuo.NeptuoMoney</MainPackageIdentityName>
+    <MainPackageIdentityName>Neptuo.Productivity.SolutionRunner</MainPackageIdentityName>
   </AccountPackageIdentityNames>
   <PackageInfoList LandingUrl="https://developer.microsoft.com/dashboard/Application?appId=9MVTL05WZB3P" />
 </StoreAssociation>
