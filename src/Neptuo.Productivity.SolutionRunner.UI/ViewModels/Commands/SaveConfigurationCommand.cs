@@ -50,8 +50,7 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels.Commands
             Properties.Configuration.Default.Path = viewModel.ConfigurationPath;
             Properties.Configuration.Default.Save();
 
-            mapper.MapAsync(viewModel, settings);
-
+            await mapper.MapAsync(viewModel, settings);
             await settingsService.SaveAsync(settings);
             EventManager.RaiseConfigurationSaved(viewModel);
         }

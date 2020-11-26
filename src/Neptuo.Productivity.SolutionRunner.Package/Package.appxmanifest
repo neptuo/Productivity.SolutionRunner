@@ -29,7 +29,7 @@
 
   <Applications>
     <Application Id="App"
-      Executable="$targetnametoken$.exe"
+      Executable="Neptuo.Productivity.SolutionRunner.UI\Neptuo.Productivity.SolutionRunner.UI.exe"
       EntryPoint="$targetentrypoint$">
       <uap:VisualElements
         DisplayName="Solution Runner by Neptuo"
@@ -48,7 +48,7 @@
       </uap:VisualElements>
 
       <Extensions>
-        <desktop:Extension Category="windows.startupTask" Executable="$targetnametoken$.exe" EntryPoint="Windows.FullTrustApplication">
+        <desktop:Extension Category="windows.startupTask" Executable="Neptuo.Productivity.SolutionRunner.UI\Neptuo.Productivity.SolutionRunner.UI.exe" EntryPoint="Windows.FullTrustApplication">
           <desktop:StartupTask TaskId="SolutionRunnerStartup" Enabled="false" DisplayName="Solution Runner by Neptuo" />
         </desktop:Extension>
       </Extensions>
