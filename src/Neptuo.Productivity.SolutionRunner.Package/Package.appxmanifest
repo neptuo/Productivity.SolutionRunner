@@ -33,7 +33,7 @@
       EntryPoint="$targetentrypoint$">
       <uap:VisualElements
         DisplayName="Solution Runner by Neptuo"
-        Description="Keyboard-only designed application for simple and fast opening of Visual Studio solution files. Configuration takes single folder where to look for *.sln files with the option to set prefered Visual Studio version installed on your computer and global (Windows wide) shortcut."
+        Description="Keyboard-only designed application for simple and fast opening of solution files inside in Microsoft Visual Studio. Configuration takes single folder where to look for *.sln files with the option to set prefered Visual Studio version installed on your computer and global (Windows wide) shortcut."
         BackgroundColor="#68217A"
         Square150x150Logo="Images\Square150x150Logo.png"
         Square44x44Logo="Images\Square44x44Logo.png">
