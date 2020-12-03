@@ -12,7 +12,7 @@ namespace Neptuo.Productivity.SolutionRunner.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "15.5.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "16.8.1.0")]
     internal sealed partial class Configuration : global::System.Configuration.ApplicationSettingsBase {
         
         private static Configuration defaultInstance = ((Configuration)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Configuration())));
@@ -32,6 +32,18 @@ namespace Neptuo.Productivity.SolutionRunner.Properties {
             }
             set {
                 this["Path"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool IsStoreNofiticationVisible {
+            get {
+                return ((bool)(this["IsStoreNofiticationVisible"]));
+            }
+            set {
+                this["IsStoreNofiticationVisible"] = value;
             }
         }
     }

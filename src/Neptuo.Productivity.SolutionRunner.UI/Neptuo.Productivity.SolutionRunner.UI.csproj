@@ -210,6 +210,9 @@
     <Compile Include="ViewModels\IConfigurationViewModelMapper.cs" />
     <Compile Include="ViewModels\TroubleshootViewModel.cs" />
     <Compile Include="ViewModels\UiBackgroundContext.cs" />
+    <Compile Include="Views\Controls\StoreNotification.xaml.cs">
+      <DependentUpon>StoreNotification.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Converters\KeyToVisibilityConverter.cs" />
     <Compile Include="Views\DataSources\LogLevels.cs" />
     <Compile Include="Views\DesignData\DesignConfigurationViewModelMapper.cs" />
@@ -409,6 +412,10 @@
     <Page Include="Views\Controls\PieChartItem.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Controls\StoreNotification.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>

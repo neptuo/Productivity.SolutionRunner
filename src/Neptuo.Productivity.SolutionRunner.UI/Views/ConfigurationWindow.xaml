@@ -80,6 +80,8 @@
 
     </Window.Resources>
     <DockPanel Style="{StaticResource RootPanelStyle}">
+        <ui:StoreNotification IsCloseable="False" Margin="0,0,0,8" DockPanel.Dock="Top" />
+
         <Grid DockPanel.Dock="Bottom">
             <StackPanel HorizontalAlignment="Right" Style="{StaticResource ActionBarStyle}">
                 <Button Content="Apply" Command="{Binding SaveCommand}" IsDefault="True" />

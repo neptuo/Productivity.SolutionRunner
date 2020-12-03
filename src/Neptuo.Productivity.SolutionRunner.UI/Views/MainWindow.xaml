@@ -7,6 +7,7 @@
         xmlns:controls="clr-namespace:Neptuo.Productivity.SolutionRunner.Views.Controls"
         xmlns:converters="clr-namespace:Neptuo.Productivity.SolutionRunner.Views.Converters"
         xmlns:ds="clr-namespace:Neptuo.Productivity.SolutionRunner.Views.DataSources"
+        xmlns:ui="clr-namespace:Neptuo.Productivity.SolutionRunner.Views.Controls"
         Title="SolutionRunner" MinWidth="525" SizeToContent="WidthAndHeight" Icon="{StaticResource IconBitmapImage}"
         ResizeMode="CanMinimize" WindowStyle="None" Background="{StaticResource BackgroundBrush}"
         PreviewMouseDown="OnPreviewMouseDown" PreviewKeyDown="OnPreviewKeyDown">
@@ -137,6 +138,7 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
 
                 <Grid Margin="0,0,0,10" Grid.Row="0">
@@ -230,6 +232,8 @@
                     </ListView.ItemTemplate>
                 </ListView>
                 <TextBlock Text="{Binding Message}" Style="{StaticResource NoDataStyle}" Visibility="{Binding IsFileListAvailable, Converter={StaticResource TrueToCollapsedConverter}}" Grid.Row="3" />
+
+                <ui:StoreNotification ContentWidth="{Binding FileWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}}" Margin="0,8,0,0" Grid.Row="4" />
             </Grid>
             <Grid Visibility="{Binding IsLoading, Converter={StaticResource TrueToVisibleConverter}}" Grid.RowSpan="4">
                 <ProgressBar IsIndeterminate="True" Height="3" BorderThickness="0" VerticalAlignment="Bottom" Margin="10,5" Background="Transparent" />
