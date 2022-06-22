@@ -40,7 +40,7 @@
     <PackageReference Include="Neptuo.Windows.Converters" Version="1.0.0" />
     <PackageReference Include="Neptuo.Windows.Hotkeys" Version="2.0.0" />
     <PackageReference Include="Neptuo.Windows.Threading" Version="1.0.1" />
-    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
   </ItemGroup>
   
   <ItemGroup>
