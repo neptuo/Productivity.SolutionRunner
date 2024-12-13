@@ -1,2 +1,6 @@
-MainPackage=D:\Development\Neptuo\Productivity.SolutionRunner\src\Neptuo.Productivity.SolutionRunner.Package\bin\x86\Release\Neptuo.Productivity.SolutionRunner.Package_2.0.0.0_x86.msix
-SymbolPackage=D:\Development\Neptuo\Productivity.SolutionRunner\src\Neptuo.Productivity.SolutionRunner.Package\obj\x86\Release\Symbols\Neptuo.Productivity.SolutionRunner.Package_2.0.0.0_x86.appxsym
+MainPackage=D:\Development\Neptuo\Productivity.SolutionRunner\src\Neptuo.Productivity.SolutionRunner.Package\bin\x86\Release\Neptuo.Productivity.SolutionRunner.Package_2.1.0.0_x86.msix
+SymbolPackage=D:\Development\Neptuo\Productivity.SolutionRunner\src\Neptuo.Productivity.SolutionRunner.Package\obj\x86\Release\Symbols\Neptuo.Productivity.SolutionRunner.Package_2.1.0.0_x86.appxsym
+ResourcePack=D:\Development\Neptuo\Productivity.SolutionRunner\src\Neptuo.Productivity.SolutionRunner.Package\bin\x86\Release\Neptuo.Productivity.SolutionRunner.Package_2.1.0.0_scale-100.msix
+ResourcePack=D:\Development\Neptuo\Productivity.SolutionRunner\src\Neptuo.Productivity.SolutionRunner.Package\bin\x86\Release\Neptuo.Productivity.SolutionRunner.Package_2.1.0.0_scale-125.msix
+ResourcePack=D:\Development\Neptuo\Productivity.SolutionRunner\src\Neptuo.Productivity.SolutionRunner.Package\bin\x86\Release\Neptuo.Productivity.SolutionRunner.Package_2.1.0.0_scale-150.msix
+ResourcePack=D:\Development\Neptuo\Productivity.SolutionRunner\src\Neptuo.Productivity.SolutionRunner.Package\bin\x86\Release\Neptuo.Productivity.SolutionRunner.Package_2.1.0.0_scale-400.msix
