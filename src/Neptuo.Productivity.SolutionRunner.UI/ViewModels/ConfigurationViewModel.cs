@@ -287,8 +287,8 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels
             }
         }
 
-        private ThemeMode themeMode;
-        public ThemeMode ThemeMode
+        private Theme themeMode;
+        public Theme ThemeMode
         {
             get { return themeMode; }
             set

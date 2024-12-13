@@ -290,9 +290,9 @@ namespace Neptuo.Productivity.SolutionRunner.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("Dark")]
-        public global::Neptuo.Productivity.SolutionRunner.Services.Themes.ThemeMode ThemeMode {
+        public global::Neptuo.Productivity.SolutionRunner.Services.Themes.Theme ThemeMode {
             get {
-                return ((global::Neptuo.Productivity.SolutionRunner.Services.Themes.ThemeMode)(this["ThemeMode"]));
+                return ((global::Neptuo.Productivity.SolutionRunner.Services.Themes.Theme)(this["ThemeMode"]));
             }
             set {
                 this["ThemeMode"] = value;

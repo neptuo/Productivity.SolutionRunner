@@ -1,8 +1,8 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net5.0-windows10.0.17763.0</TargetFramework>
+    <TargetFramework>net9.0-windows10.0.26100.0</TargetFramework>
     <UseWPF>true</UseWPF>
     <UseWindowsForms>true</UseWindowsForms>
     <RuntimeIdentifiers>win-x86;win-x64</RuntimeIdentifiers>
@@ -26,21 +26,21 @@
   
   <ItemGroup>
     <PackageReference Include="FontAwesome.WPF" Version="4.7.0.9" />
-    <PackageReference Include="Microsoft.VisualStudio.Setup.Configuration.Interop" Version="1.16.30" />
-    <PackageReference Include="Neptuo" Version="6.0.1" />
-    <PackageReference Include="Neptuo.Exceptions" Version="1.2.1" />
+    <PackageReference Include="Microsoft.VisualStudio.Setup.Configuration.Interop" Version="3.12.2149" />
+    <PackageReference Include="Neptuo" Version="6.0.2" />
+    <PackageReference Include="Neptuo.Exceptions" Version="1.2.2" />
     <PackageReference Include="Neptuo.Formatters" Version="2.0.0" />
     <PackageReference Include="Neptuo.Formatters.Composite" Version="2.2.0" />
     <PackageReference Include="Neptuo.Formatters.Composite.Json" Version="2.2.0" />
     <PackageReference Include="Neptuo.Formatters.Composite.Metadata" Version="1.0.1" />
     <PackageReference Include="Neptuo.Models.Features" Version="1.0.0" />
-    <PackageReference Include="Neptuo.Observables" Version="2.1.0" />
+    <PackageReference Include="Neptuo.Observables" Version="2.1.1" />
     <PackageReference Include="Neptuo.PresentationModels" Version="8.0.0" />
     <PackageReference Include="Neptuo.PresentationModels.TypeModels" Version="1.0.0" />
     <PackageReference Include="Neptuo.Windows.Converters" Version="1.0.0" />
     <PackageReference Include="Neptuo.Windows.Hotkeys" Version="2.0.0" />
     <PackageReference Include="Neptuo.Windows.Threading" Version="1.0.1" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>
   
   <ItemGroup>

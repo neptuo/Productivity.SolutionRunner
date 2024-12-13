@@ -33,7 +33,7 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Configuration
         public string PreferedApplicationPath { get; set; }
         public string RunKey { get; set; }
         public string SourceDirectoryPath { get; set; }
-        public ThemeMode ThemeMode { get; set; }
+        public Theme ThemeMode { get; set; }
         public AdditionalApplicationCollection AdditionalApplications { get; set; }
         public IReadOnlyList<string> HiddenMainApplications { get; set; }
         public int FileSearchCount { get; set; }
@@ -64,7 +64,7 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Configuration
             PreferedApplicationPath = storage.Get<string>("PreferedApplicationPath");
             RunKey = storage.Get<string>("RunKey");
             SourceDirectoryPath = storage.Get<string>("SourceDirectoryPath");
-            ThemeMode = storage.Get<ThemeMode>("ThemeMode");
+            ThemeMode = storage.Get<Theme>("ThemeMode");
 
             AdditionalApplications = new AdditionalApplicationCollection();
             if (storage.TryGet("AdditionalApplications", out var additionalApplications))

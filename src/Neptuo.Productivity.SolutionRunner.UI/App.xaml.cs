@@ -319,10 +319,10 @@ namespace Neptuo.Productivity.SolutionRunner
             Uri uri = null;
             switch (settings.ThemeMode)
             {
-                case ThemeMode.Dark:
+                case Theme.Dark:
                     uri = new Uri("/Views/Themes/Dark.xaml", UriKind.Relative);
                     break;
-                case ThemeMode.Light:
+                case Theme.Light:
                     uri = new Uri("/Views/Themes/Light.xaml", UriKind.Relative);
                     break;
                 default:

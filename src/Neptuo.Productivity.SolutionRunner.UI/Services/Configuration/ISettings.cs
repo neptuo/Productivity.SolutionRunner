@@ -31,7 +31,7 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Configuration
         string PreferedApplicationPath { get; set; }
         string RunKey { get; set; }
         string SourceDirectoryPath { get; set; }
-        ThemeMode ThemeMode { get; set; }
+        Theme ThemeMode { get; set; }
 
         AdditionalApplicationCollection AdditionalApplications { get; set; }
         IReadOnlyList<string> HiddenMainApplications { get; set; }

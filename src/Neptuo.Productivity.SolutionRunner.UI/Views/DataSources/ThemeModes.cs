@@ -15,8 +15,8 @@ namespace Neptuo.Productivity.SolutionRunner.Views.DataSources
         {
             return new List<NameValueViewModel>()
             {
-                new NameValueViewModel("Dark", ThemeMode.Dark),
-                new NameValueViewModel("Light", ThemeMode.Light)
+                new NameValueViewModel("Dark", Theme.Dark),
+                new NameValueViewModel("Light", Theme.Light)
             };
         }
     }
