@@ -137,7 +137,8 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels
             return null;
         }
 
-        private const string projectLinePrefix = "Project(\"{";
+        private const string slnProjectLinePrefix = "Project(\"{";
+        private const string slnxProjectLinePrefix = "<Project";
 
         private int TryToReadProjectCount()
         {
@@ -150,7 +151,7 @@ namespace Neptuo.Productivity.SolutionRunner.ViewModels
                     while ((line = fileReader.ReadLine()) != null)
                     {
                         line = line.TrimStart();
-                        if (line.StartsWith(projectLinePrefix))
+                        if (line.StartsWith(slnProjectLinePrefix) || line.Contains(slnxProjectLinePrefix))
                             projectCount++;
                     }
                 }

@@ -57,6 +57,7 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Searching
                         var files = Enumerable.Empty<string>()
                             .Concat(Directory.EnumerateFiles(path, "*.sln"))
                             .Concat(Directory.EnumerateFiles(path, "*.slnf"))
+                            .Concat(Directory.EnumerateFiles(path, "*.slnx"))
                             .Concat(Directory.EnumerateFiles(path, "*.code-workspace"))
                             .Select(f => new FileModel(f));
 
