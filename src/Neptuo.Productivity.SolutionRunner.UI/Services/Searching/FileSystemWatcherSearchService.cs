@@ -54,7 +54,12 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Searching
                         foreach (string subDirectoryPath in Directory.EnumerateDirectories(path))
                             AddDirectory(result, subDirectoryPath, false);
 
-                        result.AddRange(Directory.EnumerateFiles(path, "*.sln").Select(f => new FileModel(f)));
+                        var files = Enumerable.Empty<string>()
+                            .Concat(Directory.EnumerateFiles(path, "*.sln"))
+                            .Concat(Directory.EnumerateFiles(path, "*.slnf"))
+                            .Select(f => new FileModel(f));
+
+                        result.AddRange(files);
                     }
                     catch (PathTooLongException)
                     {
