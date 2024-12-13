@@ -10,7 +10,7 @@
   <Identity
     Name="51993Neptuo.SolutionRunnerbyNeptuo"
     Publisher="CN=EAB75B3F-E36D-4CF5-9E4D-41F903A6766E"
-    Version="2.0.0.0" />
+    Version="2.1.0.0" />
 
   <Properties>
     <DisplayName>Solution Runner by Neptuo</DisplayName>
