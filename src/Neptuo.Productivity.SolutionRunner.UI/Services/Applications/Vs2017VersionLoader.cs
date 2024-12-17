@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -14,7 +15,7 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Applications
     {
         public void Add(IApplicationCollection applications)
         {
-            foreach (var (name, installationPath, filePath, version) in Enumerate().OrderBy(vs => vs.name))
+            foreach (var (name, installationPath, filePath, version) in Enumerate().OrderBy(vs => vs.Name))
             {
                 IApplicationBuilder builder = applications.Add(
                     name,
@@ -35,29 +36,39 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Applications
             }
         }
 
-        private IEnumerable<(string name, string installationPath, string filePath, Version version)> Enumerate()
+        private IEnumerable<VsInstallation> Enumerate()
         {
-            var query = new SetupConfiguration();
-            var query2 = (ISetupConfiguration2)query;
-            var e = query2.EnumAllInstances();
-
-            var helper = (ISetupHelper)query;
-
-            int fetched;
-            var instances = new ISetupInstance[1];
-            do
+            var result = new List<VsInstallation>();
+            try
             {
-                e.Next(1, instances, out fetched);
-                if (fetched > 0)
+                var query = new SetupConfiguration();
+                var query2 = (ISetupConfiguration2)query;
+                var e = query2.EnumAllInstances();
+
+                var helper = (ISetupHelper)query;
+
+                int fetched;
+                var instances = new ISetupInstance[1];
+                do
                 {
-                    if (TryGetInstance(instances[0], helper, out var instance))
-                        yield return instance;
+                    e.Next(1, instances, out fetched);
+                    if (fetched > 0)
+                    {
+                        if (TryGetInstance(instances[0], helper, out var instance))
+                            result.Add(instance);
+                    }
                 }
+                while (fetched > 0);
             }
-            while (fetched > 0);
+            catch (COMException)
+            {
+                // Noop
+            }
+
+            return result;
         }
 
-        private bool TryGetInstance(ISetupInstance instance, ISetupHelper helper, out (string name, string installationPath, string filePath, Version version) output)
+        private bool TryGetInstance(ISetupInstance instance, ISetupHelper helper, out VsInstallation output)
         {
             string name = "Visual Studio";
             string filePath = null;
@@ -109,11 +120,11 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Applications
                 if (isPreRelease)
                     name += " Prev";
 
-                output = (name, installationPath, filePath, version);
+                output = new VsInstallation(name, installationPath, filePath, version);
                 return true;
             }
 
-            output = default((string, string, string, Version));
+            output = null;
             return false;
         }
 
@@ -129,5 +140,7 @@ namespace Neptuo.Productivity.SolutionRunner.Services.Applications
                 }
             }
         }
+
+        record VsInstallation(string Name, string InstallationPath, string FilePath, Version Version);
     }
 }
