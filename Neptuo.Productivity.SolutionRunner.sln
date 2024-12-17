@@ -1,15 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.30711.63
+# Visual Studio Version 17
+VisualStudioVersion = 17.12.35527.113 d17.12
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{783CCBB2-8E5A-4F80-8D46-BE636A9BAD9B}"
-	ProjectSection(SolutionItems) = preProject
-		.nuget\NuGet.Config = .nuget\NuGet.Config
-		.nuget\NuGet.exe = .nuget\NuGet.exe
-		.nuget\NuGet.targets = .nuget\NuGet.targets
-	EndProjectSection
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Neptuo.Productivity.SolutionRunner.UI", "src\Neptuo.Productivity.SolutionRunner.UI\Neptuo.Productivity.SolutionRunner.UI.csproj", "{F1CE4B36-FA69-473F-A5BB-A44478DC07E2}"
 EndProject
 Project("{C7167F0D-BC9F-4E6E-AFE1-012C56B48DB5}") = "Neptuo.Productivity.SolutionRunner.Package", "src\Neptuo.Productivity.SolutionRunner.Package\Neptuo.Productivity.SolutionRunner.Package.wapproj", "{AF24B28C-6759-420B-8BF1-461A7ECE7C1D}"
